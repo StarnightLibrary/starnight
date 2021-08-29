@@ -31,9 +31,17 @@ have no reason to exist here.
 The editorconfig file already handles a great deal of Starlight naming conventions. It leaves the most important part untouched, though,
 due to the lack of power of automated tools:
 
-Discord data structures and their direct associates are to be prefixed with `Discord`. For instance, `ApiClient` turns into
-`DiscordApiClient` and `EmbedBuilder`, even though not technically required to interact with the Discord API, becomes
-`DiscordEmbedBuilder`. This principle is not applied to anything save types.
+Raw Discord data structures are to be prefixed with `Discord`. For instance, `ApiClient` turns into
+`DiscordApiClient` and `Embed`, even though not technically required to interact with the Discord API, becomes
+`DiscordEmbed`. This principle is not applied to anything save types.
+
+Wrapped/safely handled data structures are to be prefixed with `Starnight`. For instance, for a `DiscordGuild` exposing all the raw data and no convenience
+features at all, there would be a `StarnightGuild` equivalent keeping back raw data and exposing convenience features. 
+
+An example of this structure:
+
+`DiscordInvite`s can only be created on `DiscordChannel`s, as of v9. Therefore, `DiscordChannel#CreateInviteAsync` would exist, but not `DiscordGuild#CreateInviteAsync`.
+However, `StarnightGuild#CreateInviteAsync(StarnightChannel?)` would be a valid method, creating an invite on the specified channel.
 
 In general, longer and more descriptive names are preferable to short and thus less descriptive names. There are exceptions,
 but - see the Architecture section - those do not really apply to Starnight. As a baseline, 48 characters is a limit that should
@@ -41,8 +49,13 @@ not be exceeded.
 
 #### Architecture ####
 
-Starnight mostly wraps Discord API v9 into C#, without much work around that. Starnight does not have any need for factories, builders and the likes.
-Please refrain from using any kind of design pattern; a bare API is enough.
+Starnight mostly wraps Discord API v9 into C#, without much work around that.
+Please refrain from using any kind of design pattern for their own sake; a bare API is enough.
+
+Raw data is to be exposed as defined in Naming.
+`Starnight`-prefixed API should never require or return raw data, instead it should be up to the programmer.
+
+Where `Discord`-API should solely match the Discord API specification, `Starnight`-API should make heavy use of abstraction.
 
 #### File Structure ####
 
