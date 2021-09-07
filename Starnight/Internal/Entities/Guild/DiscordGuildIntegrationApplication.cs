@@ -7,7 +7,7 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents a guild integration application.
 /// </summary>
-public class DiscordGuildIntegrationApplication : DiscordSnowflake
+public class DiscordGuildIntegrationApplication : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Name of the application.

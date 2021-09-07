@@ -20,9 +20,9 @@ public static class SnowflakeConverter
 	/// <summary>
 	/// Extracts the Creation timestamp from a wrapped snowflake.
 	/// </summary>
-	/// <param name="snowflake">A wrapped snowflake as <see cref="DiscordSnowflake"/>.</param>
+	/// <param name="snowflake">A wrapped snowflake as <see cref="DiscordSnowflakeObject"/>.</param>
 	/// <returns>A <see cref="DateTimeOffset"/> holding the requested timestamp.</returns>
-	public static DateTimeOffset GetSnowflakeTime(this DiscordSnowflake snowflake)
+	public static DateTimeOffset GetSnowflakeTime(this DiscordSnowflakeObject snowflake)
 		=> __discordepoch.AddMilliseconds(snowflake.Id >> 22);
 
 	/// <summary>
@@ -36,9 +36,9 @@ public static class SnowflakeConverter
 	/// <summary>
 	/// Extracts the internal worker ID from a wrapped snowflake.
 	/// </summary>
-	/// <param name="snowflake">A raw snowflake ID as <see cref="DiscordSnowflake"/>.</param>
+	/// <param name="snowflake">A raw snowflake ID as <see cref="DiscordSnowflakeObject"/>.</param>
 	/// <returns>A <see cref="Byte"/> holding the internal worker ID as used by Discord.</returns>
-	public static Byte GetInternalWorkerId(this DiscordSnowflake snowflake)
+	public static Byte GetInternalWorkerId(this DiscordSnowflakeObject snowflake)
 		=> (Byte)((snowflake.Id & 0x3E0000) >> 17);
 
 	/// <summary>
@@ -52,9 +52,9 @@ public static class SnowflakeConverter
 	/// <summary>
 	/// Extracts the internal process ID from a wrapped snowflake.
 	/// </summary>
-	/// <param name="snowflake">A raw snowflake ID as <see cref="DiscordSnowflake"/>.</param>
+	/// <param name="snowflake">A raw snowflake ID as <see cref="DiscordSnowflakeObject"/>.</param>
 	/// <returns>A <see cref="Byte"/> holding the internal process ID as used by Discord.</returns>
-	public static Byte GetInternalProcessId(this DiscordSnowflake snowflake)
+	public static Byte GetInternalProcessId(this DiscordSnowflakeObject snowflake)
 		=> (Byte)((snowflake.Id & 0x1F000) >> 12);
 
 	/// <summary>
@@ -68,10 +68,10 @@ public static class SnowflakeConverter
 
 	/// <summary>
 	/// Extracts the internal increment from a wrapped snowflake. This number is incremented every time a new ID
-	/// is generated on the process as obtainable from <see cref="GetInternalProcessId(DiscordSnowflake)"/>.
+	/// is generated on the process as obtainable from <see cref="GetInternalProcessId(DiscordSnowflakeObject)"/>.
 	/// </summary>
-	/// <param name="snowflake">A wrapped snowflake as <see cref="DiscordSnowflake"/>.</param>
+	/// <param name="snowflake">A wrapped snowflake as <see cref="DiscordSnowflakeObject"/>.</param>
 	/// <returns>A <see cref="Byte"/> holding the internal increment as used by Discord.</returns>
-	public static UInt16 GetIncrement(this DiscordSnowflake snowflake)
+	public static UInt16 GetIncrement(this DiscordSnowflakeObject snowflake)
 		=> (UInt16)(snowflake.Id & 0xFFF);
 }

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a Discord user account, without additional information such as guilds.
 /// </summary>
-public class DiscordUser : DiscordSnowflake
+public class DiscordUser : DiscordSnowflakeObject
 {
 	#region Fields
 	#region OAuth Scope: identify

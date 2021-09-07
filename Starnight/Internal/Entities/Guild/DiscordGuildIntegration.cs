@@ -7,7 +7,7 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Reprents a Discord Guild Integration, for instance the Nitro Booster role
 /// </summary>
-public class DiscordGuildIntegration : DiscordSnowflake
+public class DiscordGuildIntegration : DiscordSnowflakeObject
 {
 	#region Always present
 	/// <summary>

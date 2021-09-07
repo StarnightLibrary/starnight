@@ -8,7 +8,7 @@ using Starnight.Internal.Utils;
 /// Base class for all Snowflake objects. Used chiefly for REST purposes and basic abstraction. Do not use directly.
 /// One ID can only refer to one specific object, Discord ensures that.
 /// </summary>
-public class DiscordSnowflake : IConvertible, IEquatable<DiscordSnowflake>
+public class DiscordSnowflakeObject : IConvertible, IEquatable<DiscordSnowflakeObject>
 {
 	/// <summary>
 	/// Snowflake Identifier of this object.
@@ -27,7 +27,7 @@ public class DiscordSnowflake : IConvertible, IEquatable<DiscordSnowflake>
 	/// Gets whether this Snowflake equals another.
 	/// </summary>
 	/// <returns><see langword="false"/> if one is null or the objects do not match</returns>
-	public Boolean Equals(DiscordSnowflake? other)
+	public Boolean Equals(DiscordSnowflakeObject? other)
 		=> (this is null || other is not null) && this.Id == other!.Id;
 
 	public TypeCode GetTypeCode() => TypeCode.Int64;
@@ -95,7 +95,7 @@ public class DiscordSnowflake : IConvertible, IEquatable<DiscordSnowflake>
 	/// Returns equality between two snowflakes.
 	/// </summary>
 	public override Boolean Equals(Object? obj)
-		=> obj != null && this.Equals((obj as DiscordSnowflake)!);
+		=> obj != null && this.Equals((obj as DiscordSnowflakeObject)!);
 
 	/// <summary>
 	/// Returns the hash code of the snowflake Id
@@ -107,11 +107,11 @@ public class DiscordSnowflake : IConvertible, IEquatable<DiscordSnowflake>
 	/// Compares two instances with each other.
 	/// </summary>
 	/// <returns><see langword="true"/> if the two instances have the same ID</returns>
-	public static Boolean operator ==(DiscordSnowflake left, DiscordSnowflake right) => left.Equals(right);
+	public static Boolean operator ==(DiscordSnowflakeObject left, DiscordSnowflakeObject right) => left.Equals(right);
 
 	/// <summary>
 	/// Compares two instances with each other.
 	/// </summary>
 	/// <returns><see langword="true"/> if the two instances have different IDs</returns>
-	public static Boolean operator !=(DiscordSnowflake left, DiscordSnowflake right) => !left.Equals(right);
+	public static Boolean operator !=(DiscordSnowflakeObject left, DiscordSnowflakeObject right) => !left.Equals(right);
 }
