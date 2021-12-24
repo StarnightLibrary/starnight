@@ -1,5 +1,6 @@
 namespace Starnight.Internal.Entities.Users;
 
+using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guild;

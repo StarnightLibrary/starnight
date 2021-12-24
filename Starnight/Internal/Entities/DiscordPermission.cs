@@ -1,5 +1,7 @@
 namespace Starnight.Internal.Entities;
 
+using System;
+
 /// <summary>
 /// Represents discord permissions - role permission, channel overwrites.
 /// </summary>

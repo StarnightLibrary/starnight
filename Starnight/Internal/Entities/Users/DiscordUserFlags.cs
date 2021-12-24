@@ -1,5 +1,7 @@
 namespace Starnight.Internal.Entities.Users;
 
+using System;
+
 /// <summary>
 /// Enum holding all possible user flags. Some bitshifts are missing, those appear to be used for nitro badges etc (or just not exist at all.)
 /// It is important converters for <c>user.public_flags</c> keep this in mind - bits not used here may still be used by the official client and

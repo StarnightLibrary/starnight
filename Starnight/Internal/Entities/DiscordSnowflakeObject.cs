@@ -1,5 +1,6 @@
 namespace Starnight.Internal.Entities;
 
+using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Utils;

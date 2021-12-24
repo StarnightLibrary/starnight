@@ -1,5 +1,7 @@
 namespace Starnight.Internal.Utils;
 
+using System;
+
 using Starnight.Internal.Entities;
 
 /// <summary>
