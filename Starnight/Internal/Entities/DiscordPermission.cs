@@ -174,22 +174,42 @@ public enum DiscordPermission : Int64
 	RequestToSpeak = (Int64)1 << 32,
 
 	/// <summary>
+	/// Allows members to create, edit and delete events.
+	/// </summary>
+	ManageEvents = (Int64)1 << 33,
+
+	/// <summary>
 	/// Allows members to manage threads.
 	/// </summary>
-	ManageThreads = (Int64)1 << 34, // where 33, discord
+	ManageThreads = (Int64)1 << 34,
 
 	/// <summary>
-	/// Allows members to create and send messages in public threads.
+	/// Allows members to create public threads.
 	/// </summary>
-	UsePublicThreads = (Int64)1 << 35,
+	CreatePublicThreads = (Int64)1 << 35,
 
 	/// <summary>
-	/// Allows members to create and send messages in private threads.
+	/// Allows members to create private threads.
 	/// </summary>
-	UsePrivateThreads = (Int64)1 << 36,
+	CreatePrivateThreads = (Int64)1 << 36,
 
 	/// <summary>
 	/// Allows members to use stickers from other guilds.
 	/// </summary>
-	UseExternalStickers = (Int64)1 << 37
+	UseExternalStickers = (Int64)1 << 37,
+
+	/// <summary>
+	/// Allows members to send messages in threads.
+	/// </summary>
+	SendThreadMessages = (Int64)1 << 38,
+
+	/// <summary>
+	/// Allows members to start embedded activities.
+	/// </summary>
+	StartEmbeddedActivities = (Int64)1 << 39,
+
+	/// <summary>
+	/// Allows members to time out other members.
+	/// </summary>
+	ModerateMembers = (Int64)1 << 40
 }
