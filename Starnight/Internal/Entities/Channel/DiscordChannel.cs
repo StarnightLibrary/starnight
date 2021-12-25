@@ -3,8 +3,8 @@ namespace Starnight.Internal.Entities.Channel;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Channel.Threads;
-using Starnight.Internal.Entities.Users;
+using Starnight.Internal.Entities.Channel.Thread;
+using Starnight.Internal.Entities.User;
 
 /// <summary>
 /// Represents any sort, shape or form of discord channel.

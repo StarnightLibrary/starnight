@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.Guild;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Users;
+using Starnight.Internal.Entities.User;
 
 /// <summary>
 /// Reprents a Discord Guild Integration, for instance the Nitro Booster role
