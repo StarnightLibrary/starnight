@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Users;
+namespace Starnight.Internal.Entities.User;
 
 using System;
 using System.Text.Json.Serialization;

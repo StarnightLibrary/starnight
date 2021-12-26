@@ -53,7 +53,7 @@ public class DiscordGuildIntegration : DiscordSnowflakeObject
 	/// Snowflake identifier of the role this integration uses for "subscribers".
 	/// </summary>
 	[JsonPropertyName("role_id")]
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	public Int64? RoleId { get; init; }
 
 	/// <summary>

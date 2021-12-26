@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Users;
+namespace Starnight.Internal.Entities.User;
 
 /// <summary>
 /// Enum holding the three possible Nitro subscription types
