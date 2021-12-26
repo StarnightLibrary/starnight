@@ -15,13 +15,13 @@ public class DiscordUser : DiscordSnowflakeObject
 	/// Discord username of this account. Usernames cannot contain any Discord control characters or be "everyone", "here" or "discordtag".
 	/// </summary>
 	[JsonPropertyName("username")]
-	public String Username { get; init; } = default!;
+	public String? Username { get; init; }
 
 	/// <summary>
 	/// 4-digit int discriminator of this account, from 0001 to 9999. For some reason this is sent as string.
 	/// </summary>
 	[JsonPropertyName("discriminator")]
-	public String Discriminator { get; init; } = default!;
+	public String? Discriminator { get; init; }
 
 	/// <summary>
 	/// The avatar hash code of this account.
