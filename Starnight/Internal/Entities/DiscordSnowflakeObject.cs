@@ -93,10 +93,10 @@ public class DiscordSnowflakeObject : IConvertible, IEquatable<DiscordSnowflakeO
 	public UInt64 ToUInt64(IFormatProvider? provider) => Convert.ToUInt64(this.Id, provider);
 
 	/// <summary>
-	/// Returns equality between two snowflakes.
+	/// Returns equality between two snowflake objects.
 	/// </summary>
 	public override Boolean Equals(Object? obj)
-		=> obj != null && this.Equals((obj as DiscordSnowflakeObject)!);
+		=> obj != null && this.GetType() == obj.GetType() && this.Equals((obj as DiscordSnowflakeObject)!);
 
 	/// <summary>
 	/// Returns the hash code of the snowflake Id
