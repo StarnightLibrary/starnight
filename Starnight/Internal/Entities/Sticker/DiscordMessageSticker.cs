@@ -1,9 +1,9 @@
-namespace Starnight.Internal.Entities.Message;
+using Starnight.Internal.Entities.Message;
+
+namespace Starnight.Internal.Entities.Sticker;
 
 using System;
 using System.Text.Json.Serialization;
-
-using Starnight.Internal.Entities.Guild;
 
 /// <summary>
 /// Represents a stripped-down sticker object, used in <see cref="DiscordMessage"/>s

@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guild;
+namespace Starnight.Internal.Entities.Sticker;
 
 using System;
 using System.Text.Json.Serialization;
