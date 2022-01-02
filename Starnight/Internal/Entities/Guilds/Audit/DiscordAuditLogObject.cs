@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
-using Starnight.Internal.Entities.User;
+using Starnight.Internal.Entities.Users;
 
 /// <summary>
 /// Represents a chunk of between 1 and 100 audit log events.

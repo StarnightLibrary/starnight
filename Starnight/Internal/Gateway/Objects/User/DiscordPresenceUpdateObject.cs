@@ -3,7 +3,7 @@ namespace Starnight.Internal.Gateway.Objects.User;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.User;
+using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Gateway.Objects.User.Activity;
 
 /// <summary>

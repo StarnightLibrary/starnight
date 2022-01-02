@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.Teams;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.User;
+using Starnight.Internal.Entities.Users;
 
 /// <summary>
 /// Represents a discord application.

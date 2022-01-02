@@ -10,7 +10,7 @@ using Starnight.Internal.Entities.Interactions;
 using Starnight.Internal.Entities.Messages.Embeds;
 using Starnight.Internal.Entities.Stickers;
 using Starnight.Internal.Entities.Teams;
-using Starnight.Internal.Entities.User;
+using Starnight.Internal.Entities.Users;
 
 /// <summary>
 /// Represents a discord channel message.

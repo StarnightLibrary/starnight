@@ -4,7 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels.Threads;
-using Starnight.Internal.Entities.User;
+using Starnight.Internal.Entities.Users;
 
 /// <summary>
 /// Represents any sort, shape or form of discord channel.
