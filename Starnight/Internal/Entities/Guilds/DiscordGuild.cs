@@ -217,7 +217,7 @@ public record DiscordGuild : DiscordSnowflakeObject
 	/// Presences of the guild members. Offline members will be excluded from a certain point onwards.
 	/// </summary>
 	[JsonPropertyName("presences")]
-	public DiscordPresenceUpdateObject[]? Presences { get; init; }
+	public DiscordPresenceUpdate[]? Presences { get; init; }
 
 	/// <summary>
 	/// The maximum number of presences for this guild. <c>null</c> everywhere save the largest guilds.

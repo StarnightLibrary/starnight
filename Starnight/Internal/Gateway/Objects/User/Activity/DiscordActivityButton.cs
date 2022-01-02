@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a clickable RPC button. Every presence may have at most two buttons.
 /// </summary>
-public class DiscordActivityButton
+public record DiscordActivityButton
 {
 	/// <summary>
 	/// Text shown on the button, 1 - 32 characters.

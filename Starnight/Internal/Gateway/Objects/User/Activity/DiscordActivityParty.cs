@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents an activity party.
 /// </summary>
-public class DiscordActivityParty
+public record DiscordActivityParty
 {
 	/// <summary>
 	/// The party ID.

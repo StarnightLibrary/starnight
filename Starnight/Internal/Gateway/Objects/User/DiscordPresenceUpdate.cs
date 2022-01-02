@@ -9,7 +9,7 @@ using Starnight.Internal.Gateway.Objects.User.Activity;
 /// <summary>
 /// Represents a user presence update object via real-time gateway.
 /// </summary>
-public class DiscordPresenceUpdateObject
+public record DiscordPresenceUpdate
 {
 	/// <summary>
 	/// The user this object affects.
@@ -34,5 +34,5 @@ public class DiscordPresenceUpdateObject
 	/// Current activities of this user.
 	/// </summary>
 	[JsonPropertyName("activities")]
-	public DiscordActivityObject[] CurrentActivities { get; init; } = default!;
+	public DiscordActivity[] CurrentActivities { get; init; } = default!;
 }

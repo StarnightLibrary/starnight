@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents the secrets 
 /// </summary>
-public class DiscordActivitySecrets
+public record DiscordActivitySecrets
 {
 	/// <summary>
 	/// The secret used to join a party.

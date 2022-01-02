@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Guilds;
 /// <summary>
 /// Represents a discord activity object.
 /// </summary>
-public class DiscordActivityObject
+public record DiscordActivity
 {
 	/// <summary>
 	/// The activity name.

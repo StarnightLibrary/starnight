@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents the assets used to display activity information.
 /// </summary>
-public class DiscordActivityAssets
+public record DiscordActivityAssets
 {
 	/// <summary>
 	/// The ID - usually a snowflake ID - for the large asset of the activity.

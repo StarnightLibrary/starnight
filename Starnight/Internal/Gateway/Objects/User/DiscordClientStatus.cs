@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents the status of each active application session.
 /// </summary>
-public class DiscordClientStatusObject
+public record DiscordClientStatus
 {
 	/// <summary>
 	/// User status for an active desktop session.

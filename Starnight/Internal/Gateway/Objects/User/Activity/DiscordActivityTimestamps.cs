@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents the timestamps associated with an activity.
 /// </summary>
-public class DiscordActivityTimestamps
+public record DiscordActivityTimestamps
 {
 	/// <summary>
 	/// Unix time in milliseconds of when this activity started.
