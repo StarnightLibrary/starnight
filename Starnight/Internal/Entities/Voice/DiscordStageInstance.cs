@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a stage channel instance.
 /// </summary>
-public class DiscordStageInstance : DiscordSnowflakeObject
+public record DiscordStageInstance : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// The guild ID of the associated stage channel.

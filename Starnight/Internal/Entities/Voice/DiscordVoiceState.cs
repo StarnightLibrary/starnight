@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Guilds;
 /// <summary>
 /// Represents a user's voice connection status.
 /// </summary>
-public class DiscordVoiceState
+public record DiscordVoiceState
 {
 	/// <summary>
 	/// The guild this user is connected to.
