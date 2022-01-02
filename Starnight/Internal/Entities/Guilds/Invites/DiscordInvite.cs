@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
-using Starnight.Internal.Entities.Team;
+using Starnight.Internal.Entities.Teams;
 using Starnight.Internal.Entities.User;
 
 /// <summary>
