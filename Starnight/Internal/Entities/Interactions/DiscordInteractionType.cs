@@ -5,7 +5,7 @@ namespace Starnight.Internal.Entities.Interactions;
 /// </summary>
 public enum DiscordInteractionType
 {
-	Ping,
+	Ping = 1,
 	ApplicationCommand,
 	MessageComponent,
 	ApplicationCommandAutocomplete
