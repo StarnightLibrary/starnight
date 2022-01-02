@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.User;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guild;
+using Starnight.Internal.Entities.Guilds;
 
 /// <summary>
 /// Represents a Discord User connection object, as obtained from <c>GET users/@me/connections</c>.

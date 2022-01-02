@@ -3,7 +3,7 @@ namespace Starnight.Internal.Gateway.Objects.User.Activity;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guild;
+using Starnight.Internal.Entities.Guilds;
 
 /// <summary>
 /// Represents a discord activity object.

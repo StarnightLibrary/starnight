@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.Voice;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guild;
+using Starnight.Internal.Entities.Guilds;
 
 /// <summary>
 /// Represents a user's voice connection status.

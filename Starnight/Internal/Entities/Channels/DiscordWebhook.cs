@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.Channels;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guild;
+using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.User;
 
 /// <summary>

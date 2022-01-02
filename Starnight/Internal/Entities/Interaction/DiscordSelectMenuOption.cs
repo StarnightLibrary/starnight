@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.Interaction;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guild;
+using Starnight.Internal.Entities.Guilds;
 
 /// <summary>
 /// Represents a select menu option.
