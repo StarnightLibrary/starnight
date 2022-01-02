@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Channel;
+using Starnight.Internal.Entities.Channels;
 
 /// <summary>
 /// Represents an audit log reflected change.

@@ -2,7 +2,7 @@ namespace Starnight.Internal.Entities.Guild.Audit;
 
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Channel;
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.User;
 
 /// <summary>

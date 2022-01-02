@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.Guild.Invite;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Channel;
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Team;
 using Starnight.Internal.Entities.User;
 
