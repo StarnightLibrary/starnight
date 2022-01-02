@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Interactions;
 using Starnight.Internal.Entities.Messages.Embeds;
-using Starnight.Internal.Entities.Sticker;
+using Starnight.Internal.Entities.Stickers;
 using Starnight.Internal.Entities.Team;
 using Starnight.Internal.Entities.User;
 
