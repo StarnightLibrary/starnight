@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
-using Starnight.Internal.Entities.Interaction;
+using Starnight.Internal.Entities.Interactions;
 using Starnight.Internal.Entities.Message.Embed;
 using Starnight.Internal.Entities.Sticker;
 using Starnight.Internal.Entities.Team;

@@ -4,7 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
-using Starnight.Internal.Entities.Interaction;
+using Starnight.Internal.Entities.Interactions;
 
 /// <summary>
 /// Represents a discord message component.
