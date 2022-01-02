@@ -74,7 +74,7 @@ public record DiscordChannel : DiscordSnowflakeObject
 
 	/// <summary>
 	/// The amount of seconds (0 - 21600) a user has to wait before sending another message/creating another thread.
-	/// Bots, as well as users with <see cref="DiscordPermission.ManageMessages"/> or <see cref="DiscordPermission.ManageChannels"/>,
+	/// Bots, as well as users with <see cref="DiscordPermissions.ManageMessages"/> or <see cref="DiscordPermissions.ManageChannels"/>,
 	/// are unaffected.
 	/// </summary>
 	[JsonPropertyName("rate_limit_per_user")]

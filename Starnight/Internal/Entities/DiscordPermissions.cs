@@ -6,7 +6,7 @@ using System;
 /// Represents discord permissions - role permission, channel overwrites.
 /// </summary>
 [Flags]
-public enum DiscordPermission : Int64
+public enum DiscordPermissions : Int64
 {
 	/// <summary>
 	/// Allows members to create invites.

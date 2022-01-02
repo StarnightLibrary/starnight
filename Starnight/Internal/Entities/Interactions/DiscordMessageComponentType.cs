@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Messages;
+namespace Starnight.Internal.Entities.Interactions;
 
 /// <summary>
 /// Represents the different message component types.

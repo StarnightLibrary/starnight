@@ -15,14 +15,14 @@ public record DiscordChannelOverwrite : DiscordSnowflakeObject
 	public Int32 Type { get; init; }
 
 	/// <summary>
-	/// Granted permissions, by overwrite, see <see cref="DiscordPermission"/>
+	/// Granted permissions, by overwrite, see <see cref="DiscordPermissions"/>
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("allow")]
 	public Int64 Allow { get; init; }
 
 	/// <summary>
-	/// Denied permissions, by overwrite, see <see cref="DiscordPermission"/>
+	/// Denied permissions, by overwrite, see <see cref="DiscordPermissions"/>
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("allow")]
