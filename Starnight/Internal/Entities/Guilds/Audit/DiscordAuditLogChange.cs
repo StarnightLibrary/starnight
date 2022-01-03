@@ -46,6 +46,7 @@ public record DiscordAuditLogChange
 		["channel_id"] = typeof(String),
 		["code"] = typeof(String),
 		["color"] = typeof(Int32),
+		["communication_disabled_until"] = typeof(DateTime),
 		["deaf"] = typeof(Boolean),
 		["default_auto_archive_duration"] = typeof(Int32),
 		["default_message_notifications"] = typeof(Int32),
