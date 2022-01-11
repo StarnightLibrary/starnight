@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Represents a request contract for both kinds of rest requests (single-request and multipart request).
 /// </summary>
-public unsafe interface IRestRequest
+public interface IRestRequest
 {
 	public HttpMethod Method { get; }
 
@@ -16,7 +16,7 @@ public unsafe interface IRestRequest
 
 	public Dictionary<String, String> Headers { get; }
 
-	public RateLimitBucket* Bucket { get; }
+	public RatelimitBucket Bucket { get; }
 
 	public IRestResult Request();
 }
