@@ -74,4 +74,16 @@ public record DiscordInteraction : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("message")]
 	public DiscordMessage? Message { get; init; }
+
+	/// <summary>
+	/// The preferred locale of the executing user.
+	/// </summary>
+	[JsonPropertyName("locale")]
+	public String? Locale { get; init; }
+
+	/// <summary>
+	/// The set locale of the guild this interaction was executed in.
+	/// </summary>
+	[JsonPropertyName("guild_locale")]
+	public String? GuildLocale { get; init; }
 }
