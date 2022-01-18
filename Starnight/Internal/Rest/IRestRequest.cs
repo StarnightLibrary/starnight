@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest;
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 /// <summary>
 /// Represents a request contract for both kinds of rest requests (single-request and multipart request).
@@ -18,5 +19,5 @@ public interface IRestRequest
 
 	public RatelimitBucket Bucket { get; }
 
-	public IRestResult Request();
+	public HttpRequestMessage Build();
 }

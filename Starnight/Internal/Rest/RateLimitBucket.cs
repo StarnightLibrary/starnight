@@ -18,17 +18,11 @@ public record RatelimitBucket
 	private const String __unlimited_ratelimit_hash = "unlimited";
 	private const Int32 __default_maximum = 1;
 	private const Int32 __default_remaining = 0;
-	private const MajorRouteParameter __default_major_route_parameter = MajorRouteParameter.Unbucketed;
 	private readonly static DateTimeOffset __unix_epoch = new(1970, 0, 0, 0, 0, 0, new());
 
 	public event Action<RatelimitBucket, HttpResponseMessage> SharedRatelimitHit = null!;
 	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
 	public event Action<RatelimitBucket, Int32, Int32> UpperLimitChanged = null!;
-
-	/// <summary>
-	/// Stores this request's major parameter type.
-	/// </summary>
-	public MajorRouteParameter? MajorParameter { get; init; } = __default_major_route_parameter;
 
 	/// <summary>
 	/// Stores the value for <see cref="MajorParameter"/>. May be <c>null</c>.
