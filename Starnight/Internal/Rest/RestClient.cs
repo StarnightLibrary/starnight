@@ -39,6 +39,8 @@ public class RestClient
 			BaseAddress = new Uri(DiscordApiConstants.BaseUri),
 			Timeout = TimeSpan.FromSeconds(15)
 		};
+
+		__http_client.DefaultRequestHeaders.Add("UserAgent", StarnightConstants.UserAgentHeader);
 	}
 
 	public static void SetClientProxy(IWebProxy proxy)

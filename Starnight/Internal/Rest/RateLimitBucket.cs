@@ -24,6 +24,9 @@ public record RatelimitBucket
 	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
 	public event Action<RatelimitBucket, Int32, Int32> UpperLimitChanged = null!;
 
+
+	public Int32[] RouteParameters { get; set; } = null!;
+
 	/// <summary>
 	/// Stores the value for <see cref="MajorParameter"/>. May be <c>null</c>.
 	/// </summary>
