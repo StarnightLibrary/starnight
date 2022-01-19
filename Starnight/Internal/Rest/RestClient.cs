@@ -2,9 +2,11 @@ namespace Starnight.Internal.Rest;
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -22,6 +24,7 @@ public class RestClient
 	private readonly ConcurrentDictionary<String, RatelimitBucket> __ratelimit_buckets;
 
 	public event Action<RatelimitBucket, HttpResponseMessage> SharedRatelimitHit = null!;
+	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
 	public event Action<Guid> RequestDenied = null!;
 
 	static RestClient()
@@ -98,8 +101,7 @@ public class RestClient
 			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
 				"Request {guid} to {route} was denied by the pre-emptive ratelimiter", guid, request.Route);
 #else
-				this.__logger?.LogWarning(LoggingEvents.RestClientRequestDenied,
-					"The request was denied.");
+			this.__logger?.LogWarning(LoggingEvents.RestClientRequestDenied, "The request was denied.");
 #endif
 			RequestDenied(guid);
 		}
@@ -107,6 +109,8 @@ public class RestClient
 		HttpResponseMessage response = await __http_client.SendAsync(message);
 
 		v.ProcessResponse(response);
+
+		this.__ratelimit_buckets[request.Route] = v;
 
 		return response;
 	}
@@ -130,5 +134,6 @@ public class RestClient
 	private void sharedRatelimitHitHandler(RatelimitBucket arg1, HttpResponseMessage arg2)
 		=> this.SharedRatelimitHit(arg1, arg2);
 
-	private void ratelimitHitHandler(RatelimitBucket arg1, HttpResponseMessage arg2, String arg3) => throw new NotImplementedException();
+	private void ratelimitHitHandler(RatelimitBucket arg1, HttpResponseMessage arg2, String arg3)
+		=> this.RatelimitHit(arg1, arg2, arg3);
 }
