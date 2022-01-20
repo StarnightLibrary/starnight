@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Rest.Payloads.Guild;
 
@@ -175,6 +176,33 @@ public class DiscordGuildRestResource : IRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	public async Task<DiscordChannel[]> GetGuildChannelsAsync(Int64 id)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Channels}",
+			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordChannel[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -192,6 +220,7 @@ public class DiscordGuildRestResource : IRestResource
 	private readonly static List<String> __resource_routes = new()
 	{
 		$"/{Guilds}/{GuildId}",
-		$"/{Guilds}/{GuildId}/{Preview}"
+		$"/{Guilds}/{GuildId}/{Preview}",
+		$"/{Guilds}/{GuildId}/{Channels}"
 	};
 }
