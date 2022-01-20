@@ -38,5 +38,6 @@ public record DiscordStageInstance : DiscordSnowflakeObject
 	/// Whether this stage is hidden from stage discovery.
 	/// </summary>
 	[JsonPropertyName("discoverable_disabled")]
+	[Obsolete("Public stages and therefore stage discovery is deprecated", DiagnosticId = "SE0006")]
 	public Boolean DiscoveryDisabled { get; init; }
 }
