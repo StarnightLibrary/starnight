@@ -37,4 +37,10 @@ public record DiscordThreadMetadata
 	/// </summary>
 	[JsonPropertyName("invitable")]
 	public Boolean? Invitable { get; init; }
+
+	/// <summary>
+	/// Gets the exact timestamp at which this thread was created
+	/// </summary>
+	[JsonPropertyName("create_timestamp")]
+	public DateTime? CreateTimestamp { get; init; }
 }
