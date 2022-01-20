@@ -38,11 +38,16 @@ public class DiscordGuildRestResource : IRestResource
 
 	public async Task<DiscordGuild> GetGuildAsync(Int64 id, Boolean withCounts = false)
 	{
+		if(DateTimeOffset.UtcNow < this.__shared_ratelimit_expiration)
+		{
+			return null!;
+		}
+
 		Guid guid = Guid.NewGuid();
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"{Guilds}/{GuildId}",
+			Route = $"/{Guilds}/{GuildId}",
 			Url = new($"{BaseUri}/{Guilds}/{id}?with_counts={withCounts}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -56,6 +61,33 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordGuild>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	public async Task<DiscordGuildPreview> GetGuildPreviewAsync(Int64 id)
+	{
+		if(DateTimeOffset.UtcNow < this.__shared_ratelimit_expiration)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Preview}",
+			Url = new($"{BaseUri}/{Guilds}/{id}/{Preview}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildPreview>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
@@ -72,6 +104,6 @@ public class DiscordGuildRestResource : IRestResource
 
 	private readonly static List<String> __resource_routes = new()
 	{
-		$"{Guilds}/{GuildId}"
+		$"/{Guilds}/{GuildId}"
 	};
 }
