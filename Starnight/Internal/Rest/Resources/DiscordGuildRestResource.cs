@@ -34,6 +34,7 @@ public class DiscordGuildRestResource : IRestResource
 		this.__waiting_responses = new();
 		this.__token = token;
 
+		this.__rest_client.RequestDenied += this.requestDenied;
 		this.__rest_client.RequestSucceeded += this.requestSucceeded;
 		this.__rest_client.SharedRatelimitHit += this.sharedRatelimitHit;
 		this.__rest_client.TokenInvalidOrMissing += this.disableAll;
@@ -207,6 +208,13 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordChannel[]>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Creates a discord channel.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the parent guild.</param>
+	/// <param name="payload">Channel creation payload, containing all initializing data.</param>
+	/// <param name="reason">Audit log reason for this operation.</param>
+	/// <returns>The created channel.</returns>
 	public async Task<DiscordChannel> CreateGuildChannelAsync(Int64 id, CreateGuildChannelRequestPayload payload, String? reason = null)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -251,6 +259,9 @@ public class DiscordGuildRestResource : IRestResource
 
 	private void requestSucceeded(Guid arg1, HttpResponseMessage arg2)
 		=> this.__waiting_responses[arg1].SetResult(arg2);
+
+	private void requestDenied(Guid arg1, String arg2)
+		=> this.__waiting_responses[arg1].SetException(new Exception());
 
 	private void disableAll() => this.__allow_next_request_at = DateTimeOffset.MaxValue;
 

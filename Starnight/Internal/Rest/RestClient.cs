@@ -4,12 +4,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Starnight.Internal.Rest.Exceptions;
 using Starnight.Internal.Utils;
 
 /// <summary>
@@ -25,7 +27,7 @@ public sealed class RestClient : IDisposable
 
 	public event Action<RatelimitBucket, HttpResponseMessage> SharedRatelimitHit = null!;
 	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
-	public event Action<Guid> RequestDenied = null!;
+	public event Action<Guid, String> RequestDenied = null!;
 	public event Action TokenInvalidOrMissing = null!;
 
 	public event Action<Guid, HttpResponseMessage> RequestSucceeded = null!;
@@ -100,7 +102,7 @@ public sealed class RestClient : IDisposable
 	{
 		if(this.__continue_at > DateTimeOffset.UtcNow) // validate global ratelimits
 		{
-			RequestDenied(guid);
+			RequestDenied(guid, "Global ratelimit hit.");
 			return null!;
 		}
 
@@ -108,7 +110,7 @@ public sealed class RestClient : IDisposable
 		{
 			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
 				"Invalid request route. Please contact the library developers.");
-			RequestDenied(guid);
+			RequestDenied(guid, "Invalid request route.");
 			return null!;
 		}
 
@@ -130,7 +132,7 @@ public sealed class RestClient : IDisposable
 #else
 			this.__logger?.LogWarning(LoggingEvents.RestClientRequestDenied, "The request was denied.");
 #endif
-			RequestDenied(guid);
+			RequestDenied(guid, "Ratelimit request denied.");
 		}
 
 		HttpResponseMessage response = await __http_client.SendAsync(message);
@@ -203,13 +205,44 @@ public sealed class RestClient : IDisposable
 
 			HttpResponseMessage response = await this.MakeRequestAsync(currentWorkItem.Request, currentWorkItem.RequestGuid);
 
-			if(response.StatusCode == HttpStatusCode.Unauthorized)
-			{
-				this.TokenInvalidOrMissing();
-				continue;
-			}
+			_ = Task.Run(() => handleResponse(currentWorkItem.RequestGuid, response), CancellationToken.None);
 
 			this.RequestSucceeded(currentWorkItem.RequestGuid, response);
+		}
+
+		return;
+
+		void handleResponse(Guid guid, HttpResponseMessage message)
+		{
+			switch((Int32)message.StatusCode)
+			{
+				case 400:
+				case 405:
+					this.RequestDenied(guid, "Invalid request.");
+					return;
+
+				case 401:
+					this.RequestDenied(guid, "Missing or invalid token.");
+					this.TokenInvalidOrMissing();
+					return;
+
+				case 403:
+					this.RequestDenied(guid, "Unauthorized.");
+					return;
+
+				case 413:
+					this.RequestDenied(guid, "Oversized request payload.");
+					return;
+
+				case 500:
+				case 502:
+				case 503:
+				case 504:
+					this.RequestDenied(guid, "Server error.");
+					return;
+			}
+
+			this.RequestSucceeded(guid, message);
 		}
 	}
 
