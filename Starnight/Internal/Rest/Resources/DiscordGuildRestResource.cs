@@ -12,7 +12,7 @@ using Starnight.Internal.Entities.Guilds;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = Starnight.Internal.Rest.HttpMethod;
+using HttpMethodEnum = HttpMethod;
 
 /// <summary>
 /// Represents a request wrapper for all requests against the Guild resource.
@@ -20,25 +20,26 @@ using HttpMethodEnum = Starnight.Internal.Rest.HttpMethod;
 public class DiscordGuildRestResource : IRestResource
 {
 	private readonly RestClient __rest_client;
-	private DateTimeOffset __shared_ratelimit_expiration;
+	private DateTimeOffset __allow_next_request_at;
 	private readonly ConcurrentDictionary<Guid, TaskCompletionSource<HttpResponseMessage>> __waiting_responses;
 	private readonly String __token;
 
 	public DiscordGuildRestResource(RestClient client, String token)
 	{
 		this.__rest_client = client;
-		this.__shared_ratelimit_expiration = DateTimeOffset.MinValue;
+		this.__allow_next_request_at = DateTimeOffset.MinValue;
 		this.__waiting_responses = new();
 		this.__token = token;
 
 		this.__rest_client.RequestSucceeded += this.requestSucceeded;
 		this.__rest_client.SharedRatelimitHit += this.sharedRatelimitHit;
+		this.__rest_client.TokenInvalidOrMissing += this.disableAll;
 	}
 
 
 	public async Task<DiscordGuild> GetGuildAsync(Int64 id, Boolean withCounts = false)
 	{
-		if(DateTimeOffset.UtcNow < this.__shared_ratelimit_expiration)
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			return null!;
 		}
@@ -65,7 +66,7 @@ public class DiscordGuildRestResource : IRestResource
 
 	public async Task<DiscordGuildPreview> GetGuildPreviewAsync(Int64 id)
 	{
-		if(DateTimeOffset.UtcNow < this.__shared_ratelimit_expiration)
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			return null!;
 		}
@@ -94,7 +95,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(__resource_routes.Contains(arg1.Path!))
 		{
-			this.__shared_ratelimit_expiration = DateTimeOffset.UtcNow.AddSeconds(
+			this.__allow_next_request_at = DateTimeOffset.UtcNow.AddSeconds(
 						Double.Parse(arg2.Headers.GetValues("Retry-After").First()));
 		}
 	}
@@ -102,8 +103,11 @@ public class DiscordGuildRestResource : IRestResource
 	private void requestSucceeded(Guid arg1, HttpResponseMessage arg2)
 		=> this.__waiting_responses[arg1].SetResult(arg2);
 
+	private void disableAll() => this.__allow_next_request_at = DateTimeOffset.MaxValue;
+
 	private readonly static List<String> __resource_routes = new()
 	{
-		$"/{Guilds}/{GuildId}"
+		$"/{Guilds}/{GuildId}",
+		$"/{Guilds}/{GuildId}/{Preview}"
 	};
 }

@@ -26,6 +26,7 @@ public sealed class RestClient : IDisposable
 	public event Action<RatelimitBucket, HttpResponseMessage> SharedRatelimitHit = null!;
 	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
 	public event Action<Guid> RequestDenied = null!;
+	public event Action TokenInvalidOrMissing = null!;
 
 	public event Action<Guid, HttpResponseMessage> RequestSucceeded = null!;
 	private readonly ConcurrentQueue<RestClientQueueItem> __request_queue;
@@ -201,6 +202,13 @@ public sealed class RestClient : IDisposable
 			}
 
 			HttpResponseMessage response = await this.MakeRequestAsync(currentWorkItem.Request, currentWorkItem.RequestGuid);
+
+			if(response.StatusCode == HttpStatusCode.Unauthorized)
+			{
+				this.TokenInvalidOrMissing();
+				continue;
+			}
+
 			this.RequestSucceeded(currentWorkItem.RequestGuid, response);
 		}
 	}
