@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Guilds;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Stickers;
+
 /// <summary>
 /// Represents guild data for a guild preview.
 /// </summary>
@@ -61,4 +63,10 @@ public record DiscordGuildPreview : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("description")]
 	public String? Description { get; init; }
+
+	/// <summary>
+	/// Stickers for this guild.
+	/// </summary>
+	[JsonPropertyName("stickers")]
+	public DiscordSticker[]? Stickers { get; init; }
 }
