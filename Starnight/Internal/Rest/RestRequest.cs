@@ -12,15 +12,15 @@ public struct RestRequest : IRestRequest
 {
 	public HttpMethod Method { get; init; }
 
-	public String Route { get; init; }
+	public String Route { get; init; } = null!;
 
-	public Uri Url { get; init; }
+	public Uri Url { get; init; } = null!;
 
-	public Dictionary<String, String> Headers { get; init; }
+	public Dictionary<String, String> Headers { get; init; } = new();
 
-	public String Payload { get; init; }
+	public String? Payload { get; init; }
 
-	public String Token { get; init; }
+	public String? Token { get; init; }
 
 	public HttpRequestMessage Build()
 	{
@@ -37,13 +37,20 @@ public struct RestRequest : IRestRequest
 
 		HttpRequestMessage message = new(method, this.Url);
 
-		message.Headers.Authorization = new AuthenticationHeaderValue(this.Token);
+		if(this.Token != null)
+		{
+			message.Headers.Authorization = new AuthenticationHeaderValue(this.Token);
+		}
+
 		foreach(KeyValuePair<String, String> kv in this.Headers)
 		{
 			message.Headers.Add(kv.Key, kv.Value);
 		}
 
-		message.Content = new StringContent(this.Payload);
+		if(this.Payload != null)
+		{
+			message.Content = new StringContent(this.Payload);
+		}
 
 		return message;
 	}
