@@ -2,7 +2,6 @@ namespace Starnight.Internal.Rest;
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -16,16 +15,21 @@ using Starnight.Internal.Utils;
 /// <summary>
 /// Represents a rest client for the discord API.
 /// </summary>
-public class RestClient
+public sealed class RestClient : IDisposable
 {
 	private static readonly Regex __route_regex;
 	private static HttpClient __http_client;
 	private readonly ILogger? __logger;
 	private readonly ConcurrentDictionary<String, RatelimitBucket> __ratelimit_buckets;
+	private DateTimeOffset __continue_at;
 
 	public event Action<RatelimitBucket, HttpResponseMessage> SharedRatelimitHit = null!;
 	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
 	public event Action<Guid> RequestDenied = null!;
+
+	public event Action<Guid, HttpResponseMessage> RequestSucceeded = null!;
+	private readonly ConcurrentQueue<RestClientQueueItem> __request_queue;
+	private readonly CancellationTokenSource[] __worker_cancellation_tokens;
 
 	static RestClient()
 	{
@@ -68,15 +72,37 @@ public class RestClient
 	public static void SetTimeout(TimeSpan timeout)
 		=> __http_client.Timeout = timeout;
 
-	public RestClient(ILogger logger, Boolean enableQueue)
+	public RestClient(ILogger logger, Boolean enableQueue, Int32 workerThreadCount = 5)
 	{
 		this.__logger = logger;
 		this.__ratelimit_buckets = new();
+
+		if(enableQueue)
+		{
+			this.__request_queue = new();
+			this.__worker_cancellation_tokens = new CancellationTokenSource[workerThreadCount];
+
+			foreach(CancellationTokenSource cts in this.__worker_cancellation_tokens)
+			{
+				_ = Task.Run(() => this.workQueue(cts.Token));
+			}
+		}
+		else
+		{
+			this.__request_queue = null!;
+			this.__worker_cancellation_tokens = null!;
+		}
 	}
 
 	// the GUID is intended for internal callback verification.
 	public async Task<HttpResponseMessage> MakeRequestAsync(IRestRequest request, Guid guid)
 	{
+		if(this.__continue_at > DateTimeOffset.UtcNow) // validate global ratelimits
+		{
+			RequestDenied(guid);
+			return null!;
+		}
+
 		if(!__route_regex.IsMatch(request.Route))
 		{
 			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
@@ -115,6 +141,18 @@ public class RestClient
 		return response;
 	}
 
+	public Boolean AllowRequest(String route)
+		=> this.__ratelimit_buckets[route]?.AllowRequest() ?? false;
+
+	public void EnqueueRequest(IRestRequest request, Guid guid)
+	{
+		this.__request_queue.Enqueue(new()
+		{
+			Request = request,
+			RequestGuid = guid
+		});
+	}
+
 	private Task<RatelimitBucket> createAndRegisterBucket(String route)
 	{
 		RatelimitBucket v = this.__ratelimit_buckets.AddOrUpdate(route,
@@ -135,5 +173,45 @@ public class RestClient
 		=> this.SharedRatelimitHit(arg1, arg2);
 
 	private void ratelimitHitHandler(RatelimitBucket arg1, HttpResponseMessage arg2, String arg3)
-		=> this.RatelimitHit(arg1, arg2, arg3);
+	{
+		if(arg3 == "shared")
+		{
+			this.RatelimitHit(arg1, arg2, arg3);
+			return;
+		}
+		
+		this.__continue_at = arg1.ResetTime; 
+	}
+
+	private async void workQueue(CancellationToken ct)
+	{
+		while(!ct.IsCancellationRequested)
+		{
+			if(!this.__request_queue.TryDequeue(out RestClientQueueItem currentWorkItem))
+			{
+				continue;
+			}
+
+			if(!this.AllowRequest(currentWorkItem.Request.Route))
+			{
+				this.__request_queue.Enqueue(currentWorkItem);
+				this.__logger?.LogDebug(LoggingEvents.RestClientQueueRequestPreemptivelyDenied,
+					"The request was pre-emptively denied by the ratelimiter, re-queuing request...");
+				continue;
+			}
+
+			HttpResponseMessage response = await this.MakeRequestAsync(currentWorkItem.Request, currentWorkItem.RequestGuid);
+			this.RequestSucceeded(currentWorkItem.RequestGuid, response);
+		}
+	}
+
+	public void Dispose()
+	{
+		foreach(CancellationTokenSource cts in this.__worker_cancellation_tokens)
+		{
+			cts.Cancel();
+		}
+
+		this.__request_queue.Clear();
+	}
 }
