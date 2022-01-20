@@ -17,7 +17,7 @@ public interface IRestRequest
 
 	public Dictionary<String, String> Headers { get; }
 
-	public RatelimitBucket Bucket { get; }
+	public String Token { get; }
 
 	public HttpRequestMessage Build();
 }
