@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -37,7 +38,12 @@ public class DiscordGuildRestResource : IRestResource
 		this.__rest_client.TokenInvalidOrMissing += this.disableAll;
 	}
 
-
+	/// <summary>
+	/// Requests a guild from the discord API.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the guild in question.</param>
+	/// <param name="withCounts">Whether or not the response should include total and online member counts.</param>
+	/// <returns>The guild requested.</returns>
 	public async Task<DiscordGuild> GetGuildAsync(Int64 id, Boolean withCounts = false)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -65,6 +71,11 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordGuild>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Requests a guild preview from the discord API.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the guild in question.</param>
+	/// <returns>The guild requested.</returns>
 	public async Task<DiscordGuildPreview> GetGuildPreviewAsync(Int64 id)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -92,6 +103,13 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordGuildPreview>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Modifies a guild.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Change payload for the guild.</param>
+	/// <param name="reason">Optional audit log reason for the changes.</param>
+	/// <returns>The updated guild.</returns>
 	public async Task<DiscordGuild> ModifyGuildAsync(Int64 id, ModifyGuildRequestPayload payload, String? reason = null)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -107,10 +125,10 @@ public class DiscordGuildRestResource : IRestResource
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
-			Payload = JsonSerializer.Serialize<ModifyGuildRequestPayload>(payload),
-			Headers = reason == null ? new()
+			Payload = JsonSerializer.Serialize(payload),
+			Headers = reason != null ? new()
 			{
-				["X-Audit-Log-Reason"] = reason!
+				["X-Audit-Log-Reason"] = reason
 			}
 			: new()
 		};
@@ -123,6 +141,38 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordGuild>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Permanently deletes a guild. This user must own the guild.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the guild in question.</param>
+	/// <returns>Whether or not the request succeeded.</returns>
+	public async Task<Boolean> DeleteGuildAsync(Int64 id)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return false;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}",
+			Url = new($"{BaseUri}/{Guilds}/{id}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
