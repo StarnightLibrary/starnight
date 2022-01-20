@@ -176,6 +176,10 @@ public class DiscordGuildRestResource : IRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	/// <summary>
+	/// Requests all active channels for this guild from the API. This excludes thread channels.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the guild in question.</param>
 	public async Task<DiscordChannel[]> GetGuildChannelsAsync(Int64 id)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -201,6 +205,39 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordChannel[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	public async Task<DiscordChannel> CreateGuildChannelAsync(Int64 id, CreateGuildChannelRequestPayload payload, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Channels}",
+			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Post,
+			Payload = JsonSerializer.Serialize(payload),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
