@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Payloads.Guild;
+namespace Starnight.Internal.Rest.Payloads.Guilds;
 
 using System;
 using System.Text.Json.Serialization;

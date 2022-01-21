@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
-using Starnight.Internal.Rest.Payloads.Guild;
+using Starnight.Internal.Rest.Payloads.Guilds;
 
 using static DiscordApiConstants;
 
@@ -246,6 +246,47 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Moves channels in a guild.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the parent guild.</param>
+	/// <param name="payload">Array of new channel data payloads, containing IDs and some optional data.</param>
+	/// <param name="reason">Audit log reason for this operation.</param>
+	/// <returns>Whether or not the call succeeded</returns>
+	public async Task<Boolean> ModifyGuildChannelPositionsAsync(Int64 id, ModifyGuildChannelPositionRequestPayload[] payload,
+		String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return false;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Channels}",
+			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Patch,
+			Payload = JsonSerializer.Serialize(payload),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
