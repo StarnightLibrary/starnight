@@ -97,4 +97,10 @@ public record DiscordScheduledEvent : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("user_count")]
 	public Int32? UserCount { get; init; }
+
+	/// <summary>
+	/// The cover image hash for this scheduled event.
+	/// </summary>
+	[JsonPropertyName("image")]
+	public String? CoverHash { get; init; }
 }
