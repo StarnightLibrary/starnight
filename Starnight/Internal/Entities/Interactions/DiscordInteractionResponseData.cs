@@ -40,7 +40,7 @@ public record DiscordInteractionResponseData
 	/// Message flags for this interaction response.
 	/// </summary>
 	[JsonPropertyName("flags")]
-	public DiscordInteractionResponseFlags? Flags { get; init; }
+	public DiscordMessageFlags? Flags { get; init; }
 
 	/// <summary>
 	/// Message components to be attached to this interaction response message.

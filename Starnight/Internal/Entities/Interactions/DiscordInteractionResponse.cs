@@ -13,5 +13,9 @@ public record DiscordInteractionResponse
 	[JsonPropertyName("type")]
 	public DiscordInteractionResponseType Type { get; init; }
 
-
+	/// <summary>
+	/// Optional data for this response.
+	/// </summary>
+	[JsonPropertyName("data")]
+	public DiscordInteractionResolvedData? Data { get; init; }
 }

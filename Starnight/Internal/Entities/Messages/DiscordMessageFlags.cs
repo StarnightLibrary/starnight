@@ -6,7 +6,7 @@ using System;
 /// Bitfield flags representing message data.
 /// </summary>
 [Flags]
-public enum DiscordMessageFlags : Byte
+public enum DiscordMessageFlags
 {
 	/// <summary>
 	/// This message was cross-posted to all subscribing channels.
@@ -46,5 +46,10 @@ public enum DiscordMessageFlags : Byte
 	/// <summary>
 	/// This message is a deferred interaction response.
 	/// </summary>
-	Loading = 1 << 7
+	Loading = 1 << 7,
+
+	/// <summary>
+	/// This message failed to mention some roles and failed to add their members to the thread.
+	/// </summary>
+	FailedToMentionRolesInThread = 1 << 8
 }

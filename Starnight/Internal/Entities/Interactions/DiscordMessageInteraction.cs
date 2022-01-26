@@ -3,6 +3,7 @@ namespace Starnight.Internal.Entities.Interactions;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Users;
 
 /// <summary>
@@ -27,4 +28,10 @@ public record DiscordMessageInteraction : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("user")]
 	public DiscordUser User { get; init; } = default!;
+
+	/// <summary>
+	/// The guild member who invoked this interaction
+	/// </summary>
+	[JsonPropertyName("member")]
+	public DiscordGuildMember? Member { get; init; }
 }
