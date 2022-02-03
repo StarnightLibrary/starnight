@@ -289,6 +289,39 @@ public class DiscordGuildRestResource : IRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	/// <summary>
+	/// Queries all active thread channels in the given guild.
+	/// </summary>
+	/// <param name="id">Snowflake identifier of the queried guild.</param>
+	/// <returns>A response payload object containing an array of thread channels and an array of thread member information
+	/// for all threads the current user has joined.</returns>
+	public async Task<ListActiveThreadsResponsePayload> ListActiveThreadsAsync(Int64 id)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Threads}/{Active}",
+			Url = new($"{BaseUri}/{Guilds}/{id}/{Threads}/{Active}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<ListActiveThreadsResponsePayload>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
