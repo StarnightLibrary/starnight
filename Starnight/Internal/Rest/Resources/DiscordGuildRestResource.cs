@@ -373,8 +373,42 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Route = $"/{Guilds}/{GuildId}/{Members}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?limit={limit}&after={afterUserId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildMember[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns a list of guild member objects whose username or nickname starts with the given string.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the string in question.</param>
+	/// <param name="query">Query string to search for.</param>
+	/// <param name="limit">Maximum amount of members to return; 1 - 1000.</param>
+	/// <returns></returns>
+	public async Task<DiscordGuildMember[]> SearchGuildMembersAsync(Int64 guildId, String query, Int32 limit = 1)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Members}/{Search}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?query={query}&limit={limit}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
 		};
