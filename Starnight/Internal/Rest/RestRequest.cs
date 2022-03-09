@@ -10,7 +10,10 @@ using System.Net.Http.Headers;
 /// </summary>
 public struct RestRequest : IRestRequest
 {
-	public HttpMethod Method { get; init; }
+	public RestRequest()
+	{}
+
+	public HttpMethod Method { get; init; } = HttpMethod.Get;
 
 	public String Route { get; init; } = null!;
 
@@ -18,9 +21,9 @@ public struct RestRequest : IRestRequest
 
 	public Dictionary<String, String> Headers { get; init; } = new();
 
-	public String? Payload { get; init; }
+	public String? Payload { get; init; } = null;
 
-	public String? Token { get; init; }
+	public String? Token { get; init; } = null;
 
 	public HttpRequestMessage Build()
 	{

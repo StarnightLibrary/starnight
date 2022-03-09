@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Rest.Payloads.Guilds;
@@ -435,8 +436,8 @@ public class DiscordGuildRestResource : IRestResource
 	private void requestSucceeded(Guid arg1, HttpResponseMessage arg2)
 		=> this.__waiting_responses[arg1].SetResult(arg2);
 
-	private void requestDenied(Guid arg1, String arg2)
-		=> this.__waiting_responses[arg1].SetException(new Exception());
+	private void requestDenied(Guid arg1, Int32 starnightError, Int32 httpError)
+		=> this.__waiting_responses[arg1].SetException(RestExceptionTranslator.TranslateException(starnightError, httpError));
 
 	private void disableAll() => this.__allow_next_request_at = DateTimeOffset.MaxValue;
 

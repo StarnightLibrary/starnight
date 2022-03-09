@@ -24,16 +24,13 @@ public record RatelimitBucket
 	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
 	public event Action<RatelimitBucket, Int32, Int32> UpperLimitChanged = null!;
 
-
-	public Int32[] RouteParameters { get; set; } = null!;
-
 	/// <summary>
-	/// Stores the value for <see cref="MajorParameter"/>. May be <c>null</c>.
+	/// Stores the values for all major parameters. May be <c>null</c>.
 	/// </summary>
-	public Int64? MajorParameterValue { get; init; } = null;
+	public Int64[] RouteParameters { get; set; } = null!;
 
 	/// <summary>
-	/// Stores this request's bucketing path.D
+	/// Stores this request's bucketing path.
 	/// </summary>
 	public String? Path { get; init; } = null;
 

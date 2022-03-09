@@ -27,7 +27,7 @@ public sealed class RestClient : IDisposable
 
 	public event Action<RatelimitBucket, HttpResponseMessage> SharedRatelimitHit = null!;
 	public event Action<RatelimitBucket, HttpResponseMessage, String> RatelimitHit = null!;
-	public event Action<Guid, String> RequestDenied = null!;
+	public event Action<Guid, Int32, Int32> RequestDenied = null!;
 	public event Action TokenInvalidOrMissing = null!;
 
 	public event Action<Guid, HttpResponseMessage> RequestSucceeded = null!;
@@ -102,7 +102,7 @@ public sealed class RestClient : IDisposable
 	{
 		if(this.__continue_at > DateTimeOffset.UtcNow) // validate global ratelimits
 		{
-			RequestDenied(guid, "Global ratelimit hit.");
+			RequestDenied(guid, 10006, 429);
 			return null!;
 		}
 
@@ -110,7 +110,7 @@ public sealed class RestClient : IDisposable
 		{
 			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
 				"Invalid request route. Please contact the library developers.");
-			RequestDenied(guid, "Invalid request route.");
+			RequestDenied(guid, 10004, 405);
 			return null!;
 		}
 
@@ -132,7 +132,7 @@ public sealed class RestClient : IDisposable
 #else
 			this.__logger?.LogWarning(LoggingEvents.RestClientRequestDenied, "The request was denied.");
 #endif
-			RequestDenied(guid, "Ratelimit request denied.");
+			RequestDenied(guid, 10011, 429);
 		}
 
 		HttpResponseMessage response = await __http_client.SendAsync(message);
@@ -217,28 +217,39 @@ public sealed class RestClient : IDisposable
 			switch((Int32)message.StatusCode)
 			{
 				case 400:
+					this.RequestDenied(guid, 10000, 400);
+					return;
 				case 405:
-					this.RequestDenied(guid, "Invalid request.");
+					this.RequestDenied(guid, 10004, 405);
 					return;
 
 				case 401:
-					this.RequestDenied(guid, "Missing or invalid token.");
+					this.RequestDenied(guid, 10001, 401);
 					this.TokenInvalidOrMissing();
 					return;
 
 				case 403:
-					this.RequestDenied(guid, "Unauthorized.");
+					this.RequestDenied(guid, 10002, 403);
 					return;
 
 				case 413:
-					this.RequestDenied(guid, "Oversized request payload.");
+					this.RequestDenied(guid, 10005, 413);
 					return;
 
 				case 500:
+					this.RequestDenied(guid, 10007, 500);
+					return;
+
 				case 502:
+					this.RequestDenied(guid, 10008, 502);
+					return;
+
 				case 503:
+					this.RequestDenied(guid, 10009, 503);
+					return;
+
 				case 504:
-					this.RequestDenied(guid, "Server error.");
+					this.RequestDenied(guid, 10010, 504);
 					return;
 			}
 
