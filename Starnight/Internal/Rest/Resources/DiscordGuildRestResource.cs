@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Rest.Payloads.Guilds;
@@ -422,6 +422,41 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordGuildMember[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Adds a discord user to the given guild, using the OAuth2 flow.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="userId">User ID of the guild in question.</param>
+	/// <param name="payload">OAuth2 payload, containing the OAuth2 token and initial information for the user.</param>
+	public async Task AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Put,
+			Payload = JsonSerializer.Serialize(payload)
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		// still awaited so we get any potential errors
+		HttpResponseMessage response = await taskSource.Task;
+
+		return;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
