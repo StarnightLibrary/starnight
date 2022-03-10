@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Rest.Payloads.Guilds;
@@ -662,6 +663,70 @@ public class DiscordGuildRestResource : IRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	/// <summary>
+	/// Returns a list of bans from the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <returns>An array of <see cref="DiscordGuildBan"/> objects, representing all bans in the guild.</returns>
+	public async Task<DiscordGuildBan[]> GetGuildBansAsync(Int64 guildId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Bans}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildBan[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns the ban object for the given user, or a <see cref="DiscordNotFoundException"/> if there is no associated ban.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	public async Task<DiscordGuildBan> GetGuildBanAsync(Int64 guildId, Int64 userId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildBan>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -689,6 +754,7 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Members}",
 		$"/{Guilds}/{GuildId}/{Members}/{Search}",
 		$"/{Guilds}/{GuildId}/{Members}/{Me}",
-		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}"
+		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+		$"/{Guilds}/{GuildId}/{Bans}"
 	};
 }
