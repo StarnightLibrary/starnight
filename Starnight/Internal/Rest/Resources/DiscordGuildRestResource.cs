@@ -430,11 +430,11 @@ public class DiscordGuildRestResource : IRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="userId">User ID of the guild in question.</param>
 	/// <param name="payload">OAuth2 payload, containing the OAuth2 token and initial information for the user.</param>
-	public async Task AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload)
+	public async Task<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return;
+			return null;
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -456,7 +456,9 @@ public class DiscordGuildRestResource : IRestResource
 		// still awaited so we get any potential errors
 		HttpResponseMessage response = await taskSource.Task;
 
-		return;
+		return response.StatusCode == HttpStatusCode.Created
+			? JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())
+			: null;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
