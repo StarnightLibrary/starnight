@@ -27,6 +27,7 @@ public record AddGuildMemberRequestPayload
 	/// An array of role IDs to assign immediately upon join.
 	/// </summary>
 	[JsonPropertyName("roles")]
+	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	public Int64[]? Roles { get; init; }
 
 	/// <summary>

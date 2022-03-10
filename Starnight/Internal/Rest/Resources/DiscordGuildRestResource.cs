@@ -461,6 +461,40 @@ public class DiscordGuildRestResource : IRestResource
 			: null;
 	}
 
+	public async Task<DiscordGuildMember> ModifyGuildMemberAsync(Int64 guildId, Int64 userId,
+		ModifyGuildMemberRequestPayload payload, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{UserId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Patch,
+			Payload = JsonSerializer.Serialize(payload),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -487,6 +521,5 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Members}/{UserId}",
 		$"/{Guilds}/{GuildId}/{Members}",
 		$"/{Guilds}/{GuildId}/{Members}/{Search}",
-		$"/{Guilds}/{GuildId}/{Members}/{UserId}"
 	};
 }
