@@ -1,7 +1,6 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -504,6 +503,13 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Sets the current user's nickname in the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="nickname">New nickname for the current user.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The new current user event.</returns>
 	public async Task<DiscordGuildMember> ModifyCurrentMemberAsync(Int64 guildId, String nickname, String? reason = null)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -535,6 +541,46 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Adds a role to a guild member in a given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="roleId">Snowflake identifier of the role in question.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the action was successful.</returns>
+	public async Task<Boolean> AddGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return false;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Put,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
