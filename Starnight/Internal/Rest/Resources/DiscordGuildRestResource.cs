@@ -480,6 +480,11 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		$"/{Guilds}/{GuildId}",
 		$"/{Guilds}/{GuildId}/{Preview}",
-		$"/{Guilds}/{GuildId}/{Channels}"
+		$"/{Guilds}/{GuildId}/{Channels}",
+		$"/{Guilds}/{GuildId}/{Threads}/{Active}",
+		$"/{Guilds}/{GuildId}/{Members}/{UserId}",
+		$"/{Guilds}/{GuildId}/{Members}",
+		$"/{Guilds}/{GuildId}/{Members}/{Search}",
+		$"/{Guilds}/{GuildId}/{Members}/{UserId}"
 	};
 }
