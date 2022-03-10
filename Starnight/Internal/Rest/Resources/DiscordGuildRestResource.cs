@@ -430,6 +430,7 @@ public class DiscordGuildRestResource : IRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="userId">User ID of the guild in question.</param>
 	/// <param name="payload">OAuth2 payload, containing the OAuth2 token and initial information for the user.</param>
+	/// <returns>The newly created guild member, or null if the member had already joined the guild.</returns>
 	public async Task<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -461,6 +462,14 @@ public class DiscordGuildRestResource : IRestResource
 			: null;
 	}
 
+	/// <summary>
+	/// Modifies a given user in the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="payload">Edit payload. Refer to the Discord documentation for required permissions.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The modified guild member.</returns>
 	public async Task<DiscordGuildMember> ModifyGuildMemberAsync(Int64 guildId, Int64 userId,
 		ModifyGuildMemberRequestPayload payload, String? reason = null)
 	{
@@ -474,10 +483,43 @@ public class DiscordGuildRestResource : IRestResource
 		IRestRequest request = new RestRequest
 		{
 			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{UserId}"),
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	public async Task<DiscordGuildMember> ModifyCurrentMemberAsync(Int64 guildId, String nickname, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return null!;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Members}/{Me}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{Me}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Patch,
+			Payload = $"{{\"nick\":\"{nickname}\"}}",
 			Headers = reason != null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -500,7 +542,7 @@ public class DiscordGuildRestResource : IRestResource
 		if(__resource_routes.Contains(arg1.Path!))
 		{
 			this.__allow_next_request_at = DateTimeOffset.UtcNow.AddSeconds(
-						Double.Parse(arg2.Headers.GetValues("Retry-After").First()));
+				Double.Parse(arg2.Headers.GetValues("Retry-After").First()));
 		}
 	}
 
@@ -521,5 +563,6 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Members}/{UserId}",
 		$"/{Guilds}/{GuildId}/{Members}",
 		$"/{Guilds}/{GuildId}/{Members}/{Search}",
+		$"/{Guilds}/{GuildId}/{Members}/{Me}"
 	};
 }
