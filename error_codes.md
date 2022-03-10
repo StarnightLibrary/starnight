@@ -21,5 +21,8 @@ Note: All exceptions are found in `Starnight.Exceptions`.
 | 504 | 10010 | `DiscordServerErrorException` |
 | - | - | - |
 | 429 | 10011 | `DiscordRatelimitHitException` |
+| 0 | 10012 | `DiscordServerErrorException` |
 
-Note: the error code 10011 is caused by the internal ratelimiter, not by Discord's ratelimiter, and should be treated accordingly. 429 is still attached to the response.
+Note 1: The error code 10011 is caused by the internal ratelimiter, not by Discord's ratelimiter, and should be treated accordingly. 429 is still attached to the response.
+
+Note 2: The error code 10012 is caused by undocumented Discord behaviour. Please report all 10012 errors to the library developers.

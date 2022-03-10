@@ -583,6 +583,85 @@ public class DiscordGuildRestResource : IRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	/// <summary>
+	/// Removes the given role from the given member in the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="roleId">Snowflake identifier of the role in question.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the action was successful.</returns>
+	public async Task<Boolean> RemoveGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return false;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Kicks the given user from the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Returns whether the kick was successful.</returns>
+	public async Task<Boolean> RemoveGuildMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			return false;
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -609,6 +688,7 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Members}/{UserId}",
 		$"/{Guilds}/{GuildId}/{Members}",
 		$"/{Guilds}/{GuildId}/{Members}/{Search}",
-		$"/{Guilds}/{GuildId}/{Members}/{Me}"
+		$"/{Guilds}/{GuildId}/{Members}/{Me}",
+		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}"
 	};
 }
