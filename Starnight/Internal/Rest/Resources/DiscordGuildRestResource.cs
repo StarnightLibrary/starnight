@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 using Starnight.Exceptions;
@@ -480,13 +481,38 @@ public class DiscordGuildRestResource : IRestResource
 
 		Guid guid = Guid.NewGuid();
 
+		JsonObject payloadObject = new();
+
+		if(payload.Nickname.Value == null && payload.Nickname.TreatAsNull == true)
+		{
+			payloadObject.Add("nick", JsonValue.Create<String>(null));
+		}
+		else if(payload.Nickname.Value != null)
+		{
+			payloadObject.Add("nick", JsonValue.Create(payload.Nickname.Value));
+		}
+
+		if(payload.CommunicationDisabledUntil.Value == null && payload.CommunicationDisabledUntil.TreatAsNull == true)
+		{
+			payloadObject.Add("communication_disabled_until", JsonValue.Create<String>(null));
+		}
+		else if(payload.CommunicationDisabledUntil.Value != null)
+		{
+			payloadObject.Add("communication_disabled_until", JsonValue.Create(payload.CommunicationDisabledUntil.Value));
+		}
+
+		if(payload.Roles != null) payloadObject.Add("roles", JsonValue.Create(payload.Roles));
+		if(payload.Mute != null) payloadObject.Add("mute", JsonValue.Create(payload.Mute));
+		if(payload.Deafen != null) payloadObject.Add("deaf", JsonValue.Create(payload.Deafen));
+		if(payload.ChannelId != null) payloadObject.Add("channel_id", JsonValue.Create(payload.ChannelId));
+
 		IRestRequest request = new RestRequest
 		{
 			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = payloadObject.ToJsonString(),
 			Headers = reason != null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason

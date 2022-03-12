@@ -11,9 +11,9 @@ using Starnight.Internal.Entities.Guilds;
 public record ModifyGuildRequestPayload
 {
 	/// <summary>
-	/// The name of the guild in question
+	/// The name of the guild in question.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name")]
 	public String? Name { get; init; }
 
@@ -49,7 +49,7 @@ public record ModifyGuildRequestPayload
 	/// <summary>
 	/// The guild icon for this guild; in base64, prefixed with metadata.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("icon")]
 	public String? Icon { get; init; }
 
@@ -64,21 +64,21 @@ public record ModifyGuildRequestPayload
 	/// <summary>
 	/// The guild splash for this guild; in base64, prefixed with metadata.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("splash")]
 	public String? Splash { get; init; }
 
 	/// <summary>
 	/// The guild discovery splash for this guild; in base64, prefixed with metadata.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("discovery_splash")]
 	public String? DiscoverySplash { get; init; }
 
 	/// <summary>
 	/// The guild banner for this guild; in base64, prefixed with metadata.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("banner")]
 	public String? Banner { get; init; }
 
@@ -116,28 +116,28 @@ public record ModifyGuildRequestPayload
 	/// <summary>
 	/// The preferred locale for this community guild.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("preferred_locale")]
 	public String? PreferredLocale { get; init; }
 
 	/// <summary>
 	/// The enabled guild features for this guild.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("features")]
 	public String[]? Features { get; init; }
 
 	/// <summary>
 	/// The description for this guild, if it is discoverable.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("description")]
 	public String? Description { get; init; }
 
 	/// <summary>
 	/// Whether the guild should have a boost progress bar.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("premium_progress_bar_enabled")]
 	public Boolean? BoostProgressBarEnabled { get; init; }
 }
