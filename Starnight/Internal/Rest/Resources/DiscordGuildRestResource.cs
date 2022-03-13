@@ -52,7 +52,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -84,7 +87,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildPreviewAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -118,7 +124,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -156,7 +165,11 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return false;
+
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.DeleteGuildAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -187,7 +200,11 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildChannelsAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -221,7 +238,11 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.CreateGuildChannelAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -262,7 +283,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return false;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildChannelPositionsAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -301,7 +325,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ListActiveThreadsAync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -334,7 +361,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildMemberAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -368,7 +398,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ListGuildMembersAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -402,7 +435,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.SearchGuildMembersAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -436,7 +472,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.AddGuildMemberAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -476,7 +515,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildMemberAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -541,7 +583,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyCurrentMemberAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -582,7 +627,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return false;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.AddGuildMemberRoleAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -622,7 +670,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return false;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.RemoveGuildMemberRoleAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -661,7 +712,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return false;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.RemoveGuildMemberAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -698,7 +752,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildBansAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
@@ -730,7 +787,10 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
-			return null!;
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildBanAsync",
+				"guild",
+				this.__allow_next_request_at);
 		}
 
 		Guid guid = Guid.NewGuid();
