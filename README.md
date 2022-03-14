@@ -1,2 +1,2 @@
 # Starnight
-Modern Discord API wrapper for .NET 5 and newer, lightweight and efficient.
+Modern Discord API wrapper for .NET 6, lightweight and efficient.
