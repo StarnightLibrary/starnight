@@ -873,6 +873,49 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 	}
 
+	/// <summary>
+	/// Removes a ban from the given guild for the given user.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="reason">Optional audit log reason for the ban.</param>
+	/// <returns>Whether the unban was successful.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<Boolean> UnbanMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.UnbanMemberAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
