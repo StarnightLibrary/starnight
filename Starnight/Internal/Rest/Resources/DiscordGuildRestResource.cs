@@ -535,38 +535,13 @@ public class DiscordGuildRestResource : IRestResource
 
 		Guid guid = Guid.NewGuid();
 
-		JsonObject payloadObject = new();
-
-		if(payload.Nickname.Value == null && payload.Nickname.TreatAsNull == true)
-		{
-			payloadObject.Add("nick", JsonValue.Create<String>(null));
-		}
-		else if(payload.Nickname.Value != null)
-		{
-			payloadObject.Add("nick", JsonValue.Create(payload.Nickname.Value));
-		}
-
-		if(payload.CommunicationDisabledUntil.Value == null && payload.CommunicationDisabledUntil.TreatAsNull == true)
-		{
-			payloadObject.Add("communication_disabled_until", JsonValue.Create<String>(null));
-		}
-		else if(payload.CommunicationDisabledUntil.Value != null)
-		{
-			payloadObject.Add("communication_disabled_until", JsonValue.Create(payload.CommunicationDisabledUntil.Value));
-		}
-
-		if(payload.Roles != null) payloadObject.Add("roles", JsonValue.Create(payload.Roles));
-		if(payload.Mute != null) payloadObject.Add("mute", JsonValue.Create(payload.Mute));
-		if(payload.Deafen != null) payloadObject.Add("deaf", JsonValue.Create(payload.Deafen));
-		if(payload.ChannelId != null) payloadObject.Add("channel_id", JsonValue.Create(payload.ChannelId));
-
 		IRestRequest request = new RestRequest
 		{
 			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
-			Payload = payloadObject.ToJsonString(),
+			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason != null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -916,6 +891,41 @@ public class DiscordGuildRestResource : IRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	/// <summary>
+	/// Fetches a list of all guild roles from the API.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordRole[]> GetRolesAsync(Int64 guildId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetRolesAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Roles}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordRole[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -945,6 +955,7 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Members}/{Me}",
 		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 		$"/{Guilds}/{GuildId}/{Bans}",
-		$"/{Guilds}/{GuildId}/{Bans}/{UserId}"
+		$"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+		$"/{Guilds}/{GuildId}/{Roles}"
 	};
 }
