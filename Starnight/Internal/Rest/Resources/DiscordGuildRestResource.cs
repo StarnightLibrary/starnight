@@ -926,6 +926,50 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordRole[]>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Creates a role in a given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Role information to initialize the role with.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created role object.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordRole> CreateRoleAsync(Int64 guildId, CreateRoleRequestPayload payload, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.CreateRoleAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Roles}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
+			Token = this.__token,
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Post,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordRole>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
