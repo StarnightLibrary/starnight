@@ -4,9 +4,9 @@ using System;
 using System.Text.Json.Serialization;
 
 /// <summary>
-/// Represents a payload to POST /guilds/:guild_id/roles.
+/// Represents a payload to POST /guilds/:guild_id/roles or PATCH /guilds/:guild_id/roles/:role_id
 /// </summary>
-public record CreateRoleRequestPayload
+public record RoleMetadataRequestPayload
 {
 	/// <summary>
 	/// The name of the to-be-created role.

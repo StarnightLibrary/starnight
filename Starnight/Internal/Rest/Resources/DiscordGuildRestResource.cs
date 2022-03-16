@@ -934,7 +934,7 @@ public class DiscordGuildRestResource : IRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created role object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordRole> CreateRoleAsync(Int64 guildId, CreateRoleRequestPayload payload, String? reason = null)
+	public async Task<DiscordRole> CreateRoleAsync(Int64 guildId, RoleMetadataRequestPayload payload, String? reason = null)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
@@ -970,6 +970,14 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordRole>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Modifies the positions of roles in the role list.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Array of id/new position objects.</param>
+	/// <param name="reason">Optional audit log reason for this action.</param>
+	/// <returns>The newly ordered list of roles for this guild.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordRole[]> ModifyRolePositionsAsync(Int64 guildId, ModifyRolePositionRequestPayload[] payload, String? reason = null)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -1006,6 +1014,198 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordRole[]>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Modifies the settings of a specific role.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild the role belongs to.</param>
+	/// <param name="roleId">Snowflake identifier of the role in question.</param>
+	/// <param name="payload">New role settings for this role.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The modified role object.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordRole> ModifyRoleAsync(Int64 guildId, Int64 roleId, RoleMetadataRequestPayload payload, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyRoleAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
+			Token = this.__token,
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordRole>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Deletes a role from a guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild the role belongs to.</param>
+	/// <param name="roleId">Snowflake identifier of the role in question.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<Boolean> DeleteRoleAsync(Int64 guildId, Int64 roleId, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.DeleteRoleAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Queries how many users would be kicked from a given guild in a prune.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="days">Amount of inactivity days to be measured, 0 to 30</param>
+	/// <param name="roles">Comma-separated list of role IDs to include in the prune
+	///		<para>
+	///		Any user with a subset of these roles will be considered for the prune. Any user with any role not listed here
+	///		will not be included in the count.
+	///		</para>
+	/// </param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<Int32> GetGuildPruneCountAsync(Int64 guildId, Int32 days = 0, String? roles = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildPruneCountAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Prune}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}{(roles != null ? $"&include_roles={roles}" : "")}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonDocument
+			.Parse(await response.Content.ReadAsStringAsync())
+			.RootElement
+				.GetProperty("pruned")
+					.GetInt32();
+	}
+
+	/// <summary>
+	/// Initiates a prune from the guild in question.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="days">Amount of inactivity days to be measured, 0 to 30</param>
+	/// <param name="roles">Comma-separated list of role IDs to include in the prune
+	///		<para>
+	///		Any user with a subset of these roles will be considered for the prune. Any user with any role not listed here
+	///		will not be included in the count.
+	///		</para>
+	/// </param>
+	/// <param name="computeCount">Whether or not the amount of users pruned should be calculated.</param>
+	/// <param name="reason">Optional audit log reason for the prune.</param>
+	/// <returns>The amount of users pruned.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<Int32?> BeginGuildPruneAsync(Int64 guildId, Int32 days = 0, String? roles = null, Boolean? computeCount = null,
+		String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.BeginGuildPruneAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Prune}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}" +
+				$"{(roles != null ? $"&include_roles={roles}" : "")}" +
+				$"{(computeCount != null ? $"compute_prune_count={computeCount}" : "")}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Post,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return computeCount == true ?
+				JsonDocument.Parse(await response.Content.ReadAsStringAsync())
+				.RootElement
+					.GetProperty("pruned")
+						.GetInt32()
+			: null;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -1036,6 +1236,8 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 		$"/{Guilds}/{GuildId}/{Bans}",
 		$"/{Guilds}/{GuildId}/{Bans}/{UserId}",
-		$"/{Guilds}/{GuildId}/{Roles}"
+		$"/{Guilds}/{GuildId}/{Roles}",
+		$"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+		$"/{Guilds}/{GuildId}/{Prune}"
 	};
 }
