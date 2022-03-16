@@ -2,8 +2,12 @@ namespace Starnight.Internal.Rest.Payloads.Guilds;
 
 using System.Text.Json.Serialization;
 using System;
+
 using Starnight.Converters;
 
+/// <summary>
+/// Represents a payload to PATCH /guilds/:guild_id/members/:user_id
+/// </summary>
 public record ModifyGuildMemberRequestPayload
 {
 	/// <summary>
