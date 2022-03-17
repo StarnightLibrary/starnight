@@ -3,16 +3,17 @@ namespace Starnight.Internal.Rest.Resources;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Entities.Voice;
 using Starnight.Internal.Rest.Payloads.Guilds;
 
 using static DiscordApiConstants;
@@ -1206,6 +1207,41 @@ public class DiscordGuildRestResource : IRestResource
 			: null;
 	}
 
+	/// <summary>
+	/// Queries all available voice regions for this guild, including VIP regions.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordVoiceRegion[]> GetGuildVoiceRegionsAsync(Int64 guildId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.BeginGuildPruneAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Voice}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Voice}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordVoiceRegion[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -1238,6 +1274,7 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Bans}/{UserId}",
 		$"/{Guilds}/{GuildId}/{Roles}",
 		$"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
-		$"/{Guilds}/{GuildId}/{Prune}"
+		$"/{Guilds}/{GuildId}/{Prune}",
+		$"/{Guilds}/{GuildId}/{Voice}"
 	};
 }
