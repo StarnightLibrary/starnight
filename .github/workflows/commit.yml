@@ -47,4 +47,4 @@ jobs:
         embed-color: 6684774
     
     - name: Publish Dev Build
-      run: "nuget push /home/runner/work/starnight/starnight/build/ -ApiKey ${{ secrets.NUGET_API_KEY }} -Source 'https://api.nuget.org/v3/index.json' -NoServiceEndpoint" # the -dev suffix will make it a pre-release by default
+      run: "nuget push /home/runner/work/starnight/starnight/build/ -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint" # the -dev suffix will make it a pre-release by default
