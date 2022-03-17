@@ -31,9 +31,6 @@ jobs:
       with:
         name: Starnight
         path: /home/runner/work/starnight/starnight/build/
-
-    - name: NuGet Diagnostics
-      run: nuget
     
     - name: Discord Webhook
       uses: tsickert/discord-webhook@v4.0.0
