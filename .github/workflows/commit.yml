@@ -35,10 +35,10 @@ jobs:
         webhook-url: ${{ secrets.BUILD_WEBHOOK }}
         embed-title: New Starnight build available!
         embed-description: |
-          Commit author: [`${{ github.actor }}`](https://github.com/${{ github.actor }})
-          GitHub Actions run: [`${{ github.run_id }}`](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+          Commit author: [${{ github.actor }}](https://github.com/${{ github.actor }})
           Commit hash: [`${{ github.sha }}`](https://github.com/${{github.repository}}/commit/${{github.sha}})
+          GitHub Actions run: [${{ github.run_id }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
         embed-color: 6684774
     
     - name: Publish Nightly
-      run: "dotnet nuget push /home/runner/work/starnight/starnight/build/ -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --no-service-endpoint" # the -dev suffix will make it a pre-release by default
+      run: "dotnet nuget push /home/runner/work/starnight/starnight/build/ -k ${{ secrets.NUGET_API_KEY }} -s NuGet --no-service-endpoint" # the -dev suffix will make it a pre-release by default
