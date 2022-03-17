@@ -5,7 +5,6 @@
 	<Nullable>enable</Nullable>
 	<LangVersion>Preview</LangVersion>
 	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<Authors>Starnight Contributors</Authors>
 	<Company>Insanity Team</Company>
 	<Description>Lightweight and fast Discord API wrapper</Description>
