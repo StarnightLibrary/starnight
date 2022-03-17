@@ -10,7 +10,7 @@
 	<Description>Lightweight and fast Discord API wrapper</Description>
 	<PackageProjectUrl>https://bot.insanity.host</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/insanitybot/starnight</RepositoryUrl>
-	<AssemblyVersion>0.0.0</AssemblyVersion>
+	<AssemblyVersion>0.0.1</AssemblyVersion>
 	<FileVersion>0.0.0</FileVersion>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
