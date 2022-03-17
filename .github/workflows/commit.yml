@@ -21,7 +21,7 @@ jobs:
       run: dotnet restore
 
     - name: pack packages
-      run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg --include-source -o build -p:VersionSuffix='dev' -p:BuildNumber=${{ github.run_number }}"
+      run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg --include-source -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
     
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
