@@ -41,4 +41,4 @@ jobs:
         embed-color: 6684774
     
     - name: Publish Nightly
-      run: "dotnet nuget push /home/runner/work/starnight/starnight/build/ -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json" # the -dev suffix will make it a pre-release by default
+      run: "dotnet nuget push /home/runner/work/starnight/starnight/build/ -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --no-service-endpoint" # the -dev suffix will make it a pre-release by default
