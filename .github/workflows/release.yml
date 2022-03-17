@@ -17,6 +17,9 @@ jobs:
         uses: "actions/setup-dotnet@v1"
         with:
           dotnet-version: "6.0.x"
+
+      - name: "Setup NuGet"
+        uses: NuGet/setup-nuget@v1.0.5
         
       - name: "Restore"
         run: "dotnet restore"
@@ -24,9 +27,12 @@ jobs:
       - name: "Build Nuget Packages"
         run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg --include-source -c Release -o build"
 
-      - name: "Publish Nuget Packages"
-        run: "dotnet nuget push \"build/*\" -k ${{ secrets.NUGET_ORG_API_KEY }} -s NuGet"
+      - name: Publish main package
+        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.1.0.0-dev.${{ github.run_number }}.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
 
+      - name: Publish symbols package
+        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.1.0.0-dev.${{ github.run_number }}.snupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
+      
       - name: "Upload Nuget Packages To Github Release"
         uses: "ncipollo/release-action@v1"
         with:
