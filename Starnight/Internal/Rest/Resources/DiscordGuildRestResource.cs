@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Voice;
 using Starnight.Internal.Rest.Payloads.Guilds;
 
@@ -1240,6 +1241,41 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordVoiceRegion[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns a list of all active invites for this guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordInvite[]> GetGuildInvitesAsync(Int64 guildId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.BeginGuildPruneAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Invites}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Invites}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordInvite[]>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
