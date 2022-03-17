@@ -17,6 +17,9 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
     - name: restore
       run: dotnet restore
 
@@ -41,4 +44,4 @@ jobs:
         embed-color: 6684774
     
     - name: Publish Dev Build
-      run: "dotnet nuget push /home/runner/work/starnight/starnight/build/ -k ${{ secrets.NUGET_API_KEY }} -s NuGet --no-service-endpoint" # the -dev suffix will make it a pre-release by default
+      run: "nuget push /home/runner/work/starnight/starnight/build/ -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint" # the -dev suffix will make it a pre-release by default
