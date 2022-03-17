@@ -35,7 +35,7 @@ jobs:
     - name: NuGet Diagnostics
       run: nuget
     
-    - name: Discord Webhook Action
+    - name: Discord Webhook
       uses: tsickert/discord-webhook@v4.0.0
       with:
         webhook-url: ${{ secrets.BUILD_WEBHOOK }}
@@ -46,5 +46,8 @@ jobs:
           GitHub Actions run: [${{ github.run_id }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
         embed-color: 6684774
     
-    - name: Publish Dev Build
-      run: "nuget push /home/runner/work/starnight/starnight/build/ -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint" # the -dev suffix will make it a pre-release by default
+    - name: Publish main package
+      run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.1.0.0-dev.${{ github.run_number }}.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
+
+    - name: Publish symbols package
+      run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.1.0.0-dev.${{ github.run_number }}.snupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
