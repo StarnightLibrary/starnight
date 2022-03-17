@@ -1,0 +1,44 @@
+name: Commit build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    if: "!contains(toJSON(github.events.commits.*.message), '[ci skip]')"
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: restore
+      run: dotnet restore
+
+    - name: pack packages
+      run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg --include-source -o build -p:VersionSuffix='dev' -p:BuildNumber=${{ github.run_number }}"
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: Starnight
+        path: /home/runner/work/Starnight/Starnight/bin/Release/
+    
+    - name: Discord Webhook Action
+      uses: tsickert/discord-webhook@v4.0.0
+      with:
+        webhook-url: ${{ secrets.BUILD_WEBHOOK }}
+        embed-title: New Starnight build available!
+        embed-description: |
+          Developer: [`${{ github.actor }}`](https://github.com/${{ github.actor }})
+          GH Actions run: [`${{ github.run_id }}`](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}) _(Download under "artifacts")_
+          Commit hash: [`${{ github.sha }}`](https://github.com/${{github.repository}}/commit/${{github.sha}})
+        embed-color: 6684774
+    
+    - name: Publish Nightly
+      run: "dotnet nuget push /home/runner/work/Starnight/Starnight/bin/Release/ -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json" # the -dev suffix will make it a pre-release by default
