@@ -1218,7 +1218,7 @@ public class DiscordGuildRestResource : IRestResource
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.BeginGuildPruneAsync",
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildVoiceRegionsAsync",
 				"guild",
 				this.__allow_next_request_at);
 		}
@@ -1253,7 +1253,7 @@ public class DiscordGuildRestResource : IRestResource
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.BeginGuildPruneAsync",
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildInvitesAsync",
 				"guild",
 				this.__allow_next_request_at);
 		}
@@ -1276,6 +1276,84 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordInvite[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns a list of all active integrations for this guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordGuildIntegration[]> GetGuildIntegrationsAsync(Int64 guildId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildIntegrationsAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Integrations}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildIntegration[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Deletes an integration from the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="integrationId">Snowflake identifier of the integration to be deleted.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns><see langword="true"/> if the deletion succeeded, <see langword="false"/> if otherwise.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<Boolean> DeleteGuildIntegrationAsync(Int64 guildId, Int64 integrationId, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildIntegrationsAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}/{integrationId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
@@ -1311,6 +1389,9 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Roles}",
 		$"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
 		$"/{Guilds}/{GuildId}/{Prune}",
-		$"/{Guilds}/{GuildId}/{Voice}"
+		$"/{Guilds}/{GuildId}/{Voice}",
+		$"/{Guilds}/{GuildId}/{Invites}",
+		$"/{Guilds}/{GuildId}/{Integrations}",
+		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}"
 	};
 }

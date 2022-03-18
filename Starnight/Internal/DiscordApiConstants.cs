@@ -79,6 +79,7 @@ public static class DiscordApiConstants
 	public const String ApplicationId = ":app_id";
 	public const String ChannelId = ":channel_id";
 	public const String GuildId = ":guild_id";
+	public const String IntegrationId = ":integration_id";
 	public const String RoleId = ":role_id";
 	public const String UserId = ":user_id";
 	#endregion
