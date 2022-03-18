@@ -1471,6 +1471,41 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordGuildWidget>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Queries the vanity invite URL for this guild, if available.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordInvite> GetGuildVanityInviteAsync(Int64 guildId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildVanityInviteAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{VanityUrl}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VanityUrl}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordInvite>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -1509,6 +1544,7 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Integrations}",
 		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
 		$"/{Guilds}/{GuildId}/{Widget}",
-		$"/{Guilds}/{GuildId}/{WidgetJson}"
+		$"/{Guilds}/{GuildId}/{WidgetJson}",
+		$"/{Guilds}/{GuildId}/{VanityUrl}"
 	};
 }
