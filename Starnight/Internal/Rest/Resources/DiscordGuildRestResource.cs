@@ -1326,7 +1326,7 @@ public class DiscordGuildRestResource : IRestResource
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildIntegrationsAsync",
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.DeleteGuildIntegrationAsync",
 				"guild",
 				this.__allow_next_request_at);
 		}
@@ -1354,6 +1354,86 @@ public class DiscordGuildRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Queries the guild widget settings for the specified guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild to be queried.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordGuildWidgetSettings> GetGuildWidgetSettingsAsync(Int64 guildId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildWidgetSettingsAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Widget}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildWidgetSettings>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Modifies the <see cref="DiscordGuildWidget"/> for the specified guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="settings">New settings for this guild widget.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The new guild widget object.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordGuildWidget> ModifyGuildWidgetSettingsAsync(Int64 guildId,
+		DiscordGuildWidgetSettings settings, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildWidgetSettingsAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{Widget}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
+			Token = this.__token,
+			Payload = JsonSerializer.Serialize(settings),
+			Method = HttpMethodEnum.Patch,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordGuildWidget>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
@@ -1392,6 +1472,7 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Voice}",
 		$"/{Guilds}/{GuildId}/{Invites}",
 		$"/{Guilds}/{GuildId}/{Integrations}",
-		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}"
+		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
+		$"/{Guilds}/{GuildId}/{Widget}"
 	};
 }
