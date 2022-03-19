@@ -3,7 +3,7 @@ namespace Starnight.Internal.Rest.Resources;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -1506,6 +1506,41 @@ public class DiscordGuildRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordInvite>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Returns the guild widget image as a binary stream
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="style">Widget style, either "shield" (default) or "banner1" to "banner4".</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<Stream> GetGuildWidgetImageAsync(Int64 guildId, String style = "shield")
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildWidgetImageAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{WidgetPng}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetPng}?style={style}"),
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return await response.Content.ReadAsStreamAsync();
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -1545,6 +1580,7 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
 		$"/{Guilds}/{GuildId}/{Widget}",
 		$"/{Guilds}/{GuildId}/{WidgetJson}",
-		$"/{Guilds}/{GuildId}/{VanityUrl}"
+		$"/{Guilds}/{GuildId}/{VanityUrl}",
+		$"/{Guilds}/{GuildId}/{WidgetPng}"
 	};
 }
