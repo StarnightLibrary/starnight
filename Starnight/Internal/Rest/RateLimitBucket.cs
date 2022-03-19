@@ -25,14 +25,14 @@ public record RatelimitBucket
 	public event Action<RatelimitBucket, Int32, Int32> UpperLimitChanged = null!;
 
 	/// <summary>
-	/// Stores the values for all major parameters. May be <c>null</c>.
-	/// </summary>
-	public Int64[] RouteParameters { get; set; } = null!;
-
-	/// <summary>
 	/// Stores this request's bucketing path.
 	/// </summary>
 	public String? Path { get; init; } = null;
+
+	/// <summary>
+	/// Stores this request's starnight-internal bucketing route.
+	/// </summary>
+	public String? Route { get; init; } = null;
 
 	public Int32 Maximum
 	{

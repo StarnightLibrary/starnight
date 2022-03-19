@@ -11,6 +11,8 @@ public interface IRestRequest
 {
 	public HttpMethod Method { get; }
 
+	public String Path { get; }
+
 	public String Route { get; }
 
 	public Uri Url { get; }

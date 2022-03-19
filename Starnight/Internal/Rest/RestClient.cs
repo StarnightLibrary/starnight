@@ -106,7 +106,7 @@ public sealed class RestClient : IDisposable
 			return null!;
 		}
 
-		if(!__route_regex.IsMatch(request.Route))
+		if(!__route_regex.IsMatch(request.Path))
 		{
 			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
 				"Invalid request route. Please contact the library developers.");
@@ -118,9 +118,9 @@ public sealed class RestClient : IDisposable
 
 		// --- unreadable ternary ahead --- //
 
-		RatelimitBucket v = !this.__ratelimit_buckets.ContainsKey(request.Route)
-			? await this.createAndRegisterBucket(request.Route) // if this bucket is not registered yet: create one
-			: this.__ratelimit_buckets[request.Route]; // we're good.
+		RatelimitBucket v = !this.__ratelimit_buckets.ContainsKey(request.Path)
+			? await this.createAndRegisterBucket(request.Path, request.Route) // if this bucket is not registered yet: create one
+			: this.__ratelimit_buckets[request.Path]; // we're good.
 
 		// --- unreadable ternary over --- //
 
@@ -128,7 +128,7 @@ public sealed class RestClient : IDisposable
 		{
 #if DEBUG
 			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
-				"Request {guid} to {route} was denied by the pre-emptive ratelimiter", guid, request.Route);
+				"Request {guid} to {route} was denied by the pre-emptive ratelimiter", guid, request.Path);
 #else
 			this.__logger?.LogWarning(LoggingEvents.RestClientRequestDenied, "The request was denied.");
 #endif
@@ -139,13 +139,13 @@ public sealed class RestClient : IDisposable
 
 		v.ProcessResponse(response);
 
-		this.__ratelimit_buckets[request.Route] = v;
+		this.__ratelimit_buckets[request.Path] = v;
 
 		return response;
 	}
 
-	public Boolean AllowRequest(String route)
-		=> this.__ratelimit_buckets[route]?.AllowRequest() ?? false;
+	public Boolean AllowRequest(String path)
+		=> this.__ratelimit_buckets[path]?.AllowRequest() ?? false;
 
 	public void EnqueueRequest(IRestRequest request, Guid guid)
 	{
@@ -156,15 +156,16 @@ public sealed class RestClient : IDisposable
 		});
 	}
 
-	private Task<RatelimitBucket> createAndRegisterBucket(String route)
+	private Task<RatelimitBucket> createAndRegisterBucket(String path, String route)
 	{
-		RatelimitBucket v = this.__ratelimit_buckets.AddOrUpdate(route,
+		RatelimitBucket v = this.__ratelimit_buckets.AddOrUpdate(path,
 			xm => new RatelimitBucket
 			{
-				Path = route,
+				Path = path,
+				Route = route,
 				IsRatelimitDetermined = false
 			},
-			(x, y) => this.__ratelimit_buckets[route]);
+			(x, y) => this.__ratelimit_buckets[path]);
 
 		v.RatelimitHit += this.ratelimitHitHandler;
 		v.SharedRatelimitHit += this.sharedRatelimitHitHandler;
@@ -195,7 +196,7 @@ public sealed class RestClient : IDisposable
 				continue;
 			}
 
-			if(!this.AllowRequest(currentWorkItem.Request.Route))
+			if(!this.AllowRequest(currentWorkItem.Request.Path))
 			{
 				this.__request_queue.Enqueue(currentWorkItem);
 				this.__logger?.LogDebug(LoggingEvents.RestClientQueueRequestPreemptivelyDenied,

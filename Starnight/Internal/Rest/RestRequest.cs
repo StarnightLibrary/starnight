@@ -10,14 +10,26 @@ using System.Net.Http.Headers;
 /// </summary>
 public struct RestRequest : IRestRequest
 {
+	private Uri __url = null!;
+
 	public RestRequest()
 	{}
 
 	public HttpMethod Method { get; init; } = HttpMethod.Get;
 
+	public String Path { get; init; } = null!;
+
 	public String Route { get; init; } = null!;
 
-	public Uri Url { get; init; } = null!;
+	public Uri Url
+	{
+		get => this.__url;
+		init
+		{
+			this.__url = value;
+			this.Route = value.OriginalString.Split('?')[0];
+		}
+	}
 
 	public Dictionary<String, String> Headers { get; init; } = new();
 

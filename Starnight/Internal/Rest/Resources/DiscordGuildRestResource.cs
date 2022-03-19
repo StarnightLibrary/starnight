@@ -65,7 +65,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}",
+			Path = $"/{Guilds}/{GuildId}",
 			Url = new($"{BaseUri}/{Guilds}/{id}?with_counts={withCounts}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -101,7 +101,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Preview}",
+			Path = $"/{Guilds}/{GuildId}/{Preview}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Preview}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -139,7 +139,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}",
+			Path = $"/{Guilds}/{GuildId}",
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -182,7 +182,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}",
+			Path = $"/{Guilds}/{GuildId}",
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete
@@ -218,7 +218,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Channels}",
+			Path = $"/{Guilds}/{GuildId}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -257,7 +257,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Channels}",
+			Path = $"/{Guilds}/{GuildId}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Post,
@@ -302,7 +302,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Channels}",
+			Path = $"/{Guilds}/{GuildId}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -345,7 +345,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Threads}/{Active}",
+			Path = $"/{Guilds}/{GuildId}/{Threads}/{Active}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Threads}/{Active}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -382,7 +382,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -420,7 +420,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}",
+			Path = $"/{Guilds}/{GuildId}/{Members}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?limit={limit}&after={afterUserId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -457,7 +457,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{Search}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{Search}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?query={query}&limit={limit}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -495,7 +495,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Put,
@@ -539,7 +539,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -583,7 +583,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{Me}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{Me}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{Me}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -628,7 +628,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Put,
@@ -672,7 +672,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -715,7 +715,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -756,7 +756,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Bans}",
+			Path = $"/{Guilds}/{GuildId}/{Bans}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -792,7 +792,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -830,7 +830,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Put,
@@ -872,7 +872,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -912,7 +912,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Roles}",
+			Path = $"/{Guilds}/{GuildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -950,7 +950,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Roles}",
+			Path = $"/{Guilds}/{GuildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -994,7 +994,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Roles}",
+			Path = $"/{Guilds}/{GuildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -1039,7 +1039,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -1083,7 +1083,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -1130,7 +1130,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Prune}",
+			Path = $"/{Guilds}/{GuildId}/{Prune}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}{(roles != null ? $"&include_roles={roles}" : "")}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -1180,7 +1180,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Prune}",
+			Path = $"/{Guilds}/{GuildId}/{Prune}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}" +
 				$"{(roles != null ? $"&include_roles={roles}" : "")}" +
 				$"{(computeCount != null ? $"compute_prune_count={computeCount}" : "")}"),
@@ -1227,7 +1227,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Voice}",
+			Path = $"/{Guilds}/{GuildId}/{Voice}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Voice}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -1262,7 +1262,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Invites}",
+			Path = $"/{Guilds}/{GuildId}/{Invites}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Invites}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -1297,7 +1297,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Integrations}",
+			Path = $"/{Guilds}/{GuildId}/{Integrations}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -1335,7 +1335,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
+			Path = $"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}/{integrationId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -1375,7 +1375,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Widget}",
+			Path = $"/{Guilds}/{GuildId}/{Widget}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -1414,7 +1414,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{Widget}",
+			Path = $"/{Guilds}/{GuildId}/{Widget}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(settings),
@@ -1455,7 +1455,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{WidgetJson}",
+			Path = $"/{Guilds}/{GuildId}/{WidgetJson}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetJson}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -1490,7 +1490,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{VanityUrl}",
+			Path = $"/{Guilds}/{GuildId}/{VanityUrl}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VanityUrl}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
@@ -1526,7 +1526,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{WidgetPng}",
+			Path = $"/{Guilds}/{GuildId}/{WidgetPng}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetPng}?style={style}"),
 			Method = HttpMethodEnum.Get
 		};
@@ -1562,7 +1562,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
+			Path = $"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{Me}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -1600,7 +1600,7 @@ public class DiscordGuildRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Route = $"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}",
+			Path = $"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{userId}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
