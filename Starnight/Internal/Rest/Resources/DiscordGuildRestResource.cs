@@ -1579,6 +1579,42 @@ public class DiscordGuildRestResource : IRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	/// <summary>
+	/// Modifies another user's stage voice state.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild everything takes place in.</param>
+	/// <param name="userId">Snowflake identifier of the user whose voice state to modify.</param>
+	/// <param name="payload">Stage voice state request payload.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task ModifyUserVoiceStateAsync(Int64 guildId, Int64 userId, ModifyUserVoiceStateRequestPayload payload)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyUserVoiceStateAsync",
+				"guild",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Route = $"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{userId}"),
+			Token = this.__token,
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -1619,6 +1655,8 @@ public class DiscordGuildRestResource : IRestResource
 		$"/{Guilds}/{GuildId}/{Widget}",
 		$"/{Guilds}/{GuildId}/{WidgetJson}",
 		$"/{Guilds}/{GuildId}/{VanityUrl}",
-		$"/{Guilds}/{GuildId}/{WidgetPng}"
+		$"/{Guilds}/{GuildId}/{WidgetPng}",
+		$"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
+		$"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}"
 	};
 }
