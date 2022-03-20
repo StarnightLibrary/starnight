@@ -28,10 +28,10 @@ jobs:
         run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg --include-source -c Release -o build"
 
       - name: Publish main package
-        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.1.0.0-dev.${{ github.run_number }}.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
+        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.0.1.0-dev.${{ github.run_number }}.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
 
       - name: Publish symbols package
-        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.1.0.0-dev.${{ github.run_number }}.snupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
+        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.0.1.0-dev.${{ github.run_number }}.snupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
       
       - name: "Upload Nuget Packages To Github Release"
         uses: "ncipollo/release-action@v1"
