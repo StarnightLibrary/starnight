@@ -8,7 +8,7 @@ using System;
 public static class DiscordApiConstants
 {
 	#region endpoints
-	public const String ApiVersion = "9";
+	public const String ApiVersion = "10";
 	public const String BaseUri = "https://discord.com/api/v" + ApiVersion;
 
 	public const String Ack = "ack";
