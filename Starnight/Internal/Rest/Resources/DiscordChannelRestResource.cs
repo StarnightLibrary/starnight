@@ -15,6 +15,7 @@ using Starnight.Internal.Entities.Channels.Threads;
 using HttpMethodEnum = HttpMethod;
 
 using static Starnight.Internal.DiscordApiConstants;
+using Starnight.Internal.Rest.Payloads.Channel;
 
 public class DiscordChannelRestResource : IRestResource
 {
@@ -60,6 +61,88 @@ public class DiscordChannelRestResource : IRestResource
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Modifies a group DM channel with the given parameters.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the group DM in question.</param>
+	/// <param name="payload">Payload object containing the modification parameters.</param>
+	/// <returns>The modified channel object.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordChannel> ModifyGroupDMChannelAsync(Int64 channelId, ModifyGroupDMRequestPayload payload)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.ModifyGroupDMChannelAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}"),
+			Token = this.__token,
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Modifies a guild channel with the given parameters.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	/// <param name="payload">Payload object containing the modification parameters.</param>
+	/// <param name="reason">Optional audit log reason for the edit.</param>
+	/// <returns>The modified channel object.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordChannel> ModifyGuildChannelAsync(Int64 channelId, ModifyGuildChannelRequestPayload payload, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.ModifyGroupDMChannelAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}"),
+			Token = this.__token,
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
 		};
 
 		TaskCompletionSource<HttpResponseMessage> taskSource = new();
