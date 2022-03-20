@@ -4,22 +4,19 @@ using System;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Starnight.Internal.Rest.Exceptions;
 using Starnight.Internal.Utils;
 
 /// <summary>
 /// Represents a rest client for the discord API.
 /// </summary>
-public sealed class RestClient : IDisposable
+public sealed partial class RestClient : IDisposable
 {
-	private static readonly Regex __route_regex;
 	private static HttpClient __http_client;
 	private readonly ILogger? __logger;
 	private readonly ConcurrentDictionary<String, RatelimitBucket> __ratelimit_buckets;
@@ -34,10 +31,11 @@ public sealed class RestClient : IDisposable
 	private readonly ConcurrentQueue<RestClientQueueItem> __request_queue;
 	private readonly CancellationTokenSource[] __worker_cancellation_tokens;
 
+	[RegexGenerator(@":([a-z_]+)")]
+	private static partial Regex routeRegex();
+
 	static RestClient()
 	{
-		__route_regex = new(@":([a-z_]+)");
-
 		HttpClientHandler handler = new()
 		{
 			UseCookies = false,
@@ -106,7 +104,7 @@ public sealed class RestClient : IDisposable
 			return null!;
 		}
 
-		if(!__route_regex.IsMatch(request.Path))
+		if(!routeRegex().IsMatch(request.Path))
 		{
 			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
 				"Invalid request route. Please contact the library developers.");
