@@ -46,29 +46,5 @@ public class DiscordGuildRestResource : IRestResource
 
 	private readonly static List<String> __resource_routes = new()
 	{
-		$"/{Guilds}/{GuildId}",
-		$"/{Guilds}/{GuildId}/{Preview}",
-		$"/{Guilds}/{GuildId}/{Channels}",
-		$"/{Guilds}/{GuildId}/{Threads}/{Active}",
-		$"/{Guilds}/{GuildId}/{Members}/{UserId}",
-		$"/{Guilds}/{GuildId}/{Members}",
-		$"/{Guilds}/{GuildId}/{Members}/{Search}",
-		$"/{Guilds}/{GuildId}/{Members}/{Me}",
-		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
-		$"/{Guilds}/{GuildId}/{Bans}",
-		$"/{Guilds}/{GuildId}/{Bans}/{UserId}",
-		$"/{Guilds}/{GuildId}/{Roles}",
-		$"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
-		$"/{Guilds}/{GuildId}/{Prune}",
-		$"/{Guilds}/{GuildId}/{Voice}",
-		$"/{Guilds}/{GuildId}/{Invites}",
-		$"/{Guilds}/{GuildId}/{Integrations}",
-		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
-		$"/{Guilds}/{GuildId}/{Widget}",
-		$"/{Guilds}/{GuildId}/{WidgetJson}",
-		$"/{Guilds}/{GuildId}/{VanityUrl}",
-		$"/{Guilds}/{GuildId}/{WidgetPng}",
-		$"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
-		$"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}"
 	};
 }
