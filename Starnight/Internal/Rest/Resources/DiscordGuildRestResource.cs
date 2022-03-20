@@ -43,7 +43,7 @@ public class DiscordGuildRestResource : IRestResource
 		this.__rest_client.SharedRatelimitHit += this.sharedRatelimitHit;
 		this.__rest_client.TokenInvalidOrMissing += this.disableAll;
 	}
-
+	
 	/// <summary>
 	/// Requests a guild from the discord API.
 	/// </summary>

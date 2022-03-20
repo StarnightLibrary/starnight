@@ -1,0 +1,74 @@
+namespace Starnight.Internal.Rest.Resources;
+
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+public class DiscordGuildRestResource : IRestResource
+{
+	private readonly RestClient __rest_client;
+	private DateTimeOffset __allow_next_request_at;
+	private readonly ConcurrentDictionary<Guid, TaskCompletionSource<HttpResponseMessage>> __waiting_responses;
+	private readonly String __token;
+
+	public DiscordGuildRestResource(RestClient client, String token)
+	{
+		this.__rest_client = client;
+		this.__allow_next_request_at = DateTimeOffset.MinValue;
+		this.__waiting_responses = new();
+		this.__token = token;
+
+		this.__rest_client.RequestDenied += this.requestDenied;
+		this.__rest_client.RequestSucceeded += this.requestSucceeded;
+		this.__rest_client.SharedRatelimitHit += this.sharedRatelimitHit;
+		this.__rest_client.TokenInvalidOrMissing += this.disableAll;
+	}
+
+	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
+	{
+		if(__resource_routes.Contains(arg1.Path!))
+		{
+			this.__allow_next_request_at = DateTimeOffset.UtcNow.AddSeconds(
+				Double.Parse(arg2.Headers.GetValues("Retry-After").First()));
+		}
+	}
+
+	private void requestSucceeded(Guid arg1, HttpResponseMessage arg2)
+		=> this.__waiting_responses[arg1].SetResult(arg2);
+
+	private void requestDenied(Guid arg1, Int32 starnightError, Int32 httpError)
+		=> this.__waiting_responses[arg1].SetException(RestExceptionTranslator.TranslateException(starnightError, httpError));
+
+	private void disableAll() => this.__allow_next_request_at = DateTimeOffset.MaxValue;
+
+	private readonly static List<String> __resource_routes = new()
+	{
+		$"/{Guilds}/{GuildId}",
+		$"/{Guilds}/{GuildId}/{Preview}",
+		$"/{Guilds}/{GuildId}/{Channels}",
+		$"/{Guilds}/{GuildId}/{Threads}/{Active}",
+		$"/{Guilds}/{GuildId}/{Members}/{UserId}",
+		$"/{Guilds}/{GuildId}/{Members}",
+		$"/{Guilds}/{GuildId}/{Members}/{Search}",
+		$"/{Guilds}/{GuildId}/{Members}/{Me}",
+		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+		$"/{Guilds}/{GuildId}/{Bans}",
+		$"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+		$"/{Guilds}/{GuildId}/{Roles}",
+		$"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+		$"/{Guilds}/{GuildId}/{Prune}",
+		$"/{Guilds}/{GuildId}/{Voice}",
+		$"/{Guilds}/{GuildId}/{Invites}",
+		$"/{Guilds}/{GuildId}/{Integrations}",
+		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
+		$"/{Guilds}/{GuildId}/{Widget}",
+		$"/{Guilds}/{GuildId}/{WidgetJson}",
+		$"/{Guilds}/{GuildId}/{VanityUrl}",
+		$"/{Guilds}/{GuildId}/{WidgetPng}",
+		$"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
+		$"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}"
+	};
+}
