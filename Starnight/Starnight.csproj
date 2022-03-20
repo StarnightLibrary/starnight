@@ -12,6 +12,7 @@
 	<RepositoryUrl>https://github.com/starnightlibrary/starnight</RepositoryUrl>
 	<VersionPrefix>0.1.0</VersionPrefix>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageIcon>starnight.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
