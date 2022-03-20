@@ -7,14 +7,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-public class DiscordGuildRestResource : IRestResource
+public class TemplateRestResource : IRestResource
 {
 	private readonly RestClient __rest_client;
 	private DateTimeOffset __allow_next_request_at;
 	private readonly ConcurrentDictionary<Guid, TaskCompletionSource<HttpResponseMessage>> __waiting_responses;
 	private readonly String __token;
 
-	public DiscordGuildRestResource(RestClient client, String token)
+	public TemplateRestResource(RestClient client, String token)
 	{
 		this.__rest_client = client;
 		this.__allow_next_request_at = DateTimeOffset.MinValue;
