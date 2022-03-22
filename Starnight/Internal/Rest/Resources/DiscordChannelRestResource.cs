@@ -199,6 +199,49 @@ public class DiscordChannelRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Deletes a channel. Deleting guild channels cannot be undone. DM channels, however, cannot be deleted
+	/// and are restored by opening a direct message channel again.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	/// <param name="reason">Optional audit log reason if this is a guild channel.</param>
+	/// <returns>The associated channel object.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordChannel> DeleteChannelAsync(Int64 channelId, String? reason = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new()
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
