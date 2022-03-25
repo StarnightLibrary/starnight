@@ -19,6 +19,7 @@ using static DiscordApiConstants;
 using Starnight.Internal.Entities.Messages;
 using System.Threading.Channels;
 using System.Text;
+using System.Diagnostics.Metrics;
 
 public class DiscordChannelRestResource : IRestResource
 {
@@ -245,6 +246,19 @@ public class DiscordChannelRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Returns a set amount of messages, optionally before, after or around a certain message.
+	/// </summary>
+	/// <remarks>
+	/// <c>around</c>, <c>before</c> and <c>after</c> are mutually exclusive. Only one may be passed. If multiple are passed,
+	/// only the first one in the parameter list is respected, independent of the order they are passed in client code.
+	/// </remarks>
+	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	/// <param name="count">Maximum amount of messages to return.</param>
+	/// <param name="around">Snowflake identifier of the center message of the requested block.</param>
+	/// <param name="before">Snowflake identifier of the first older message than the requested block.</param>
+	/// <param name="after">Snowflake identifier of the first newer message than the requested block.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordMessage[]> GetChannelMessagesAsync(Int64 channelId, Int32 count,
 		Int64? around = null, Int64? before = null, Int64? after = null)
 	{
@@ -280,7 +294,7 @@ public class DiscordChannelRestResource : IRestResource
 			Path = $"/{Channels}/{ChannelId}/{Messages}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}?{queryBuilder}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Delete
+			Method = HttpMethodEnum.Get
 		};
 
 		TaskCompletionSource<HttpResponseMessage> taskSource = new();
@@ -291,6 +305,36 @@ public class DiscordChannelRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordMessage[]>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	public async Task<DiscordMessage> GetChannelMessageAsync(Int64 channelId, Int64 messageId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
