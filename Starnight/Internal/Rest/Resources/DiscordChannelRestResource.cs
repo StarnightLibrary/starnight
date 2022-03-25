@@ -11,11 +11,14 @@ using System.Threading.Tasks;
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
+using Starnight.Internal.Rest.Payloads.Channel;
 
 using HttpMethodEnum = HttpMethod;
 
-using static Starnight.Internal.DiscordApiConstants;
-using Starnight.Internal.Rest.Payloads.Channel;
+using static DiscordApiConstants;
+using Starnight.Internal.Entities.Messages;
+using System.Threading.Channels;
+using System.Text;
 
 public class DiscordChannelRestResource : IRestResource
 {
@@ -240,6 +243,54 @@ public class DiscordChannelRestResource : IRestResource
 		HttpResponseMessage response = await taskSource.Task;
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	public async Task<DiscordMessage[]> GetChannelMessagesAsync(Int64 channelId, Int32 count,
+		Int64? around = null, Int64? before = null, Int64? after = null)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		StringBuilder queryBuilder = new();
+
+		_ = queryBuilder.Append($"limit={count}");
+
+		if(around != null)
+		{
+			_ = queryBuilder.Append($"&around={around}");
+		}
+		else if(before != null)
+		{
+			_ = queryBuilder.Append($"&before={before}");
+		}
+		else if(after != null)
+		{
+			_ = queryBuilder.Append($"&after={after}");
+		}
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{Messages}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}?{queryBuilder}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordMessage[]>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)

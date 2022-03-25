@@ -179,7 +179,7 @@ public class DiscordGuildRestResource : IRestResource
 		}
 
 		Guid guid = Guid.NewGuid();
-
+		
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}",
