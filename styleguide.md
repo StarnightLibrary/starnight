@@ -39,8 +39,6 @@ Raw data is to be exposed as defined in Naming. `Starnight`-prefixed API should 
 
 Where `Discord`-API should (almost) solely match the Discord API specification, `Starnight`-API should make heavy use of abstraction.
 
-
-
 #### File Structure ####
 
 Use namespaces where deemed appropriate. Creating a namespace just for two classes is probably not worth it. Put only one type into each file. Also avoid nested types - where they make sense, split the containing type up into a partial class and use a separate file for the nested type.

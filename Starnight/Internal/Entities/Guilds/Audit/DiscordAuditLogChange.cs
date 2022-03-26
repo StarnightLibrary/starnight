@@ -63,6 +63,7 @@ public record DiscordAuditLogChange
 		["hoist"] = typeof(Boolean),
 		["icon_hash"] = typeof(String),
 		["id"] = typeof(String),
+		["image_hash"] = typeof(String),
 		["invitable"] = typeof(Boolean),
 		["inviter_id"] = typeof(String),
 		["location"] = typeof(String),
