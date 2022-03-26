@@ -75,6 +75,8 @@ public struct MultipartRestRequest : IRestRequest
 
 		MultipartFormDataContent content = new(boundary);
 
+		content.Headers.ContentType = new("multipart/form-data");
+
 		foreach(KeyValuePair<String, String> kv in this.Payload)
 		{
 			content.Add(new StringContent(kv.Value), kv.Key);
