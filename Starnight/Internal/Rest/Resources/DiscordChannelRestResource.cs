@@ -307,6 +307,12 @@ public class DiscordChannelRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordMessage[]>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Gets a message by snowflake identifier.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordMessage> GetChannelMessageAsync(Int64 channelId, Int64 messageId)
 	{
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
@@ -326,6 +332,65 @@ public class DiscordChannelRestResource : IRestResource
 			Token = this.__token,
 			Method = HttpMethodEnum.Get
 		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Creates a new message in a channel.
+	/// </summary>
+	/// <param name="channelId">snowflake identifier of the message's target channel.</param>
+	/// <param name="payload">Message creation payload including potential attachment files.</param>
+	/// <returns>The newly created message object.</returns>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordMessage> CreateMessageAsync(Int64 channelId, CreateMessageRequestPayload payload)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		String payloadBody = JsonSerializer.Serialize(payload);
+
+		IRestRequest request =
+
+			payload.Files == null ?
+
+				new RestRequest
+				{
+					Path = $"/{Channels}/{ChannelId}/{Messages}",
+					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
+					Token = this.__token,
+					Payload = payloadBody,
+					Method = HttpMethodEnum.Post
+				} :
+
+				new MultipartRestRequest
+				{
+					Path = $"/{Channels}/{ChannelId}/{Messages}",
+					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
+					Token = this.__token,
+					Payload = String.IsNullOrWhiteSpace(payloadBody)
+						? new()
+						: new()
+						{
+							["payload_json"] = payloadBody
+						},
+					Method = HttpMethodEnum.Post,
+					Files = payload.Files.ToList()
+				};
 
 		TaskCompletionSource<HttpResponseMessage> taskSource = new();
 
