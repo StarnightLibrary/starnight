@@ -68,7 +68,7 @@ public struct MultipartRestRequest : IRestRequest
 
 		// multipart time D:
 
-		String boundary = $"-----------------------{DateTimeOffset.Now.Ticks:x}";
+		String boundary = $"-----------------------{DateTimeOffset.Now.Ticks:x}-----------------------";
 
 		message.Headers.Add("Connection", "keep-alive");
 		message.Headers.Add("Keep-Alive", "1200");
@@ -79,7 +79,11 @@ public struct MultipartRestRequest : IRestRequest
 
 		foreach(KeyValuePair<String, String> kv in this.Payload)
 		{
-			content.Add(new StringContent(kv.Value), kv.Key);
+			StringContent sc = new(kv.Value);
+			sc.Headers.ContentDisposition = new($"form-data; name=\"{kv.Key}\"");
+			sc.Headers.ContentType = new("application/json");
+
+			content.Add(sc);
 		}
 
 		for(Int32 i = 0; i < this.Files.Count; i++)
@@ -91,7 +95,7 @@ public struct MultipartRestRequest : IRestRequest
 				streamContent.Headers.ContentType = new MediaTypeHeaderValue(this.Files[i].ContentType!);
 			}
 
-			content.Add(streamContent, $"file{i}", this.Files[i].Filename);
+			content.Add(streamContent, $"file[{i}]", this.Files[i].Filename);
 		}
 
 		message.Content = content;
