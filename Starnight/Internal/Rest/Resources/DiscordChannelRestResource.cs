@@ -265,7 +265,7 @@ public class DiscordChannelRestResource : IRestResource
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.GetChannelMessagesAsync",
 				"channel",
 				this.__allow_next_request_at);
 		}
@@ -318,7 +318,7 @@ public class DiscordChannelRestResource : IRestResource
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.GetChannelMessageAsync",
 				"channel",
 				this.__allow_next_request_at);
 		}
@@ -355,7 +355,7 @@ public class DiscordChannelRestResource : IRestResource
 		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
 		{
 			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.CreateMessageAsync",
 				"channel",
 				this.__allow_next_request_at);
 		}
@@ -391,6 +391,42 @@ public class DiscordChannelRestResource : IRestResource
 					Method = HttpMethodEnum.Post,
 					Files = payload.Files.ToList()
 				};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Publishes a message in an announcement channel to following channels.
+	/// </summary>
+	/// <param name="channelId">Source announcement channel for this message.</param>
+	/// <param name="messageId">Snowflake identifier of the message.</param>
+	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	public async Task<DiscordMessage> CrosspostMessageAsync(Int64 channelId, Int64 messageId)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.CrosspostMessageAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Crosspost}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Crosspost}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Post
+		};
 
 		TaskCompletionSource<HttpResponseMessage> taskSource = new();
 
