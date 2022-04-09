@@ -20,6 +20,7 @@ using Starnight.Internal.Entities.Messages;
 using System.Threading.Channels;
 using System.Text;
 using System.Diagnostics.Metrics;
+using System.Net;
 
 public class DiscordChannelRestResource : IRestResource
 {
@@ -438,6 +439,36 @@ public class DiscordChannelRestResource : IRestResource
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	public async Task<Boolean> CreateReactionAsync(Int64 channelId, Int64 messageId, String emote)
+	{
+		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
+		{
+			throw new StarnightSharedRatelimitHitException(
+				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.CreateReactionAsync",
+				"channel",
+				this.__allow_next_request_at);
+		}
+
+		Guid guid = Guid.NewGuid();
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Put
+		};
+
+		TaskCompletionSource<HttpResponseMessage> taskSource = new();
+
+		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
+		this.__rest_client.EnqueueRequest(request, guid);
+
+		HttpResponseMessage response = await taskSource.Task;
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
 	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
 	{
 		if(__resource_routes.Contains(arg1.Path!))
@@ -457,6 +488,10 @@ public class DiscordChannelRestResource : IRestResource
 
 	private readonly static List<String> __resource_routes = new()
 	{
-		$"/{Channels}/{ChannelId}"
+		$"/{Channels}/{ChannelId}",
+		$"/{Channels}/{ChannelId}/{Messages}",
+		$"/{Channels}/{ChannelId}/{Messages}/{MessageId}",
+		$"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Crosspost}",
+		$"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}"
 	};
 }
