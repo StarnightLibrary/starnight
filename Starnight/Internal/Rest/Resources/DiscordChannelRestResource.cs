@@ -354,6 +354,13 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Creates a reaction with the given emote on the specified message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="emote">String representation of the emote.</param>
+	/// <returns>Whether the reaction was added successfully.</returns>
 	public async Task<Boolean> CreateReactionAsync(Int64 channelId, Int64 messageId, String emote)
 	{
 		IRestRequest request = new RestRequest
@@ -362,6 +369,34 @@ public class DiscordChannelRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Put,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Deletes your own reaction with the specified emote on the specified message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="emote">String representation of the emote.</param>
+	/// <returns>Whether the reaction was removed successfully.</returns>
+	public async Task<Boolean> DeleteOwnReactionAsync(Int64 channelId, Int64 messageId, String emote)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",

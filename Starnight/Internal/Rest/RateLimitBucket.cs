@@ -105,8 +105,7 @@ public record RatelimitBucket
 			return this.ResetTime < DateTimeOffset.UtcNow;
 		}
 
-		this.Remaining -= 1;
+		this.Remaining--;
 		return true;
-
 	}
 }
