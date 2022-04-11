@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
+using Polly;
+
 /// <summary>
 /// Represents a single-part REST request.
 /// </summary>
 public struct RestRequest : IRestRequest
 {
-	private Uri __url = null!;
-
 	public RestRequest()
 	{}
 
@@ -19,23 +19,15 @@ public struct RestRequest : IRestRequest
 
 	public String Path { get; init; } = null!;
 
-	public String Route { get; init; } = null!;
-
-	public Uri Url
-	{
-		get => this.__url;
-		init
-		{
-			this.__url = value;
-			this.Route = value.OriginalString.Split('?')[0];
-		}
-	}
+	public Uri Url { get; init; } = null!;
 
 	public Dictionary<String, String> Headers { get; init; } = new();
 
 	public String? Payload { get; init; } = null;
 
 	public String? Token { get; init; } = null;
+
+	public Context Context { get; init; } = null!;
 
 	public HttpRequestMessage Build()
 	{
@@ -66,6 +58,8 @@ public struct RestRequest : IRestRequest
 		{
 			message.Content = new StringContent(this.Payload);
 		}
+
+		message.SetPolicyExecutionContext(this.Context);
 
 		return message;
 	}

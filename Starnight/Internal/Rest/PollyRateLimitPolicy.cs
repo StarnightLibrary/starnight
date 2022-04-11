@@ -21,7 +21,7 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 
 	public PollyRateLimitPolicy()
 	{
-		// 50 per second is discord's defined global ratelimit; 10,000,000 ticks = one second
+		// 50 per second is discord's defined global ratelimitatom 
 		this.__global_bucket = new(50, 50, DateTimeOffset.UtcNow + __one_second, "global");
 		this.__endpoint_buckets = new();
 	}

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 
+using Polly;
+
 /// <summary>
 /// Represents a request contract for both kinds of rest requests (single-request and multipart request).
 /// </summary>
@@ -13,13 +15,13 @@ public interface IRestRequest
 
 	public String Path { get; }
 
-	public String Route { get; }
-
 	public Uri Url { get; }
 
 	public Dictionary<String, String> Headers { get; }
 
 	public String? Token { get; }
+
+	public Context? Context { get; }
 
 	public HttpRequestMessage Build();
 }

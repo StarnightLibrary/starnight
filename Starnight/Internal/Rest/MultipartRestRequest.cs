@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
+using Polly;
+
 using Starnight.Internal.Rest.Payloads;
 
 /// <summary>
@@ -12,8 +14,6 @@ using Starnight.Internal.Rest.Payloads;
 /// </summary>
 public struct MultipartRestRequest : IRestRequest
 {
-	private Uri __url = null!;
-
 	public MultipartRestRequest()
 	{ }
 
@@ -21,17 +21,7 @@ public struct MultipartRestRequest : IRestRequest
 
 	public String Path { get; init; } = null!;
 
-	public String Route { get; init; } = null!;
-
-	public Uri Url
-	{
-		get => this.__url;
-		init
-		{
-			this.__url = value;
-			this.Route = value.OriginalString.Split('?')[0];
-		}
-	}
+	public Uri Url { get; init; } = null!;
 
 	public Dictionary<String, String> Headers { get; init; } = new();
 
@@ -40,6 +30,8 @@ public struct MultipartRestRequest : IRestRequest
 	public List<DiscordAttachmentFile> Files { get; set; } = new();
 
 	public String? Token { get; init; } = null;
+
+	public Context Context { get; init; } = null!;
 
 	public HttpRequestMessage Build()
 	{
@@ -99,6 +91,8 @@ public struct MultipartRestRequest : IRestRequest
 		}
 
 		message.Content = content;
+
+		message.SetPolicyExecutionContext(this.Context);
 
 		return message;
 	}

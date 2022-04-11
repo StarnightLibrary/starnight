@@ -15,6 +15,7 @@ using Polly.Contrib.WaitAndRetry;
 using Starnight.Exceptions;
 using Starnight.Internal;
 using Starnight.Internal.Rest;
+using Starnight.Internal.Rest.Resources;
 
 public partial class StarnightClient
 {
@@ -53,5 +54,8 @@ public partial class StarnightClient
 						(_, _, _, _) => Task.CompletedTask)
 			);
 
+		_ = this.ServiceCollection
+			.AddSingleton<DiscordChannelRestResource>()
+			.AddSingleton<DiscordGuildRestResource>();
 	}
 }

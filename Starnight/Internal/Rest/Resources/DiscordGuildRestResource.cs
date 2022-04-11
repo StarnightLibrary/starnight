@@ -5,7 +5,10 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Channels;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Caching.Memory;
 
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
@@ -21,12 +24,13 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a request wrapper for all requests against the Guild resource.
 /// </summary>
-public class DiscordGuildRestResource : IRestResource
+public class DiscordGuildRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 	private readonly String __token;
 
-	public DiscordGuildRestResource(RestClient client, String token)
+	public DiscordGuildRestResource(RestClient client, String token, IMemoryCache ratelimitBucketCache)
+		: base(ratelimitBucketCache)
 	{
 		this.__rest_client = client;
 		this.__token = token;
@@ -43,10 +47,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}",
+			Path = $"/{Guilds}/{id}",
 			Url = new($"{BaseUri}/{Guilds}/{id}?with_counts={withCounts}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -64,10 +74,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Preview}",
+			Path = $"/{Guilds}/{id}/{Preview}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Preview}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}/{Preview}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -87,7 +103,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}",
+			Path = $"/{Guilds}/{id}",
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -96,7 +112,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -114,10 +136,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}",
+			Path = $"/{Guilds}/{id}",
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Delete
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -134,10 +162,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Channels}",
+			Path = $"/{Guilds}/{id}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}/{Channels}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -157,7 +191,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Channels}",
+			Path = $"/{Guilds}/{id}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Post,
@@ -166,7 +200,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}/{Channels}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -187,7 +227,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Channels}",
+			Path = $"/{Guilds}/{id}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -196,7 +236,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}/{Channels}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -215,10 +261,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Threads}/{Active}",
+			Path = $"/{Guilds}/{id}/{Threads}/{Active}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Threads}/{Active}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{id}/{Threads}/{Active}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -237,10 +289,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -260,10 +318,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}",
+			Path = $"/{Guilds}/{guildId}/{Members}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?limit={limit}&after={afterUserId}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -282,10 +346,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{Search}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{Search}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?query={query}&limit={limit}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{Search}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -305,11 +375,17 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Put,
-			Payload = JsonSerializer.Serialize(payload)
+			Payload = JsonSerializer.Serialize(payload),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -333,7 +409,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -342,7 +418,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -362,7 +444,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{Me}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{Me}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{Me}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
@@ -371,7 +453,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{Me}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -392,7 +480,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Put,
@@ -400,7 +488,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -421,7 +515,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -429,7 +523,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -449,7 +549,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
+			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -457,7 +557,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -475,10 +581,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Bans}",
+			Path = $"/{Guilds}/{guildId}/{Bans}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Bans}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -519,7 +631,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Put,
@@ -528,7 +640,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		_ = await this.__rest_client.MakeRequestAsync(request);
@@ -546,7 +664,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
+			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -554,7 +672,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -571,10 +695,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Roles}",
+			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Roles}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -594,7 +724,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Roles}",
+			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -603,7 +733,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Roles}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -623,7 +759,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Roles}",
+			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -632,7 +768,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Roles}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -653,7 +795,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -662,7 +804,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -682,7 +830,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
+			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -690,7 +838,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -714,10 +868,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Prune}",
+			Path = $"/{Guilds}/{guildId}/{Prune}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}{(roles != null ? $"&include_roles={roles}" : "")}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Prune}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -749,7 +909,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Prune}",
+			Path = $"/{Guilds}/{guildId}/{Prune}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}" +
 				$"{(roles != null ? $"&include_roles={roles}" : "")}" +
 				$"{(computeCount != null ? $"compute_prune_count={computeCount}" : "")}"),
@@ -759,7 +919,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Prune}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -781,10 +947,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Voice}",
+			Path = $"/{Guilds}/{guildId}/{Voice}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Voice}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Voice}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -801,10 +973,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Invites}",
+			Path = $"/{Guilds}/{guildId}/{Invites}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Invites}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Invites}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -821,10 +999,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Integrations}",
+			Path = $"/{Guilds}/{guildId}/{Integrations}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Integrations}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -844,7 +1028,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
+			Path = $"/{Guilds}/{guildId}/{Integrations}/{IntegrationId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}/{integrationId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -852,7 +1036,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Integrations}/{IntegrationId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -869,10 +1059,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Widget}",
+			Path = $"/{Guilds}/{guildId}/{Widget}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Widget}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -893,7 +1089,7 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Widget}",
+			Path = $"/{Guilds}/{guildId}/{Widget}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(settings),
@@ -902,7 +1098,13 @@ public class DiscordGuildRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Widget}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -919,10 +1121,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{WidgetJson}",
+			Path = $"/{Guilds}/{guildId}/{WidgetJson}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetJson}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{WidgetJson}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -939,10 +1147,16 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{VanityUrl}",
+			Path = $"/{Guilds}/{guildId}/{VanityUrl}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VanityUrl}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{VanityUrl}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -960,9 +1174,15 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{WidgetPng}",
+			Path = $"/{Guilds}/{guildId}/{WidgetPng}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetPng}?style={style}"),
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{WidgetPng}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -981,11 +1201,17 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
+			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{Me}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{Me}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
-			Method = HttpMethodEnum.Patch
+			Method = HttpMethodEnum.Patch,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{VoiceStates}/{Me}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -1004,11 +1230,17 @@ public class DiscordGuildRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}",
+			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{userId}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
-			Method = HttpMethodEnum.Patch
+			Method = HttpMethodEnum.Patch,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{VoiceStates}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		_ = await this.__rest_client.MakeRequestAsync(request);

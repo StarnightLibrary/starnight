@@ -8,22 +8,25 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Caching.Memory;
+
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.Channel;
 
-using HttpMethodEnum = HttpMethod;
-
 using static DiscordApiConstants;
 
-public class DiscordChannelRestResource : IRestResource
+using HttpMethodEnum = HttpMethod;
+
+public class DiscordChannelRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 	private readonly String __token;
 
-	public DiscordChannelRestResource(RestClient client, String token)
+	public DiscordChannelRestResource(RestClient client, String token, IMemoryCache ratelimitBucketCache)
+		: base(ratelimitBucketCache)
 	{
 		this.__rest_client = client;
 		this.__token = token;
@@ -39,10 +42,16 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}",
+			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -61,11 +70,17 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}",
+			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
-			Method = HttpMethodEnum.Patch
+			Method = HttpMethodEnum.Patch,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -85,7 +100,7 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}",
+			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -94,7 +109,13 @@ public class DiscordChannelRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -114,7 +135,7 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}",
+			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
@@ -123,7 +144,13 @@ public class DiscordChannelRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -143,7 +170,7 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}",
+			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
@@ -151,7 +178,13 @@ public class DiscordChannelRestResource : IRestResource
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
-			: new()
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -194,10 +227,16 @@ public class DiscordChannelRestResource : IRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{Messages}",
+			Path = $"/{Channels}/{channelId}/{Messages}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}?{queryBuilder}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -215,10 +254,16 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}",
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -243,16 +288,22 @@ public class DiscordChannelRestResource : IRestResource
 
 				new RestRequest
 				{
-					Path = $"/{Channels}/{ChannelId}/{Messages}",
+					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
 					Token = this.__token,
 					Payload = payloadBody,
-					Method = HttpMethodEnum.Post
+					Method = HttpMethodEnum.Post,
+					Context = new()
+					{
+						["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = false
+					}
 				} :
 
 				new MultipartRestRequest
 				{
-					Path = $"/{Channels}/{ChannelId}/{Messages}",
+					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
 					Token = this.__token,
 					Payload = String.IsNullOrWhiteSpace(payloadBody)
@@ -262,7 +313,13 @@ public class DiscordChannelRestResource : IRestResource
 							["payload_json"] = payloadBody
 						},
 					Method = HttpMethodEnum.Post,
-					Files = payload.Files.ToList()
+					Files = payload.Files.ToList(),
+					Context = new()
+					{
+						["endpoint"] = $"/{Channels}/{channelId}/{MessageId}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = false
+					}
 				};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -280,10 +337,16 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Crosspost}",
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Crosspost}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Crosspost}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Post
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Crosspost}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -295,10 +358,16 @@ public class DiscordChannelRestResource : IRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
 			Token = this.__token,
-			Method = HttpMethodEnum.Put
+			Method = HttpMethodEnum.Put,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
