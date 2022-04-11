@@ -24,6 +24,8 @@ public partial class StarnightClient
 		_ = this.ServiceCollection.AddSingleton(typeof(ILogger), options.Logger!)
 			.AddSingleton(typeof(RestClient));
 
+		_ = this.ServiceCollection.AddMemoryCache();
+
 		this.addRestClient();
 
 		this.Services = this.ServiceCollection!.BuildServiceProvider();
