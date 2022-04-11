@@ -43,6 +43,9 @@ public sealed partial class RestClient
 
 		HttpResponseMessage response = await this.__http_client.SendAsync(message);
 
+		this.__logger?.LogTrace(LoggingEvents.RestClientIncoming,
+			"Incoming HTTP payload:\n{Payload}", response.ToString());
+
 		return (Int32)response.StatusCode switch
 		{
 			400 => throw new DiscordInvalidRequestException(400, "Invalid request."),
