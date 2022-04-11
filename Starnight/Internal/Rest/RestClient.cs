@@ -18,7 +18,7 @@ public sealed partial class RestClient
 	private readonly HttpClient __http_client;
 	private readonly ILogger? __logger;
 
-	[RegexGenerator(@":([0-9a-z_]+)")]
+	[RegexGenerator(@":([0-9a-z_/:]+)")]
 	private static partial Regex routeRegex();
 
 	public void SetTimeout(TimeSpan timeout)
