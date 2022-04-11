@@ -16,7 +16,7 @@ public record RatelimitBucket
 	private const String __unlimited_ratelimit_identifier = "unlimited";
 	private const Int32 __default_limit = 1;
 	private const Int32 __default_remaining = 0;
-	private readonly static DateTimeOffset __discord_epoch = new(1970, 0, 0, 0, 0, 0, new());
+	private readonly static DateTimeOffset __discord_epoch = new(2015, 0, 0, 0, 0, 0, new());
 
 	private readonly Object __lock = new();
 
