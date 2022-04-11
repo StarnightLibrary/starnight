@@ -1,45 +1,32 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
+using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.Channel;
 
 using HttpMethodEnum = HttpMethod;
 
 using static DiscordApiConstants;
-using Starnight.Internal.Entities.Messages;
-using System.Threading.Channels;
-using System.Text;
-using System.Diagnostics.Metrics;
-using System.Net;
 
 public class DiscordChannelRestResource : IRestResource
 {
 	private readonly RestClient __rest_client;
-	private DateTimeOffset __allow_next_request_at;
-	private readonly ConcurrentDictionary<Guid, TaskCompletionSource<HttpResponseMessage>> __waiting_responses;
 	private readonly String __token;
 
 	public DiscordChannelRestResource(RestClient client, String token)
 	{
 		this.__rest_client = client;
-		this.__allow_next_request_at = DateTimeOffset.MinValue;
-		this.__waiting_responses = new();
 		this.__token = token;
-
-		this.__rest_client.RequestDenied += this.requestDenied;
-		this.__rest_client.RequestSucceeded += this.requestSucceeded;
-		this.__rest_client.SharedRatelimitHit += this.sharedRatelimitHit;
-		this.__rest_client.TokenInvalidOrMissing += this.disableAll;
 	}
 
 	/// <summary>
@@ -50,16 +37,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordChannel> GetChannelAsync(Int64 channelId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.GetChannelAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}",
@@ -68,12 +45,7 @@ public class DiscordChannelRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -87,16 +59,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGroupDMRequestPayload payload)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.ModifyChannelAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}",
@@ -106,12 +68,7 @@ public class DiscordChannelRestResource : IRestResource
 			Method = HttpMethodEnum.Patch
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -126,16 +83,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGuildChannelRequestPayload payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.ModifyChannelAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}",
@@ -150,12 +97,7 @@ public class DiscordChannelRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -170,16 +112,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyThreadChannelRequestPayload payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.ModifyChannelAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}",
@@ -194,12 +126,7 @@ public class DiscordChannelRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -214,16 +141,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordChannel> DeleteChannelAsync(Int64 channelId, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.DeleteChannelAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}",
@@ -237,12 +154,7 @@ public class DiscordChannelRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -263,16 +175,6 @@ public class DiscordChannelRestResource : IRestResource
 	public async Task<DiscordMessage[]> GetChannelMessagesAsync(Int64 channelId, Int32 count,
 		Int64? around = null, Int64? before = null, Int64? after = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.GetChannelMessagesAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		StringBuilder queryBuilder = new();
 
 		_ = queryBuilder.Append($"limit={count}");
@@ -298,12 +200,7 @@ public class DiscordChannelRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -316,16 +213,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordMessage> GetChannelMessageAsync(Int64 channelId, Int64 messageId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.GetChannelMessageAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}",
@@ -334,12 +221,7 @@ public class DiscordChannelRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -353,16 +235,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordMessage> CreateMessageAsync(Int64 channelId, CreateMessageRequestPayload payload)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.CreateMessageAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		String payloadBody = JsonSerializer.Serialize(payload);
 
 		IRestRequest request =
@@ -393,12 +265,7 @@ public class DiscordChannelRestResource : IRestResource
 					Files = payload.Files.ToList()
 				};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -411,16 +278,6 @@ public class DiscordChannelRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordMessage> CrosspostMessageAsync(Int64 channelId, Int64 messageId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.CrosspostMessageAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Crosspost}",
@@ -429,28 +286,13 @@ public class DiscordChannelRestResource : IRestResource
 			Method = HttpMethodEnum.Post
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	public async Task<Boolean> CreateReactionAsync(Int64 channelId, Int64 messageId, String emote)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordChannelRestResource.CreateReactionAsync",
-				"channel",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
@@ -459,39 +301,8 @@ public class DiscordChannelRestResource : IRestResource
 			Method = HttpMethodEnum.Put
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
-
-	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
-	{
-		if(__resource_routes.Contains(arg1.Path!))
-		{
-			this.__allow_next_request_at = DateTimeOffset.UtcNow.AddSeconds(
-				Double.Parse(arg2.Headers.GetValues("Retry-After").First()));
-		}
-	}
-
-	private void requestSucceeded(Guid arg1, HttpResponseMessage arg2)
-		=> this.__waiting_responses[arg1].SetResult(arg2);
-
-	private void requestDenied(Guid arg1, Int32 starnightError, Int32 httpError)
-		=> this.__waiting_responses[arg1].SetException(RestExceptionTranslator.TranslateException(starnightError, httpError));
-
-	private void disableAll() => this.__allow_next_request_at = DateTimeOffset.MaxValue;
-
-	private readonly static List<String> __resource_routes = new()
-	{
-		$"/{Channels}/{ChannelId}",
-		$"/{Channels}/{ChannelId}/{Messages}",
-		$"/{Channels}/{ChannelId}/{Messages}/{MessageId}",
-		$"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Crosspost}",
-		$"/{Channels}/{ChannelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}"
-	};
 }

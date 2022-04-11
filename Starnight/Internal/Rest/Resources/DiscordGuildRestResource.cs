@@ -1,10 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -27,21 +24,12 @@ using HttpMethodEnum = HttpMethod;
 public class DiscordGuildRestResource : IRestResource
 {
 	private readonly RestClient __rest_client;
-	private DateTimeOffset __allow_next_request_at;
-	private readonly ConcurrentDictionary<Guid, TaskCompletionSource<HttpResponseMessage>> __waiting_responses;
 	private readonly String __token;
 
 	public DiscordGuildRestResource(RestClient client, String token)
 	{
 		this.__rest_client = client;
-		this.__allow_next_request_at = DateTimeOffset.MinValue;
-		this.__waiting_responses = new();
 		this.__token = token;
-
-		this.__rest_client.RequestDenied += this.requestDenied;
-		this.__rest_client.RequestSucceeded += this.requestSucceeded;
-		this.__rest_client.SharedRatelimitHit += this.sharedRatelimitHit;
-		this.__rest_client.TokenInvalidOrMissing += this.disableAll;
 	}
 	
 	/// <summary>
@@ -53,16 +41,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuild> GetGuildAsync(Int64 id, Boolean withCounts = false)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}",
@@ -71,12 +49,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuild>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -89,16 +62,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildPreview> GetGuildPreviewAsync(Int64 id)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildPreviewAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Preview}",
@@ -107,12 +70,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildPreview>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -127,16 +85,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuild> ModifyGuildAsync(Int64 id, ModifyGuildRequestPayload payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}",
@@ -151,12 +99,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuild>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -169,17 +112,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> DeleteGuildAsync(Int64 id)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.DeleteGuildAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-		
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}",
@@ -188,12 +120,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Delete
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -205,17 +132,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordChannel[]> GetGuildChannelsAsync(Int64 id)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildChannelsAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Channels}",
@@ -224,12 +140,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -244,17 +155,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordChannel> CreateGuildChannelAsync(Int64 id, CreateGuildChannelRequestPayload payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.CreateGuildChannelAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Channels}",
@@ -269,12 +169,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -290,16 +185,6 @@ public class DiscordGuildRestResource : IRestResource
 	public async Task<Boolean> ModifyGuildChannelPositionsAsync(Int64 id, ModifyGuildChannelPositionRequestPayload[] payload,
 		String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildChannelPositionsAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Channels}",
@@ -314,12 +199,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -333,16 +213,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<ListActiveThreadsResponsePayload> ListActiveThreadsAsync(Int64 id)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ListActiveThreadsAync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Threads}/{Active}",
@@ -351,12 +221,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<ListActiveThreadsResponsePayload>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -370,16 +235,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildMember> GetGuildMemberAsync(Int64 guildId, Int64 userId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildMemberAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
@@ -388,12 +243,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -408,16 +258,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildMember[]> ListGuildMembersAsync(Int64 guildId, Int32 limit = 1, Int64 afterUserId = 0)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ListGuildMembersAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}",
@@ -426,12 +266,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -445,16 +280,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildMember[]> SearchGuildMembersAsync(Int64 guildId, String query, Int32 limit = 1)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.SearchGuildMembersAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{Search}",
@@ -463,12 +288,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -483,16 +303,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.AddGuildMemberAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
@@ -502,13 +312,7 @@ public class DiscordGuildRestResource : IRestResource
 			Payload = JsonSerializer.Serialize(payload)
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		// still awaited so we get any potential errors
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.Created
 			? JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())
@@ -527,16 +331,6 @@ public class DiscordGuildRestResource : IRestResource
 	public async Task<DiscordGuildMember> ModifyGuildMemberAsync(Int64 guildId, Int64 userId,
 		ModifyGuildMemberRequestPayload payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildMemberAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
@@ -551,12 +345,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -571,16 +360,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildMember> ModifyCurrentMemberAsync(Int64 guildId, String nickname, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyCurrentMemberAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{Me}",
@@ -595,12 +374,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -616,16 +390,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> AddGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.AddGuildMemberRoleAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
@@ -639,12 +403,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -660,16 +419,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> RemoveGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.RemoveGuildMemberRoleAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
@@ -683,12 +432,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -703,16 +447,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> RemoveGuildMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.RemoveGuildMemberAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Members}/{UserId}",
@@ -726,12 +460,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -744,16 +473,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildBan[]> GetGuildBansAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildBansAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}",
@@ -762,12 +481,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildBan[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -780,16 +494,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildBan> GetGuildBanAsync(Int64 guildId, Int64 userId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildBanAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
@@ -798,12 +502,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildBan>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -818,16 +517,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task BanMemberAsync(Int64 guildId, Int64 userId, Int32 deleteMessageDays = 0, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.BanMemberAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
@@ -842,12 +531,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
 
 	/// <summary>
@@ -860,16 +544,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> UnbanMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.UnbanMemberAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
@@ -883,12 +557,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -900,16 +569,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordRole[]> GetRolesAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetRolesAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Roles}",
@@ -918,12 +577,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordRole[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -938,16 +592,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordRole> CreateRoleAsync(Int64 guildId, RoleMetadataRequestPayload payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.CreateRoleAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Roles}",
@@ -962,12 +606,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordRole>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -982,16 +621,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordRole[]> ModifyRolePositionsAsync(Int64 guildId, ModifyRolePositionRequestPayload[] payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyRolePositionsAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Roles}",
@@ -1006,12 +635,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordRole[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1027,16 +651,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordRole> ModifyRoleAsync(Int64 guildId, Int64 roleId, RoleMetadataRequestPayload payload, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyRoleAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
@@ -1051,12 +665,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordRole>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1071,16 +680,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> DeleteRoleAsync(Int64 guildId, Int64 roleId, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.DeleteRoleAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
@@ -1094,12 +693,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -1118,16 +712,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Int32> GetGuildPruneCountAsync(Int64 guildId, Int32 days = 0, String? roles = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildPruneCountAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Prune}",
@@ -1136,12 +720,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonDocument
 			.Parse(await response.Content.ReadAsStringAsync())
@@ -1168,16 +747,6 @@ public class DiscordGuildRestResource : IRestResource
 	public async Task<Int32?> BeginGuildPruneAsync(Int64 guildId, Int32 days = 0, String? roles = null, Boolean? computeCount = null,
 		String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.BeginGuildPruneAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Prune}",
@@ -1193,12 +762,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return computeCount == true ?
 				JsonDocument.Parse(await response.Content.ReadAsStringAsync())
@@ -1215,16 +779,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordVoiceRegion[]> GetGuildVoiceRegionsAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildVoiceRegionsAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Voice}",
@@ -1233,12 +787,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordVoiceRegion[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1250,16 +799,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordInvite[]> GetGuildInvitesAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildInvitesAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Invites}",
@@ -1268,12 +807,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordInvite[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1285,16 +819,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildIntegration[]> GetGuildIntegrationsAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildIntegrationsAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Integrations}",
@@ -1303,12 +827,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildIntegration[]>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1323,16 +842,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> DeleteGuildIntegrationAsync(Int64 guildId, Int64 integrationId, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.DeleteGuildIntegrationAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
@@ -1346,12 +855,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -1363,16 +867,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildWidgetSettings> GetGuildWidgetSettingsAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildWidgetSettingsAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Widget}",
@@ -1381,12 +875,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildWidgetSettings>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1402,16 +891,6 @@ public class DiscordGuildRestResource : IRestResource
 	public async Task<DiscordGuildWidget> ModifyGuildWidgetSettingsAsync(Int64 guildId,
 		DiscordGuildWidgetSettings settings, String? reason = null)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyGuildWidgetSettingsAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Widget}",
@@ -1426,12 +905,7 @@ public class DiscordGuildRestResource : IRestResource
 			: new()
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildWidget>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1443,16 +917,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordGuildWidget> GetGuildWidgetAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildWidgetAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{WidgetJson}",
@@ -1461,12 +925,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildWidget>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1478,16 +937,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<DiscordInvite> GetGuildVanityInviteAsync(Int64 guildId)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildVanityInviteAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{VanityUrl}",
@@ -1496,12 +945,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordInvite>(await response.Content.ReadAsStringAsync())!;
 	}
@@ -1514,16 +958,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Stream> GetGuildWidgetImageAsync(Int64 guildId, String style = "shield")
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.GetGuildWidgetImageAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{WidgetPng}",
@@ -1531,12 +965,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Get
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return await response.Content.ReadAsStreamAsync();
 	}
@@ -1550,16 +979,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task<Boolean> ModifyCurrentUserVoiceStateAsync(Int64 guildId, ModifyCurrentUserVoiceStateRequestPayload payload)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyCurrentUserVoiceStateAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
@@ -1569,12 +988,7 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Patch
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -1588,16 +1002,6 @@ public class DiscordGuildRestResource : IRestResource
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async Task ModifyUserVoiceStateAsync(Int64 guildId, Int64 userId, ModifyUserVoiceStateRequestPayload payload)
 	{
-		if(DateTimeOffset.UtcNow < this.__allow_next_request_at)
-		{
-			throw new StarnightSharedRatelimitHitException(
-				"Starnight.Internal.Rest.Resources.DiscordGuildRestResource.ModifyUserVoiceStateAsync",
-				"guild",
-				this.__allow_next_request_at);
-		}
-
-		Guid guid = Guid.NewGuid();
-
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}",
@@ -1607,56 +1011,6 @@ public class DiscordGuildRestResource : IRestResource
 			Method = HttpMethodEnum.Patch
 		};
 
-		TaskCompletionSource<HttpResponseMessage> taskSource = new();
-
-		_ = this.__waiting_responses.AddOrUpdate(guid, taskSource, (x, y) => taskSource);
-		this.__rest_client.EnqueueRequest(request, guid);
-
-		HttpResponseMessage response = await taskSource.Task;
+		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
-
-	private void sharedRatelimitHit(RatelimitBucket arg1, HttpResponseMessage arg2)
-	{
-		if(__resource_routes.Contains(arg1.Path!))
-		{
-			this.__allow_next_request_at = DateTimeOffset.UtcNow.AddSeconds(
-				Double.Parse(arg2.Headers.GetValues("Retry-After").First()));
-		}
-	}
-
-	private void requestSucceeded(Guid arg1, HttpResponseMessage arg2)
-		=> this.__waiting_responses[arg1].SetResult(arg2);
-
-	private void requestDenied(Guid arg1, Int32 starnightError, Int32 httpError)
-		=> this.__waiting_responses[arg1].SetException(RestExceptionTranslator.TranslateException(starnightError, httpError));
-
-	private void disableAll() => this.__allow_next_request_at = DateTimeOffset.MaxValue;
-
-	private readonly static List<String> __resource_routes = new()
-	{
-		$"/{Guilds}/{GuildId}",
-		$"/{Guilds}/{GuildId}/{Preview}",
-		$"/{Guilds}/{GuildId}/{Channels}",
-		$"/{Guilds}/{GuildId}/{Threads}/{Active}",
-		$"/{Guilds}/{GuildId}/{Members}/{UserId}",
-		$"/{Guilds}/{GuildId}/{Members}",
-		$"/{Guilds}/{GuildId}/{Members}/{Search}",
-		$"/{Guilds}/{GuildId}/{Members}/{Me}",
-		$"/{Guilds}/{GuildId}/{Members}/{UserId}/{Roles}/{RoleId}",
-		$"/{Guilds}/{GuildId}/{Bans}",
-		$"/{Guilds}/{GuildId}/{Bans}/{UserId}",
-		$"/{Guilds}/{GuildId}/{Roles}",
-		$"/{Guilds}/{GuildId}/{Roles}/{RoleId}",
-		$"/{Guilds}/{GuildId}/{Prune}",
-		$"/{Guilds}/{GuildId}/{Voice}",
-		$"/{Guilds}/{GuildId}/{Invites}",
-		$"/{Guilds}/{GuildId}/{Integrations}",
-		$"/{Guilds}/{GuildId}/{Integrations}/{IntegrationId}",
-		$"/{Guilds}/{GuildId}/{Widget}",
-		$"/{Guilds}/{GuildId}/{WidgetJson}",
-		$"/{Guilds}/{GuildId}/{VanityUrl}",
-		$"/{Guilds}/{GuildId}/{WidgetPng}",
-		$"/{Guilds}/{GuildId}/{VoiceStates}/{Me}",
-		$"/{Guilds}/{GuildId}/{VoiceStates}/{UserId}"
-	};
 }
