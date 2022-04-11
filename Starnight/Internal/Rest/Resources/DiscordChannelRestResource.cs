@@ -409,4 +409,33 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Deletes the specified user's reaction with the specified emote on the specified message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="emote">String representation of the emote.</param>
+	/// <returns>Whether the reaction was removed successfully.</returns>
+	public async Task<Boolean> DeleteUserReactionAsync(Int64 channelId, Int64 messageId, Int64 userId, String emote)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{UserId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{userId}"),
+			Token = this.__token,
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
 }

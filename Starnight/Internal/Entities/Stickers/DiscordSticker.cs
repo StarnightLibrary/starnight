@@ -8,7 +8,6 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents a discord sticker.
 /// </summary>
-[Obsolete("Superseded by DiscordStickerItem", DiagnosticId = "SE1000")]
 public record DiscordSticker : DiscordSnowflakeObject
 {
 	/// <summary>
