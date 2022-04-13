@@ -468,4 +468,27 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordUser[]>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Deletes all reactions on the given message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	public async Task DeleteAllReactionsAsync(Int64 channelId, Int64 messageId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		_ = await this.__rest_client.MakeRequestAsync(request);
+	}
 }
