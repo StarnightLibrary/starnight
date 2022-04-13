@@ -41,6 +41,9 @@ public sealed partial class RestClient
 
 		HttpRequestMessage message = request.Build();
 
+		this.__logger?.LogTrace(LoggingEvents.RestClientOutgoing,
+			"Outgoing HTTP payload:\n{Payload}", message.ToString());
+
 		HttpResponseMessage response = await this.__http_client.SendAsync(message);
 
 		this.__logger?.LogTrace(LoggingEvents.RestClientIncoming,

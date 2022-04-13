@@ -491,4 +491,28 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
+
+	/// <summary>
+	/// Deletes all reactions with a specific emote from the specified message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="emote">String representation of the emote in question.</param>
+	public async Task DeleteEmoteReactionsAsync(Int64 channelId, Int64 messageId, String emote)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		_ = await this.__rest_client.MakeRequestAsync(request);
+	}
 }
