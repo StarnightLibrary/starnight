@@ -14,6 +14,7 @@ using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Messages;
+using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Rest.Payloads.Channel;
 
 using static DiscordApiConstants;
@@ -437,5 +438,53 @@ public class DiscordChannelRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Gets a list of users that reacted with the given emote.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="emote">String representation of the queried emote.</param>
+	/// <param name="after">Specifies a minimum user ID to return from, to paginate queries.</param>
+	/// <param name="limit">Maximum amount of users to return. Defaults to 25.</param>
+	public async Task<DiscordUser[]> GetReactionsAsync(Int64 channelId, Int64 messageId, String emote,
+		Int64? after = null, Int32? limit = null)
+	{
+		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}");
+
+		if(after != null && limit != null)
+		{
+			_ = urlBuilder.Append($"?after={after}&limit={limit}");
+		}
+		else
+		{
+			if(after != null)
+			{
+				_ = urlBuilder.Append($"?after={after}");
+			}
+			else if(limit != null)
+			{
+				_ = urlBuilder.Append($"?limit={limit}");
+			}
+		}
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
+			Url = new(urlBuilder.ToString()),
+			Token = this.__token,
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordUser[]>(await response.Content.ReadAsStringAsync())!;
 	}
 }

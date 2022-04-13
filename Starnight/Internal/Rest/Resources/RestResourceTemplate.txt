@@ -4,12 +4,15 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Caching.Memory;
+
 public class TemplateRestResource : IRestResource
 {
 	private readonly RestClient __rest_client;
 	private readonly String __token;
 
-	public TemplateRestResource(RestClient client, String token)
+	public TemplateRestResource(RestClient client, String token, IMemoryCache cache)
+		: base(cache)
 	{
 		this.__rest_client = client;
 		this.__token = token;
