@@ -21,7 +21,7 @@ public partial class StarnightClient
 {
 	private static readonly TimeSpan __one_second = TimeSpan.FromSeconds(1);
 
-	private void addRestClient()
+	private void addRestClient(StarnightClientOptions options)
 	{
 		PollyRateLimitPolicy ratelimiter = new();
 		IEnumerable<TimeSpan> retryDelay = Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(0.5), 10);
@@ -32,6 +32,7 @@ public partial class StarnightClient
 			{
 				client.BaseAddress = new(DiscordApiConstants.BaseUri);
 				client.DefaultRequestHeaders.UserAgent.Add(new(StarnightConstants.UserAgentHeader, StarnightConstants.Version));
+				client.DefaultRequestHeaders.Authorization = new("Bot", options.Token);
 			})
 			.AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(retryDelay).WrapAsync(ratelimiter))
 			.AddPolicyHandler

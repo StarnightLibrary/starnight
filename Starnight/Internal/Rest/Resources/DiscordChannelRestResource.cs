@@ -24,14 +24,9 @@ using HttpMethodEnum = HttpMethod;
 public class DiscordChannelRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
-	private readonly String __token;
 
-	public DiscordChannelRestResource(RestClient client, String token, IMemoryCache ratelimitBucketCache)
-		: base(ratelimitBucketCache)
-	{
-		this.__rest_client = client;
-		this.__token = token;
-	}
+	public DiscordChannelRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
+		: base(ratelimitBucketCache) => this.__rest_client = client;
 
 	/// <summary>
 	/// Returns a channel object for the given ID. If the channel is a thread channel, a
@@ -45,7 +40,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -73,7 +67,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
@@ -103,7 +96,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason != null ? new()
@@ -138,7 +130,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason != null ? new()
@@ -173,7 +164,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Headers = reason != null ? new()
 			{
@@ -230,7 +220,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}?{queryBuilder}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -257,7 +246,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -291,7 +279,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 				{
 					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
-					Token = this.__token,
 					Payload = payloadBody,
 					Method = HttpMethodEnum.Post,
 					Context = new()
@@ -306,7 +293,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 				{
 					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
-					Token = this.__token,
 					Payload = String.IsNullOrWhiteSpace(payloadBody)
 						? new()
 						: new()
@@ -340,7 +326,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Crosspost}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Crosspost}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Post,
 			Context = new()
 			{
@@ -368,7 +353,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Put,
 			Context = new()
 			{
@@ -396,7 +380,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -425,7 +408,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{UserId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -473,7 +455,6 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
 			Url = new(urlBuilder.ToString()),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{

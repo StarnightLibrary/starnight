@@ -8,5 +8,5 @@ using System;
 public static class StarnightConstants
 {
 	public static String Version => "0.0.1-dev";
-	public static String UserAgentHeader => $"Starnight Library v{Version}";
+	public static String UserAgentHeader => "Starnight Library";
 }

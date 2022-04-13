@@ -26,7 +26,7 @@ public partial class StarnightClient
 
 		_ = this.ServiceCollection.AddMemoryCache();
 
-		this.addRestClient();
+		this.addRestClient(options);
 
 		this.Services = this.ServiceCollection!.BuildServiceProvider();
 

@@ -19,8 +19,6 @@ public interface IRestRequest
 
 	public Dictionary<String, String> Headers { get; }
 
-	public String? Token { get; }
-
 	public Context? Context { get; }
 
 	public HttpRequestMessage Build();

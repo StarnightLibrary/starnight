@@ -5,7 +5,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -27,15 +26,10 @@ using HttpMethodEnum = HttpMethod;
 public class DiscordGuildRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
-	private readonly String __token;
 
-	public DiscordGuildRestResource(RestClient client, String token, IMemoryCache ratelimitBucketCache)
-		: base(ratelimitBucketCache)
-	{
-		this.__rest_client = client;
-		this.__token = token;
-	}
-	
+	public DiscordGuildRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
+		: base(ratelimitBucketCache) => this.__rest_client = client;
+
 	/// <summary>
 	/// Requests a guild from the discord API.
 	/// </summary>
@@ -49,7 +43,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}",
 			Url = new($"{BaseUri}/{Guilds}/{id}?with_counts={withCounts}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -76,7 +69,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}/{Preview}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Preview}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -105,7 +97,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}",
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason != null ? new()
@@ -138,7 +129,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}",
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -164,7 +154,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -193,7 +182,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Post,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason != null ? new()
@@ -229,7 +217,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}/{Channels}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason != null ? new()
@@ -263,7 +250,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{id}/{Threads}/{Active}",
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Threads}/{Active}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -291,7 +277,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -320,7 +305,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?limit={limit}&after={afterUserId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -348,7 +332,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{Search}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?query={query}&limit={limit}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -377,7 +360,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Put,
 			Payload = JsonSerializer.Serialize(payload),
 			Context = new()
@@ -411,7 +393,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason != null ? new()
@@ -446,7 +427,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{Me}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{Me}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Patch,
 			Payload = $"{{\"nick\":\"{nickname}\"}}",
 			Headers = reason != null ? new()
@@ -482,7 +462,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Put,
 			Headers = reason != null ? new()
 			{
@@ -517,7 +496,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Headers = reason != null ? new()
 			{
@@ -551,7 +529,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Headers = reason != null ? new()
 			{
@@ -583,7 +560,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -610,7 +586,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get
 		};
 
@@ -633,7 +608,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Put,
 			Payload = $"{{\"delete_message_days\": \"{deleteMessageDays}\"}}",
 			Headers = reason != null ? new()
@@ -666,7 +640,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Headers = reason != null ? new()
 			{
@@ -697,7 +670,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -726,7 +698,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Headers = reason != null ? new()
@@ -761,7 +732,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason != null ? new()
@@ -797,7 +767,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason != null ? new()
@@ -832,7 +801,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Headers = reason != null ? new()
 			{
@@ -870,7 +838,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Prune}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}{(roles != null ? $"&include_roles={roles}" : "")}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -913,7 +880,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}" +
 				$"{(roles != null ? $"&include_roles={roles}" : "")}" +
 				$"{(computeCount != null ? $"compute_prune_count={computeCount}" : "")}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Post,
 			Headers = reason != null ? new()
 			{
@@ -949,7 +915,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Voice}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Voice}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -975,7 +940,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Invites}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Invites}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1001,7 +965,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Integrations}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1030,7 +993,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Integrations}/{IntegrationId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}/{integrationId}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Delete,
 			Headers = reason != null ? new()
 			{
@@ -1061,7 +1023,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Widget}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1091,7 +1052,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Widget}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(settings),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason != null ? new()
@@ -1123,7 +1083,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{WidgetJson}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetJson}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1149,7 +1108,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{VanityUrl}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VanityUrl}"),
-			Token = this.__token,
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1181,7 +1139,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{WidgetPng}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = true
 			}
 		};
 
@@ -1203,7 +1161,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{Me}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{Me}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
@@ -1232,7 +1189,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{userId}"),
-			Token = this.__token,
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()

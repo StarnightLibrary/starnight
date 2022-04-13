@@ -9,12 +9,10 @@ using Microsoft.Extensions.Caching.Memory;
 public class TemplateRestResource : IRestResource
 {
 	private readonly RestClient __rest_client;
-	private readonly String __token;
 
-	public TemplateRestResource(RestClient client, String token, IMemoryCache cache)
+	public TemplateRestResource(RestClient client, IMemoryCache cache)
 		: base(cache)
 	{
 		this.__rest_client = client;
-		this.__token = token;
 	}
 }

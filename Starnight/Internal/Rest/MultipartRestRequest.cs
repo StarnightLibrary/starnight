@@ -29,8 +29,6 @@ public struct MultipartRestRequest : IRestRequest
 
 	public List<DiscordAttachmentFile> Files { get; set; } = new();
 
-	public String? Token { get; init; } = null;
-
 	public Context Context { get; init; } = null!;
 
 	public HttpRequestMessage Build()
@@ -47,11 +45,6 @@ public struct MultipartRestRequest : IRestRequest
 		});
 
 		HttpRequestMessage message = new(method, this.Url);
-
-		if(this.Token != null)
-		{
-			message.Headers.Authorization = new AuthenticationHeaderValue(this.Token);
-		}
 
 		foreach(KeyValuePair<String, String> kv in this.Headers)
 		{
