@@ -515,4 +515,57 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
+
+	/// <summary>
+	/// Edits the given message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="payload">Edit payload.</param>
+	public async Task<DiscordMessage> EditMessageAsync(Int64 channelId, Int64 messageId, EditMessageRequestPayload payload)
+	{
+		String payloadBody = JsonSerializer.Serialize(payload);
+
+		IRestRequest request =
+
+			payload.Files == null ?
+
+				new RestRequest
+				{
+					Path = $"/{Channels}/{channelId}/{Messages}",
+					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
+					Payload = payloadBody,
+					Method = HttpMethodEnum.Patch,
+					Context = new()
+					{
+						["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = false
+					}
+				} :
+
+				new MultipartRestRequest
+				{
+					Path = $"/{Channels}/{channelId}/{Messages}",
+					Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}"),
+					Payload = String.IsNullOrWhiteSpace(payloadBody)
+						? new()
+						: new()
+						{
+							["payload_json"] = payloadBody
+						},
+					Method = HttpMethodEnum.Patch,
+					Files = payload.Files.ToList(),
+					Context = new()
+					{
+						["endpoint"] = $"/{Channels}/{channelId}/{MessageId}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = false
+					}
+				};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
+	}
 }
