@@ -600,4 +600,30 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	public async Task<Boolean> BulkDeleteMessagesAsync(Int64 channelId, Int64[] messageIds, String? reason = null)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{BulkDelete}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{BulkDelete}"),
+			Payload = JsonSerializer.Serialize(messageIds),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{BulkDelete}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
+	}
 }
