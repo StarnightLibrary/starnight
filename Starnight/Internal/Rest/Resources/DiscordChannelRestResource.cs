@@ -568,4 +568,36 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Deletes a message, potentially passing an audit log reason.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the message.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the message was successfully deleted.</returns>
+	public async Task<Boolean> DeleteMessageAsync(Int64 channelId, Int64 messageId, String? reason = null)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}"),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
+	}
 }
