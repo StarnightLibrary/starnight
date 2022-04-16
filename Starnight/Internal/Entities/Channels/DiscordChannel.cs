@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Channels;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels.Threads;
@@ -12,10 +13,10 @@ using Starnight.Internal.Entities.Users;
 public record DiscordChannel : DiscordSnowflakeObject
 {
 	/// <summary>
-	/// Discord channel type, as defined by <see cref="DiscordChannelType"/>.
+	/// Discord channel type.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public Int32 ChannelType { get; init; }
+	public DiscordChannelType ChannelType { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the guild this channel belongs to.
@@ -34,7 +35,7 @@ public record DiscordChannel : DiscordSnowflakeObject
 	/// Array of all permission overwrites for this channel.
 	/// </summary>
 	[JsonPropertyName("permission_overwrites")]
-	public DiscordChannelOverwrite[]? Overwrites { get; init; }
+	public IEnumerable<DiscordChannelOverwrite>? Overwrites { get; init; }
 
 	/// <summary>
 	/// Channel name, 1 - 100 characters.
@@ -84,7 +85,7 @@ public record DiscordChannel : DiscordSnowflakeObject
 	/// The recipients (up to 10) of this DM channel (given it is a DM channel.)
 	/// </summary>
 	[JsonPropertyName("recipients")]
-	public DiscordUser[]? Recipients { get; init; }
+	public IEnumerable<DiscordUser>? Recipients { get; init; }
 
 	/// <summary>
 	/// Hash code of this channels icon.
@@ -126,10 +127,10 @@ public record DiscordChannel : DiscordSnowflakeObject
 	public String? RtcRegion { get; init; }
 
 	/// <summary>
-	/// Camera video quality mode of this voice channel, <see cref="DiscordVideoQualityMode"/>.
+	/// Camera video quality mode of this voice channel.
 	/// </summary>
 	[JsonPropertyName("video_quality_mode")]
-	public Int32? VideoQualityMode { get; init; }
+	public DiscordVideoQualityMode? VideoQualityMode { get; init; }
 
 	/// <summary>
 	/// An approximate counter for thread messages, stops counting at 50.
