@@ -790,4 +790,26 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordFollowedChannel>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Triggers the typing indicator for the current user in the given channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	public async Task TriggerTypingIndicatorAsync(Int64 channelId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Typing}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Typing}"),
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Typing}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		_ = await this.__rest_client.MakeRequestAsync(request);
+	}
 }
