@@ -58,7 +58,7 @@ public record DiscordUserConnection
 	/// Visibility of this connection.
 	/// </summary>
 	[JsonPropertyName("visibility")]
-	public DiscordUserConnectionVisibility Visibility { get; init; } = 1;
+	public DiscordUserConnectionVisibility Visibility { get; init; } = DiscordUserConnectionVisibility.Everyone;
 
 	/// <summary>
 	/// Active integrations tied to this user.

@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway.Objects.User.Activity;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -20,5 +21,5 @@ public record DiscordActivityParty
 	/// size[1]: maximum size of the party.
 	/// </summary>
 	[JsonPropertyName("size")]
-	public Int32[]? Size { get; init; }
+	public IEnumerable<Int32>? Size { get; init; }
 }

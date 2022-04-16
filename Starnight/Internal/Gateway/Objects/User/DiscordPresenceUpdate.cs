@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway.Objects.User;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Users;
@@ -34,5 +35,5 @@ public record DiscordPresenceUpdate
 	/// Current activities of this user.
 	/// </summary>
 	[JsonPropertyName("activities")]
-	public DiscordActivity[] CurrentActivities { get; init; } = default!;
+	public IEnumerable<DiscordActivity> CurrentActivities { get; init; } = default!;
 }

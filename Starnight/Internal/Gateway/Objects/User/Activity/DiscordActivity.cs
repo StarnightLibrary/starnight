@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway.Objects.User.Activity;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
@@ -99,5 +100,5 @@ public record DiscordActivity
 	/// Up to two custom buttons shown in the RPC display.
 	/// </summary>
 	[JsonPropertyName("buttons")]
-	public DiscordActivityButton[]? Buttons { get; init; }
+	public IEnumerable<DiscordActivityButton>? Buttons { get; init; }
 }
