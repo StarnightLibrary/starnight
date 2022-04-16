@@ -763,4 +763,31 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Follows a news channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the news channel to follow.</param>
+	/// <param name="targetChannelId">Snowflake identifier of the channel you want messages to be cross-posted into.</param>
+	/// <returns></returns>
+	public async Task<DiscordFollowedChannel> FollowNewsChannelAsync(Int64 channelId, Int64 targetChannelId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Followers}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Followers}"),
+			Payload = $"{{ \"webhook_channel_id\": \"{targetChannelId}\" }}",
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Followers}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordFollowedChannel>(await message.Content.ReadAsStringAsync())!;
+	}
 }
