@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -18,5 +19,5 @@ public record DiscordGuildWelcomeScreen
 	/// The channels shown in this welcome screen, up to 5.
 	/// </summary>
 	[JsonPropertyName("welcome_channels")]
-	public DiscordGuildWelcomeChannel[] WelcomeChannels { get; init; } = default!;
+	public IEnumerable<DiscordGuildWelcomeChannel> WelcomeChannels { get; init; } = default!;
 }

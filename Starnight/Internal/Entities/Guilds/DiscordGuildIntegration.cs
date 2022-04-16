@@ -10,7 +10,6 @@ using Starnight.Internal.Entities.Users;
 /// </summary>
 public record DiscordGuildIntegration : DiscordSnowflakeObject
 {
-	#region Always present
 	/// <summary>
 	/// Integration name - i.e. for bots the Application name
 	/// </summary>
@@ -40,9 +39,7 @@ public record DiscordGuildIntegration : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("application")]
 	public DiscordGuildIntegrationApplication? Application { get; init; }
-	#endregion
 
-	#region Present only for non-Bot integrations
 	/// <summary>
 	/// Gets whether this integration is syncing.
 	/// </summary>
@@ -98,5 +95,4 @@ public record DiscordGuildIntegration : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("revoked")]
 	public Boolean? Revoked { get; init; }
-	#endregion
 }

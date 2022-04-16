@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds.Audit;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -19,7 +20,7 @@ public record DiscordAuditLogEntry : DiscordSnowflakeObject
 	/// Stores a list of all changes to the object in question.
 	/// </summary>
 	[JsonPropertyName("changes")]
-	public DiscordAuditLogChange[]? Changes { get; init; }
+	public IEnumerable<DiscordAuditLogChange>? Changes { get; init; }
 
 	/// <summary>
 	/// The snowflake identifier of the user who made these changes.

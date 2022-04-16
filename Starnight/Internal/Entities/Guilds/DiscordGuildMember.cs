@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Users;
@@ -33,7 +34,7 @@ public record DiscordGuildMember
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("roles")]
-	public Int64[]? Roles { get; init; }
+	public IEnumerable<Int64>? Roles { get; init; }
 
 	/// <summary>
 	/// Denotes when this user joined the guild.

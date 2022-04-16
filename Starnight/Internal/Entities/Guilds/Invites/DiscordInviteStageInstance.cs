@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds.Invites;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
@@ -14,7 +15,7 @@ public record DiscordInviteStageInstance
 	/// Members speaking in this stage.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public DiscordGuildMember[]? Members { get; init; }
+	public IEnumerable<DiscordGuildMember>? Members { get; init; }
 
 	/// <summary>
 	/// The number of users in this stage.

@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
@@ -118,19 +119,19 @@ public record DiscordGuild : DiscordSnowflakeObject
 	/// Roles in this guild.
 	/// </summary>
 	[JsonPropertyName("roles")]
-	public DiscordRole[] Roles { get; init; } = default!;
+	public IEnumerable<DiscordRole> Roles { get; init; } = default!;
 
 	/// <summary>
 	/// Emotes in this guild.
 	/// </summary>
 	[JsonPropertyName("emojis")]
-	public DiscordEmote[] Emotes { get; init; } = default!;
+	public IEnumerable<DiscordEmote> Emotes { get; init; } = default!;
 
 	/// <summary>
 	/// Enabled features for this guild.
 	/// </summary>
 	[JsonPropertyName("features")]
-	public String[] Features { get; init; } = default!;
+	public IEnumerable<String> Features { get; init; } = default!;
 
 	/// <summary>
 	/// Required MFA level for moderation actions in this guild.
@@ -193,31 +194,31 @@ public record DiscordGuild : DiscordSnowflakeObject
 	/// Voice states for all members currently in voice channels.
 	/// </summary>
 	[JsonPropertyName("voice_states")]
-	public DiscordVoiceState[]? VoiceStates { get; init; }
+	public IEnumerable<DiscordVoiceState>? VoiceStates { get; init; }
 
 	/// <summary>
 	/// All members in this guild.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public DiscordGuildMember[]? Members { get; init; }
+	public IEnumerable<DiscordGuildMember>? Members { get; init; }
 
 	/// <summary>
 	/// All channels in this guild.
 	/// </summary>
 	[JsonPropertyName("channels")]
-	public DiscordChannel[]? Channels { get; init; }
+	public IEnumerable<DiscordChannel>? Channels { get; init; }
 
 	/// <summary>
 	/// All threads in this guild that the current user has permission to view.
 	/// </summary>
 	[JsonPropertyName("threads")]
-	public DiscordChannel[]? Threads { get; init; }
+	public IEnumerable<DiscordChannel>? Threads { get; init; }
 
 	/// <summary>
 	/// Presences of the guild members. Offline members will be excluded from a certain point onwards.
 	/// </summary>
 	[JsonPropertyName("presences")]
-	public DiscordPresenceUpdate[]? Presences { get; init; }
+	public IEnumerable<DiscordPresenceUpdate>? Presences { get; init; }
 
 	/// <summary>
 	/// The maximum number of presences for this guild. <c>null</c> everywhere save the largest guilds.
@@ -308,19 +309,19 @@ public record DiscordGuild : DiscordSnowflakeObject
 	/// All active stage instances in this guild.
 	/// </summary>
 	[JsonPropertyName("stage_instances")]
-	public DiscordStageInstance[]? Stages { get; init; }
+	public IEnumerable<DiscordStageInstance>? Stages { get; init; }
 
 	/// <summary>
 	/// All stickers in this guild.
 	/// </summary>
 	[JsonPropertyName("stickers")]
-	public DiscordSticker[]? Stickers { get; init; }
+	public IEnumerable<DiscordSticker>? Stickers { get; init; }
 
 	/// <summary>
 	/// All scheduled events for this guild.
 	/// </summary>
 	[JsonPropertyName("guild_scheduled_events")]
-	public DiscordScheduledEvent[]? ScheduledEvents { get; init; }
+	public IEnumerable<DiscordScheduledEvent>? ScheduledEvents { get; init; }
 
 	/// <summary>
 	/// Whether this guild has the boost progress bar enabled.

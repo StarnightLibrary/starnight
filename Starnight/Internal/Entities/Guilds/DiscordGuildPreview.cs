@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Stickers;
@@ -38,13 +39,13 @@ public record DiscordGuildPreview : DiscordSnowflakeObject
 	/// List of custom emotes in this guild.
 	/// </summary>
 	[JsonPropertyName("emojis")]
-	public DiscordEmote[] Emotes { get; init; } = default!;
+	public IEnumerable<DiscordEmote> Emotes { get; init; } = default!;
 
 	/// <summary>
 	/// List of guild features.
 	/// </summary>
 	[JsonPropertyName("features")]
-	public String[] Features { get; init; } = default!;
+	public IEnumerable<String> Features { get; init; } = default!;
 
 	/// <summary>
 	/// Approximate member count for this guild.
@@ -68,5 +69,5 @@ public record DiscordGuildPreview : DiscordSnowflakeObject
 	/// Stickers for this guild.
 	/// </summary>
 	[JsonPropertyName("stickers")]
-	public DiscordSticker[]? Stickers { get; init; }
+	public IEnumerable<DiscordSticker>? Stickers { get; init; }
 }

@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
@@ -27,13 +28,13 @@ public record DiscordGuildWidget : DiscordSnowflakeObject
 	/// Voice and stage channels accessible to everyone. 
 	/// </summary>
 	[JsonPropertyName("channels")]
-	public DiscordChannel[]? VoiceChannels { get; init; }
+	public IEnumerable<DiscordChannel>? VoiceChannels { get; init; }
 
 	/// <summary>
 	/// Up to 100 special widget users. IDs, discriminators and avatars are anonymized.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public DiscordUser[]? Users { get; init; }
+	public IEnumerable<DiscordUser>? Users { get; init; }
 
 	/// <summary>
 	/// Approximate amount of online users in this guild.
