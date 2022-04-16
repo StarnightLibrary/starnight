@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.Channel;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Interactions;
@@ -31,7 +32,7 @@ public record CreateMessageRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("embeds")]
-	public DiscordEmbed[]? Embeds { get; init; }
+	public IEnumerable<DiscordEmbed>? Embeds { get; init; }
 
 	/// <summary>
 	/// Specifies which mentions should be resolved.
@@ -52,7 +53,7 @@ public record CreateMessageRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("components")]
-	public DiscordMessageComponent[]? Components { get; init; }
+	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// Up to 3 snowflake identifiers of stickers to be attached to this message.
@@ -60,20 +61,20 @@ public record CreateMessageRequestPayload
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("sticker_ids")]
-	public Int64[]? StickerIds { get; init; }
+	public IEnumerable<Int64>? StickerIds { get; init; }
 
 	/// <summary>
 	/// Files to be attached to this message.
 	/// </summary>
 	[JsonIgnore]
-	public DiscordAttachmentFile[]? Files { get; init; }
+	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
 
 	/// <summary>
 	/// Attachment metadata for this message.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("attachments")]
-	public DiscordMessageAttachment[]? Attachments { get; init; }
+	public IEnumerable<DiscordMessageAttachment>? Attachments { get; init; }
 
 	/// <summary>
 	/// Message flags, combined as bitfield. Only <see cref="DiscordMessageFlags.SuppressEmbeds"/> can be set.

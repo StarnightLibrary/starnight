@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.Channel;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Interactions;
@@ -24,7 +25,7 @@ public record EditMessageRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("embeds")]
-	public DiscordEmbed[]? Embeds { get; init; }
+	public IEnumerable<DiscordEmbed>? Embeds { get; init; }
 
 	/// <summary>
 	/// New flags for this message. Only <see cref="DiscordMessageFlags.SuppressEmbeds"/> can currently be set or unset.
@@ -45,18 +46,18 @@ public record EditMessageRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("components")]
-	public DiscordMessageComponent[]? Components { get; init; }
+	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// Attached files to this message. This must include old attachments to be retained and new attachments, if passed.
 	/// </summary>
 	[JsonIgnore]
-	public DiscordAttachmentFile[]? Files { get; init; }
+	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
 
 	/// <summary>
 	/// Attachments to this message.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("content")]
-	public DiscordMessageAttachment[]? Attachments { get; init; }
+	public IEnumerable<DiscordMessageAttachment>? Attachments { get; init; }
 }

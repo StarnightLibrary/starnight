@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.Channel;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Converters;
@@ -73,7 +74,7 @@ public record ModifyGuildChannelRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("permission_overwrites")]
-	public DiscordChannelOverwrite[]? PermissionOverwrites { get; init; }
+	public IEnumerable<DiscordChannelOverwrite>? PermissionOverwrites { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the new parent category channel.
