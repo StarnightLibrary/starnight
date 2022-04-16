@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Users;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
@@ -54,14 +55,14 @@ public record DiscordUserConnection
 	public Boolean ShowActivity { get; init; } = false;
 
 	/// <summary>
-	/// Visibility of this connection, see <see cref="DiscordUserConnectionVisibility"/>
+	/// Visibility of this connection.
 	/// </summary>
 	[JsonPropertyName("visibility")]
-	public Int32 Visibility { get; init; } = 1;
+	public DiscordUserConnectionVisibility Visibility { get; init; } = 1;
 
 	/// <summary>
 	/// Active integrations tied to this user.
 	/// </summary>
 	[JsonPropertyName("integrations")]
-	public DiscordGuildIntegration[]? Integrations { get; init; }
+	public IEnumerable<DiscordGuildIntegration>? Integrations { get; init; }
 }

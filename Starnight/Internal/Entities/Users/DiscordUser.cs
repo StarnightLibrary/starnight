@@ -8,9 +8,6 @@ using System.Text.Json.Serialization;
 /// </summary>
 public record DiscordUser : DiscordSnowflakeObject
 {
-	#region Fields
-	#region OAuth Scope: identify
-
 	/// <summary>
 	/// Discord username of this account. Usernames cannot contain any Discord control characters or be "everyone", "here" or "discordtag".
 	/// </summary>
@@ -66,27 +63,23 @@ public record DiscordUser : DiscordSnowflakeObject
 	public String? Locale { get; init; }
 
 	/// <summary>
-	/// Gets the flags on this user account, see <see cref="DiscordUserFlags"/>. <see langword="null"/> if there are no flags.
+	/// Gets the flags on this user account. <see langword="null"/> if there are no flags.
 	/// (instead of just sending zero. Discord, please...)
 	/// </summary>
 	[JsonPropertyName("flags")]
-	public Int32? Flags { get; init; }
+	public DiscordUserFlags? Flags { get; init; }
 
 	/// <summary>
-	/// Gets the publicly visible flags on this user account, see <see cref="DiscordUserFlags"/>. <see langword="null"/> if there are no flags.
+	/// Gets the publicly visible flags on this user account. <see langword="null"/> if there are no flags.
 	/// </summary>
 	[JsonPropertyName("public_flags")]
-	public Int32? PublicFlags { get; init; }
+	public DiscordUserFlags? PublicFlags { get; init; }
 
 	/// <summary>
-	/// Gets the Nitro subscription type on this user account, see <see cref="DiscordPremiumType"/>.
+	/// Gets the Nitro subscription type on this user account.
 	/// </summary>
 	[JsonPropertyName("premium_type")]
-	public Byte? PremiumType { get; init; }
-
-	#endregion
-
-	#region OAuth scope: email
+	public DiscordPremiumType? PremiumType { get; init; }
 
 	/// <summary>
 	/// The email address tied to this user account. Requires the <c>email</c> OAuth2 scope.
@@ -99,7 +92,4 @@ public record DiscordUser : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("verified")]
 	public Boolean? VerifiedEmail { get; init; }
-
-	#endregion
-	#endregion
 }
