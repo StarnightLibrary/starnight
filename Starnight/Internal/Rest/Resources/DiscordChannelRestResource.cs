@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
+using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Rest.Payloads.Channel;
@@ -669,5 +671,29 @@ public class DiscordChannelRestResource : AbstractRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return message.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Returns a list of invite objects with invite metadata pointing to this channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	public async Task<IEnumerable<DiscordInvite>> GetChannelInvitesAsync(Int64 channelId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Invites}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Invites}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Invites}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordInvite>>(await message.Content.ReadAsStringAsync())!;
 	}
 }
