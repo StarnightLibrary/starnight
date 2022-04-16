@@ -8,7 +8,6 @@ jobs:
   publish_release:
 
     runs-on: "ubuntu-latest"
-    if: "!contains(toJSON(github.event.commits.*.message), '[ci skip]')"
 
     steps:
       - uses: "actions/checkout@v2"
@@ -17,21 +16,15 @@ jobs:
         uses: "actions/setup-dotnet@v1"
         with:
           dotnet-version: "7.0.100-preview.3.22179.4"
-
-      - name: "Setup NuGet"
-        uses: NuGet/setup-nuget@v1.0.5
         
       - name: "Restore"
         run: "dotnet restore"
 
       - name: "Build Nuget Packages"
-        run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg --include-source -c Release -o build"
+        run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg -p:Version=${{ github.event.release.tag_name }} --include-symbols --include-source -c Release -o build"
 
       - name: Publish main package
-        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.0.1.0-dev.${{ github.run_number }}.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
-
-      - name: Publish symbols package
-        run: "nuget push /home/runner/work/starnight/starnight/build/Starnight.0.1.0-dev.${{ github.run_number }}.snupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source NuGet -NoServiceEndpoint"
+        run: "dotnet nuget push /home/runner/work/starnight/starnight/build/* --api-key ${{ secrets.NUGET_API_KEY }} --source NuGet --no-service-endpoint --skip-duplicate"
       
       - name: "Upload Nuget Packages To Github Release"
         uses: "ncipollo/release-action@v1"

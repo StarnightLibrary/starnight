@@ -8,7 +8,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starnight", "Starnight\Starnight.csproj", "{DBE7B190-6A81-4728-B85C-48F43586C0F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight", "Starnight\Starnight.csproj", "{DBE7B190-6A81-4728-B85C-48F43586C0F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Items", "Build Items", "{29D1E88D-2F0F-42A7-9ADF-D8C9D432C8C5}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\commit.yml = .github\workflows\commit.yml
+		.github\workflows\pr.yml = .github\workflows\pr.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
