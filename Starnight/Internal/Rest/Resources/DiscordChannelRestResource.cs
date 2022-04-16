@@ -914,6 +914,29 @@ public class DiscordChannelRestResource : AbstractRestResource
 			Path = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Recipients}/{userId}"),
 			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Put,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		_ = await this.__rest_client.MakeRequestAsync(request);
+	}
+
+	/// <summary>
+	/// Removes the given user from the given group DM channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the group DM channel in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	public async Task RemoveGroupDMRecipientAsync(Int64 channelId, Int64 userId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Recipients}/{userId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
