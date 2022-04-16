@@ -900,4 +900,29 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Adds the given user to a specified group DM channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the group DM channel in question.</param>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="payload">Request payload, containing the access token needed.</param>
+	public async Task AddGroupDMRecipientAsync(Int64 channelId, Int64 userId, AddGroupDMRecipientRequestPayload payload)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Recipients}/{userId}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		_ = await this.__rest_client.MakeRequestAsync(request);
+	}
 }
