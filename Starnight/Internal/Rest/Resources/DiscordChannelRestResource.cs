@@ -696,4 +696,40 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordInvite>>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Creates an invite on the specified channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	/// <param name="payload">Additional invite metadata.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created invite object.</returns>
+	public async Task<DiscordInvite> CreateChannelInviteAsync(Int64 channelId, CreateChannelInviteRequestPayload payload, String? reason = null)
+	{
+		String serializedPayload = JsonSerializer.Serialize<CreateChannelInviteRequestPayload>(payload);
+
+		// always pass an empty json object
+		if(String.IsNullOrWhiteSpace(serializedPayload))
+		{
+			serializedPayload = "{}";
+		}
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Invites}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Invites}"),
+			Method = HttpMethodEnum.Post,
+			Payload = serializedPayload,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Invites}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordInvite>(await message.Content.ReadAsStringAsync())!;
+	}
 }
