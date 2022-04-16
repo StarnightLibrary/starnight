@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
@@ -125,7 +126,7 @@ public record ModifyGuildRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("features")]
-	public String[]? Features { get; init; }
+	public IEnumerable<String>? Features { get; init; }
 
 	/// <summary>
 	/// The description for this guild, if it is discoverable.

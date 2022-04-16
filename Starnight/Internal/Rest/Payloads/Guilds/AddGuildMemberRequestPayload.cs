@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -28,7 +29,7 @@ public record AddGuildMemberRequestPayload
 	/// </summary>
 	[JsonPropertyName("roles")]
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-	public Int64[]? Roles { get; init; }
+	public IEnumerable<Int64>? Roles { get; init; }
 
 	/// <summary>
 	/// Whether to immediately mute the user upon join.

@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.Guilds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
@@ -63,7 +64,7 @@ public record CreateGuildChannelRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 	[JsonPropertyName("permission_overwrites")]
-	public DiscordChannelOverwrite[]? PermissionOverwrites { get; init; }
+	public IEnumerable<DiscordChannelOverwrite>? PermissionOverwrites { get; init; }
 
 	/// <summary>
 	/// The category channel ID for this channel.

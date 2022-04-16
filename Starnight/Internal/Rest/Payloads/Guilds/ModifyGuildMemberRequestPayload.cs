@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using System;
 
 using Starnight.Converters;
+using System.Collections.Generic;
 
 /// <summary>
 /// Represents a payload to PATCH /guilds/:guild_id/members/:user_id
@@ -24,7 +25,7 @@ public record ModifyGuildMemberRequestPayload
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("roles")]
-	public Int64[]? Roles { get; init; }
+	public IEnumerable<Int64>? Roles { get; init; }
 
 	/// <summary>
 	/// Whether to mute the user.
