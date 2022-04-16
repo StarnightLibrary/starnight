@@ -198,7 +198,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="before">Snowflake identifier of the first older message than the requested block.</param>
 	/// <param name="after">Snowflake identifier of the first newer message than the requested block.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordMessage[]> GetChannelMessagesAsync(Int64 channelId, Int32 count,
+	public async Task<IEnumerable<DiscordMessage>> GetChannelMessagesAsync(Int64 channelId, Int32 count,
 		Int64? around = null, Int64? before = null, Int64? after = null)
 	{
 		StringBuilder queryBuilder = new();
@@ -233,7 +233,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordMessage[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordMessage>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -432,7 +432,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="emote">String representation of the queried emote.</param>
 	/// <param name="after">Specifies a minimum user ID to return from, to paginate queries.</param>
 	/// <param name="limit">Maximum amount of users to return. Defaults to 25.</param>
-	public async Task<DiscordUser[]> GetReactionsAsync(Int64 channelId, Int64 messageId, String emote,
+	public async Task<IEnumerable<DiscordUser>> GetReactionsAsync(Int64 channelId, Int64 messageId, String emote,
 		Int64? after = null, Int32? limit = null)
 	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}");
@@ -468,7 +468,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordUser[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordUser>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
