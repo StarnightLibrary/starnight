@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommand;
@@ -32,7 +33,7 @@ public record DiscordInteractionData : DiscordSnowflakeObject
 	/// All parameters and values from the user.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public DiscordApplicationCommandDataOption[]? Options { get; init; }
+	public IEnumerable<DiscordApplicationCommandDataOption>? Options { get; init; }
 
 	/// <summary>
 	/// The developer-defined custom ID for this interaction.
@@ -50,7 +51,7 @@ public record DiscordInteractionData : DiscordSnowflakeObject
 	/// The select menu options selected by the user.
 	/// </summary>
 	[JsonPropertyName("values")]
-	public DiscordSelectMenuOption[]? SelectedOptions { get; init; }
+	public IEnumerable<DiscordSelectMenuOption>? SelectedOptions { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the user or message targeted by this right-click interaction.

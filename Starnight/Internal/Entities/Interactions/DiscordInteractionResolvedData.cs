@@ -18,29 +18,29 @@ public record DiscordInteractionResolvedData
 	/// Maps snowflake identifiers (in string form) to <see cref="DiscordUser"/>s.
 	/// </summary>
 	[JsonPropertyName("users")]
-	public Dictionary<String, DiscordUser>? ResolvedUsers { get; init; }
+	public IDictionary<String, DiscordUser>? ResolvedUsers { get; init; }
 
 	/// <summary>
 	/// Maps snowflake identifiers (in string form) to <see cref="DiscordGuildMember"/>s.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public Dictionary<String, DiscordGuildMember>? ResolvedGuildMembers { get; init; }
+	public IDictionary<String, DiscordGuildMember>? ResolvedGuildMembers { get; init; }
 
 	/// <summary>
 	/// Maps snowflake identifiers (in string form) to <see cref="DiscordRole"/>s.
 	/// </summary>
 	[JsonPropertyName("roles")]
-	public Dictionary<String, DiscordRole>? ResolvedRoles { get; init; }
+	public IDictionary<String, DiscordRole>? ResolvedRoles { get; init; }
 
 	/// <summary>
 	/// Maps snowflake identifiers (in string form) to <see cref="DiscordChannel"/>s.
 	/// </summary>
 	[JsonPropertyName("channels")]
-	public Dictionary<String, DiscordChannel>? ResolvedChannels { get; init; }
+	public IDictionary<String, DiscordChannel>? ResolvedChannels { get; init; }
 
 	/// <summary>
 	/// Maps snowflake identifiers (in string form) to <see cref="DiscordMessage"/>s.
 	/// </summary>
 	[JsonPropertyName("messages")]
-	public Dictionary<String, DiscordMessage>? ResolvedMessages { get; init; }
+	public IDictionary<String, DiscordMessage>? ResolvedMessages { get; init; }
 }

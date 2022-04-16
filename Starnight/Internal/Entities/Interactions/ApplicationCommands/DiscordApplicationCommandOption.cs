@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -36,13 +37,13 @@ public record DiscordApplicationCommandOption
 	/// All valid choices for this parameter. Not listed choices are not valid inputs.
 	/// </summary>
 	[JsonPropertyName("choices")]
-	public DiscordApplicationCommandOptionChoice[]? Choices { get; init; }
+	public IEnumerable<DiscordApplicationCommandOptionChoice>? Choices { get; init; }
 
 	/// <summary>
 	/// If this is a subcommand/subcommand group; these options are valid for the next level.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public DiscordApplicationCommandOption[]? Suboptions { get; init; }
+	public IEnumerable<DiscordApplicationCommandOption>? Suboptions { get; init; }
 
 	/// <summary>
 	/// The minimum value for this parameter. 

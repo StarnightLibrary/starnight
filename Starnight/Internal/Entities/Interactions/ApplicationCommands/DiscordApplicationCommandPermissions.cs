@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -26,5 +27,5 @@ public record DiscordApplicationCommandPermissions : DiscordSnowflakeObject
 	/// All permission overwrites for this command in the specified guild.
 	/// </summary>
 	[JsonPropertyName("permissions")]
-	public DiscordApplicationCommandPermission[] Permissions { get; init; } = default!;
+	public IEnumerable<DiscordApplicationCommandPermission> Permissions { get; init; } = default!;
 }

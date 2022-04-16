@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
@@ -56,7 +57,7 @@ public record DiscordMessageComponent
 	/// The choices for this select menu, max. 25.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public DiscordSelectMenuOption[]? Options { get; init; }
+	public IEnumerable<DiscordSelectMenuOption>? Options { get; init; }
 
 	/// <summary>
 	/// Custom placeholder text for this select menu if nothing is selected.
@@ -80,5 +81,5 @@ public record DiscordMessageComponent
 	/// Child components of this action row.
 	/// </summary>
 	[JsonPropertyName("components")]
-	public DiscordMessageComponent[]? Components { get; init; }
+	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
 }

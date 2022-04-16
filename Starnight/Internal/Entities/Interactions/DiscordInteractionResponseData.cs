@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommand;
@@ -28,7 +29,7 @@ public record DiscordInteractionResponseData
 	/// Up to 10 embeds to be attached to this message.
 	/// </summary>
 	[JsonPropertyName("embeds")]
-	public DiscordEmbed[]? Embeds { get; init; }
+	public IEnumerable<DiscordEmbed>? Embeds { get; init; }
 
 	/// <summary>
 	/// Controls what mentions should be parsed as such.
@@ -46,17 +47,17 @@ public record DiscordInteractionResponseData
 	/// Message components to be attached to this interaction response message.
 	/// </summary>
 	[JsonPropertyName("components")]
-	public DiscordMessageComponent[]? Components { get; init; }
+	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// Attachments to be... attached... to this interaction response message.
 	/// </summary>
 	[JsonPropertyName("attachments")]
-	public DiscordMessageAttachment[]? Attachments { get; init; }
+	public IEnumerable<DiscordMessageAttachment>? Attachments { get; init; }
 
 	/// <summary>
 	/// Up to 25 autocomplete choices. Mutually exclusive with all other properties.
 	/// </summary>
 	[JsonPropertyName("choices")]
-	public DiscordApplicationCommandOptionChoice[]? Choices { get; init; }
+	public IEnumerable<DiscordApplicationCommandOptionChoice>? Choices { get; init; }
 }

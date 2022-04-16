@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -44,7 +45,7 @@ public record DiscordApplicationCommand : DiscordSnowflakeObject
 	/// The parameters for this command, up to 25.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public DiscordApplicationCommandOption[]? Options { get; init; }
+	public IEnumerable<DiscordApplicationCommandOption>? Options { get; init; }
 
 	/// <summary>
 	/// Whether this command is enabled for everyone by default.

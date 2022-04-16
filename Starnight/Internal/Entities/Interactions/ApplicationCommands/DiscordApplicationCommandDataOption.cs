@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -30,7 +31,7 @@ public record DiscordApplicationCommandDataOption
 	/// Potential subcommand options if this is a group or subcommand.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public DiscordApplicationCommandDataOption[]? Options { get; init; }
+	public IEnumerable<DiscordApplicationCommandDataOption>? Options { get; init; }
 
 	/// <summary>
 	/// Whether this option is the currently focused option for autocomplete.
