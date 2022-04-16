@@ -634,4 +634,40 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Edits a permission overwrite for a guild channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier for the channel in question.</param>
+	/// <param name="overwriteId">Snowflake identifier of the entity (role/user) this overwrite targets.</param>
+	/// <param name="payload">Edit payload. Pass 0 to both <see cref="EditChannelPermissionsRequestPayload.Allow"/> and
+	/// <see cref="EditChannelPermissionsRequestPayload.Deny"/> to delete the overwrite.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the overwrite was successfully edited.</returns>
+	public async Task<Boolean> EditChannelPermissionsAsync(Int64 channelId, Int64 overwriteId,
+		EditChannelPermissionsRequestPayload payload, String? reason = null)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Permissions}/{overwriteId}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Method = HttpMethodEnum.Put,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
+	}
 }

@@ -1,12 +1,15 @@
-namespace Starnight.Internal.Entities.Channels;
+namespace Starnight.Internal.Rest.Payloads.Channel;
 
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities;
+using Starnight.Internal.Entities.Channels;
+
 /// <summary>
-/// Represents a discord channel permission overwrite.
+/// Represents a payload to PUT /channels/:channel_id/permissions/:overwrite_id.
 /// </summary>
-public record DiscordChannelOverwrite : DiscordSnowflakeObject
+public record EditChannelPermissionsRequestPayload
 {
 	/// <summary>
 	/// Overwrite type - either role or member.
