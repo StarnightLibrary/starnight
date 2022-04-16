@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Stickers;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -12,7 +13,7 @@ public record DiscordStickerPack : DiscordSnowflakeObject
 	/// The stickers contained in this pack.
 	/// </summary>
 	[JsonPropertyName("stickers")]
-	public DiscordSticker[] Stickers { get; init; } = default!;
+	public IEnumerable<DiscordSticker> Stickers { get; init; } = default!;
 
 	/// <summary>
 	/// The name of this sticker pack.
