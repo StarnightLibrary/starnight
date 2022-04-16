@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -148,7 +149,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="id">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordChannel[]> GetGuildChannelsAsync(Int64 id)
+	public async Task<IEnumerable<DiscordChannel>> GetGuildChannelsAsync(Int64 id)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -165,7 +166,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordChannel[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordChannel>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -210,7 +211,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Audit log reason for this operation.</param>
 	/// <returns>Whether or not the call succeeded</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> ModifyGuildChannelPositionsAsync(Int64 id, ModifyGuildChannelPositionRequestPayload[] payload,
+	public async Task<Boolean> ModifyGuildChannelPositionsAsync(Int64 id, IEnumerable<ModifyGuildChannelPositionRequestPayload> payload,
 		String? reason = null)
 	{
 		IRestRequest request = new RestRequest
@@ -299,7 +300,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="afterUserId">Highest user ID to <b>not</b> query. Used for request pagination.</param>
 	/// <returns>A list of <see cref="DiscordGuildMember"/>s of the specified length.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildMember[]> ListGuildMembersAsync(Int64 guildId, Int32 limit = 1, Int64 afterUserId = 0)
+	public async Task<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync(Int64 guildId, Int32 limit = 1, Int64 afterUserId = 0)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -316,7 +317,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildMember[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildMember>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -326,7 +327,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="query">Query string to search for.</param>
 	/// <param name="limit">Maximum amount of members to return; 1 - 1000.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildMember[]> SearchGuildMembersAsync(Int64 guildId, String query, Int32 limit = 1)
+	public async Task<IEnumerable<DiscordGuildMember>> SearchGuildMembersAsync(Int64 guildId, String query, Int32 limit = 1)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -343,7 +344,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildMember[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildMember>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -554,7 +555,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <returns>An array of <see cref="DiscordGuildBan"/> objects, representing all bans in the guild.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildBan[]> GetGuildBansAsync(Int64 guildId)
+	public async Task<IEnumerable<DiscordGuildBan>> GetGuildBansAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -571,7 +572,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildBan[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildBan>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -664,7 +665,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordRole[]> GetRolesAsync(Int64 guildId)
+	public async Task<IEnumerable<DiscordRole>> GetRolesAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -681,7 +682,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordRole[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordRole>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -726,7 +727,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason for this action.</param>
 	/// <returns>The newly ordered list of roles for this guild.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordRole[]> ModifyRolePositionsAsync(Int64 guildId, ModifyRolePositionRequestPayload[] payload, String? reason = null)
+	public async Task<IEnumerable<DiscordRole>> ModifyRolePositionsAsync(Int64 guildId, ModifyRolePositionRequestPayload[] payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -749,7 +750,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordRole[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordRole>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -909,7 +910,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordVoiceRegion[]> GetGuildVoiceRegionsAsync(Int64 guildId)
+	public async Task<IEnumerable<DiscordVoiceRegion>> GetGuildVoiceRegionsAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -926,7 +927,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordVoiceRegion[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordVoiceRegion>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -934,7 +935,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordInvite[]> GetGuildInvitesAsync(Int64 guildId)
+	public async Task<IEnumerable<DiscordInvite>> GetGuildInvitesAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -951,7 +952,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordInvite[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordInvite>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
@@ -959,7 +960,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildIntegration[]> GetGuildIntegrationsAsync(Int64 guildId)
+	public async Task<IEnumerable<DiscordGuildIntegration>> GetGuildIntegrationsAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -976,7 +977,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildIntegration[]>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildIntegration>>(await response.Content.ReadAsStringAsync())!;
 	}
 
 	/// <summary>
