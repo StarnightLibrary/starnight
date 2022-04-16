@@ -812,4 +812,28 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
+
+	/// <summary>
+	/// Returns all pinned messages as message objects.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the messages' parent channel.</param>
+	public async Task<IEnumerable<DiscordMessage>> GetPinnedMessagesAsync(Int64 channelId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Pins}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Pins}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Pins}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordMessage>>(await message.Content.ReadAsStringAsync())!;
+	}
 }
