@@ -17,13 +17,6 @@ public record DiscordTeamMember
 	public DiscordTeamMembershipState State { get; init; }
 
 	/// <summary>
-	/// User permissions. Obsolete, will always be "["*"]".
-	/// </summary>
-	[JsonPropertyName("permissions")]
-	[Obsolete("Will always be \"[\"*\"]\"", DiagnosticId = "SE0002")]
-	public String[] Permissions { get; init; } = default!;
-
-	/// <summary>
 	/// Team snowflake identifier.
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]

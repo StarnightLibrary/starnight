@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Teams;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Users;
@@ -32,13 +33,13 @@ public record DiscordApplication : DiscordSnowflakeObject
 	/// An array of RPC origin URLs, if RPC is enabled.
 	/// </summary>
 	[JsonPropertyName("rpc_origins")]
-	public String[]? RCPOrigins { get; init; }
+	public IEnumerable<String>? RCPOrigins { get; init; }
 
 	/// <summary>
 	/// Whether the application's bot is public.
 	/// </summary>
 	[JsonPropertyName("bot_public")]
-	public Boolean PublicBot { get; init; }
+	public Boolean HasPublicBot { get; init; }
 
 	/// <summary>
 	/// Whether the application's bot requires the full oauth2 code grant.

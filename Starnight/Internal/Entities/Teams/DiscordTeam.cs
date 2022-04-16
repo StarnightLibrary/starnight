@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Teams;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -18,7 +19,7 @@ public record DiscordTeam : DiscordSnowflakeObject
 	/// Array of team members.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public DiscordTeamMember[] Members { get; init; } = default!;
+	public IEnumerable<DiscordTeamMember> Members { get; init; } = default!;
 
 	/// <summary>
 	/// Team name.
