@@ -601,6 +601,14 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
+	/// <summary>
+	/// Bulk deletes the given messages.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
+	/// <param name="messageIds">Up to 100 message IDs to delete. If any messages older than two weeks are included,
+	/// or any of the IDs are duplicated, the entire request will fail.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the messages were deleted successfully.</returns>
 	public async Task<Boolean> BulkDeleteMessagesAsync(Int64 channelId, Int64[] messageIds, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
