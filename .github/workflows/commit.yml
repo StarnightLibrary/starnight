@@ -17,9 +17,6 @@ jobs:
       with:
         dotnet-version: 7.0.100-preview.3.22179.4
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
-
     - name: restore
       run: dotnet restore
 
