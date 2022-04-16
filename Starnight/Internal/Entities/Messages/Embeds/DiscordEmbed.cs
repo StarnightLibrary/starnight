@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Messages.Embeds;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -85,5 +86,5 @@ public record DiscordEmbed
 	/// The embed fields.
 	/// </summary>
 	[JsonPropertyName("fields")]
-	public DiscordEmbedField[]? Fields { get; init; }
+	public IEnumerable<DiscordEmbedField>? Fields { get; init; }
 }

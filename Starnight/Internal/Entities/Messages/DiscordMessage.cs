@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Messages;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities;
@@ -77,38 +78,38 @@ public record DiscordMessage : DiscordSnowflakeObject
 	/// Array of the users specifically mentioned in this message.
 	/// </summary>
 	[JsonPropertyName("mentions")]
-	public DiscordGuildMember[] MentionedUsers { get; init; } = default!;
+	public IEnumerable<DiscordGuildMember> MentionedUsers { get; init; } = default!;
 
 	/// <summary>
 	/// Array of role IDs specifically mentioned in this message.
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("mention_roles")]
-	public Int64[] MentionedRoles { get; init; } = default!;
+	public IEnumerable<Int64> MentionedRoles { get; init; } = default!;
 
 	/// <summary>
 	/// Array of channel mentions from this message.
 	/// </summary>
 	[JsonPropertyName("mention_channel")]
-	public DiscordChannelMention[]? MentionedChannels { get; init; }
+	public IEnumerable<DiscordChannelMention>? MentionedChannels { get; init; }
 
 	/// <summary>
 	/// Array of attachments to this message.
 	/// </summary>
 	[JsonPropertyName("attachments")]
-	public DiscordMessageAttachment[] Attachments { get; init; } = default!;
+	public IEnumerable<DiscordMessageAttachment> Attachments { get; init; } = default!;
 
 	/// <summary>
 	/// Array of embeds attached to this message.
 	/// </summary>
 	[JsonPropertyName("embeds")]
-	public DiscordEmbed[] Embeds { get; init; } = default!;
+	public IEnumerable<DiscordEmbed> Embeds { get; init; } = default!;
 
 	/// <summary>
 	/// Array of reactions for this message.
 	/// </summary>
 	[JsonPropertyName("reactions")]
-	public DiscordReaction[] Reactions { get; init; } = default!;
+	public IEnumerable<DiscordReaction> Reactions { get; init; } = default!;
 
 	[JsonPropertyName("nonce")]
 	public Object? Nonce { get; init; }
@@ -185,18 +186,11 @@ public record DiscordMessage : DiscordSnowflakeObject
 	/// Message components associated with this message.
 	/// </summary>
 	[JsonPropertyName("components")]
-	public DiscordMessageComponent[]? Components { get; init; }
+	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// The stickers sent with this message.
 	/// </summary>
 	[JsonPropertyName("sticker_items")]
-	public DiscordMessageSticker[]? Stickers { get; init; }
-
-	/// <summary>
-	/// Deprecated.
-	/// </summary>
-	[JsonPropertyName("stickers")]
-	[Obsolete("Formerly the stickers sent with this message. Use DiscordMessage.Stickers instead.", DiagnosticId = "SE0004")]
-	public DiscordSticker[]? DeprecatedStickers { get; init; }
+	public IEnumerable<DiscordMessageSticker>? Stickers { get; init; }
 }
