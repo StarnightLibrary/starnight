@@ -57,6 +57,7 @@ public record DiscordChannel : DiscordSnowflakeObject
 
 	/// <summary>
 	/// The ID of the last message sent in this channel. This may not be an existing or even valid message.
+	/// If this channel is a forum channel, this instead points to the ID of the latest thread.
 	/// </summary>
 	[JsonPropertyName("last_message_id")]
 	public Int64? LastMessageId { get; init; }
@@ -169,4 +170,10 @@ public record DiscordChannel : DiscordSnowflakeObject
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("permissions")]
 	public Int64? Permissions { get; init; }
+
+	/// <summary>
+	/// Channel flags for this channel.
+	/// </summary>
+	[JsonPropertyName("flags")]
+	public DiscordChannelFlags Flags { get; init; }
 }

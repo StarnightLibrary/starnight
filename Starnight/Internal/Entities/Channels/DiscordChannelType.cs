@@ -36,14 +36,9 @@ public enum DiscordChannelType
 	GuildNews,
 
 	/// <summary>
-	/// A store channel, for game developers to sell their game.
-	/// </summary>
-	GuildStore,
-
-	/// <summary>
 	/// A thread channel in a <see cref="GuildNews"/> channel.
 	/// </summary>
-	GuildNewsThread = 10, // discord. can we count to seven?
+	GuildNewsThread = 10, // discord. can we count to six?
 
 	/// <summary>
 	/// A public thread channel in a <see cref="GuildText"/> channel.
@@ -58,5 +53,15 @@ public enum DiscordChannelType
 	/// <summary>
 	/// A stage voice channel.
 	/// </summary>
-	GuildStageVoice
+	GuildStageVoice,
+
+	/// <summary>
+	/// The channel in a student hub containing listed servers.
+	/// </summary>
+	GuildDirectory,
+
+	/// <summary>
+	/// A channel that can only contain threads.
+	/// </summary>
+	GuildForum
 }
