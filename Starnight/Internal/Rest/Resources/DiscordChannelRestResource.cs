@@ -954,14 +954,17 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the thread's parent message.</param>
+	/// <param name="payload">Request payload for this request.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created thread channel.</returns>
-	public async Task<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId, String reason)
+	public async Task<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId,
+		StartThreadFromMessageRequestPayload payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Threads}"),
+			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason != null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -971,6 +974,40 @@ public class DiscordChannelRestResource : AbstractRestResource
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Creates a new thread channel without a message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
+	/// <param name="payload">Request payload for this request.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created thread channel.</returns>
+	public async Task<DiscordChannel> StartThreadWithoutMessageAsync(Int64 channelId, StartThreadWithoutMessageRequestPayload payload,
+		String? reason = null)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Threads}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Threads}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
