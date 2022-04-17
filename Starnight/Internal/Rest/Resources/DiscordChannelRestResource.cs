@@ -948,4 +948,36 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
+
+	/// <summary>
+	/// Creates a new thread channel from the given message.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
+	/// <param name="messageId">Snowflake identifier of the thread's parent message.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created thread channel.</returns>
+	public async Task<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId, String reason)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Threads}"),
+			Headers = reason != null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await message.Content.ReadAsStringAsync())!;
+	}
 }
