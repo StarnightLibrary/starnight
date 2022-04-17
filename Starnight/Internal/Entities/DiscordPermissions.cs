@@ -64,7 +64,7 @@ public enum DiscordPermissions : Int64
 	ViewChannel = 1 << 10,
 
 	/// <summary>
-	/// Allows members to send messages in channels.
+	/// Allows members to send messages in channels and to create threads in a forum channel.
 	/// </summary>
 	SendMessages = 1 << 11,
 
