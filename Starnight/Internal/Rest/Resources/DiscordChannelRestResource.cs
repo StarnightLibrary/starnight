@@ -1017,4 +1017,60 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Creates a new thread with a starting message in a forum channel.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the parent forum channel.</param>
+	/// <param name="payload">A <see cref="CreateMessageRequestPayload"/> combined with a
+	/// <see cref="StartThreadFromMessageRequestPayload"/>. A new message is created, then a thread is started from it.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created thread channel.</returns>
+	public async Task<DiscordChannel> StartThreadInForumChannelAsync(Int64 channelId, StartThreadInForumChannelRequestPayload payload,
+		String? reason = null)
+	{
+		String payloadBody = JsonSerializer.Serialize(payload);
+
+		IRestRequest request =
+
+			payload.Files == null ?
+
+				new RestRequest
+				{
+					Path = $"/{Channels}/{channelId}/{Threads}",
+					Url = new($"{BaseUri}/{Channels}/{channelId}/{Threads}"),
+					Payload = payloadBody,
+					Method = HttpMethodEnum.Post,
+					Context = new()
+					{
+						["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = false
+					}
+				} :
+
+				new MultipartRestRequest
+				{
+					Path = $"/{Channels}/{channelId}/{Threads}",
+					Url = new($"{BaseUri}/{Channels}/{channelId}/{Threads}"),
+					Payload = String.IsNullOrWhiteSpace(payloadBody)
+						? new()
+						: new()
+						{
+							["payload_json"] = payloadBody
+						},
+					Method = HttpMethodEnum.Post,
+					Files = payload.Files.ToList(),
+					Context = new()
+					{
+						["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = false
+					}
+				};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
+	}
 }
