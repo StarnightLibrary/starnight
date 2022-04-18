@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -1275,10 +1276,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
 	/// <param name="before">Timestamp to filter threads by: only threads archived before this timestamp will be returned.</param>
 	/// <param name="limit">Maximum amount of threads to return.</param>
-	public async Task<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync(Int64 threadId,
+	public async Task<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync(Int64 channelId,
 		DateTimeOffset? before = null, Int32? limit = null)
 	{
-		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{threadId}/{Threads}/{Archived}/{Private}");
+		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Private}");
 
 		if(before != null)
 		{
@@ -1301,7 +1302,44 @@ public class DiscordChannelRestResource : AbstractRestResource
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
-				["endpoint"] = $"/{Channels}/{threadId}/{Threads}/{Archived}/{Private}",
+				["endpoint"] = $"/{Channels}/{channelId}/{Threads}/{Archived}/{Private}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<ListArchivedThreadsResponsePayload>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	public async Task<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync(Int64 channelId,
+		DateTimeOffset? before = null, Int32? limit = null)
+{
+		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}");
+
+		if(before != null)
+		{
+			_ = urlBuilder.Append($"?before={before}");
+
+			if(limit != null)
+			{
+				_ = urlBuilder.Append($"&limit={limit}");
+			}
+		}
+		else if(limit != null)
+		{
+			_ = urlBuilder.Append($"?limit={limit}");
+		}
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
+			Url = new(urlBuilder.ToString()),
+			Method = HttpMethodEnum.Get,
+Context = new()
+{
+				["endpoint"] = $"/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
