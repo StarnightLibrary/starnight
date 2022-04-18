@@ -1201,4 +1201,28 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordThreadMember>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Returns a list of all thread members for the specified thread.
+	/// </summary>
+	/// <param name="threadId">Snowflake identifier fo the thread to obtain data from.</param>
+	public async Task<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync(Int64 threadId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}",
+			Url = new($"{BaseUri}/{Channels}/{threadId}/{ThreadMembers}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordThreadMember>>(await message.Content.ReadAsStringAsync())!;
+	}
 }
