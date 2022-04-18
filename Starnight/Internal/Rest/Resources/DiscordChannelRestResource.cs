@@ -1125,4 +1125,29 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Leaves a thread as the current bot.
+	/// </summary>
+	/// <param name="threadId">Snowflake identifier of the thread to be left.</param>
+	/// <returns>Whether the operation was successful.</returns>
+	public async Task<Boolean> LeaveThreadAsync(Int64 threadId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{Me}",
+			Url = new($"{BaseUri}/{Channels}/{threadId}/{ThreadMembers}/{Me}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{Me}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
+	}
 }
