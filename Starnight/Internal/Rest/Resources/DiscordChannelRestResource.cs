@@ -1150,4 +1150,30 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Removes another user from a thread.
+	/// </summary>
+	/// <param name="threadId">Snowflake identifier of the thread to be left.</param>
+	/// <param name="userId">Snowflake identifier of the user to be removed.</param>
+	/// <returns>Whether the operation was successful.</returns>
+	public async Task<Boolean> RemoveFromThreadAsync(Int64 threadId, Int64 userId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{UserId}",
+			Url = new($"{BaseUri}/{Channels}/{threadId}/{ThreadMembers}/{userId}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
+	}
 }
