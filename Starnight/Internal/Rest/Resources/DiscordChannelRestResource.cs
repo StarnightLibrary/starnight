@@ -1225,4 +1225,41 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordThreadMember>>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	public async Task<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync(Int64 threadId,
+		DateTimeOffset? before = null, Int32? limit = null)
+	{
+		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{threadId}/{Threads}/{Archived}/{Public}");
+
+		if(before != null)
+		{
+			_ = urlBuilder.Append($"?before={before}");
+
+			if(limit != null)
+			{
+				_ = urlBuilder.Append($"&limit={limit}");
+			}
+		}
+		else if(limit != null)
+		{
+			_ = urlBuilder.Append($"?limit={limit}");
+		}
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Public}",
+			Url = new(urlBuilder.ToString()),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{threadId}/{Threads}/{Archived}/{Public}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<ListArchivedThreadsResponsePayload>(await message.Content.ReadAsStringAsync())!;
+	}
 }
