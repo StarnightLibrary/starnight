@@ -1226,10 +1226,16 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordThreadMember>>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	public async Task<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync(Int64 threadId,
+	/// <summary>
+	/// Returns all public, archived threads for this channel including respective thread member objects.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
+	/// <param name="before">Timestamp to filter threads by: only threads archived before this timestamp will be returned.</param>
+	/// <param name="limit">Maximum amount of threads to return.</param>
+	public async Task<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync(Int64 channelId,
 		DateTimeOffset? before = null, Int32? limit = null)
 	{
-		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{threadId}/{Threads}/{Archived}/{Public}");
+		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Public}");
 
 		if(before != null)
 		{
@@ -1252,7 +1258,50 @@ public class DiscordChannelRestResource : AbstractRestResource
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
-				["endpoint"] = $"/{Channels}/{threadId}/{Threads}/{Archived}/{Public}",
+				["endpoint"] = $"/{Channels}/{channelId}/{Threads}/{Archived}/{Public}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<ListArchivedThreadsResponsePayload>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns all private, accessible, archived threads for this channel including respective thread member objects.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
+	/// <param name="before">Timestamp to filter threads by: only threads archived before this timestamp will be returned.</param>
+	/// <param name="limit">Maximum amount of threads to return.</param>
+	public async Task<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync(Int64 threadId,
+		DateTimeOffset? before = null, Int32? limit = null)
+	{
+		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{threadId}/{Threads}/{Archived}/{Private}");
+
+		if(before != null)
+		{
+			_ = urlBuilder.Append($"?before={before}");
+
+			if(limit != null)
+			{
+				_ = urlBuilder.Append($"&limit={limit}");
+			}
+		}
+		else if(limit != null)
+		{
+			_ = urlBuilder.Append($"?limit={limit}");
+		}
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Private}",
+			Url = new(urlBuilder.ToString()),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{threadId}/{Threads}/{Archived}/{Private}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
