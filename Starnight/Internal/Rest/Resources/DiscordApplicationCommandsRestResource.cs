@@ -86,4 +86,29 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Fetches a global command.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of the command's owning application.</param>
+	/// <param name="commandId">Snowflake identifier of the command itself.</param>
+	public async Task<DiscordApplicationCommand> GetGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}/{commandId}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
+	}
 }
