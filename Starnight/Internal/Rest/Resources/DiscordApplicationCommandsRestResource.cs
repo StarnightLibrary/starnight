@@ -33,13 +33,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="locale">If <paramref name="withLocalizations"/> is false, specifies a locale to include localizations for
 	/// (see also: <seealso cref="DiscordApplicationCommand.NameLocalized"/> and related fields).</param>
 	public async Task<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync(Int64 applicationId,
-		Boolean? withLocalizations = false, String? locale = null)
+		Boolean withLocalizations = false, String? locale = null)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}" +
-				$"{(withLocalizations is not null ? $"?with_localizations={withLocalizations}" : "")}"),
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}?with_localizations={withLocalizations}"),
 			Headers = locale is not null ? new()
 			{
 				["X-Discord-Locale"] = locale
