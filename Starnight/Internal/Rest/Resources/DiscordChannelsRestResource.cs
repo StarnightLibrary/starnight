@@ -17,7 +17,7 @@ using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Users;
-using Starnight.Internal.Rest.Payloads.Channel;
+using Starnight.Internal.Rest.Payloads.Channels;
 
 using static DiscordApiConstants;
 

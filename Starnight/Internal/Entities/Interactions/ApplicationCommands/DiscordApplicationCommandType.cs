@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
+namespace Starnight.Internal.Entities.Interactions.ApplicationCommands;
 
 /// <summary>
 /// Enumerates the different kinds of application commands.

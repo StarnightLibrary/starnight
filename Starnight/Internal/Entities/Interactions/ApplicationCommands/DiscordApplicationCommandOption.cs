@@ -1,8 +1,10 @@
-namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
+namespace Starnight.Internal.Entities.Interactions.ApplicationCommands;
 
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+
+using Starnight.Internal.Entities.Interactions;
 
 /// <summary>
 /// Represents a slash command parameter.

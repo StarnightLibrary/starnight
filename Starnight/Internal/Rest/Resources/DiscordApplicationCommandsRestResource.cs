@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
 
-using Starnight.Internal.Entities.Interactions.ApplicationCommand;
+using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 
 using static DiscordApiConstants;
 

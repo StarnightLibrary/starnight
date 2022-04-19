@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
+namespace Starnight.Internal.Entities.Interactions.ApplicationCommands;
 
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Payloads.Channel;
+namespace Starnight.Internal.Rest.Payloads.Channels;
 
 using System;
 using System.Text.Json.Serialization;

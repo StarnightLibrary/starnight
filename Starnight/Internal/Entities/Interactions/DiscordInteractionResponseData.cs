@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Interactions.ApplicationCommand;
+using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Messages.Embeds;
 
