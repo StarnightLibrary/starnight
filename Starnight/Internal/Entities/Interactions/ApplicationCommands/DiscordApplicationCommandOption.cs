@@ -22,10 +22,28 @@ public record DiscordApplicationCommandOption
 	public String Name { get; init; } = default!;
 
 	/// <summary>
+	/// Localization dictionary for the <see cref="Name"/> field.
+	/// </summary>
+	/// <remarks>
+	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
+	/// </remarks>
+	[JsonPropertyName("name_localizations")]
+	public IDictionary<String, String>? NameLocalizations { get; init; }
+
+	/// <summary>
 	/// The parameter description.
 	/// </summary>
 	[JsonPropertyName("description")]
 	public String Description { get; init; } = default!;
+
+	/// <summary>
+	/// Localization dictionary for the <see cref="Description"/> field.
+	/// </summary>
+	/// <remarks>
+	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
+	/// </remarks>
+	[JsonPropertyName("description_localizations")]
+	public IDictionary<String, String>? DescriptionLocalizations { get; init; }
 
 	/// <summary>
 	/// Whether this parameter must be passed to the slash command.

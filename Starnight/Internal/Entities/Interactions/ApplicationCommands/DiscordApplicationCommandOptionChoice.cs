@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Interactions.ApplicationCommand;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -13,6 +14,15 @@ public record DiscordApplicationCommandOptionChoice
 	/// </summary>
 	[JsonPropertyName("name")]
 	public String Name { get; init; } = default!;
+
+	/// <summary>
+	/// Localization dictionary for the <see cref="Name"/> field.
+	/// </summary>
+	/// <remarks>
+	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
+	/// </remarks>
+	[JsonPropertyName("name_localizations")]
+	public IDictionary<String, String>? NameLocalizations { get; init; }
 
 	/// <summary>
 	/// The value of this object, either a string, integer or floating-point number.
