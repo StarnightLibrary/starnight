@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
+using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
 using static DiscordApiConstants;
 
@@ -56,5 +57,33 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Creates a new global application command.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="payload">Command creation payload.</param>
+	/// <returns>The newly created application command.</returns>
+	public async Task<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync(Int64 applicationId,
+		CreateGlobalApplicationCommandRequestPayload payload)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Commands}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
 	}
 }
