@@ -12,7 +12,7 @@ internal class OptionalParameterJsonConverter<TParamType> : JsonConverter<Option
 
 	public override void Write(Utf8JsonWriter writer, OptionalParameter<TParamType>? value, JsonSerializerOptions options)
 	{
-		if(value == null)
+		if(value is null)
 		{
 			JsonSerializer.Serialize(writer, (Int32?)null, options);
 		}

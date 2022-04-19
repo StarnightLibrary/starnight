@@ -47,7 +47,7 @@ public struct RestRequest : IRestRequest
 			message.Headers.Add(kv.Key, kv.Value);
 		}
 
-		if(this.Payload != null)
+		if(this.Payload is not null)
 		{
 			message.Content = new StringContent(this.Payload);
 		}

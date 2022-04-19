@@ -100,7 +100,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{id}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -185,7 +185,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Method = HttpMethodEnum.Post,
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -220,7 +220,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{id}/{Channels}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -396,7 +396,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -430,7 +430,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{Me}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = $"{{\"nick\":\"{nickname}\"}}",
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -464,7 +464,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Method = HttpMethodEnum.Put,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -498,7 +498,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Method = HttpMethodEnum.Delete,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -531,7 +531,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Delete,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -611,7 +611,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Method = HttpMethodEnum.Put,
 			Payload = $"{{\"delete_message_days\": \"{deleteMessageDays}\"}}",
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -642,7 +642,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Method = HttpMethodEnum.Delete,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -701,7 +701,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -735,7 +735,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -770,7 +770,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -803,7 +803,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Method = HttpMethodEnum.Delete,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -838,7 +838,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Prune}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}{(roles != null ? $"&include_roles={roles}" : "")}"),
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}{(roles is not null ? $"&include_roles={roles}" : "")}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -879,10 +879,10 @@ public class DiscordGuildsRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Prune}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}" +
-				$"{(roles != null ? $"&include_roles={roles}" : "")}" +
-				$"{(computeCount != null ? $"compute_prune_count={computeCount}" : "")}"),
+				$"{(roles is not null ? $"&include_roles={roles}" : "")}" +
+				$"{(computeCount is not null ? $"compute_prune_count={computeCount}" : "")}"),
 			Method = HttpMethodEnum.Post,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -995,7 +995,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Integrations}/{IntegrationId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}/{integrationId}"),
 			Method = HttpMethodEnum.Delete,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -1055,7 +1055,7 @@ public class DiscordGuildsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
 			Payload = JsonSerializer.Serialize(settings),
 			Method = HttpMethodEnum.Patch,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}

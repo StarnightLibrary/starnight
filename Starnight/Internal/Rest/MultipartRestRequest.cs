@@ -75,7 +75,7 @@ public struct MultipartRestRequest : IRestRequest
 		{
 			StreamContent streamContent = new(this.Files[i].FileStream);
 
-			if(this.Files[i].ContentType != null)
+			if(this.Files[i].ContentType is not null)
 			{
 				streamContent.Headers.ContentType = new MediaTypeHeaderValue(this.Files[i].ContentType!);
 			}

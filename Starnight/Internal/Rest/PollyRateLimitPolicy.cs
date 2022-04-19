@@ -94,7 +94,7 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			return message;
 		}
 
-		if(extractedBucket.Hash == null)
+		if(extractedBucket.Hash is null)
 		{
 			_ = this.__endpoint_buckets.TryRemove(endpoint, out _);
 

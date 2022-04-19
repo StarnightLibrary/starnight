@@ -48,7 +48,7 @@ public partial class StarnightClient
 									"Polly request retry policy")
 								: message == default
 									? __one_second
-									: message.Headers.RetryAfter == null || message.Headers.RetryAfter.Delta == null
+									: message.Headers.RetryAfter is null || message.Headers.RetryAfter.Delta is null
 										? __one_second
 										: message.Headers.RetryAfter.Delta.Value;
 						},

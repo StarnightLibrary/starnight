@@ -103,7 +103,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -137,7 +137,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -170,7 +170,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 			Path = $"/{Channels}/{channelId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}"),
 			Method = HttpMethodEnum.Delete,
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -208,15 +208,15 @@ public class DiscordChannelsRestResource : AbstractRestResource
 
 		_ = queryBuilder.Append($"limit={count}");
 
-		if(around != null)
+		if(around is not null)
 		{
 			_ = queryBuilder.Append($"&around={around}");
 		}
-		else if(before != null)
+		else if(before is not null)
 		{
 			_ = queryBuilder.Append($"&before={before}");
 		}
-		else if(after != null)
+		else if(after is not null)
 		{
 			_ = queryBuilder.Append($"&after={after}");
 		}
@@ -278,7 +278,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 
 		IRestRequest request =
 
-			payload.Files == null ?
+			payload.Files is null ?
 
 				new RestRequest
 				{
@@ -440,17 +440,17 @@ public class DiscordChannelsRestResource : AbstractRestResource
 	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}");
 
-		if(after != null && limit != null)
+		if(after is not null && limit is not null)
 		{
 			_ = urlBuilder.Append($"?after={after}&limit={limit}");
 		}
 		else
 		{
-			if(after != null)
+			if(after is not null)
 			{
 				_ = urlBuilder.Append($"?after={after}");
 			}
-			else if(limit != null)
+			else if(limit is not null)
 			{
 				_ = urlBuilder.Append($"?limit={limit}");
 			}
@@ -533,7 +533,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 
 		IRestRequest request =
 
-			payload.Files == null ?
+			payload.Files is null ?
 
 				new RestRequest
 				{
@@ -587,7 +587,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}"),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -621,7 +621,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 			Path = $"/{Channels}/{channelId}/{Messages}/{BulkDelete}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{BulkDelete}"),
 			Payload = JsonSerializer.Serialize(messageIds),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -656,7 +656,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 			Path = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Permissions}/{overwriteId}"),
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -748,7 +748,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Permissions}/{overwriteId}"),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -853,7 +853,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Pins}/{messageId}"),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -885,7 +885,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Pins}/{messageId}"),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -968,7 +968,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Threads}"),
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -1002,7 +1002,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 			Path = $"/{Channels}/{channelId}/{Threads}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Threads}"),
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason != null ? new()
+			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
@@ -1036,7 +1036,7 @@ public class DiscordChannelsRestResource : AbstractRestResource
 
 		IRestRequest request =
 
-			payload.Files == null ?
+			payload.Files is null ?
 
 				new RestRequest
 				{
@@ -1239,16 +1239,16 @@ public class DiscordChannelsRestResource : AbstractRestResource
 	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Public}");
 
-		if(before != null)
+		if(before is not null)
 		{
 			_ = urlBuilder.Append($"?before={before}");
 
-			if(limit != null)
+			if(limit is not null)
 			{
 				_ = urlBuilder.Append($"&limit={limit}");
 			}
 		}
-		else if(limit != null)
+		else if(limit is not null)
 		{
 			_ = urlBuilder.Append($"?limit={limit}");
 		}
@@ -1282,16 +1282,16 @@ public class DiscordChannelsRestResource : AbstractRestResource
 	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Private}");
 
-		if(before != null)
+		if(before is not null)
 		{
 			_ = urlBuilder.Append($"?before={before}");
 
-			if(limit != null)
+			if(limit is not null)
 			{
 				_ = urlBuilder.Append($"&limit={limit}");
 			}
 		}
-		else if(limit != null)
+		else if(limit is not null)
 		{
 			_ = urlBuilder.Append($"?limit={limit}");
 		}
@@ -1319,16 +1319,16 @@ public class DiscordChannelsRestResource : AbstractRestResource
 {
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}");
 
-		if(before != null)
+		if(before is not null)
 		{
 			_ = urlBuilder.Append($"?before={before}");
 
-			if(limit != null)
+			if(limit is not null)
 			{
 				_ = urlBuilder.Append($"&limit={limit}");
 			}
 		}
-		else if(limit != null)
+		else if(limit is not null)
 		{
 			_ = urlBuilder.Append($"?limit={limit}");
 		}
