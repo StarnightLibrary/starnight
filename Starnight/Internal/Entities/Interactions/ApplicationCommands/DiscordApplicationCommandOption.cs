@@ -22,6 +22,12 @@ public record DiscordApplicationCommandOption
 	public String Name { get; init; } = default!;
 
 	/// <summary>
+	/// Localized name of this application command option.
+	/// </summary>
+	[JsonPropertyName("name_localized")]
+	public String? NameLocalized { get; init; }
+
+	/// <summary>
 	/// Localization dictionary for the <see cref="Name"/> field.
 	/// </summary>
 	/// <remarks>
@@ -35,6 +41,12 @@ public record DiscordApplicationCommandOption
 	/// </summary>
 	[JsonPropertyName("description")]
 	public String Description { get; init; } = default!;
+
+	/// <summary>
+	/// Localized description of this application command option.
+	/// </summary>
+	[JsonPropertyName("description_localized")]
+	public String? DescriptionLocalized { get; init; }
 
 	/// <summary>
 	/// Localization dictionary for the <see cref="Description"/> field.

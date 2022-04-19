@@ -16,6 +16,12 @@ public record DiscordApplicationCommandOptionChoice
 	public String Name { get; init; } = default!;
 
 	/// <summary>
+	/// Localized name of this application command option choice.
+	/// </summary>
+	[JsonPropertyName("name_localized")]
+	public String? NameLocalized { get; init; }
+
+	/// <summary>
 	/// Localization dictionary for the <see cref="Name"/> field.
 	/// </summary>
 	/// <remarks>
