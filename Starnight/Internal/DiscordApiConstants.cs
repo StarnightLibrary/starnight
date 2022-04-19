@@ -76,7 +76,7 @@ public static class DiscordApiConstants
 	#endregion
 
 	#region route parameters
-	public const String ApplicationId = ":app_id";
+	public const String AppId = ":app_id";
 	public const String ChannelId = ":channel_id";
 	public const String Emote = ":emote";
 	public const String GuildId = ":guild_id";

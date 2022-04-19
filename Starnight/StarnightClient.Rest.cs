@@ -56,7 +56,7 @@ public partial class StarnightClient
 			);
 
 		_ = this.ServiceCollection
-			.AddSingleton<DiscordChannelRestResource>()
-			.AddSingleton<DiscordGuildRestResource>();
+			.AddSingleton<DiscordChannelsRestResource>()
+			.AddSingleton<DiscordGuildsRestResource>();
 	}
 }

@@ -7,8 +7,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -25,11 +23,14 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-public class DiscordChannelRestResource : AbstractRestResource
+/// <summary>
+/// Represents a request wrapper for all requests to the Channel resource.
+/// </summary>
+public class DiscordChannelsRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
-	public DiscordChannelRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
+	public DiscordChannelsRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
 		: base(ratelimitBucketCache) => this.__rest_client = client;
 
 	/// <summary>
