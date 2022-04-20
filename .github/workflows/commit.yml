@@ -10,7 +10,7 @@ jobs:
     if: |
       always() &&
       !contains(toJSON(github.events.commits.*.message), '[ci skip]') &&
-      !contains(toJSON(github.events.commits.*.message), '[caching.')
+      !contains(toJSON(github.events.commits.*.message), '[caching')
 
     steps:
     - uses: actions/checkout@v2
