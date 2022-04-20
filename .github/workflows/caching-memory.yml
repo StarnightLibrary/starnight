@@ -7,9 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: |
-      !contains(toJSON(github.events.commits.*.message), '[ci skip]') &&
-      contains(toJSON(github.events.commits.*.message), '[caching.memory]')
+    if: contains(toJSON(github.events.commits.*.message), '[caching.memory]')
 
     steps:
     - uses: actions/checkout@v2
