@@ -9,8 +9,8 @@ jobs:
 
     runs-on: ubuntu-latest
     - if: |
-      !contains(toJSON(github.events.commits.*.message), '[ci skip]') ||
-      !contains(toJSON(github.events.commits.*.message), '[caching')
+      !contains(toJSON(github.events.commits.*.message), '[ci skip]') &&
+      contains(toJSON(github.events.commits.*.message), '[caching.memory]')
 
     steps:
     - uses: actions/checkout@v2
@@ -21,10 +21,10 @@ jobs:
         dotnet-version: 7.0.100-preview.3.22179.4
 
     - name: restore
-      run: dotnet restore Starnight
+      run: dotnet restore Starnight.Caching.Memory
 
     - name: pack packages
-      run: "mkdir build && dotnet pack Starnight -p:SymbolPackageFormat=snupkg --include-symbols --include-source -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
+      run: "mkdir build && dotnet pack Starnight.Caching.Memory -p:SymbolPackageFormat=snupkg --include-symbols --include-source -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
     
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
@@ -36,12 +36,12 @@ jobs:
       uses: tsickert/discord-webhook@v4.0.0
       with:
         webhook-url: ${{ secrets.BUILD_WEBHOOK }}
-        embed-title: New Starnight build available!
+        embed-title: Starnight.Caching.Memory
         embed-description: |
           Commit author: [${{ github.actor }}](https://github.com/${{ github.actor }})
           Commit hash: [`${{ github.sha }}`](https://github.com/${{github.repository}}/commit/${{github.sha}})
           GitHub Actions run: [${{ github.run_id }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
-        embed-color: 15073510
+        embed-color: 9502567
     
     - name: Publish package
       run: "dotnet nuget push /home/runner/work/starnight/starnight/build/* --api-key ${{ secrets.NUGET_API_KEY }} --source NuGet --no-service-endpoint --skip-duplicate"

@@ -111,4 +111,6 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
 	}
+
+
 }
