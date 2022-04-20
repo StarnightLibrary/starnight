@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     - if: |
       !contains(toJSON(github.events.commits.*.message), '[ci skip]') &&
