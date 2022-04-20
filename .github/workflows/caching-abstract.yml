@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    - if: |
+    if: |
       !contains(toJSON(github.events.commits.*.message), '[ci skip]') &&
       contains(toJSON(github.events.commits.*.message), '[caching.abstractions]')
 
