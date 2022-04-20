@@ -1,4 +1,4 @@
-name: Commit build
+name: Starnight.Caching.Memory
 
 on:
   push:
