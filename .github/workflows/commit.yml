@@ -41,7 +41,7 @@ jobs:
           Commit author: [${{ github.actor }}](https://github.com/${{ github.actor }})
           Commit hash: [`${{ github.sha }}`](https://github.com/${{github.repository}}/commit/${{github.sha}})
           GitHub Actions run: [${{ github.run_id }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
-        embed-color: 15073510
+        embed-color: 15073511
     
     - name: Publish package
       run: "dotnet nuget push /home/runner/work/starnight/starnight/build/* --api-key ${{ secrets.NUGET_API_KEY }} --source NuGet --no-service-endpoint --skip-duplicate"
