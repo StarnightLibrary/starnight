@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       always() &&
-      !contains(toJSON(github.events.commits.*.message), '[ci skip]') &
+      !contains(toJSON(github.events.commits.*.message), '[ci skip]') &&
       !contains(toJSON(github.events.commits.*.message), '[caching.')
 
     steps:
