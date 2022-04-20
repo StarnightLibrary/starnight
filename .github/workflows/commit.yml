@@ -8,10 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: |
-      always() ||
-      !(contains(toJSON(github.events.commits.*.message), '[ci skip]') ||
-      contains(toJSON(github.events.commits.*.message), '[caching.abstractions]') || 
-      contains(toJSON(github.events.commits.*.message), '[caching.memory]'))
+      always() &&
+      !contains(toJSON(github.events.commits.*.message), '[ci skip]') &
+      !contains(toJSON(github.events.commits.*.message), '[caching.')
 
     steps:
     - uses: actions/checkout@v2
