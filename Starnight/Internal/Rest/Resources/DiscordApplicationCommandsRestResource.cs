@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -166,5 +167,36 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return message.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Bulk overwrites all global application commands for your application.
+	/// </summary>
+	/// <remarks>
+	/// If this list contains any new commands, they will count towards the daily creation limits.
+	/// </remarks>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="payload">List of create payloads.</param>
+	/// <returns>The new loadout of application commands.</returns>
+	public async Task<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGlobalApplicationCommandsAsync(
+		Int64 applicationId, IEnumerable<CreateGlobalApplicationCommandRequestPayload> payload)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Commands}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Put,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>(await message.Content.ReadAsStringAsync())!;
 	}
 }
