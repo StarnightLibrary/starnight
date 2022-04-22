@@ -199,4 +199,31 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Fetches the guild-specific application commands for the specified guild.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="withLocalizations">Whether the returned objects should include localizations.</param>
+	public async Task<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync(Int64 applicationId,
+		Int64 guildId, Boolean withLocalizations = false)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}?with_localizations={withLocalizations}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>(await message.Content.ReadAsStringAsync())!;
+	}
 }
