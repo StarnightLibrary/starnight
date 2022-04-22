@@ -9,7 +9,7 @@ using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 /// <summary>
 /// Represents a payload to POST /applications/:app_id/commands
 /// </summary>
-public record CreateGlobalApplicationCommandRequestPayload
+public record CreateApplicationCommandRequestPayload
 {
 	/// <summary>
 	/// The type of this application command.

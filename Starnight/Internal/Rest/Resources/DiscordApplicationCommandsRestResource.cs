@@ -68,7 +68,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="payload">Command creation payload.</param>
 	/// <returns>The newly created application command.</returns>
 	public async Task<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync(Int64 applicationId,
-		CreateGlobalApplicationCommandRequestPayload payload)
+		CreateApplicationCommandRequestPayload payload)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -122,7 +122,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="payload">Edit payload.</param>
 	/// <returns>The new application command object.</returns>
 	public async Task<DiscordApplicationCommand> EditGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId,
-		EditGlobalApplicationCommandRequestPayload payload)
+		EditApplicationCommandRequestPayload payload)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -179,7 +179,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="payload">List of create payloads.</param>
 	/// <returns>The new loadout of application commands.</returns>
 	public async Task<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGlobalApplicationCommandsAsync(
-		Int64 applicationId, IEnumerable<CreateGlobalApplicationCommandRequestPayload> payload)
+		Int64 applicationId, IEnumerable<CreateApplicationCommandRequestPayload> payload)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -225,5 +225,34 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Creates a new, guild-specific application command.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Creation payload.</param>
+	/// <returns>The newly created application command.</returns>
+	public async Task<DiscordApplicationCommand> CreateGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId,
+		CreateApplicationCommandRequestPayload payload)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
 	}
 }

@@ -10,7 +10,7 @@ using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 /// <summary>
 /// Represents a payload to PATCH /applications/:app_id/commands/:command_id
 /// </summary>
-public record EditGlobalApplicationCommandRequestPayload
+public record EditApplicationCommandRequestPayload
 {
 	/// <summary>
 	/// The new name for this application command.
