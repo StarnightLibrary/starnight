@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -139,5 +140,31 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Deletes a global application command.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="commandId">Snowflake identifier of the command to be deleted.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	public async Task<Boolean> DeleteGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}/{commandId}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 }
