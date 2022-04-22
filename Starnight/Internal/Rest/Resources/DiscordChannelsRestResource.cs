@@ -19,7 +19,7 @@ using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Rest.Payloads.Channels;
 
-using static DiscordApiConstants;
+using static Starnight.Internal.DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 

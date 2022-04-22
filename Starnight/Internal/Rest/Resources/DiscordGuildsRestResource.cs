@@ -17,7 +17,7 @@ using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Voice;
 using Starnight.Internal.Rest.Payloads.Guilds;
 
-using static DiscordApiConstants;
+using static Starnight.Internal.DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 

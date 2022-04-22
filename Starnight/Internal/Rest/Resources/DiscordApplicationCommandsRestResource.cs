@@ -11,7 +11,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
-using static DiscordApiConstants;
+using static Starnight.Internal.DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
@@ -112,5 +112,32 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Overwrites a global application command.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="commandId">Snowflake identifier of the command you want to overwrite.</param>
+	/// <param name="payload">Edit payload.</param>
+	/// <returns>The new application command object.</returns>
+	public async Task<DiscordApplicationCommand> EditGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId,
+		EditGlobalApplicationCommandRequestPayload payload)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}/{commandId}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
 
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
+	}
 }
