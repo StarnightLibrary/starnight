@@ -2,7 +2,6 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -246,6 +245,32 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Fetches a guild application command.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="commandId">Snowflake identifier of the command in question.</param>
+	public async Task<DiscordApplicationCommand> GetGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
