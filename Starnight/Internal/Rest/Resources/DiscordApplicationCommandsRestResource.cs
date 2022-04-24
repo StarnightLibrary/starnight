@@ -310,4 +310,31 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Deletes a guild application command.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="commandId">Snowflake identifier of the command in question.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	public async Task<Boolean> DeleteGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
+	}
 }
