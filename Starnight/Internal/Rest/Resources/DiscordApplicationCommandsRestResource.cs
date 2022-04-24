@@ -366,4 +366,31 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Fetches command permissions for all commands for this application in the specified guild.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <returns>An array of permissiono objects, one for each command.</returns>
+	public async Task<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync(
+		Int64 applicationId, Int64 guildId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{Permissions}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{Permissions}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{Permissions}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommandPermissions>>(await message.Content.ReadAsStringAsync())!;
+	}
 }
