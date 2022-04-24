@@ -337,4 +337,33 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Bulk-overwrites application commands for this guild.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">New commands for this guild.</param>
+	/// <returns>The newly created application commands.</returns>
+	public async Task<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGuildApplicationCommandsAsync(Int64 applicationId,
+		Int64 guildId, IEnumerable<CreateApplicationCommandRequestPayload> payload)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
+			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Context = new()
+			{
+				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>(await message.Content.ReadAsStringAsync())!;
+	}
 }
