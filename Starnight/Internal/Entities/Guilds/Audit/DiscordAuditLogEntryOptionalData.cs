@@ -9,6 +9,13 @@ using System.Text.Json.Serialization;
 public record DiscordAuditLogEntryOptionalData : DiscordSnowflakeObject
 {
 	/// <summary>
+	/// The application whose permissions were updated.
+	/// </summary>
+	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+	[JsonPropertyName("application_id")]
+	public Int64? ApplicationId { get; init; }
+
+	/// <summary>
 	/// The channel in which entities were targeted by this audit log action.
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]

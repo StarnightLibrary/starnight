@@ -33,7 +33,7 @@ public record DiscordAuditLogEntry : DiscordSnowflakeObject
 	/// The type of this action.
 	/// </summary>
 	[JsonPropertyName("action_type")]
-	public DiscordAuditLogEntryType Event { get; init; }
+	public DiscordAuditLogEvent Event { get; init; }
 
 	/// <summary>
 	/// Optional data for this audit log entry.

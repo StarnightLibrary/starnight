@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities.Guilds.Audit;
 /// <summary>
 /// Enumerates the different kinds of audit log entries.
 /// </summary>
-public enum DiscordAuditLogEntryType
+public enum DiscordAuditLogEvent
 {
 	GuildUpdated = 1,
 	ChannelCreated = 10,
@@ -51,5 +51,6 @@ public enum DiscordAuditLogEntryType
 	GuildScheduledEventDeleted = 102,
 	ThreadCreated = 110,
 	ThreadUpdated = 111,
-	ThreadDeleted = 112
+	ThreadDeleted = 112,
+	ApplicationCommandPermissionsUpdated = 121
 }
