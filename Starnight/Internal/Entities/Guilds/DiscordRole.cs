@@ -49,7 +49,7 @@ public record DiscordRole : DiscordSnowflakeObject
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("permissions")]
-	public Int64 Permissions { get; init; }
+	public DiscordPermissions Permissions { get; init; }
 
 	/// <summary>
 	/// Whether this role is managed by an integration.
