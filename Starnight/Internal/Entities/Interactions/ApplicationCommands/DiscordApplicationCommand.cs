@@ -78,10 +78,17 @@ public record DiscordApplicationCommand : DiscordSnowflakeObject
 	public IEnumerable<DiscordApplicationCommandOption>? Options { get; init; }
 
 	/// <summary>
-	/// Whether this command is enabled for everyone by default.
+	/// Default permissions required to execute this command.
 	/// </summary>
-	[JsonPropertyName("default_permission")]
-	public Boolean? DefaultPermission { get; init; } = true;
+	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+	[JsonPropertyName("default_member_permission")]
+	public DiscordPermissions? DefaultMemberPermission { get; init; }
+
+	/// <summary>
+	/// Whether the command is available in DMs with the bot. This is only applicable to global commands.
+	/// </summary>
+	[JsonPropertyName("dm_permission")]
+	public Boolean? DMPermission { get; init; }
 
 	/// <summary>
 	/// Automatically incrementing version ID updated for substantial changes.

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Converters;
+using Starnight.Internal.Entities;
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 
 /// <summary>
@@ -51,9 +52,17 @@ public record EditApplicationCommandRequestPayload
 	public OptionalParameter<IEnumerable<DiscordApplicationCommandOption>>? Options { get; init; }
 
 	/// <summary>
-	/// Specifies whether this command should be enabled by default
+	/// Default permissions required to execute this command.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonPropertyName("default_permission")]
-	public Boolean? DefaultPermission { get; init; }
+	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+	[JsonPropertyName("default_member_permission")]
+	public DiscordPermissions? DefaultMemberPermission { get; init; }
+
+	/// <summary>
+	/// Whether the command is available in DMs with the bot. This is only applicable to global commands.
+	/// </summary>
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+	[JsonPropertyName("dm_permission")]
+	public Boolean? DMPermission { get; init; }
 }
