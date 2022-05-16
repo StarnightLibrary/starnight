@@ -7,7 +7,7 @@ using Starnight.Internal.Entities.Interactions;
 /// <summary>
 /// Represents a response to a <see cref="DiscordInteraction"/>.
 /// </summary>
-public record DiscordInteractionCallback
+public record CreateInteractionCallbackRequestPayload
 {
 	/// <summary>
 	/// The selected response type.

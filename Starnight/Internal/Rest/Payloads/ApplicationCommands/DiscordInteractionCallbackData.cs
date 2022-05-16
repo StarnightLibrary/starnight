@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Messages.Embeds;
 using Starnight.Internal.Rest.Payloads;
 
 /// <summary>
-/// Represents the response body of a <see cref="DiscordInteractionCallback"/>
+/// Represents the response body of a <see cref="CreateInteractionCallbackRequestPayload"/>
 /// </summary>
 public record DiscordInteractionCallbackData
 {

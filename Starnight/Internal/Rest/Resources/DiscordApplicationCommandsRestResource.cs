@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -423,8 +422,15 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordApplicationCommandPermissions>(await message.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Creates an initial response to the given interaction.
+	/// </summary>
+	/// <param name="interactionId">Snowflake identifier of the interaction.</param>
+	/// <param name="interactionToken">Response token of the interaction.</param>
+	/// <param name="payload">Payload data.</param>
+	/// <returns>Whether the request succeeded.</returns>
 	public async Task<Boolean> CreateInteractionResponseAsync(Int64 interactionId, String interactionToken,
-		DiscordInteractionCallback payload)
+		CreateInteractionCallbackRequestPayload payload)
 	{
 		IRestRequest request = payload.Data?.Files == null
 
