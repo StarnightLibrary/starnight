@@ -1,17 +1,19 @@
-namespace Starnight.Internal.Entities.Interactions;
+namespace Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Interactions;
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Messages.Embeds;
+using Starnight.Internal.Rest.Payloads;
 
 /// <summary>
-/// Represents the response body of a <see cref="DiscordInteractionResponse"/>
+/// Represents the response body of a <see cref="DiscordInteractionCallback"/>
 /// </summary>
-public record DiscordInteractionResponseData
+public record DiscordInteractionCallbackData
 {
 	/// <summary>
 	/// Whether this response is a TTS message.
@@ -54,6 +56,12 @@ public record DiscordInteractionResponseData
 	/// </summary>
 	[JsonPropertyName("attachments")]
 	public IEnumerable<DiscordMessageAttachment>? Attachments { get; init; }
+
+	/// <summary>
+	/// Files to be uploaded with this message.
+	/// </summary>
+	[JsonIgnore]
+	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
 
 	/// <summary>
 	/// Up to 25 autocomplete choices. Mutually exclusive with all other properties.

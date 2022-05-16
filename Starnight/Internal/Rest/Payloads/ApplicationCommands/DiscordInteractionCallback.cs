@@ -1,21 +1,23 @@
-namespace Starnight.Internal.Entities.Interactions;
+namespace Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
 using System.Text.Json.Serialization;
+
+using Starnight.Internal.Entities.Interactions;
 
 /// <summary>
 /// Represents a response to a <see cref="DiscordInteraction"/>.
 /// </summary>
-public record DiscordInteractionResponse
+public record DiscordInteractionCallback
 {
 	/// <summary>
 	/// The selected response type.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public DiscordInteractionResponseType Type { get; init; }
+	public DiscordInteractionCallbackType Type { get; init; }
 
 	/// <summary>
 	/// Optional data for this response.
 	/// </summary>
 	[JsonPropertyName("data")]
-	public DiscordInteractionResolvedData? Data { get; init; }
+	public DiscordInteractionCallbackData? Data { get; init; }
 }

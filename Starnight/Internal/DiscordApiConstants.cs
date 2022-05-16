@@ -82,6 +82,8 @@ public static class DiscordApiConstants
 	public const String Emote = ":emote";
 	public const String GuildId = ":guild_id";
 	public const String IntegrationId = ":integration_id";
+	public const String InteractionId = ":interaction_id";
+	public const String InteractionToken = ":interaction_token";
 	public const String MessageId = ":message_id";
 	public const String OverwriteId = ":overwrite_id";
 	public const String RoleId = ":role_id";

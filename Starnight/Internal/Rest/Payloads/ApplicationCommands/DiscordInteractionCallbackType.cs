@@ -1,9 +1,9 @@
-namespace Starnight.Internal.Entities.Interactions;
+namespace Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
 /// <summary>
 /// Enumerates the different valid callback types.
 /// </summary>
-public enum DiscordInteractionResponseType
+public enum DiscordInteractionCallbackType
 {
 	/// <summary>
 	/// ACKs a <c>ping</c>

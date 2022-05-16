@@ -2,9 +2,11 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -419,5 +421,47 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommandPermissions>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	public async Task<Boolean> CreateInteractionResponseAsync(Int64 interactionId, String interactionToken,
+		DiscordInteractionCallback payload)
+	{
+		IRestRequest request = payload.Data?.Files == null
+
+			? new RestRequest
+			{
+				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+				Url = new($"{BaseUri}/{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
+				Method = HttpMethodEnum.Post,
+				Payload = JsonSerializer.Serialize(payload),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = true
+				}
+			}
+			: new MultipartRestRequest
+			{
+				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+				Url = new($"{BaseUri}/{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
+				Payload = new()
+				{
+					["payload_json"] = JsonSerializer.Serialize(payload),
+				},
+				Method = HttpMethodEnum.Post,
+				Files = payload.Data.Files.ToList(),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = false
+				}
+
+			};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 }
