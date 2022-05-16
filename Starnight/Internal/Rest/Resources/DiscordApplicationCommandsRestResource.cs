@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,8 +12,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
+using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
+using static System.Net.Mime.MediaTypeNames;
 using static Starnight.Internal.DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
@@ -463,11 +466,35 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 					["cache"] = this.RatelimitBucketCache,
 					["exempt-from-global-limit"] = false
 				}
-
 			};
 
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return message.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <summary>
+	/// Returns the original response to this interaction.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifer of your application.</param>
+	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	public async Task<DiscordMessage> GetOriginalResponseAsync(Int64 applicationId, String interactionToken)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
+			Url = new($"{BaseUri}/{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
 	}
 }
