@@ -506,21 +506,21 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 
 			? new RestRequest
 			{
-				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
-				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Callback}"),
+				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
+				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Method = HttpMethodEnum.Post,
 				Payload = JsonSerializer.Serialize(payload),
 				Context = new()
 				{
-					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
 					["cache"] = this.RatelimitBucketCache,
 					["exempt-from-global-limit"] = true
 				}
 			}
 			: new MultipartRestRequest
 			{
-				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
-				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Callback}"),
+				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
+				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload),
@@ -529,7 +529,7 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 				Files = payload.Files.ToList(),
 				Context = new()
 				{
-					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
 					["cache"] = this.RatelimitBucketCache,
 					["exempt-from-global-limit"] = false
 				}
