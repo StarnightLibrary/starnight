@@ -24,11 +24,11 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a request wrapper for all requests to the Application Commands rest resource
 /// </summary>
-public class DiscordApplicationCommandRestResource : AbstractRestResource
+public class DiscordApplicationCommandsRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
-	public DiscordApplicationCommandRestResource(RestClient client, IMemoryCache cache)
+	public DiscordApplicationCommandsRestResource(RestClient client, IMemoryCache cache)
 		: base(cache) => this.__rest_client = client;
 
 	/// <summary>
