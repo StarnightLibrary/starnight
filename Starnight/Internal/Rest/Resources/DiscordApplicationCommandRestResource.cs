@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.VisualBasic;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Entities.Messages;
@@ -492,6 +493,47 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 				["exempt-from-global-limit"] = false
 			}
 		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	public async ValueTask<DiscordMessage> EditOriginalResponseAsync(Int64 applicationId, Int64 interactionToken,
+		EditOriginalResponseRequestPayload payload)
+	{
+		IRestRequest request = payload.Files == null
+
+			? new RestRequest
+			{
+				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Callback}"),
+				Method = HttpMethodEnum.Post,
+				Payload = JsonSerializer.Serialize(payload),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = true
+				}
+			}
+			: new MultipartRestRequest
+			{
+				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Callback}"),
+				Payload = new()
+				{
+					["payload_json"] = JsonSerializer.Serialize(payload),
+				},
+				Method = HttpMethodEnum.Post,
+				Files = payload.Files.ToList(),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = false
+				}
+			};
 
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
