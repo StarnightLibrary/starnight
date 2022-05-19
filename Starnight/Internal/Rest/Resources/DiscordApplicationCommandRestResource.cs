@@ -647,4 +647,53 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Edits the specified followup message.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	/// <param name="messageId">Snowflake identifier of the followup message to be edited.</param>
+	/// <param name="payload">Editing payload.</param>
+	/// <returns>The newly edited message.</returns>
+	public async ValueTask<DiscordMessage> EditFollowupMessageAsync(Int64 applicationId, Int64 interactionToken,
+		Int64 messageId, EditFollowupMessageRequestPayload payload)
+	{
+		IRestRequest request = payload.Files == null
+
+			? new RestRequest
+			{
+				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
+				Url = new($"{BaseUri}/{AppId}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+				Method = HttpMethodEnum.Post,
+				Payload = JsonSerializer.Serialize(payload),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = true
+				}
+			}
+			: new MultipartRestRequest
+			{
+				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
+				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+				Payload = new()
+				{
+					["payload_json"] = JsonSerializer.Serialize(payload),
+				},
+				Method = HttpMethodEnum.Post,
+				Files = payload.Files.ToList(),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = false
+				}
+			};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
+	}
 }
