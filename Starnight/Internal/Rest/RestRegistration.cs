@@ -56,7 +56,8 @@ public static class RestRegistration
 		_ = collection
 			.AddSingleton<DiscordChannelRestResource>()
 			.AddSingleton<DiscordGuildRestResource>()
-			.AddSingleton<DiscordApplicationCommandsRestResource>();
+			.AddSingleton<DiscordApplicationCommandsRestResource>()
+			.AddSingleton<DiscordAuditLogRestResource>();
 
 		return collection;
 	}
