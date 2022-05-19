@@ -38,7 +38,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="withCounts">Whether or not the response should include total and online member counts.</param>
 	/// <returns>The guild requested.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuild> GetGuildAsync(Int64 id, Boolean withCounts = false)
+	public async ValueTask<DiscordGuild> GetGuildAsync(Int64 id, Boolean withCounts = false)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -64,7 +64,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="id">Snowflake identifier of the guild in question.</param>
 	/// <returns>The guild requested.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildPreview> GetGuildPreviewAsync(Int64 id)
+	public async ValueTask<DiscordGuildPreview> GetGuildPreviewAsync(Int64 id)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -92,7 +92,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason for the changes.</param>
 	/// <returns>The updated guild.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuild> ModifyGuildAsync(Int64 id, ModifyGuildRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordGuild> ModifyGuildAsync(Int64 id, ModifyGuildRequestPayload payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -124,7 +124,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="id">Snowflake identifier of the guild in question.</param>
 	/// <returns>Whether or not the request succeeded.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> DeleteGuildAsync(Int64 id)
+	public async ValueTask<Boolean> DeleteGuildAsync(Int64 id)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -149,7 +149,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="id">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordChannel>> GetGuildChannelsAsync(Int64 id)
+	public async ValueTask<IEnumerable<DiscordChannel>> GetGuildChannelsAsync(Int64 id)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -177,7 +177,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Audit log reason for this operation.</param>
 	/// <returns>The created channel.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordChannel> CreateGuildChannelAsync(Int64 id, CreateGuildChannelRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordChannel> CreateGuildChannelAsync(Int64 id, CreateGuildChannelRequestPayload payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -211,7 +211,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Audit log reason for this operation.</param>
 	/// <returns>Whether or not the call succeeded</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> ModifyGuildChannelPositionsAsync(Int64 id, IEnumerable<ModifyGuildChannelPositionRequestPayload> payload,
+	public async ValueTask<Boolean> ModifyGuildChannelPositionsAsync(Int64 id, IEnumerable<ModifyGuildChannelPositionRequestPayload> payload,
 		String? reason = null)
 	{
 		IRestRequest request = new RestRequest
@@ -245,7 +245,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <returns>A response payload object containing an array of thread channels and an array of thread member information
 	/// for all threads the current user has joined.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<ListActiveThreadsResponsePayload> ListActiveThreadsAsync(Int64 id)
+	public async ValueTask<ListActiveThreadsResponsePayload> ListActiveThreadsAsync(Int64 id)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -272,7 +272,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
 	/// <returns>A <see cref="DiscordGuildMember"/> object for this user, if available.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildMember> GetGuildMemberAsync(Int64 guildId, Int64 userId)
+	public async ValueTask<DiscordGuildMember> GetGuildMemberAsync(Int64 guildId, Int64 userId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -300,7 +300,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="afterUserId">Highest user ID to <b>not</b> query. Used for request pagination.</param>
 	/// <returns>A list of <see cref="DiscordGuildMember"/>s of the specified length.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync(Int64 guildId, Int32 limit = 1, Int64 afterUserId = 0)
+	public async ValueTask<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync(Int64 guildId, Int32 limit = 1, Int64 afterUserId = 0)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -327,7 +327,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="query">Query string to search for.</param>
 	/// <param name="limit">Maximum amount of members to return; 1 - 1000.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordGuildMember>> SearchGuildMembersAsync(Int64 guildId, String query, Int32 limit = 1)
+	public async ValueTask<IEnumerable<DiscordGuildMember>> SearchGuildMembersAsync(Int64 guildId, String query, Int32 limit = 1)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -355,7 +355,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="payload">OAuth2 payload, containing the OAuth2 token and initial information for the user.</param>
 	/// <returns>The newly created guild member, or null if the member had already joined the guild.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload)
+	public async ValueTask<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -387,7 +387,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The modified guild member.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildMember> ModifyGuildMemberAsync(Int64 guildId, Int64 userId,
+	public async ValueTask<DiscordGuildMember> ModifyGuildMemberAsync(Int64 guildId, Int64 userId,
 		ModifyGuildMemberRequestPayload payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
@@ -422,7 +422,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The new current user event.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildMember> ModifyCurrentMemberAsync(Int64 guildId, String nickname, String? reason = null)
+	public async ValueTask<DiscordGuildMember> ModifyCurrentMemberAsync(Int64 guildId, String nickname, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -457,7 +457,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the action was successful.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> AddGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
+	public async ValueTask<Boolean> AddGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -491,7 +491,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the action was successful.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> RemoveGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
+	public async ValueTask<Boolean> RemoveGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -524,7 +524,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Returns whether the kick was successful.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> RemoveGuildMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
+	public async ValueTask<Boolean> RemoveGuildMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -555,7 +555,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <returns>An array of <see cref="DiscordGuildBan"/> objects, representing all bans in the guild.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordGuildBan>> GetGuildBansAsync(Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordGuildBan>> GetGuildBansAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -581,7 +581,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildBan> GetGuildBanAsync(Int64 guildId, Int64 userId)
+	public async ValueTask<DiscordGuildBan> GetGuildBanAsync(Int64 guildId, Int64 userId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -603,7 +603,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="deleteMessageDays">Specifies how many days of message history from this user shall be purged.</param>
 	/// <param name="reason">Specifies an audit log reason for the ban.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task BanMemberAsync(Int64 guildId, Int64 userId, Int32 deleteMessageDays = 0, String? reason = null)
+	public async ValueTask BanMemberAsync(Int64 guildId, Int64 userId, Int32 deleteMessageDays = 0, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -635,7 +635,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason for the ban.</param>
 	/// <returns>Whether the unban was successful.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> UnbanMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
+	public async ValueTask<Boolean> UnbanMemberAsync(Int64 guildId, Int64 userId, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -665,7 +665,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordRole>> GetRolesAsync(Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordRole>> GetRolesAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -693,7 +693,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created role object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordRole> CreateRoleAsync(Int64 guildId, RoleMetadataRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordRole> CreateRoleAsync(Int64 guildId, RoleMetadataRequestPayload payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -727,7 +727,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason for this action.</param>
 	/// <returns>The newly ordered list of roles for this guild.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordRole>> ModifyRolePositionsAsync(Int64 guildId, ModifyRolePositionRequestPayload[] payload, String? reason = null)
+	public async ValueTask<IEnumerable<DiscordRole>> ModifyRolePositionsAsync(Int64 guildId, ModifyRolePositionRequestPayload[] payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -762,7 +762,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The modified role object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordRole> ModifyRoleAsync(Int64 guildId, Int64 roleId, RoleMetadataRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordRole> ModifyRoleAsync(Int64 guildId, Int64 roleId, RoleMetadataRequestPayload payload, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -796,7 +796,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the deletion was successful.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> DeleteRoleAsync(Int64 guildId, Int64 roleId, String? reason = null)
+	public async ValueTask<Boolean> DeleteRoleAsync(Int64 guildId, Int64 roleId, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -833,7 +833,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	///		</para>
 	/// </param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Int32> GetGuildPruneCountAsync(Int64 guildId, Int32 days = 0, String? roles = null)
+	public async ValueTask<Int32> GetGuildPruneCountAsync(Int64 guildId, Int32 days = 0, String? roles = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -872,7 +872,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason for the prune.</param>
 	/// <returns>The amount of users pruned.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Int32?> BeginGuildPruneAsync(Int64 guildId, Int32 days = 0, String? roles = null, Boolean? computeCount = null,
+	public async ValueTask<Int32?> BeginGuildPruneAsync(Int64 guildId, Int32 days = 0, String? roles = null, Boolean? computeCount = null,
 		String? reason = null)
 	{
 		IRestRequest request = new RestRequest
@@ -910,7 +910,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordVoiceRegion>> GetGuildVoiceRegionsAsync(Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordVoiceRegion>> GetGuildVoiceRegionsAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -935,7 +935,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordInvite>> GetGuildInvitesAsync(Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordInvite>> GetGuildInvitesAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -960,7 +960,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<IEnumerable<DiscordGuildIntegration>> GetGuildIntegrationsAsync(Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordGuildIntegration>> GetGuildIntegrationsAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -988,7 +988,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns><see langword="true"/> if the deletion succeeded, <see langword="false"/> if otherwise.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> DeleteGuildIntegrationAsync(Int64 guildId, Int64 integrationId, String? reason = null)
+	public async ValueTask<Boolean> DeleteGuildIntegrationAsync(Int64 guildId, Int64 integrationId, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1018,7 +1018,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild to be queried.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildWidgetSettings> GetGuildWidgetSettingsAsync(Int64 guildId)
+	public async ValueTask<DiscordGuildWidgetSettings> GetGuildWidgetSettingsAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1046,7 +1046,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The new guild widget object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildWidget> ModifyGuildWidgetSettingsAsync(Int64 guildId,
+	public async ValueTask<DiscordGuildWidget> ModifyGuildWidgetSettingsAsync(Int64 guildId,
 		DiscordGuildWidgetSettings settings, String? reason = null)
 	{
 		IRestRequest request = new RestRequest
@@ -1078,7 +1078,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier for the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordGuildWidget> GetGuildWidgetAsync(Int64 guildId)
+	public async ValueTask<DiscordGuildWidget> GetGuildWidgetAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1103,7 +1103,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<DiscordInvite> GetGuildVanityInviteAsync(Int64 guildId)
+	public async ValueTask<DiscordInvite> GetGuildVanityInviteAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1129,7 +1129,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="style">Widget style, either "shield" (default) or "banner1" to "banner4".</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Stream> GetGuildWidgetImageAsync(Int64 guildId, String style = "shield")
+	public async ValueTask<Stream> GetGuildWidgetImageAsync(Int64 guildId, String style = "shield")
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1156,7 +1156,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="payload">Stage voice state request payload.</param>
 	/// <returns>Whether the request succeeded.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task<Boolean> ModifyCurrentUserVoiceStateAsync(Int64 guildId, ModifyCurrentUserVoiceStateRequestPayload payload)
+	public async ValueTask<Boolean> ModifyCurrentUserVoiceStateAsync(Int64 guildId, ModifyCurrentUserVoiceStateRequestPayload payload)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1184,7 +1184,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// <param name="userId">Snowflake identifier of the user whose voice state to modify.</param>
 	/// <param name="payload">Stage voice state request payload.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async Task ModifyUserVoiceStateAsync(Int64 guildId, Int64 userId, ModifyUserVoiceStateRequestPayload payload)
+	public async ValueTask ModifyUserVoiceStateAsync(Int64 guildId, Int64 userId, ModifyUserVoiceStateRequestPayload payload)
 	{
 		IRestRequest request = new RestRequest
 		{

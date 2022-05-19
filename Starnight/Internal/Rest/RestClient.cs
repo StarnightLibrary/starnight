@@ -30,7 +30,7 @@ public sealed partial class RestClient
 		this.__logger = logger;
 	}
 
-	public async Task<HttpResponseMessage> MakeRequestAsync(IRestRequest request)
+	public async ValueTask<HttpResponseMessage> MakeRequestAsync(IRestRequest request)
 	{
 		if(!routeRegex().IsMatch(request.Path))
 		{
