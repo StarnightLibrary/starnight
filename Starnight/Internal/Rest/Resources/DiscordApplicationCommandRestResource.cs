@@ -572,4 +572,52 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Creates a followup message for an interaction.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	/// <param name="payload">Message creation payload.</param>
+	/// <returns>The newly created message.</returns>
+	public async ValueTask<DiscordMessage> CreateFollowupMessageAsync(Int64 applicationId, String interactionToken,
+		CreateFollowupMessageRequestPayload payload)
+	{
+		IRestRequest request = payload.Files == null
+
+			? new RestRequest
+			{
+				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
+				Url = new($"{BaseUri}/{AppId}/{applicationId}/{interactionToken}"),
+				Method = HttpMethodEnum.Post,
+				Payload = JsonSerializer.Serialize(payload),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = true
+				}
+			}
+			: new MultipartRestRequest
+			{
+				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
+				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}"),
+				Payload = new()
+				{
+					["payload_json"] = JsonSerializer.Serialize(payload),
+				},
+				Method = HttpMethodEnum.Post,
+				Files = payload.Files.ToList(),
+				Context = new()
+				{
+					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}",
+					["cache"] = this.RatelimitBucketCache,
+					["exempt-from-global-limit"] = false
+				}
+			};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
+	}
 }
