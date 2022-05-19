@@ -499,6 +499,13 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Edits the original interaction response.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	/// <param name="payload">Editing payload.</param>
+	/// <returns>The newly edited message.</returns>
 	public async ValueTask<DiscordMessage> EditOriginalResponseAsync(Int64 applicationId, Int64 interactionToken,
 		EditOriginalResponseRequestPayload payload)
 	{
@@ -506,20 +513,20 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 
 			? new RestRequest
 			{
-				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
-				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
+				Url = new($"{BaseUri}/{AppId}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Method = HttpMethodEnum.Post,
 				Payload = JsonSerializer.Serialize(payload),
 				Context = new()
 				{
-					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
+					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 					["cache"] = this.RatelimitBucketCache,
 					["exempt-from-global-limit"] = true
 				}
 			}
 			: new MultipartRestRequest
 			{
-				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
+				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Payload = new()
 				{
@@ -529,7 +536,7 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 				Files = payload.Files.ToList(),
 				Context = new()
 				{
-					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Messages}/@{Original}",
+					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 					["cache"] = this.RatelimitBucketCache,
 					["exempt-from-global-limit"] = false
 				}
@@ -538,5 +545,31 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Deletes the original interaction response.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	public async ValueTask<Boolean> DeleteOriginalInteractionResponseAsync(Int64 applicationId, String interactionToken)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
+			Url = new($"{BaseUri}/{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 }
