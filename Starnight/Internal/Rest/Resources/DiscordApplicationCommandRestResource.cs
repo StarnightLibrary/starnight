@@ -620,4 +620,31 @@ public class DiscordApplicationCommandRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Returns the followup message for this interaction.
+	/// </summary>
+	/// <param name="applicationId">Snowflake identifier of your application.</param>
+	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	/// <param name="messageId">Snowflake identifier of this message.</param>
+	public async ValueTask<DiscordMessage> GetFollowupMessageAsync(Int64 applicationId, String interactionToken,
+		Int64 messageId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
+			Url = new($"{BaseUri}/{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>(await message.Content.ReadAsStringAsync())!;
+	}
 }
