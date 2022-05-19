@@ -26,11 +26,11 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a request wrapper for all requests to the Channel resource.
 /// </summary>
-public class DiscordChannelsRestResource : AbstractRestResource
+public class DiscordChannelRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
-	public DiscordChannelsRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
+	public DiscordChannelRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
 		: base(ratelimitBucketCache) => this.__rest_client = client;
 
 	/// <summary>

@@ -24,11 +24,11 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a request wrapper for all requests against the Guild resource.
 /// </summary>
-public class DiscordGuildsRestResource : AbstractRestResource
+public class DiscordGuildRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
-	public DiscordGuildsRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
+	public DiscordGuildRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
 		: base(ratelimitBucketCache) => this.__rest_client = client;
 
 	/// <summary>
