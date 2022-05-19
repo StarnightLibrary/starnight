@@ -20,13 +20,20 @@ public partial class StarnightClient
 	{
 		this.ServiceCollection = options.Services ?? new ServiceCollection();
 
-		// todo: register the starnight default logger if none is passed.
-		_ = this.ServiceCollection.AddSingleton(typeof(ILogger), options.Logger!)
-			.AddSingleton(typeof(RestClient));
+		if(options.UseCustomLogger)
+		{
+			// todo: proper logging
+			_ = this.ServiceCollection.AddLogging();
+		}
 
-		_ = this.ServiceCollection.AddMemoryCache();
-
-		this.addRestClient(options);
+		_ = this.ServiceCollection.AddMemoryCache()
+			.AddStarnightRestClient(new()
+			{
+				MedianFirstRequestRetryDelay = options.MedianFirstRequestRetryDelay,
+				RetryCount = options.RetryCount,
+				RatelimitedRetryCount = options.RatelimitedRetryCount,
+				Token = options.Token
+			});
 
 		this.Services = this.ServiceCollection!.BuildServiceProvider();
 
