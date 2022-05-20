@@ -13,6 +13,9 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = Starnight.Internal.Rest.HttpMethod;
 
+/// <summary>
+/// Represents a wrapper for all requests to the audit log rest resource.
+/// </summary>
 public class DiscordAuditLogRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
@@ -69,6 +72,5 @@ public class DiscordAuditLogRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordAuditLogObject>(await response.Content.ReadAsStringAsync())!;
-		
 	}
 }

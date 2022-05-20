@@ -2,7 +2,6 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,13 +9,11 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.VisualBasic;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
-using static System.Net.Mime.MediaTypeNames;
 using static Starnight.Internal.DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
