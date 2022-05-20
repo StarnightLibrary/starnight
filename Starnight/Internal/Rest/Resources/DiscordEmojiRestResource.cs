@@ -107,4 +107,39 @@ public class DiscordEmojiRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Modifies the given emoji.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild owning the emoji.</param>
+	/// <param name="emojiId">Snowflake identifier of the emoji in question.</param>
+	/// <param name="payload">Payload for this request.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly updated emoji.</returns>
+	public async ValueTask<DiscordEmoji> ModifyGuildEmojiAsync(Int64 guildId, Int64 emojiId,
+		ModifyGuildEmojiRequestPayload payload, String? reason = null)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}/{emojiId}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}/{EmojiId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
+	}
 }
