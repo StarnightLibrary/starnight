@@ -36,10 +36,10 @@ public record DiscordGuildPreview : DiscordSnowflakeObject
 	public String? DiscoverySplash { get; init; }
 
 	/// <summary>
-	/// List of custom emotes in this guild.
+	/// List of custom emojis in this guild.
 	/// </summary>
 	[JsonPropertyName("emojis")]
-	public IEnumerable<DiscordEmote> Emotes { get; init; } = default!;
+	public IEnumerable<DiscordEmoji> Emojis { get; init; } = default!;
 
 	/// <summary>
 	/// List of guild features.

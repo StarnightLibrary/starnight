@@ -15,29 +15,29 @@ using static DiscordApiConstants;
 using HttpMethodEnum = Starnight.Internal.Rest.HttpMethod;
 
 /// <summary>
-/// Represents a wrapper for all requests to the emote rest resource.
+/// Represents a wrapper for all requests to the emoji rest resource.
 /// </summary>
-public class DiscordEmoteRestResource : AbstractRestResource
+public class DiscordEmojiRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
-	public DiscordEmoteRestResource(RestClient client, IMemoryCache cache)
+	public DiscordEmojiRestResource(RestClient client, IMemoryCache cache)
 		: base(cache) => this.__rest_client = client;
 
 	/// <summary>
-	/// Fetches a list of emotes for the given guild.
+	/// Fetches a list of emojis for the given guild.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	public async ValueTask<IEnumerable<DiscordEmote>> ListGuildEmotesAsync(Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordEmoji>> ListGuildEmojisAsync(Int64 guildId)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Emotes}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emotes}"),
+			Path = $"/{Guilds}/{GuildId}/{Emojis}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
-				["endpoint"] = $"/{Guilds}/{guildId}/{Emotes}",
+				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
@@ -45,6 +45,31 @@ public class DiscordEmoteRestResource : AbstractRestResource
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordEmote>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordEmoji>>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns the specified emoji.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild owning the emoji.</param>
+	/// <param name="emojiId">Snowflake identifier of the emoji in question.</param>
+	public async ValueTask<DiscordEmoji> GetGuildEmojiAsync(Int64 guildId, Int64 emojiId)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}/{emojiId}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
 	}
 }

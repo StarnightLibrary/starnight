@@ -54,11 +54,11 @@ public record DiscordGuildIntegration : DiscordSnowflakeObject
 	public Int64? RoleId { get; init; }
 
 	/// <summary>
-	/// Gets whether emotes should be synced for this integration.
+	/// Gets whether emojis should be synced for this integration.
 	/// This field is only present for twitch integrations.
 	/// </summary>
 	[JsonPropertyName("enable_emoticons")]
-	public Boolean? EnableEmotes { get; init; }
+	public Boolean? EnableEmojis { get; init; }
 
 	/// <summary>
 	/// Gets the behaviour of expiring subscribers.

@@ -42,10 +42,10 @@ public record DiscordMessageComponent
 	public String? Label { get; init; }
 
 	/// <summary>
-	/// Emote to be shown on this button.
+	/// Emoji to be shown on this button.
 	/// </summary>
 	[JsonPropertyName("emoji")]
-	public DiscordEmote? Emote { get; init; }
+	public DiscordEmoji? Emoji { get; init; }
 
 	/// <summary>
 	/// An url for link buttons.

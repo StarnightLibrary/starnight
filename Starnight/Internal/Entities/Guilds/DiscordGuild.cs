@@ -122,10 +122,10 @@ public record DiscordGuild : DiscordSnowflakeObject
 	public IEnumerable<DiscordRole> Roles { get; init; } = default!;
 
 	/// <summary>
-	/// Emotes in this guild.
+	/// Emojis in this guild.
 	/// </summary>
 	[JsonPropertyName("emojis")]
-	public IEnumerable<DiscordEmote> Emotes { get; init; } = default!;
+	public IEnumerable<DiscordEmoji> Emojis { get; init; } = default!;
 
 	/// <summary>
 	/// Enabled features for this guild.

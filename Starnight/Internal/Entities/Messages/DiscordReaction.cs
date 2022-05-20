@@ -11,20 +11,20 @@ using Starnight.Internal.Entities.Guilds;
 public record DiscordReaction
 {
 	/// <summary>
-	/// Gets however often this emote has been used to react.
+	/// Gets however often this emoji has been used to react.
 	/// </summary>
 	[JsonPropertyName("count")]
 	public Int32 Count { get; init; }
 
 	/// <summary>
-	/// Whether the current user reacted using this emote.
+	/// Whether the current user reacted using this emoji.
 	/// </summary>
 	[JsonPropertyName("me")]
 	public Boolean CurrentUserReacted { get; init; }
 
 	/// <summary>
-	/// More emote information
+	/// More emoji information
 	/// </summary>
 	[JsonPropertyName("emoji")]
-	public DiscordEmote Emote { get; init; } = default!;
+	public DiscordEmoji Emoji { get; init; } = default!;
 }

@@ -27,7 +27,7 @@ public static class DiscordApiConstants
 	public const String Commands = "commands";
 	public const String Connections = "connections";
 	public const String Crosspost = "crosspost";
-	public const String Emotes = "emojis";
+	public const String Emojis = "emojis";
 	public const String ScheduledEvents = "scheduled-events";
 	public const String Followers = "followers";
 	public const String Gateway = "gateway";
@@ -79,7 +79,8 @@ public static class DiscordApiConstants
 	public const String AppId = ":app_id";
 	public const String ChannelId = ":channel_id";
 	public const String CommandId = ":command_id";
-	public const String Emote = ":emote";
+	public const String Emoji = ":emoji";
+	public const String EmojiId = ":emoji_id";
 	public const String GuildId = ":guild_id";
 	public const String IntegrationId = ":integration_id";
 	public const String InteractionId = ":interaction_id";

@@ -58,7 +58,7 @@ public static class RestRegistration
 			.AddSingleton<DiscordGuildRestResource>()
 			.AddSingleton<DiscordApplicationCommandsRestResource>()
 			.AddSingleton<DiscordAuditLogRestResource>()
-			.AddSingleton<DiscordEmoteRestResource>();
+			.AddSingleton<DiscordEmojiRestResource>();
 
 		return collection;
 	}

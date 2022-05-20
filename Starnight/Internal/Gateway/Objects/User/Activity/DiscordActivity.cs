@@ -61,10 +61,10 @@ public record DiscordActivity
 	public String? State { get; init; }
 
 	/// <summary>
-	/// The emote used for a custom status.
+	/// The emoji used for a custom status.
 	/// </summary>
 	[JsonPropertyName("emoji")]
-	public DiscordEmote? Emote { get; init; }
+	public DiscordEmoji? Emoji { get; init; }
 
 	/// <summary>
 	/// Information about the party associated with this activity.

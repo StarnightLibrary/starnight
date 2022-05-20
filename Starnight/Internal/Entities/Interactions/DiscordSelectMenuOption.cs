@@ -29,10 +29,10 @@ public record DiscordSelectMenuOption
 	public String? Description { get; init; }
 
 	/// <summary>
-	/// Emote to be rendered for this option.
+	/// Emoji to be rendered for this option.
 	/// </summary>
 	[JsonPropertyName("emoji")]
-	public DiscordEmote? Emote { get; init; }
+	public DiscordEmoji? Emoji { get; init; }
 
 	/// <summary>
 	/// Whether this option is selected by default.

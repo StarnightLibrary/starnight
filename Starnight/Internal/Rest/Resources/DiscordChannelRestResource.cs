@@ -346,22 +346,22 @@ public class DiscordChannelRestResource : AbstractRestResource
 	}
 
 	/// <summary>
-	/// Creates a reaction with the given emote on the specified message.
+	/// Creates a reaction with the given emoji on the specified message.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emote">String representation of the emote.</param>
+	/// <param name="emoji">String representation of the emoji.</param>
 	/// <returns>Whether the reaction was added successfully.</returns>
-	public async ValueTask<Boolean> CreateReactionAsync(Int64 channelId, Int64 messageId, String emote)
+	public async ValueTask<Boolean> CreateReactionAsync(Int64 channelId, Int64 messageId, String emoji)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
-			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}"),
 			Method = HttpMethodEnum.Put,
 			Context = new()
 			{
-				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
@@ -373,22 +373,22 @@ public class DiscordChannelRestResource : AbstractRestResource
 	}
 
 	/// <summary>
-	/// Deletes your own reaction with the specified emote on the specified message.
+	/// Deletes your own reaction with the specified emoji on the specified message.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emote">String representation of the emote.</param>
+	/// <param name="emoji">String representation of the emoji.</param>
 	/// <returns>Whether the reaction was removed successfully.</returns>
-	public async ValueTask<Boolean> DeleteOwnReactionAsync(Int64 channelId, Int64 messageId, String emote)
+	public async ValueTask<Boolean> DeleteOwnReactionAsync(Int64 channelId, Int64 messageId, String emoji)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
-			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{Me}"),
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
-				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{Me}",
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
@@ -400,23 +400,23 @@ public class DiscordChannelRestResource : AbstractRestResource
 	}
 
 	/// <summary>
-	/// Deletes the specified user's reaction with the specified emote on the specified message.
+	/// Deletes the specified user's reaction with the specified emoji on the specified message.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
-	/// <param name="emote">String representation of the emote.</param>
+	/// <param name="emoji">String representation of the emoji.</param>
 	/// <returns>Whether the reaction was removed successfully.</returns>
-	public async ValueTask<Boolean> DeleteUserReactionAsync(Int64 channelId, Int64 messageId, Int64 userId, String emote)
+	public async ValueTask<Boolean> DeleteUserReactionAsync(Int64 channelId, Int64 messageId, Int64 userId, String emoji)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{UserId}",
-			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}/{userId}"),
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{UserId}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{userId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
-				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}/{UserId}",
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
@@ -428,17 +428,17 @@ public class DiscordChannelRestResource : AbstractRestResource
 	}
 
 	/// <summary>
-	/// Gets a list of users that reacted with the given emote.
+	/// Gets a list of users that reacted with the given emoji.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emote">String representation of the queried emote.</param>
+	/// <param name="emoji">String representation of the queried emoji.</param>
 	/// <param name="after">Specifies a minimum user ID to return from, to paginate queries.</param>
 	/// <param name="limit">Maximum amount of users to return. Defaults to 25.</param>
-	public async ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync(Int64 channelId, Int64 messageId, String emote,
+	public async ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync(Int64 channelId, Int64 messageId, String emoji,
 		Int64? after = null, Int32? limit = null)
 	{
-		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}");
+		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}");
 
 		if(after is not null && limit is not null)
 		{
@@ -458,12 +458,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 			Url = new(urlBuilder.ToString()),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
-				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
@@ -498,21 +498,21 @@ public class DiscordChannelRestResource : AbstractRestResource
 	}
 
 	/// <summary>
-	/// Deletes all reactions with a specific emote from the specified message.
+	/// Deletes all reactions with a specific emoji from the specified message.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emote">String representation of the emote in question.</param>
-	public async ValueTask DeleteEmoteReactionsAsync(Int64 channelId, Int64 messageId, String emote)
+	/// <param name="emoji">String representation of the emoji in question.</param>
+	public async ValueTask DeleteEmojiReactionsAsync(Int64 channelId, Int64 messageId, String emoji)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
-			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emote}"),
+			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
+			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
-				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emote}",
+				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}

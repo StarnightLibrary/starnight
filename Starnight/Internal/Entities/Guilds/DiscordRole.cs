@@ -33,10 +33,10 @@ public record DiscordRole : DiscordSnowflakeObject
 	public String? Icon { get; init; }
 
 	/// <summary>
-	/// Unicode emote serving as role icon.
+	/// Unicode emoji serving as role icon.
 	/// </summary>
-	[JsonPropertyName("unicode_emote")]
-	public String? UnicodeEmote { get; init; }
+	[JsonPropertyName("unicode_emoji")]
+	public String? UnicodeEmoji { get; init; }
 
 	/// <summary>
 	/// Position of this role in the role list.

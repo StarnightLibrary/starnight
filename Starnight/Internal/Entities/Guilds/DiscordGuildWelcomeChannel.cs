@@ -22,15 +22,15 @@ public record DiscordGuildWelcomeChannel
 	public String Description { get; init; } = default!;
 
 	/// <summary>
-	/// The emote ID if this description uses a custom emote.
+	/// The emoji ID if this description uses a custom emoji.
 	/// </summary>
 	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("emoji_id")]
-	public Int64? EmoteId { get; init; }
+	public Int64? EmojiId { get; init; }
 
 	/// <summary>
-	/// The emote name if custom; the unicode character if standard; or <c>null</c> if no emote is set.
+	/// The emoji name if custom; the unicode character if standard; or <c>null</c> if no emoji is set.
 	/// </summary>
 	[JsonPropertyName("emoji_name")]
-	public String? EmoteName { get; init; }
+	public String? EmojiName { get; init; }
 }

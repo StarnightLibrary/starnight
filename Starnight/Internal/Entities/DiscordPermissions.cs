@@ -99,9 +99,9 @@ public enum DiscordPermissions : Int64
 	MentionEveryone = 1 << 17,
 
 	/// <summary>
-	/// Allows members to use emotes from other guilds.
+	/// Allows members to use emojis from other guilds.
 	/// </summary>
-	UseExternalEmotes = 1 << 18,
+	UseExternalEmojis = 1 << 18,
 
 	/// <summary>
 	/// Allows members to access and view the Guild Insights menu.
@@ -159,9 +159,9 @@ public enum DiscordPermissions : Int64
 	ManageWebhooks = 1 << 29,
 
 	/// <summary>
-	/// Allows members to manage guild emotes and stickers.
+	/// Allows members to manage guild emojis and stickers.
 	/// </summary>
-	ManageEmotesStickers = 1 << 30,
+	ManageEmojisStickers = 1 << 30,
 
 	/// <summary>
 	/// Allows members to use slash and right-click commands.

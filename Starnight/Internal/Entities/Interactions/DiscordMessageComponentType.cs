@@ -18,5 +18,10 @@ public enum DiscordMessageComponentType
 	/// <summary>
 	/// A dropdown menu for picking from predefined choices.
 	/// </summary>
-	SelectMenu
+	SelectMenu,
+
+	/// <summary>
+	/// A text field in a modal.
+	/// </summary>
+	TextInput
 }

@@ -44,11 +44,11 @@ public record RoleMetadataRequestPayload
 	public String? Icon { get; init; }
 
 	/// <summary>
-	/// The role's unicode emote as role icon, if possible.
+	/// The role's unicode emoji as role icon, if possible.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("unicode_emoji")]
-	public String? UnicodeEmote { get; init; }
+	public String? UnicodeEmoji { get; init; }
 
 	/// <summary>
 	/// Whether the role should be mentionable by everyone.
