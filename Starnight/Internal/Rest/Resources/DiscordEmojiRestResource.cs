@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using Starnight.Internal.Rest.Payloads.Emojis;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = Starnight.Internal.Rest.HttpMethod;
+using HttpMethodEnum = HttpMethod;
 
 /// <summary>
 /// Represents a wrapper for all requests to the emoji rest resource.
@@ -141,5 +142,37 @@ public class DiscordEmojiRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Deletes the given emoji.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild owning this emoji.</param>
+	/// <param name="emojiId">Snowflake identifier of the emoji to be deleted.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	public async ValueTask<Boolean> DeleteGuildEmojiAsync(Int64 guildId, Int64 emojiId, String? reason = null)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}/{emojiId}"),
+			Method = HttpMethodEnum.Delete,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}/{EmojiId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 }

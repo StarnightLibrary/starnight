@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Guilds.Audit;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = Starnight.Internal.Rest.HttpMethod;
+using HttpMethodEnum = HttpMethod;
 
 /// <summary>
 /// Represents a wrapper for all requests to the audit log rest resource.
