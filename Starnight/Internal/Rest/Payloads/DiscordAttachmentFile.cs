@@ -8,6 +8,7 @@ using System.IO;
 /// </summary>
 public record struct DiscordAttachmentFile
 {
+	/// <inheritdoc/>
 	public DiscordAttachmentFile(Stream stream, String? filename, String? contentType)
 	{
 		this.FileStream = stream;

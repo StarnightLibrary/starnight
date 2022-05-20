@@ -15,6 +15,9 @@ using Polly.Contrib.WaitAndRetry;
 using Starnight.Exceptions;
 using Starnight.Internal.Rest.Resources;
 
+/// <summary>
+/// Contains an extension method on IServiceCollection to register Starnight's rest client
+/// </summary>
 public static class RestRegistration
 {
 	private static readonly TimeSpan __one_second = TimeSpan.FromSeconds(1);

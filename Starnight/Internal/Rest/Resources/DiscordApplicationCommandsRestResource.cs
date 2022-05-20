@@ -25,6 +25,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
+	/// <inheritdoc/>
 	public DiscordApplicationCommandsRestResource(RestClient client, IMemoryCache cache)
 		: base(cache) => this.__rest_client = client;
 

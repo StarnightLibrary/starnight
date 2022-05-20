@@ -20,6 +20,7 @@ public class DiscordAuditLogRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
+	/// <inheritdoc/>
 	public DiscordAuditLogRestResource(RestClient client, IMemoryCache cache)
 		: base(cache) => this.__rest_client = client;
 

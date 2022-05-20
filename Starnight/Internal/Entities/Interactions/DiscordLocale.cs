@@ -11,6 +11,7 @@ using NetEscapades.EnumGenerators;
 /// <see cref="DiscordLocaleExtensions.ToStringFast(DiscordLocale)"/> is an extension method generated on top of <see cref="DiscordLocale"/>,
 /// by virtue of source generation.
 /// </remarks>
+
 [EnumExtensions]
 public enum DiscordLocale
 {

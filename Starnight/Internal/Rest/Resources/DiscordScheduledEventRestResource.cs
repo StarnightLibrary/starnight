@@ -22,6 +22,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
+	/// <inheritdoc/>
 	public DiscordScheduledEventRestResource(RestClient client, IMemoryCache cache)
 		: base(cache) => this.__rest_client = client;
 

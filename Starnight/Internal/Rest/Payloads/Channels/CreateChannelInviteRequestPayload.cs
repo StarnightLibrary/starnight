@@ -31,6 +31,9 @@ public record CreateChannelInviteRequestPayload
 	[JsonPropertyName("temporary")]
 	public Boolean? IsTemporary { get; init; }
 
+	/// <summary>
+	/// Specifies whether this invite is unique.
+	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("unique")]
 	public Boolean? IsUnique { get; init; }

@@ -30,6 +30,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
+	/// <inheritdoc/>
 	public DiscordChannelRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
 		: base(ratelimitBucketCache) => this.__rest_client = client;
 
@@ -1314,6 +1315,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<ListArchivedThreadsResponsePayload>(await message.Content.ReadAsStringAsync())!;
 	}
 
+	/// <summary>
+	/// Returns a list of joined, private, archived threads.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of their parent channel.</param>
+	/// <param name="before">Timestamp to act as upper boundary for archival dates.</param>
+	/// <param name="limit">Maximum amount of threads to return from this request.</param>
 	public async ValueTask<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync(Int64 channelId,
 		DateTimeOffset? before = null, Int32? limit = null)
 {
@@ -1338,8 +1345,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			Path = $"/{Channels}/{ChannelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
 			Url = new(urlBuilder.ToString()),
 			Method = HttpMethodEnum.Get,
-Context = new()
-{
+			Context = new()
+			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false

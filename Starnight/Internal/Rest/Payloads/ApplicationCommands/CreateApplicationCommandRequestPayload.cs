@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities;
+using Starnight.Internal.Entities.Interactions;
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 
 /// <summary>

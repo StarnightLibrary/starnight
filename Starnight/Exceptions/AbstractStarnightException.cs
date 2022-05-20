@@ -12,6 +12,7 @@ public abstract class AbstractStarnightException : Exception
 	/// </summary>
 	public String Caller { get; private set; }
 
+	/// <inheritdoc/>
 	public AbstractStarnightException(String message, String caller) : base(message)
 		=> this.Caller = caller;
 }

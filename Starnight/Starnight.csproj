@@ -14,6 +14,7 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageIcon>starnight.png</PackageIcon>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<NoWarn>CS1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

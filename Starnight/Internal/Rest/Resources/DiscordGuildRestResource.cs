@@ -28,6 +28,7 @@ public class DiscordGuildRestResource : AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 
+	/// <inheritdoc/>
 	public DiscordGuildRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
 		: base(ratelimitBucketCache) => this.__rest_client = client;
 
