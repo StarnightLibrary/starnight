@@ -8,6 +8,7 @@ using Starnight.Internal.Entities;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Interactions;
+using Starnight.Internal.Entities.Interactions.Components;
 using Starnight.Internal.Entities.Messages.Embeds;
 using Starnight.Internal.Entities.Stickers;
 using Starnight.Internal.Entities.Teams;
@@ -186,7 +187,7 @@ public record DiscordMessage : DiscordSnowflakeObject
 	/// Message components associated with this message.
 	/// </summary>
 	[JsonPropertyName("components")]
-	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
+	public IEnumerable<AbstractDiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// The stickers sent with this message.

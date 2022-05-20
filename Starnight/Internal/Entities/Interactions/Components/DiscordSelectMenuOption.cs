@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Interactions;
+namespace Starnight.Internal.Entities.Interactions.Components;
 
 using System;
 using System.Text.Json.Serialization;

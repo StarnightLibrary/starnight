@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Interactions;
+using Starnight.Internal.Entities.Interactions.Components;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Messages.Embeds;
 
@@ -46,7 +46,7 @@ public record EditMessageRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("components")]
-	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
+	public IEnumerable<AbstractDiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// Attached files to this message. This must include old attachments to be retained and new attachments, if passed.

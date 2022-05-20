@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Interactions;
+using Starnight.Internal.Entities.Interactions.Components;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Messages.Embeds;
 
@@ -46,7 +46,7 @@ public record EditOriginalResponseRequestPayload
 	/// </summary>
 	[JsonPropertyName("components")]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
+	public IEnumerable<AbstractDiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// Attachments to be... attached... to this interaction response message.

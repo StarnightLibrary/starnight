@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
+using Starnight.Internal.Entities.Interactions.Components;
 
 /// <summary>
 /// Represents additional data about a <see cref="DiscordInteraction"/>

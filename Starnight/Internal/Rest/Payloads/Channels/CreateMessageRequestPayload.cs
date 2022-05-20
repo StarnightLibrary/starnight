@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Interactions;
+using Starnight.Internal.Entities.Interactions.Components;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Messages.Embeds;
 
@@ -53,7 +53,7 @@ public record CreateMessageRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("components")]
-	public IEnumerable<DiscordMessageComponent>? Components { get; init; }
+	public IEnumerable<AbstractDiscordMessageComponent>? Components { get; init; }
 
 	/// <summary>
 	/// Up to 3 snowflake identifiers of stickers to be attached to this message.
