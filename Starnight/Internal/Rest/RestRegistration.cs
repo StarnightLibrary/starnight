@@ -19,10 +19,14 @@ public static class RestRegistration
 {
 	private static readonly TimeSpan __one_second = TimeSpan.FromSeconds(1);
 
+	/// <summary>
+	/// Registers the Starnight rest client into the given service collection.
+	/// </summary>
 	public static IServiceCollection AddStarnightRestClient(this IServiceCollection collection, RestClientOptions options)
 	{
 		PollyRateLimitPolicy ratelimiter = new();
-		IEnumerable<TimeSpan> retryDelay = Backoff.DecorrelatedJitterBackoffV2(options.MedianFirstRequestRetryDelay, options.RetryCount);
+		IEnumerable<TimeSpan> retryDelay = Backoff.DecorrelatedJitterBackoffV2(
+			options.MedianFirstRequestRetryDelay, options.RetryCount);
 
 		_ = collection
 			.AddHttpClient<RestClient>()
@@ -58,7 +62,8 @@ public static class RestRegistration
 			.AddSingleton<DiscordGuildRestResource>()
 			.AddSingleton<DiscordApplicationCommandsRestResource>()
 			.AddSingleton<DiscordAuditLogRestResource>()
-			.AddSingleton<DiscordEmojiRestResource>();
+			.AddSingleton<DiscordEmojiRestResource>()
+			.AddSingleton<DiscordScheduledEventRestResource>();
 
 		return collection;
 	}
