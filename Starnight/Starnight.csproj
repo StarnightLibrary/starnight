@@ -13,6 +13,7 @@
 	<VersionPrefix>0.1.0</VersionPrefix>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageIcon>starnight.png</PackageIcon>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
