@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
 using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Rest.Payloads.Emojis;
 
 using static DiscordApiConstants;
 
@@ -60,6 +61,40 @@ public class DiscordEmojiRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}/{emojiId}"),
 			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}/{EmojiId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Creates a new guild emoji in the specified guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Payload for this request.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created emoji.</returns>
+	public async ValueTask<DiscordEmoji> CreateGuildEmojiAsync(Int64 guildId, CreateGuildEmojiRequestPayload payload,
+		String? reason = null)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Emojis}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Post,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}",
