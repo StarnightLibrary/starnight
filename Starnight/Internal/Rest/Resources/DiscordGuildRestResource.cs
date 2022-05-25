@@ -47,13 +47,17 @@ public class DiscordGuildRestResource : AbstractRestResource
 	public async ValueTask<DiscordGuild> GetGuildAsync
 	(
 		Int64 guildId,
-		Boolean withCounts = false
+		Boolean? withCounts = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}");
+
+		_ = builder.AddParameter("with_counts", withCounts.ToString());
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}?with_counts={withCounts}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -343,14 +347,19 @@ public class DiscordGuildRestResource : AbstractRestResource
 	public async ValueTask<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync
 	(
 		Int64 guildId,
-		Int32 limit = 1,
-		Int64 afterUserId = 0
+		Int32? limit = null,
+		Int64? afterUserId = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Members}");
+
+		_ = builder.AddParameter("limit", limit.ToString())
+			.AddParameter("after", afterUserId.ToString());
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?limit={limit}&after={afterUserId}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -376,13 +385,18 @@ public class DiscordGuildRestResource : AbstractRestResource
 	(
 		Int64 guildId,
 		String query,
-		Int32 limit = 1
+		Int32? limit = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Members}");
+
+		_ = builder.AddParameter("query", query)
+			.AddParameter("limit", limit.ToString());
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{Search}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}?query={query}&limit={limit}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -494,7 +508,10 @@ public class DiscordGuildRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Members}/{Me}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{Me}"),
 			Method = HttpMethodEnum.Patch,
-			Payload = $"{{\"nick\":\"{nickname}\"}}",
+			Payload =
+			$$"""
+			{ "nick": "{{nickname}}" }
+			""",
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -676,7 +693,13 @@ public class DiscordGuildRestResource : AbstractRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
-			Method = HttpMethodEnum.Get
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
 		};
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
@@ -705,7 +728,10 @@ public class DiscordGuildRestResource : AbstractRestResource
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
 			Method = HttpMethodEnum.Put,
-			Payload = $"{{\"delete_message_days\": \"{deleteMessageDays}\"}}",
+			Payload =
+			$$"""
+			{ "delete_message_days": "{{deleteMessageDays}}" }
+			""",
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -960,14 +986,19 @@ public class DiscordGuildRestResource : AbstractRestResource
 	public async ValueTask<Int32> GetGuildPruneCountAsync
 	(
 		Int64 guildId,
-		Int32 days = 0,
+		Int32? days = null,
 		String? roles = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}");
+
+		_ = builder.AddParameter("days", days.ToString())
+			.AddParameter("include_roles", roles);
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Prune}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}{(roles is not null ? $"&include_roles={roles}" : "")}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1004,18 +1035,22 @@ public class DiscordGuildRestResource : AbstractRestResource
 	public async ValueTask<Int32?> BeginGuildPruneAsync
 	(
 		Int64 guildId,
-		Int32 days = 0,
+		Int32? days = null,
 		String? roles = null,
 		Boolean? computeCount = null,
 		String? reason = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}");
+
+		_ = builder.AddParameter("days", days.ToString())
+			.AddParameter("include_roles", roles)
+			.AddParameter("compute_prune_count", computeCount.ToString());
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Prune}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}?days={days}" +
-				$"{(roles is not null ? $"&include_roles={roles}" : "")}" +
-				$"{(computeCount is not null ? $"compute_prune_count={computeCount}" : "")}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
 			{
@@ -1294,13 +1329,17 @@ public class DiscordGuildRestResource : AbstractRestResource
 	public async ValueTask<Stream> GetGuildWidgetImageAsync
 	(
 		Int64 guildId,
-		String style = "shield"
+		String? style = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetPng}");
+
+		_ = builder.AddParameter("style", style);
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{WidgetPng}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetPng}?style={style}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{

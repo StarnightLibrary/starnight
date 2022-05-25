@@ -3,7 +3,6 @@ namespace Starnight.Internal.Rest.Resources;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -43,17 +42,14 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		Boolean? withUserCount = null
 	)
 	{
-		StringBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}");
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}");
 
-		if(withUserCount is not null)
-		{
-			_ = builder.Append($"?with_user_count={withUserCount}");
-		}
+		_ = builder.AddParameter("with_user_count", withUserCount.ToString());
 
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}",
-			Url = new(builder.ToString()),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{

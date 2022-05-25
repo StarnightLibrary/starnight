@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -237,27 +236,17 @@ public class DiscordChannelRestResource : AbstractRestResource
 		Int64? after = null
 	)
 	{
-		StringBuilder queryBuilder = new();
+		QueryBuilder builder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}");
 
-		_ = queryBuilder.Append($"limit={count}");
-
-		if(around is not null)
-		{
-			_ = queryBuilder.Append($"&around={around}");
-		}
-		else if(before is not null)
-		{
-			_ = queryBuilder.Append($"&before={before}");
-		}
-		else if(after is not null)
-		{
-			_ = queryBuilder.Append($"&after={after}");
-		}
+		_ = builder.AddParameter("limit", count.ToString())
+			.AddParameter("around", around.ToString())
+			.AddParameter("before", before.ToString())
+			.AddParameter("after", after.ToString());
 
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}",
-			Url = new($"{BaseUri}/{Channels}/{channelId}/{Messages}?{queryBuilder}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -505,28 +494,15 @@ public class DiscordChannelRestResource : AbstractRestResource
 		Int32? limit = null
 	)
 	{
-		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}");
+		QueryBuilder builder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}");
 
-		if(after is not null && limit is not null)
-		{
-			_ = urlBuilder.Append($"?after={after}&limit={limit}");
-		}
-		else
-		{
-			if(after is not null)
-			{
-				_ = urlBuilder.Append($"?after={after}");
-			}
-			else if(limit is not null)
-			{
-				_ = urlBuilder.Append($"?limit={limit}");
-			}
-		}
+		_ = builder.AddParameter("after", after.ToString())
+			.AddParameter("limit", limit.ToString());
 
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
-			Url = new(urlBuilder.ToString()),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -892,7 +868,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Followers}",
 			Url = new($"{BaseUri}/{Channels}/{channelId}/{Followers}"),
-			Payload = $"{{ \"webhook_channel_id\": \"{targetChannelId}\" }}",
+			Payload =
+			$$"""
+			{ "webhook_channel_id": "{{targetChannelId}}" }
+			""",
 			Method = HttpMethodEnum.Post,
 			Context = new()
 			{
@@ -1413,26 +1392,15 @@ public class DiscordChannelRestResource : AbstractRestResource
 		Int32? limit = null
 	)
 	{
-		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Public}");
+		QueryBuilder builder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Public}");
 
-		if(before is not null)
-		{
-			_ = urlBuilder.Append($"?before={before}");
-
-			if(limit is not null)
-			{
-				_ = urlBuilder.Append($"&limit={limit}");
-			}
-		}
-		else if(limit is not null)
-		{
-			_ = urlBuilder.Append($"?limit={limit}");
-		}
+		_ = builder.AddParameter("before", before.ToString())
+			.AddParameter("limit", limit.ToString());
 
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Public}",
-			Url = new(urlBuilder.ToString()),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1460,26 +1428,15 @@ public class DiscordChannelRestResource : AbstractRestResource
 		Int32? limit = null
 	)
 	{
-		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Private}");
+		QueryBuilder builder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Private}");
 
-		if(before is not null)
-		{
-			_ = urlBuilder.Append($"?before={before}");
-
-			if(limit is not null)
-			{
-				_ = urlBuilder.Append($"&limit={limit}");
-			}
-		}
-		else if(limit is not null)
-		{
-			_ = urlBuilder.Append($"?limit={limit}");
-		}
+		_ = builder.AddParameter("before", before.ToString())
+			.AddParameter("limit", limit.ToString());
 
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Private}",
-			Url = new(urlBuilder.ToString()),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1507,26 +1464,15 @@ public class DiscordChannelRestResource : AbstractRestResource
 		Int32? limit = null
 	)
 	{
-		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}");
+		QueryBuilder builder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Private}");
 
-		if(before is not null)
-		{
-			_ = urlBuilder.Append($"?before={before}");
-
-			if(limit is not null)
-			{
-				_ = urlBuilder.Append($"&limit={limit}");
-			}
-		}
-		else if(limit is not null)
-		{
-			_ = urlBuilder.Append($"?limit={limit}");
-		}
+		_ = builder.AddParameter("before", before.ToString())
+			.AddParameter("limit", limit.ToString());
 
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
-			Url = new(urlBuilder.ToString()),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{

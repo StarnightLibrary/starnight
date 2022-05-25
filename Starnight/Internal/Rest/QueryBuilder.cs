@@ -20,6 +20,11 @@ internal class QueryBuilder
 			return this;
 		}
 
+		if(value.ToLowerInvariant() == "null")
+		{
+			return this;
+		}
+
 		this.__parameters.Add(new(key, value));
 		return this;
 	}

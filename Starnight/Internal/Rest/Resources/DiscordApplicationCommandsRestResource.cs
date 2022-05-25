@@ -45,14 +45,17 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	public async ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
-		Boolean withLocalizations = false,
+		Boolean? withLocalizations = null,
 		String? locale = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}");
+		_ = builder.AddParameter("with_localizations", withLocalizations.ToString());
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}?with_localizations={withLocalizations}"),
+			Url = builder.Build(),
 			Headers = locale is not null ? new()
 			{
 				["X-Discord-Locale"] = locale
@@ -239,13 +242,16 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Boolean withLocalizations = false
+		Boolean? withLocalizations = null
 	)
 	{
+		QueryBuilder builder = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}");
+		_ = builder.AddParameter("with_localizations", withLocalizations.ToString());
+
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}?with_localizations={withLocalizations}"),
+			Url = builder.Build(),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{

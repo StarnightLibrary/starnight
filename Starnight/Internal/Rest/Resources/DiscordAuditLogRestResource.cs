@@ -48,25 +48,10 @@ public class DiscordAuditLogRestResource : AbstractRestResource
 	{
 		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{AuditLogs}");
 
-		if(userId != null)
-		{
-			_ = builder.AddParameter("user_id", userId.ToString()!);
-		}
-
-		if(actionType != null)
-		{
-			_ = builder.AddParameter("action_type", ((Int32)actionType).ToString()!);
-		}
-
-		if(before != null)
-		{
-			_ = builder.AddParameter("before", before.ToString()!);
-		}
-
-		if(limit != null)
-		{
-			_ = builder.AddParameter("limit", limit.ToString()!);
-		}
+		_ = builder.AddParameter("user_id", userId.ToString())
+			.AddParameter("action_type", ((Int32?)actionType).ToString())
+			.AddParameter("before", before.ToString())
+			.AddParameter("limit", limit.ToString());
 
 		IRestRequest request = new RestRequest
 		{
