@@ -100,4 +100,39 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Returns the requested scheduled event.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild this scheduled event takes place in.</param>
+	/// <param name="eventId">Snowflake identifier of the scheduled event in qeustion.</param>
+	/// <param name="withUserCount">Specifies whether the number of users subscribed to this event should be included.</param>
+	public async ValueTask<DiscordScheduledEvent> GetScheduledEventAsync
+	(
+		Int64 guildId,
+		Int64 eventId,
+		Boolean? withUserCount = null
+	)
+	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}");
+
+		_ = builder.AddParameter("with_user_count", withUserCount.ToString());
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
+			Url = builder.Build(),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
+	}
 }
