@@ -206,4 +206,48 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <summary>
+	/// Returns <seealso cref="DiscordScheduledEventUser"/> objects for each participant of the given scheduled event.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild this scheduled event belongs to.</param>
+	/// <param name="eventId">Snowflake identifier of the scheduled event in question.</param>
+	/// <param name="limit">Number of users to return.</param>
+	/// <param name="withMemberObject">Specifies whether the response should include guild member data.</param>
+	/// <param name="before">Only return users before the given snowflake ID, used for pagination.</param>
+	/// <param name="after">Only return users after the given snowflake ID, used for pagination.</param>
+	public async ValueTask<IEnumerable<DiscordScheduledEventUser>> GetScheduledEventUsersAsync
+	(
+		Int64 guildId,
+		Int64 eventId,
+		Int32? limit = null,
+		Boolean? withMemberObject = null,
+		Int64? before = null,
+		Int64? after = null
+	)
+	{
+		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}/{Users}");
+
+		_ = builder.AddParameter("limit", limit.ToString())
+			.AddParameter("with_member", withMemberObject.ToString())
+			.AddParameter("before", before.ToString())
+			.AddParameter("after", after.ToString());
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}/{Users}",
+			Url = builder.Build(),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}/{Users}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordScheduledEventUser>>(await response.Content.ReadAsStringAsync())!;
+	}
 }
