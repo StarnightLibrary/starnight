@@ -21,8 +21,13 @@ public class DiscordAuditLogRestResource : AbstractRestResource
 	private readonly RestClient __rest_client;
 
 	/// <inheritdoc/>
-	public DiscordAuditLogRestResource(RestClient client, IMemoryCache cache)
-		: base(cache) => this.__rest_client = client;
+	public DiscordAuditLogRestResource
+	(
+		RestClient client,
+		IMemoryCache cache
+	)
+		: base(cache)
+		=> this.__rest_client = client;
 
 	/// <summary>
 	/// Fetches the audit logs for this guild.
@@ -32,8 +37,14 @@ public class DiscordAuditLogRestResource : AbstractRestResource
 	/// <param name="actionType">Action type to obtain entries for.</param>
 	/// <param name="before">Snowflake identifier all returned entries will precede.</param>
 	/// <param name="limit">Maximum number of entries to return, defaults to 50.</param>
-	public async ValueTask<DiscordAuditLogObject> GetGuildAuditLogAsync(Int64 guildId, Int64? userId = null,
-		DiscordAuditLogEvent? actionType = null, Int64? before = null, Int32? limit = null)
+	public async ValueTask<DiscordAuditLogObject> GetGuildAuditLogAsync
+	(
+		Int64 guildId,
+		Int64? userId = null,
+		DiscordAuditLogEvent? actionType = null,
+		Int64? before = null,
+		Int32? limit = null
+	)
 	{
 		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{AuditLogs}");
 

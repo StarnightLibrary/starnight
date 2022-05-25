@@ -31,8 +31,13 @@ public class DiscordChannelRestResource : AbstractRestResource
 	private readonly RestClient __rest_client;
 
 	/// <inheritdoc/>
-	public DiscordChannelRestResource(RestClient client, IMemoryCache ratelimitBucketCache)
-		: base(ratelimitBucketCache) => this.__rest_client = client;
+	public DiscordChannelRestResource
+	(
+		RestClient client,
+		IMemoryCache ratelimitBucketCache
+	)
+		: base(ratelimitBucketCache)
+		=> this.__rest_client = client;
 
 	/// <summary>
 	/// Returns a channel object for the given ID. If the channel is a thread channel, a
@@ -40,7 +45,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordChannel> GetChannelAsync(Int64 channelId)
+	public async ValueTask<DiscordChannel> GetChannelAsync
+	(
+		Int64 channelId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -67,7 +75,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="payload">Payload object containing the modification parameters.</param>
 	/// <returns>The modified channel object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGroupDMRequestPayload payload)
+	public async ValueTask<DiscordChannel> ModifyChannelAsync
+	(
+		Int64 channelId,
+		ModifyGroupDMRequestPayload payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -96,7 +108,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason for the edit.</param>
 	/// <returns>The modified channel object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGuildChannelRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordChannel> ModifyChannelAsync
+	(
+		Int64 channelId,
+		ModifyGuildChannelRequestPayload payload,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -130,7 +147,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason for the edit.</param>
 	/// <returns>The modified channel object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyThreadChannelRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordChannel> ModifyChannelAsync
+	(
+		Int64 channelId,
+		ModifyThreadChannelRequestPayload payload,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -164,7 +186,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="reason">Optional audit log reason if this is a guild channel.</param>
 	/// <returns>The associated channel object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordChannel> DeleteChannelAsync(Int64 channelId, String? reason = null)
+	public async ValueTask<DiscordChannel> DeleteChannelAsync
+	(
+		Int64 channelId,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -202,8 +228,14 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="before">Snowflake identifier of the first older message than the requested block.</param>
 	/// <param name="after">Snowflake identifier of the first newer message than the requested block.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<IEnumerable<DiscordMessage>> GetChannelMessagesAsync(Int64 channelId, Int32 count,
-		Int64? around = null, Int64? before = null, Int64? after = null)
+	public async ValueTask<IEnumerable<DiscordMessage>> GetChannelMessagesAsync
+	(
+		Int64 channelId,
+		Int32 count,
+		Int64? around = null,
+		Int64? before = null,
+		Int64? after = null
+	)
 	{
 		StringBuilder queryBuilder = new();
 
@@ -246,7 +278,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordMessage> GetChannelMessageAsync(Int64 channelId, Int64 messageId)
+	public async ValueTask<DiscordMessage> GetChannelMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -273,7 +309,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="payload">Message creation payload including potential attachment files.</param>
 	/// <returns>The newly created message object.</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordMessage> CreateMessageAsync(Int64 channelId, CreateMessageRequestPayload payload)
+	public async ValueTask<DiscordMessage> CreateMessageAsync
+	(
+		Int64 channelId,
+		CreateMessageRequestPayload payload
+	)
 	{
 		String payloadBody = JsonSerializer.Serialize(payload);
 
@@ -326,7 +366,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Source announcement channel for this message.</param>
 	/// <param name="messageId">Snowflake identifier of the message.</param>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
-	public async ValueTask<DiscordMessage> CrosspostMessageAsync(Int64 channelId, Int64 messageId)
+	public async ValueTask<DiscordMessage> CrosspostMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -353,7 +397,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <param name="emoji">String representation of the emoji.</param>
 	/// <returns>Whether the reaction was added successfully.</returns>
-	public async ValueTask<Boolean> CreateReactionAsync(Int64 channelId, Int64 messageId, String emoji)
+	public async ValueTask<Boolean> CreateReactionAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String emoji
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -380,7 +429,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <param name="emoji">String representation of the emoji.</param>
 	/// <returns>Whether the reaction was removed successfully.</returns>
-	public async ValueTask<Boolean> DeleteOwnReactionAsync(Int64 channelId, Int64 messageId, String emoji)
+	public async ValueTask<Boolean> DeleteOwnReactionAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String emoji
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -408,7 +462,13 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
 	/// <param name="emoji">String representation of the emoji.</param>
 	/// <returns>Whether the reaction was removed successfully.</returns>
-	public async ValueTask<Boolean> DeleteUserReactionAsync(Int64 channelId, Int64 messageId, Int64 userId, String emoji)
+	public async ValueTask<Boolean> DeleteUserReactionAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		Int64 userId,
+		String emoji
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -436,8 +496,14 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="emoji">String representation of the queried emoji.</param>
 	/// <param name="after">Specifies a minimum user ID to return from, to paginate queries.</param>
 	/// <param name="limit">Maximum amount of users to return. Defaults to 25.</param>
-	public async ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync(Int64 channelId, Int64 messageId, String emoji,
-		Int64? after = null, Int32? limit = null)
+	public async ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String emoji,
+		Int64? after = null,
+		Int32? limit = null
+	)
 	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}");
 
@@ -480,7 +546,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	public async ValueTask DeleteAllReactionsAsync(Int64 channelId, Int64 messageId)
+	public async ValueTask DeleteAllReactionsAsync
+	(
+		Int64 channelId,
+		Int64 messageId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -504,7 +574,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <param name="emoji">String representation of the emoji in question.</param>
-	public async ValueTask DeleteEmojiReactionsAsync(Int64 channelId, Int64 messageId, String emoji)
+	public async ValueTask DeleteEmojiReactionsAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String emoji
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -528,7 +603,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <param name="payload">Edit payload.</param>
-	public async ValueTask<DiscordMessage> EditMessageAsync(Int64 channelId, Int64 messageId, EditMessageRequestPayload payload)
+	public async ValueTask<DiscordMessage> EditMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		EditMessageRequestPayload payload
+	)
 	{
 		String payloadBody = JsonSerializer.Serialize(payload);
 
@@ -582,7 +662,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="messageId">Snowflake identifier of the message.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the message was successfully deleted.</returns>
-	public async ValueTask<Boolean> DeleteMessageAsync(Int64 channelId, Int64 messageId, String? reason = null)
+	public async ValueTask<Boolean> DeleteMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -615,7 +700,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// or any of the IDs are duplicated, the entire request will fail.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the messages were deleted successfully.</returns>
-	public async ValueTask<Boolean> BulkDeleteMessagesAsync(Int64 channelId, Int64[] messageIds, String? reason = null)
+	public async ValueTask<Boolean> BulkDeleteMessagesAsync
+	(
+		Int64 channelId,
+		IEnumerable<Int64> messageIds,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -649,8 +739,13 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="payload">Edit payload.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the overwrite was successfully edited.</returns>
-	public async ValueTask<Boolean> EditChannelPermissionsAsync(Int64 channelId, Int64 overwriteId,
-		EditChannelPermissionsRequestPayload payload, String? reason = null)
+	public async ValueTask<Boolean> EditChannelPermissionsAsync
+	(
+		Int64 channelId,
+		Int64 overwriteId,
+		EditChannelPermissionsRequestPayload payload,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -680,7 +775,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// Returns a list of invite objects with invite metadata pointing to this channel.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	public async ValueTask<IEnumerable<DiscordInvite>> GetChannelInvitesAsync(Int64 channelId)
+	public async ValueTask<IEnumerable<DiscordInvite>> GetChannelInvitesAsync
+	(
+		Int64 channelId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -707,9 +805,14 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="payload">Additional invite metadata.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created invite object.</returns>
-	public async ValueTask<DiscordInvite> CreateChannelInviteAsync(Int64 channelId, CreateChannelInviteRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordInvite> CreateChannelInviteAsync
+	(
+		Int64 channelId,
+		CreateChannelInviteRequestPayload payload,
+		String? reason = null
+	)
 	{
-		String serializedPayload = JsonSerializer.Serialize<CreateChannelInviteRequestPayload>(payload);
+		String serializedPayload = JsonSerializer.Serialize(payload);
 
 		// always pass an empty json object
 		if(String.IsNullOrWhiteSpace(serializedPayload))
@@ -743,7 +846,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="overwriteId">Snowflake identifier of the object this overwrite points to.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the deletion was successful.</returns>
-	public async ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync(Int64 channelId, Int64 overwriteId, String? reason = null)
+	public async ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync
+	(
+		Int64 channelId,
+		Int64 overwriteId,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -774,7 +882,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the news channel to follow.</param>
 	/// <param name="targetChannelId">Snowflake identifier of the channel you want messages to be cross-posted into.</param>
 	/// <returns></returns>
-	public async ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync(Int64 channelId, Int64 targetChannelId)
+	public async ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync
+	(
+		Int64 channelId,
+		Int64 targetChannelId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -799,7 +911,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// Triggers the typing indicator for the current user in the given channel.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	public async ValueTask TriggerTypingIndicatorAsync(Int64 channelId)
+	public async ValueTask TriggerTypingIndicatorAsync
+	(
+		Int64 channelId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -821,7 +936,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// Returns all pinned messages as message objects.
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the messages' parent channel.</param>
-	public async ValueTask<IEnumerable<DiscordMessage>> GetPinnedMessagesAsync(Int64 channelId)
+	public async ValueTask<IEnumerable<DiscordMessage>> GetPinnedMessagesAsync
+	(
+		Int64 channelId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -848,7 +966,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the message was successfully pinned.</returns>
-	public async ValueTask<Boolean> PinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null)
+	public async ValueTask<Boolean> PinMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -880,7 +1003,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the message was successfully unpinned.</returns>
-	public async ValueTask<Boolean> UnpinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null)
+	public async ValueTask<Boolean> UnpinMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -911,7 +1039,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the group DM channel in question.</param>
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
 	/// <param name="payload">Request payload, containing the access token needed.</param>
-	public async ValueTask AddGroupDMRecipientAsync(Int64 channelId, Int64 userId, AddGroupDMRecipientRequestPayload payload)
+	public async ValueTask AddGroupDMRecipientAsync
+	(
+		Int64 channelId,
+		Int64 userId,
+		AddGroupDMRecipientRequestPayload payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -935,7 +1068,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="channelId">Snowflake identifier of the group DM channel in question.</param>
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
-	public async ValueTask RemoveGroupDMRecipientAsync(Int64 channelId, Int64 userId)
+	public async ValueTask RemoveGroupDMRecipientAsync
+	(
+		Int64 channelId,
+		Int64 userId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -961,8 +1098,13 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="payload">Request payload for this request.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created thread channel.</returns>
-	public async ValueTask<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId,
-		StartThreadFromMessageRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordChannel> StartThreadFromMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		StartThreadFromMessageRequestPayload payload,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -995,8 +1137,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="payload">Request payload for this request.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created thread channel.</returns>
-	public async ValueTask<DiscordChannel> StartThreadWithoutMessageAsync(Int64 channelId, StartThreadWithoutMessageRequestPayload payload,
-		String? reason = null)
+	public async ValueTask<DiscordChannel> StartThreadWithoutMessageAsync
+	(
+		Int64 channelId,
+		StartThreadWithoutMessageRequestPayload payload,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1030,8 +1176,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <see cref="StartThreadFromMessageRequestPayload"/>. A new message is created, then a thread is started from it.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created thread channel.</returns>
-	public async ValueTask<DiscordChannel> StartThreadInForumChannelAsync(Int64 channelId, StartThreadInForumChannelRequestPayload payload,
-		String? reason = null)
+	public async ValueTask<DiscordChannel> StartThreadInForumChannelAsync
+	(
+		Int64 channelId,
+		StartThreadInForumChannelRequestPayload payload,
+		String? reason = null
+	)
 	{
 		String payloadBody = JsonSerializer.Serialize(payload);
 
@@ -1083,7 +1233,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="threadId">Snowflake identifier of the thread channel to be joined.</param>
 	/// <returns>Whether the operation was successful.</returns>
-	public async ValueTask<Boolean> JoinThreadAsync(Int64 threadId)
+	public async ValueTask<Boolean> JoinThreadAsync
+	(
+		Int64 threadId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1109,7 +1262,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="threadId">Snowflake identifier of the thread to be joined.</param>
 	/// <param name="userId">Snowflake identifier of the user to join into the thread.</param>
 	/// <returns>Whether the operation was successful.</returns>
-	public async ValueTask<Boolean> AddToThreadAsync(Int64 threadId, Int64 userId)
+	public async ValueTask<Boolean> AddToThreadAsync
+	(
+		Int64 threadId,
+		Int64 userId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1134,7 +1291,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="threadId">Snowflake identifier of the thread to be left.</param>
 	/// <returns>Whether the operation was successful.</returns>
-	public async ValueTask<Boolean> LeaveThreadAsync(Int64 threadId)
+	public async ValueTask<Boolean> LeaveThreadAsync
+	(
+		Int64 threadId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1160,7 +1320,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="threadId">Snowflake identifier of the thread to be left.</param>
 	/// <param name="userId">Snowflake identifier of the user to be removed.</param>
 	/// <returns>Whether the operation was successful.</returns>
-	public async ValueTask<Boolean> RemoveFromThreadAsync(Int64 threadId, Int64 userId)
+	public async ValueTask<Boolean> RemoveFromThreadAsync
+	(
+		Int64 threadId,
+		Int64 userId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1185,7 +1349,11 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="threadId">Snowflake identifier of the thread to obtain data from.</param>
 	/// <param name="userId">Snowflake identifier of the user to obtain data for.</param>
-	public async ValueTask<DiscordThreadMember> GetThreadMemberAsync(Int64 threadId, Int64 userId)
+	public async ValueTask<DiscordThreadMember> GetThreadMemberAsync
+	(
+		Int64 threadId,
+		Int64 userId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1209,7 +1377,10 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// Returns a list of all thread members for the specified thread.
 	/// </summary>
 	/// <param name="threadId">Snowflake identifier fo the thread to obtain data from.</param>
-	public async ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync(Int64 threadId)
+	public async ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync
+	(
+		Int64 threadId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -1235,8 +1406,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
 	/// <param name="before">Timestamp to filter threads by: only threads archived before this timestamp will be returned.</param>
 	/// <param name="limit">Maximum amount of threads to return.</param>
-	public async ValueTask<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync(Int64 channelId,
-		DateTimeOffset? before = null, Int32? limit = null)
+	public async ValueTask<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync
+	(
+		Int64 channelId,
+		DateTimeOffset? before = null,
+		Int32? limit = null
+	)
 	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Public}");
 
@@ -1278,8 +1453,12 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
 	/// <param name="before">Timestamp to filter threads by: only threads archived before this timestamp will be returned.</param>
 	/// <param name="limit">Maximum amount of threads to return.</param>
-	public async ValueTask<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync(Int64 channelId,
-		DateTimeOffset? before = null, Int32? limit = null)
+	public async ValueTask<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync
+	(
+		Int64 channelId,
+		DateTimeOffset? before = null,
+		Int32? limit = null
+	)
 	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Threads}/{Archived}/{Private}");
 
@@ -1321,9 +1500,13 @@ public class DiscordChannelRestResource : AbstractRestResource
 	/// <param name="channelId">Snowflake identifier of their parent channel.</param>
 	/// <param name="before">Timestamp to act as upper boundary for archival dates.</param>
 	/// <param name="limit">Maximum amount of threads to return from this request.</param>
-	public async ValueTask<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync(Int64 channelId,
-		DateTimeOffset? before = null, Int32? limit = null)
-{
+	public async ValueTask<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync
+	(
+		Int64 channelId,
+		DateTimeOffset? before = null,
+		Int32? limit = null
+	)
+	{
 		StringBuilder urlBuilder = new($"{BaseUri}/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}");
 
 		if(before is not null)

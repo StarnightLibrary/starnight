@@ -26,8 +26,13 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	private readonly RestClient __rest_client;
 
 	/// <inheritdoc/>
-	public DiscordApplicationCommandsRestResource(RestClient client, IMemoryCache cache)
-		: base(cache) => this.__rest_client = client;
+	public DiscordApplicationCommandsRestResource
+	(
+		RestClient client,
+		IMemoryCache cache
+	)
+		: base(cache)
+		=> this.__rest_client = client;
 
 	/// <summary>
 	/// Fetches a list of application commands for the given application.
@@ -37,8 +42,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// (see also: <seealso cref="DiscordApplicationCommand.NameLocalizations"/> and related fields).</param>
 	/// <param name="locale">If <paramref name="withLocalizations"/> is false, specifies a locale to include localizations for
 	/// (see also: <seealso cref="DiscordApplicationCommand.NameLocalized"/> and related fields).</param>
-	public async ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync(Int64 applicationId,
-		Boolean withLocalizations = false, String? locale = null)
+	public async ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
+	(
+		Int64 applicationId,
+		Boolean withLocalizations = false,
+		String? locale = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -69,8 +78,11 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="payload">Command creation payload.</param>
 	/// <returns>The newly created application command.</returns>
-	public async ValueTask<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync(Int64 applicationId,
-		CreateApplicationCommandRequestPayload payload)
+	public async ValueTask<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		CreateApplicationCommandRequestPayload payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -96,7 +108,11 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifier of the command's owning application.</param>
 	/// <param name="commandId">Snowflake identifier of the command itself.</param>
-	public async ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId)
+	public async ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 commandId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -123,8 +139,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="commandId">Snowflake identifier of the command you want to overwrite.</param>
 	/// <param name="payload">Edit payload.</param>
 	/// <returns>The new application command object.</returns>
-	public async ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId,
-		EditApplicationCommandRequestPayload payload)
+	public async ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 commandId,
+		EditApplicationCommandRequestPayload payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -151,7 +171,11 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="commandId">Snowflake identifier of the command to be deleted.</param>
 	/// <returns>Whether the deletion was successful.</returns>
-	public async ValueTask<Boolean> DeleteGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId)
+	public async ValueTask<Boolean> DeleteGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 commandId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -180,8 +204,11 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="payload">List of create payloads.</param>
 	/// <returns>The new loadout of application commands.</returns>
-	public async ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGlobalApplicationCommandsAsync(
-		Int64 applicationId, IEnumerable<CreateApplicationCommandRequestPayload> payload)
+	public async ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGlobalApplicationCommandsAsync
+	(
+		Int64 applicationId,
+		IEnumerable<CreateApplicationCommandRequestPayload> payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -208,8 +235,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="withLocalizations">Whether the returned objects should include localizations.</param>
-	public async ValueTask<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync(Int64 applicationId,
-		Int64 guildId, Boolean withLocalizations = false)
+	public async ValueTask<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Boolean withLocalizations = false
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -236,8 +267,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="payload">Creation payload.</param>
 	/// <returns>The newly created application command.</returns>
-	public async ValueTask<DiscordApplicationCommand> CreateGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId,
-		CreateApplicationCommandRequestPayload payload)
+	public async ValueTask<DiscordApplicationCommand> CreateGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		CreateApplicationCommandRequestPayload payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -264,7 +299,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
-	public async ValueTask<DiscordApplicationCommand> GetGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId)
+	public async ValueTask<DiscordApplicationCommand> GetGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -292,8 +332,13 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
 	/// <param name="payload">Edit payload.</param>
 	/// <returns>The new application command object.</returns>
-	public async ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId,
-		Int64 commandId, EditApplicationCommandRequestPayload payload)
+	public async ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId,
+		EditApplicationCommandRequestPayload payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -321,7 +366,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
 	/// <returns>Whether the deletion was successful.</returns>
-	public async ValueTask<Boolean> DeleteGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId)
+	public async ValueTask<Boolean> DeleteGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -348,8 +398,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="payload">New commands for this guild.</param>
 	/// <returns>The newly created application commands.</returns>
-	public async ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGuildApplicationCommandsAsync(Int64 applicationId,
-		Int64 guildId, IEnumerable<CreateApplicationCommandRequestPayload> payload)
+	public async ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGuildApplicationCommandsAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		IEnumerable<CreateApplicationCommandRequestPayload> payload
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -376,8 +430,11 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <returns>An array of permissiono objects, one for each command.</returns>
-	public async ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync(
-		Int64 applicationId, Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync
+	(
+		Int64 applicationId,
+		Int64 guildId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -403,8 +460,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
-	public async ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync(Int64 applicationId,
-		Int64 guildId, Int64 commandId)
+	public async ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -431,8 +492,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="interactionToken">Response token of the interaction.</param>
 	/// <param name="payload">Payload data.</param>
 	/// <returns>Whether the request succeeded.</returns>
-	public async ValueTask<Boolean> CreateInteractionResponseAsync(Int64 interactionId, String interactionToken,
-		CreateInteractionCallbackRequestPayload payload)
+	public async ValueTask<Boolean> CreateInteractionResponseAsync
+	(
+		Int64 interactionId,
+		String interactionToken,
+		CreateInteractionCallbackRequestPayload payload
+	)
 	{
 		IRestRequest request = payload.Data?.Files == null
 
@@ -477,7 +542,11 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifer of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
-	public async ValueTask<DiscordMessage> GetOriginalResponseAsync(Int64 applicationId, String interactionToken)
+	public async ValueTask<DiscordMessage> GetOriginalResponseAsync
+	(
+		Int64 applicationId,
+		String interactionToken
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -504,8 +573,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="payload">Editing payload.</param>
 	/// <returns>The newly edited message.</returns>
-	public async ValueTask<DiscordMessage> EditOriginalResponseAsync(Int64 applicationId, Int64 interactionToken,
-		EditOriginalResponseRequestPayload payload)
+	public async ValueTask<DiscordMessage> EditOriginalResponseAsync
+	(
+		Int64 applicationId,
+		Int64 interactionToken,
+		EditOriginalResponseRequestPayload payload
+	)
 	{
 		IRestRequest request = payload.Files == null
 
@@ -551,7 +624,11 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <returns>Whether the deletion was successful.</returns>
-	public async ValueTask<Boolean> DeleteOriginalInteractionResponseAsync(Int64 applicationId, String interactionToken)
+	public async ValueTask<Boolean> DeleteOriginalInteractionResponseAsync
+	(
+		Int64 applicationId,
+		String interactionToken
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -578,8 +655,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="payload">Message creation payload.</param>
 	/// <returns>The newly created message.</returns>
-	public async ValueTask<DiscordMessage> CreateFollowupMessageAsync(Int64 applicationId, String interactionToken,
-		CreateFollowupMessageRequestPayload payload)
+	public async ValueTask<DiscordMessage> CreateFollowupMessageAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		CreateFollowupMessageRequestPayload payload
+	)
 	{
 		IRestRequest request = payload.Files == null
 
@@ -625,8 +706,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="messageId">Snowflake identifier of this message.</param>
-	public async ValueTask<DiscordMessage> GetFollowupMessageAsync(Int64 applicationId, String interactionToken,
-		Int64 messageId)
+	public async ValueTask<DiscordMessage> GetFollowupMessageAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		Int64 messageId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -654,8 +739,13 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="messageId">Snowflake identifier of the followup message to be edited.</param>
 	/// <param name="payload">Editing payload.</param>
 	/// <returns>The newly edited message.</returns>
-	public async ValueTask<DiscordMessage> EditFollowupMessageAsync(Int64 applicationId, Int64 interactionToken,
-		Int64 messageId, EditFollowupMessageRequestPayload payload)
+	public async ValueTask<DiscordMessage> EditFollowupMessageAsync
+	(
+		Int64 applicationId,
+		Int64 interactionToken,
+		Int64 messageId,
+		EditFollowupMessageRequestPayload payload
+	)
 	{
 		IRestRequest request = payload.Files == null
 
@@ -701,8 +791,12 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="messageId">Snowflake identifier of this message.</param>
-	public async ValueTask<Boolean> DeleteFollowupMessageAsync(Int64 applicationId, String interactionToken,
-		Int64 messageId)
+	public async ValueTask<Boolean> DeleteFollowupMessageAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		Int64 messageId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{

@@ -24,14 +24,22 @@ public class DiscordEmojiRestResource : AbstractRestResource
 	private readonly RestClient __rest_client;
 
 	/// <inheritdoc/>
-	public DiscordEmojiRestResource(RestClient client, IMemoryCache cache)
-		: base(cache) => this.__rest_client = client;
+	public DiscordEmojiRestResource
+	(
+		RestClient client,
+		IMemoryCache cache
+	)
+		: base(cache)
+		=> this.__rest_client = client;
 
 	/// <summary>
 	/// Fetches a list of emojis for the given guild.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	public async ValueTask<IEnumerable<DiscordEmoji>> ListGuildEmojisAsync(Int64 guildId)
+	public async ValueTask<IEnumerable<DiscordEmoji>> ListGuildEmojisAsync
+	(
+		Int64 guildId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -56,7 +64,11 @@ public class DiscordEmojiRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild owning the emoji.</param>
 	/// <param name="emojiId">Snowflake identifier of the emoji in question.</param>
-	public async ValueTask<DiscordEmoji> GetGuildEmojiAsync(Int64 guildId, Int64 emojiId)
+	public async ValueTask<DiscordEmoji> GetGuildEmojiAsync
+	(
+		Int64 guildId,
+		Int64 emojiId
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -83,8 +95,12 @@ public class DiscordEmojiRestResource : AbstractRestResource
 	/// <param name="payload">Payload for this request.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly created emoji.</returns>
-	public async ValueTask<DiscordEmoji> CreateGuildEmojiAsync(Int64 guildId, CreateGuildEmojiRequestPayload payload,
-		String? reason = null)
+	public async ValueTask<DiscordEmoji> CreateGuildEmojiAsync
+	(
+		Int64 guildId,
+		CreateGuildEmojiRequestPayload payload,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -118,8 +134,13 @@ public class DiscordEmojiRestResource : AbstractRestResource
 	/// <param name="payload">Payload for this request.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>The newly updated emoji.</returns>
-	public async ValueTask<DiscordEmoji> ModifyGuildEmojiAsync(Int64 guildId, Int64 emojiId,
-		ModifyGuildEmojiRequestPayload payload, String? reason = null)
+	public async ValueTask<DiscordEmoji> ModifyGuildEmojiAsync
+	(
+		Int64 guildId,
+		Int64 emojiId,
+		ModifyGuildEmojiRequestPayload payload,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -152,7 +173,12 @@ public class DiscordEmojiRestResource : AbstractRestResource
 	/// <param name="emojiId">Snowflake identifier of the emoji to be deleted.</param>
 	/// <param name="reason">Optional audit log reason.</param>
 	/// <returns>Whether the deletion was successful.</returns>
-	public async ValueTask<Boolean> DeleteGuildEmojiAsync(Int64 guildId, Int64 emojiId, String? reason = null)
+	public async ValueTask<Boolean> DeleteGuildEmojiAsync
+	(
+		Int64 guildId,
+		Int64 emojiId,
+		String? reason = null
+	)
 	{
 		IRestRequest request = new RestRequest
 		{

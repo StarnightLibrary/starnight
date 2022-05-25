@@ -13,6 +13,9 @@ public abstract class AbstractRestResource
 	public IMemoryCache RatelimitBucketCache { get; internal set; }
 
 	/// <inheritdoc/>
-	public AbstractRestResource(IMemoryCache ratelimitBucketCache)
+	public AbstractRestResource
+	(
+		IMemoryCache ratelimitBucketCache
+	)
 		=> this.RatelimitBucketCache = ratelimitBucketCache;
 }

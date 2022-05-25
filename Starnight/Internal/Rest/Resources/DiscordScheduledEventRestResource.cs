@@ -24,16 +24,24 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 	private readonly RestClient __rest_client;
 
 	/// <inheritdoc/>
-	public DiscordScheduledEventRestResource(RestClient client, IMemoryCache cache)
-		: base(cache) => this.__rest_client = client;
+	public DiscordScheduledEventRestResource
+	(
+		RestClient client,
+		IMemoryCache cache
+	)
+		: base(cache)
+		=> this.__rest_client = client;
 
 	/// <summary>
 	/// Returns a list of scheduled events taking place in this guild.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="withUserCount">Whether the answer should include user counts.</param>
-	public async ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync(Int64 guildId,
-		Boolean? withUserCount = null)
+	public async ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync
+	(
+		Int64 guildId,
+		Boolean? withUserCount = null
+	)
 	{
 		StringBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}");
 
