@@ -3,20 +3,21 @@ namespace Starnight.Internal.Rest.Payloads.ScheduledEvents;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Converters;
 using Starnight.Internal.Entities.Guilds;
 
 /// <summary>
 /// Represents a request payload to POST /guilds/:guild_id/scheduled-events
 /// </summary>
-public record CreateScheduledEventRequestPayload
+public record ModifyScheduledEventRequestPayload
 {
 	/// <summary>
 	/// The channel ID of the scheduled event.
 	/// </summary>
+	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("channel_id")]
-	public Int64? ChannelId { get; init; }
+	public OptionalParameter<Int64>? ChannelId { get; init; }
 
 	/// <summary>
 	/// Represents metadata about the scheduled event.
@@ -28,20 +29,23 @@ public record CreateScheduledEventRequestPayload
 	/// <summary>
 	/// Name of the scheduled event.
 	/// </summary>
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+	public String? Name { get; init; }
 
 	/// <summary>
 	/// Privacy level for this scheduled event.
 	/// </summary>
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("privacy_level")]
-	public DiscordScheduledEventPrivacyLevel PrivacyLevel { get; init; }
+	public DiscordScheduledEventPrivacyLevel? PrivacyLevel { get; init; }
 
 	/// <summary>
 	/// Indicates the time at which this event is scheduled to start.
 	/// </summary>
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("scheduled_start_time")]
-	public DateTimeOffset ScheduledStartTime { get; init; }
+	public DateTimeOffset? ScheduledStartTime { get; init; }
 
 	/// <summary>
 	/// Indicates the time at which this event is scheduled to end.
@@ -62,7 +66,14 @@ public record CreateScheduledEventRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("entity_type")]
-	public DiscordScheduledEventType EventType { get; init; }
+	public DiscordScheduledEventType? EventType { get; init; }
+
+	/// <summary>
+	/// The new status of this event.
+	/// </summary>
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+	[JsonPropertyName("status")]
+	public DiscordScheduledEventStatus? Status { get; init; }
 
 	/// <summary>
 	/// Image data representing the cover image of this scheduled event.

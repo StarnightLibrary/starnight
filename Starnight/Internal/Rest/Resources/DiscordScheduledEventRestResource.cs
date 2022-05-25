@@ -135,4 +135,44 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Modifies the given scheduled event.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild this event takes place in.</param>
+	/// <param name="eventId">Snowflake identifier of the event to be modified.</param>
+	/// <param name="payload">Request payload.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly modified scheduled event.</returns>
+	public async ValueTask<DiscordScheduledEvent> ModifyScheduledEventAsync
+	(
+		Int64 guildId,
+		Int64 eventId,
+		ModifyScheduledEventRequestPayload payload,
+		String? reason = null
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
+	}
 }
