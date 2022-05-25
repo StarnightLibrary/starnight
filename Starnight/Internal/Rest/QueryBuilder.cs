@@ -13,8 +13,13 @@ internal class QueryBuilder
 	public QueryBuilder(String root)
 		=> this.RootUri = new(root);
 
-	public QueryBuilder AddParameter(String key, String value)
+	public QueryBuilder AddParameter(String key, String? value)
 	{
+		if(value is null)
+		{
+			return this;
+		}
+
 		this.__parameters.Add(new(key, value));
 		return this;
 	}
