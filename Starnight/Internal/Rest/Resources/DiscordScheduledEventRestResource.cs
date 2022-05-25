@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
 using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Rest.Payloads.ScheduledEvents;
 
 using static DiscordApiConstants;
 
@@ -57,5 +58,42 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordScheduledEvent>>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Creates a new scheduled event in the specified guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Event creation payload.</param>
+	/// <param name="reason">Optional audit log reason</param>
+	/// <returns>The newly created scheduled event.</returns>
+	public async ValueTask<DiscordScheduledEvent> CreateScheduledEventAsync
+	(
+		Int64 guildId,
+		CreateScheduledEventRequestPayload payload,
+		String? reason = null
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}",
+			Url = new($"/{Guilds}/{guildId}/{ScheduledEvents}"),
+			Method = HttpMethodEnum.Post,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
 	}
 }
