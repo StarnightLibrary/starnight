@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -174,5 +175,35 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Deletes the given scheduled event.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild this event takes place in.</param>
+	/// <param name="eventId">Snowflake identifier of the event to be modified.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	public async ValueTask<Boolean> DeleteScheduledEventAsync
+	(
+		Int64 guildId,
+		Int64 eventId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 }
