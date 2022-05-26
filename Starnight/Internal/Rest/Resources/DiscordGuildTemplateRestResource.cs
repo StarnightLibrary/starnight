@@ -178,4 +178,37 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Modifies the given guild template.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="templateCode">Template code of the template in question.</param>
+	/// <param name="payload">Request payload for this request.</param>
+	/// <returns>The newly modified guild template.</returns>
+	public async ValueTask<DiscordGuildTemplate> ModifyGuildTemplateAsync
+	(
+		Int64 guildId,
+		String templateCode,
+		ModifyGuildTemplateRequestPayload payload
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}/{templateCode}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+	}
 }
