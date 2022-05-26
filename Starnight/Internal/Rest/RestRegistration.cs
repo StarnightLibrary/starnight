@@ -67,7 +67,8 @@ public static class RestRegistration
 			.AddSingleton<DiscordAuditLogRestResource>()
 			.AddSingleton<DiscordEmojiRestResource>()
 			.AddSingleton<DiscordScheduledEventRestResource>()
-			.AddSingleton<DiscordGuildTemplateRestResource>();
+			.AddSingleton<DiscordGuildTemplateRestResource>()
+			.AddSingleton<DiscordInviteRestResource>();
 
 		return collection;
 	}
