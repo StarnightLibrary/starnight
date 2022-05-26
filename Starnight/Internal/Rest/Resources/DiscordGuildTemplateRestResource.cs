@@ -211,4 +211,34 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Deletes the given guild template.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="templateCode">Code of the template to be deleted.</param>
+	/// <returns>The deleted guild template.</returns>
+	public async ValueTask<DiscordGuildTemplate> DeleteGuildTemplateAsync
+	(
+		Int64 guildId,
+		String templateCode
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}/{templateCode}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+	}
 }
