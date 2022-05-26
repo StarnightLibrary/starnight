@@ -117,4 +117,65 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildTemplate>>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Creates a new guild template from the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Request payload for this request.</param>
+	/// <returns>The newly created guild template.</returns>
+	public async ValueTask<DiscordGuildTemplate> CreateGuildTemplateAsync
+	(
+		Int64 guildId,
+		CreateGuildTemplateRequestPayload payload
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Templates}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Syncs the given template to the given guild's current state.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="templateCode">Snowflake identifier of the template in question.</param>
+	/// <returns>The newly modified guild template.</returns>
+	public async ValueTask<DiscordGuildTemplate> SyncGuildTemplateAsync
+	(
+		Int64 guildId,
+		String templateCode
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}/{templateCode}"),
+			Method = HttpMethodEnum.Put,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+	}
 }
