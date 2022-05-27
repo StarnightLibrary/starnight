@@ -194,4 +194,44 @@ public class DiscordStickerRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Modifies the given sticker.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild owning the sticker.</param>
+	/// <param name="stickerId">Snowflake identifier of the sticker in question.</param>
+	/// <param name="payload">Request payload.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly updated sticker object.</returns>
+	public async ValueTask<DiscordSticker> ModifyGuildStickerAsync
+	(
+		Int64 guildId,
+		Int64 stickerId,
+		ModifyGuildStickerRequestPayload payload,
+		String? reason = null
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}/{stickerId}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
+	}
 }
