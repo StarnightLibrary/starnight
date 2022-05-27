@@ -90,6 +90,7 @@ public static class DiscordApiConstants
 	public const String OverwriteId = ":overwrite_id";
 	public const String RoleId = ":role_id";
 	public const String ScheduledEventId = ":scheduled_event_id";
+	public const String StickerId = ":sticker_id";
 	public const String TemplateCode = ":template_code";
 	public const String UserId = ":user_id";
 	#endregion
