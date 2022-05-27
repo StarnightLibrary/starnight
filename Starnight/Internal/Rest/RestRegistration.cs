@@ -68,7 +68,8 @@ public static class RestRegistration
 			.AddSingleton<DiscordEmojiRestResource>()
 			.AddSingleton<DiscordScheduledEventRestResource>()
 			.AddSingleton<DiscordGuildTemplateRestResource>()
-			.AddSingleton<DiscordInviteRestResource>();
+			.AddSingleton<DiscordInviteRestResource>()
+			.AddSingleton<DiscordStageInstanceRestResource>();
 
 		return collection;
 	}
