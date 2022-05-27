@@ -4,9 +4,11 @@ using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Caching.Memory;
 
 using Starnight.Internal.Entities.Voice;
+using Starnight.Internal.Rest.Payloads.StageInstances;
 
 using static DiscordApiConstants;
 
@@ -26,6 +28,42 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 	)
 		: base(cache)
 		=> this.__rest_client = client;
+
+	/// <summary>
+	/// Creates a new stage instance associated to a stage channel.
+	/// </summary>
+	/// <param name="payload">Request payload, among others containing the channel ID to create a stage instance for.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created stage instance.</returns>
+	public async ValueTask<DiscordStageInstance> CreateStageInstanceAsync
+	(
+		CreateStageInstanceRequestPayload payload,
+		String? reason = null
+	)
+	{
+		IRestRequest request = new RestRequest
+{
+			Path = $"/{StageInstances}",
+			Url = new($"{BaseUri}/{StageInstances}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Post,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{StageInstances}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync())!;
+	}
 
 	/// <summary>
 	/// Returns the stage instance associated with the stage channel, if one exists.
