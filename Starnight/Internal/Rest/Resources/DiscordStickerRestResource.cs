@@ -106,4 +106,33 @@ public class DiscordStickerRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordSticker>>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <summary>
+	/// Returns the specified guild sticker.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild owning this sticker.</param>
+	/// <param name="stickerId">Snowflake identifier of the sticker in question.</param>
+	public async ValueTask<DiscordSticker> GetGuildStickerAsync
+	(
+		Int64 guildId,
+		Int64 stickerId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}/{stickerId}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
+	}
 }
