@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -128,5 +129,40 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Deletes the given stage instance.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of its parent channel.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the request was successful.</returns>
+	public async ValueTask<Boolean> DeleteStageInstanceAsync
+	(
+		Int64 channelId,
+		String? reason = null
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{StageInstances}/{ChannelId}",
+			Url = new($"{BaseUri}/{StageInstances}/{channelId}"),
+			Method = HttpMethodEnum.Delete,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{StageInstances}/{channelId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 }
