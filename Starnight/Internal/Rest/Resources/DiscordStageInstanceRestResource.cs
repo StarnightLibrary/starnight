@@ -91,4 +91,42 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync());
 	}
+
+	/// <summary>
+	/// Modifies the given stage instance.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the parent channel.</param>
+	/// <param name="payload">Request payload.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly modified stage instance.</returns>
+	public async ValueTask<DiscordStageInstance> ModifyStageInstanceAsync
+	(
+		Int64 channelId,
+		ModifyStageInstanceRequestPayload payload,
+		String? reason = null
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{StageInstances}/{ChannelId}",
+			Url = new($"{BaseUri}/{StageInstances}/{channelId}"),
+			Payload = JsonSerializer.Serialize(payload),
+			Method = HttpMethodEnum.Patch,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{StageInstances}/{channelId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync())!;
+	}
 }
