@@ -70,7 +70,8 @@ public static class RestRegistration
 			.AddSingleton<DiscordGuildTemplateRestResource>()
 			.AddSingleton<DiscordInviteRestResource>()
 			.AddSingleton<DiscordStageInstanceRestResource>()
-			.AddSingleton<DiscordStickerRestResource>();
+			.AddSingleton<DiscordStickerRestResource>()
+			.AddSingleton<DiscordUserRestResource>();
 
 		return collection;
 	}
