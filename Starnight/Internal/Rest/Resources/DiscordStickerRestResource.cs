@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -77,5 +78,32 @@ public class DiscordStickerRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<ListNitroStickerPacksResponsePayload>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns the sticker objects for the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	public async ValueTask<IEnumerable<DiscordSticker>> ListGuildStickersAsync
+	(
+		Int64 guildId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{GuildId}/{Stickers}",
+			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordSticker>>(await response.Content.ReadAsStringAsync())!;
 	}
 }
