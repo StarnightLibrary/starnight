@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
 using Starnight.Internal.Entities.Stickers;
+using Starnight.Internal.Rest.Payloads.Stickers;
 
 using static DiscordApiConstants;
 
@@ -39,12 +40,12 @@ public class DiscordStickerRestResource : AbstractRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{StageInstances}/{StickerId}",
-			Url = new($"{BaseUri}/{StageInstances}/{stickerId}"),
+			Path = $"/{Stickers}/{StickerId}",
+			Url = new($"{BaseUri}/{Stickers}/{stickerId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
-				["endpoint"] = $"/{StageInstances}/{StickerId}",
+				["endpoint"] = $"/{Stickers}/{StickerId}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
@@ -53,5 +54,28 @@ public class DiscordStickerRestResource : AbstractRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns the list of sticker packs available to nitro subscribers.
+	/// </summary>
+	public async ValueTask<ListNitroStickerPacksResponsePayload> ListNitroStickerPacksAsync()
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{StickerPacks}",
+			Url = new($"{BaseUri}/{StickerPacks}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{StickerPacks}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<ListNitroStickerPacksResponsePayload>(await response.Content.ReadAsStringAsync())!;
 	}
 }
