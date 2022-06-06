@@ -10,10 +10,10 @@ jobs:
     if: "!contains(toJSON(github.events.commits.*.message), '[ci skip]')"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 7.0.100-preview.4.22252.9
 
@@ -21,10 +21,10 @@ jobs:
       run: dotnet restore Starnight
 
     - name: pack packages
-      run: "mkdir build && dotnet pack Starnight -p:SymbolPackageFormat=snupkg --include-symbols --include-source -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
+      run: "mkdir build && dotnet pack Starnight -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
     
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v3
       with:
         name: Starnight
         path: /home/runner/work/starnight/starnight/build/
