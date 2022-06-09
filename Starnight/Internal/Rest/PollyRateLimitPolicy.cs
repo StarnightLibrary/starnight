@@ -17,12 +17,12 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 	private readonly ConcurrentDictionary<String, String> __endpoint_buckets;
 	private readonly RatelimitBucket __global_bucket;
 
-	private readonly static TimeSpan __one_second = new(10_000_000);
+	private readonly static TimeSpan __one_second = TimeSpan.FromSeconds(1);
 
 	public PollyRateLimitPolicy()
 	{
-		// 50 per second is discord's defined global ratelimitatom 
-		this.__global_bucket = new(50, 50, DateTimeOffset.UtcNow + __one_second, "global");
+		// 50 per second is discord's defined global ratelimit
+		this.__global_bucket = new(50, 50, DateTimeOffset.UtcNow.AddSeconds(1), "global");
 		this.__endpoint_buckets = new();
 	}
 
