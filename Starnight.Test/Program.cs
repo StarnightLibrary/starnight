@@ -30,7 +30,7 @@ internal class Program
             Console.WriteLine($"{e}: {e.Message}\n{e.StackTrace}");
         }
 
-		Console.WriteLine("success");
+        Console.WriteLine("success");
 
         _ = Console.ReadKey();
     }
