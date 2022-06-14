@@ -10,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight", "Starnight\Starnight.csproj", "{DBE7B190-6A81-4728-B85C-48F43586C0F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starnight.Test", "Starnight.Test\Starnight.Test.csproj", "{E031DC09-F9A1-4E15-AB09-EFC0A51612AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Test", "Starnight.Test\Starnight.Test.csproj", "{E031DC09-F9A1-4E15-AB09-EFC0A51612AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starnight.Internal", "Starnight.Internal\Starnight.Internal.csproj", "{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{E031DC09-F9A1-4E15-AB09-EFC0A51612AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E031DC09-F9A1-4E15-AB09-EFC0A51612AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E031DC09-F9A1-4E15-AB09-EFC0A51612AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
