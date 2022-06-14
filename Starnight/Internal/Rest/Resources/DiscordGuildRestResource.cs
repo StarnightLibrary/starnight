@@ -241,14 +241,12 @@ public class DiscordGuildRestResource : AbstractRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the parent guild.</param>
 	/// <param name="payload">Array of new channel data payloads, containing IDs and some optional data.</param>
-	/// <param name="reason">Audit log reason for this operation.</param>
 	/// <returns>Whether or not the call succeeded</returns>
 	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public async ValueTask<Boolean> ModifyGuildChannelPositionsAsync
 	(
 		Int64 guildId,
-		IEnumerable<ModifyGuildChannelPositionRequestPayload> payload,
-		String? reason = null
+		IEnumerable<ModifyGuildChannelPositionRequestPayload> payload
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -257,11 +255,6 @@ public class DiscordGuildRestResource : AbstractRestResource
 			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Channels}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
-			Headers = reason is not null ? new()
-			{
-				["X-Audit-Log-Reason"] = reason
-			}
-			: new(),
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Channels}",
