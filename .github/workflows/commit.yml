@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 7.0.0-preview.5.22303.8
+        dotnet-version: 7.0.0-preview.5.22301.12
 
     - name: restore
       run: dotnet restore Starnight
