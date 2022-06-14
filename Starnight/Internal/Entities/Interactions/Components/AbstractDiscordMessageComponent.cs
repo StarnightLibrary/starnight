@@ -1,11 +1,15 @@
 namespace Starnight.Internal.Entities.Interactions.Components;
 
-using System;
 using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents a discord message component.
 /// </summary>
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+[JsonDerivedType(typeof(DiscordActionRowComponent), 1)]
+[JsonDerivedType(typeof(DiscordButtonComponent), 2)]
+[JsonDerivedType(typeof(DiscordSelectMenuComponent), 3)]
+[JsonDerivedType(typeof(DiscordTextInputComponent), 4)]
 public abstract record AbstractDiscordMessageComponent
 {
 	/// <summary>
