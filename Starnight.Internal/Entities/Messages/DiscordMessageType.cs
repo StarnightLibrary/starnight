@@ -32,5 +32,6 @@ public enum DiscordMessageType
 	ChatInputCommand,
 	ThreadStarterMessage,
 	GuildInviteReminder,
-	ContextMenuCommand
+	ContextMenuCommand,
+	AutoModerationAction
 }
