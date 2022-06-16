@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Starnight.Internal.Rest;
 
-internal class Program
+public class Program
 {
     public static void Main(String[] args)
     {
