@@ -12,3 +12,5 @@ Modern Discord API wrapper & library targeting .NET 7, lightweight and efficient
 Thanks to [Naamloos](https://github.com/Naamloos) for the idea to the discord webhook CI thing.
 
 Also thanks to naam for the idea to generally make this a thing.
+
+https://discord.gg/8TKJaGs
