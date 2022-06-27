@@ -2,12 +2,15 @@ name: Build internal
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+    paths:
+      - Starnight.Internal/**
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "contains(toJSON(github.events.head_commit.message), '[build internal]')"
+    if: "!contains(toJSON(github.events.commits.*.message), '[ci skip]')"
 
     steps:
     - uses: actions/checkout@v3

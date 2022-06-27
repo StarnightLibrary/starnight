@@ -2,12 +2,15 @@ name: Build main
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+    paths:
+      - "Starnight/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "contains(toJSON(github.events.head_commit.message), '[build main]')"
+    if: "!contains(toJSON(github.events.commits.*.message), '[ci skip]')"
 
     steps:
     - uses: actions/checkout@v3
