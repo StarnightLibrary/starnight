@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// Exposes a minimal API to access caches without needing to rely on IMemoryCache, IDistributedCache or the likes.
 /// Any more detailed API is the responsibility of implementers, and users may have to cast down to a concrete type
-/// with additional API.
+/// with additional API to use specialized features.
 /// </summary>
 public interface ICacheService
 {
