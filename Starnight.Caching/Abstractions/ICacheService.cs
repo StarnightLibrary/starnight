@@ -111,4 +111,21 @@ public interface ICacheService
 	/// <param name="token">Cancellation token for this operation.</param>
 	/// <returns>The formerly cached item.</returns>
 	public ValueTask<T> RemoveAsync<T>(Object key, CancellationToken token);
+
+
+	/// <summary>
+	/// Sets the absolute expiration for a specific type.
+	/// </summary>
+	/// <typeparam name="T">The type to be set.</typeparam>
+	/// <param name="expiration">The new absolute expiration timespan.</param>
+	/// <returns>The cache service for chaining.</returns>
+	public ICacheService SetAbsoluteExpiration<T>(TimeSpan expiration);
+
+	/// <summary>
+	/// Sets the sliding expiration for a specific type.
+	/// </summary>
+	/// <typeparam name="T">The type to be set.</typeparam>
+	/// <param name="expiration">The new sliding expiration timespan.</param>
+	/// <returns>The cache service for chaining.</returns>
+	public ICacheService SetSlidingExpiration<T>(TimeSpan expiration);
 }
