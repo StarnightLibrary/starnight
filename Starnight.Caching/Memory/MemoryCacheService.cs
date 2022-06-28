@@ -104,7 +104,34 @@ public class MemoryCacheService : ICacheService
 			.SetValue(item!);
 	}
 
-	public void Set<TItem, TInterface>(Object key, TItem item) where TItem : TInterface => throw new NotImplementedException();
+	/// <summary>
+	/// Adds an item to the cache.
+	/// </summary>
+	/// <typeparam name="TItem">Type of the item.</typeparam>
+	/// <typeparam name="TInterface">Interface type this item should be cached as.</typeparam>
+	/// <param name="key">The cache key this item should use.</param>
+	/// <param name="item">The item to be cached.</param>
+	public void Set<TItem, TInterface>
+	(
+		Object key,
+		TItem item
+	)
+		where TItem : TInterface
+	{
+		TimeSpan absolute = this.__options.AbsoluteExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
+			? this.__options.AbsoluteExpirations[typeof(TInterface).TypeHandle.Value]
+			: this.__options.DefaultAbsoluteExpiration;
+
+		TimeSpan sliding = this.__options.SlidingExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
+			? this.__options.SlidingExpirations[typeof(TInterface).TypeHandle.Value]
+			: this.__options.DefaultSlidingExpiration;
+
+		_ = this.__backing.CreateEntry(key)
+			.SetAbsoluteExpiration(absolute)
+			.SetSlidingExpiration(sliding)
+			.SetValue(item!);
+	}
+
 	public void Set(AbstractCacheEntry entry) => throw new NotImplementedException();
 	public void Set<TInterface>(AbstractCacheEntry entry) => throw new NotImplementedException();
 	public ICacheService SetAbsoluteExpiration<T>(TimeSpan expiration) => throw new NotImplementedException();

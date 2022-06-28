@@ -34,16 +34,6 @@ public abstract class AbstractCacheOptions
     public TimeSpan DefaultSlidingExpiration { get; set; }
 
     /// <summary>
-    /// Stores all absolute expirations for items supposed to be treated as a specific interface.
-    /// </summary>
-    public Dictionary<IntPtr, TimeSpan> AbsoluteInterfaceExpirations { get; set; } = new();
-
-    /// <summary>
-    /// Stores all sliding expirations for items supposed to be treated as a specific interface.
-    /// </summary>
-    public Dictionary<IntPtr, TimeSpan> SlidingInterfaceExpirations { get; set; } = new();
-
-    /// <summary>
     /// Stores all absolute expirations for concrete types.
     /// </summary>
     public Dictionary<IntPtr, TimeSpan> AbsoluteExpirations { get; set; } = new();
@@ -67,14 +57,7 @@ public abstract class AbstractCacheOptions
         TimeSpan time
     )
     {
-        if(typeof(T).IsInterface)
-        {
-            this.AbsoluteInterfaceExpirations[typeof(T).TypeHandle.Value] = time;
-        }
-        else
-        {
-            this.AbsoluteExpirations[typeof(T).TypeHandle.Value] = time;
-        }
+        this.AbsoluteExpirations[typeof(T).TypeHandle.Value] = time;
 
         return this;
     }
@@ -93,14 +76,7 @@ public abstract class AbstractCacheOptions
         TimeSpan time
     )
     {
-        if(typeof(T).IsInterface)
-        {
-            this.SlidingInterfaceExpirations[typeof(T).TypeHandle.Value] = time;
-        }
-        else
-        {
-            this.SlidingExpirations[typeof(T).TypeHandle.Value] = time;
-        }
+        this.SlidingExpirations[typeof(T).TypeHandle.Value] = time;
 
         return this;
     }
