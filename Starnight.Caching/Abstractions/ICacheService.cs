@@ -50,11 +50,11 @@ public interface ICacheService
 	/// <param name="entry">The cache entry data to be applied.</param>
 	public void Set
 	(
-		ICacheEntry entry
+		AbstractCacheEntry entry
 	);
 
 	/// <summary>
-	/// Adds an item to the cache and treats its <see cref="ICacheEntry.Value"/> as <typeparamref name="TInterface"/>.
+	/// Adds an item to the cache and treats its <see cref="AbstractCacheEntry.Value"/> as <typeparamref name="TInterface"/>.
 	/// </summary>
 	/// <typeparam name="TInterface">
 	///     Interface type underlying to this item. Implementers should handle the item according to this type.
@@ -62,7 +62,7 @@ public interface ICacheService
 	/// <param name="entry">The cache entry data.</param>
 	public void Set<TInterface>
 	(
-		ICacheEntry entry
+		AbstractCacheEntry entry
 	);
 
 	/// <summary>
@@ -120,12 +120,12 @@ public interface ICacheService
 	/// <param name="token">Cancellation token for this operation.</param>
 	public ValueTask SetAsync
 	(
-		ICacheEntry entry,
+		AbstractCacheEntry entry,
 		CancellationToken token
 	);
 
 	/// <summary>
-	/// Adds an item to the cache and treats its <see cref="ICacheEntry.Value"/> as <typeparamref name="TInterface"/>.
+	/// Adds an item to the cache and treats its <see cref="AbstractCacheEntry.Value"/> as <typeparamref name="TInterface"/>.
 	/// </summary>
 	/// <typeparam name="TInterface">
 	///     Interface type underlying to this item. Implementers should handle the item according to this type.
@@ -134,7 +134,7 @@ public interface ICacheService
 	/// <param name="token">Cancellation token for this operation.</param>
 	public ValueTask SetAsync<TInterface>
 	(
-		ICacheEntry entry,
+		AbstractCacheEntry entry,
 		CancellationToken token
 	);
 
