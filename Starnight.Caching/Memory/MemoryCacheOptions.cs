@@ -18,9 +18,12 @@ public class MemoryCacheOptions : AbstractCacheOptions, IOptions<MemoryCacheOpti
 	/// </summary>
 	public Boolean TrackStatistics { get; set; }
 
-	/// <summary>
-	/// Requires <see cref="TrackStatistics"/> to be set to true. If enabled, the memory cache service
-	/// will expose its statistics to the rest of the world.
-	/// </summary>
-	public Boolean ExposeStatistics { get; set; }
+
+	// working set: expose statistics pertaining to reflection use
+	//
+	// /// <summary>
+	// /// Requires <see cref="TrackStatistics"/> to be set to true. If enabled, the memory cache service
+	// /// will expose its statistics to the rest of the world.
+	// /// </summary>
+	// public Boolean ExposeStatistics { get; set; }
 }

@@ -71,7 +71,7 @@ public interface ICacheService
 	/// <typeparam name="T">The type of the item to be removed.</typeparam>
 	/// <param name="key">The cache key used for this item.</param>
 	/// <returns>The formerly cached item.</returns>
-	public T Remove<T>
+	public T? Remove<T>
 	(
 		Object key
 	);
@@ -85,12 +85,10 @@ public interface ICacheService
 	/// </typeparam>
 	/// <param name="key">The cache key this item should use.</param>
 	/// <param name="item">The item to be cached.</param>
-	/// <param name="token">Cancellation token for this operation.</param>
 	public ValueTask SetAsync<T>
 	(
 		Object key,
-		T item,
-		CancellationToken token
+		T item
 	);
 
 	/// <summary>
@@ -105,23 +103,19 @@ public interface ICacheService
 	/// </typeparam>
 	/// <param name="key">The cache key this item should use.</param>
 	/// <param name="item">The item to be cached.</param>
-	/// <param name="token">Cancellation token for this operation.</param>
 	public ValueTask SetAsync<TItem, TInterface>
 	(
 		Object key,
-		TItem item,
-		CancellationToken token
+		TItem item
 	);
 
 	/// <summary>
 	/// Adds an item to the cache.
 	/// </summary>
 	/// <param name="entry">The cache entry data to be applied.</param>
-	/// <param name="token">Cancellation token for this operation.</param>
 	public ValueTask SetAsync
 	(
-		AbstractCacheEntry entry,
-		CancellationToken token
+		AbstractCacheEntry entry
 	);
 
 	/// <summary>
@@ -131,11 +125,9 @@ public interface ICacheService
 	///     Interface type underlying to this item. Implementers should handle the item according to this type.
 	/// </typeparam>
 	/// <param name="entry">The cache entry data.</param>
-	/// <param name="token">Cancellation token for this operation.</param>
 	public ValueTask SetAsync<TInterface>
 	(
-		AbstractCacheEntry entry,
-		CancellationToken token
+		AbstractCacheEntry entry
 	);
 
 	/// <summary>
@@ -143,12 +135,10 @@ public interface ICacheService
 	/// </summary>
 	/// <typeparam name="T">The type of the item to be removed.</typeparam>
 	/// <param name="key">The cache key used for this item.</param>
-	/// <param name="token">Cancellation token for this operation.</param>
 	/// <returns>The formerly cached item.</returns>
-	public ValueTask<T> RemoveAsync<T>
+	public ValueTask<T?> RemoveAsync<T>
 	(
-		Object key,
-		CancellationToken token
+		Object key
 	);
 
 

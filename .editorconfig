@@ -65,6 +65,7 @@ indent_size = 2
 # Organize usings
 dotnet_separate_import_directive_groups = true
 dotnet_sort_system_directives_first = true
+csharp_qualified_using_at_nested_scope = true
 
 # this. style
 dotnet_style_qualification_for_event = true:warning
