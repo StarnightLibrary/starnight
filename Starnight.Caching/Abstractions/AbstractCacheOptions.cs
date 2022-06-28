@@ -62,7 +62,10 @@ public abstract class AbstractCacheOptions
     /// <typeparam name="T">The type registered to the cache.</typeparam>
     /// <param name="time">The absolute expiration time for this type.</param>
     /// <returns>The cache options object for chaining.</returns>
-    public AbstractCacheOptions SetAbsoluteExpiration<T>(TimeSpan time)
+    public AbstractCacheOptions SetAbsoluteExpiration<T>
+    (
+        TimeSpan time
+    )
     {
         if(typeof(T).IsInterface)
         {
@@ -85,7 +88,10 @@ public abstract class AbstractCacheOptions
     /// <typeparam name="T">The type registered to the cache.</typeparam>
     /// <param name="time">The sliding expiration time for this type.</param>
     /// <returns>The cache options object for chaining.</returns>
-    public AbstractCacheOptions SetSlidingExpiration<T>(TimeSpan time)
+    public AbstractCacheOptions SetSlidingExpiration<T>
+    (
+        TimeSpan time
+    )
     {
         if(typeof(T).IsInterface)
         {

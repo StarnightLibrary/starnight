@@ -19,7 +19,11 @@ public interface ICacheService
 	/// </typeparam>
 	/// <param name="key">The cache key this item should use.</param>
 	/// <param name="item">The item to be cached.</param>
-	public void Set<T>(Object key, T item);
+	public void Set<T>
+	(
+		Object key,
+		T item
+	);
 
 	/// <summary>
 	/// Adds an item to the cache.
@@ -33,14 +37,21 @@ public interface ICacheService
 	/// </typeparam>
 	/// <param name="key">The cache key this item should use.</param>
 	/// <param name="item">The item to be cached.</param>
-	public void Set<TItem, TInterface>(Object key, TItem item)
+	public void Set<TItem, TInterface>
+	(
+		Object key,
+		TItem item
+	)
 		where TItem : TInterface;
 
 	/// <summary>
 	/// Adds an item to the cache.
 	/// </summary>
 	/// <param name="entry">The cache entry data to be applied.</param>
-	public void Set(ICacheEntry entry);
+	public void Set
+	(
+		ICacheEntry entry
+	);
 
 	/// <summary>
 	/// Adds an item to the cache and treats its <see cref="ICacheEntry.Value"/> as <typeparamref name="TInterface"/>.
@@ -49,7 +60,10 @@ public interface ICacheService
 	///     Interface type underlying to this item. Implementers should handle the item according to this type.
 	/// </typeparam>
 	/// <param name="entry">The cache entry data.</param>
-	public void Set<TInterface>(ICacheEntry entry);
+	public void Set<TInterface>
+	(
+		ICacheEntry entry
+	);
 
 	/// <summary>
 	/// Removes an item from the cache.
@@ -57,7 +71,10 @@ public interface ICacheService
 	/// <typeparam name="T">The type of the item to be removed.</typeparam>
 	/// <param name="key">The cache key used for this item.</param>
 	/// <returns>The formerly cached item.</returns>
-	public T Remove<T>(Object key);
+	public T Remove<T>
+	(
+		Object key
+	);
 
 
 	/// <summary>
@@ -69,7 +86,12 @@ public interface ICacheService
 	/// <param name="key">The cache key this item should use.</param>
 	/// <param name="item">The item to be cached.</param>
 	/// <param name="token">Cancellation token for this operation.</param>
-	public ValueTask SetAsync<T>(Object key, T item, CancellationToken token);
+	public ValueTask SetAsync<T>
+	(
+		Object key,
+		T item,
+		CancellationToken token
+	);
 
 	/// <summary>
 	/// Adds an item to the cache.
@@ -84,14 +106,23 @@ public interface ICacheService
 	/// <param name="key">The cache key this item should use.</param>
 	/// <param name="item">The item to be cached.</param>
 	/// <param name="token">Cancellation token for this operation.</param>
-	public ValueTask SetAsync<TItem, TInterface>(Object key, TItem item, CancellationToken token);
+	public ValueTask SetAsync<TItem, TInterface>
+	(
+		Object key,
+		TItem item,
+		CancellationToken token
+	);
 
 	/// <summary>
 	/// Adds an item to the cache.
 	/// </summary>
 	/// <param name="entry">The cache entry data to be applied.</param>
 	/// <param name="token">Cancellation token for this operation.</param>
-	public ValueTask SetAsync(ICacheEntry entry, CancellationToken token);
+	public ValueTask SetAsync
+	(
+		ICacheEntry entry,
+		CancellationToken token
+	);
 
 	/// <summary>
 	/// Adds an item to the cache and treats its <see cref="ICacheEntry.Value"/> as <typeparamref name="TInterface"/>.
@@ -101,7 +132,11 @@ public interface ICacheService
 	/// </typeparam>
 	/// <param name="entry">The cache entry data.</param>
 	/// <param name="token">Cancellation token for this operation.</param>
-	public ValueTask SetAsync<TInterface>(ICacheEntry entry, CancellationToken token);
+	public ValueTask SetAsync<TInterface>
+	(
+		ICacheEntry entry,
+		CancellationToken token
+	);
 
 	/// <summary>
 	/// Removes an item from the cache.
@@ -110,7 +145,11 @@ public interface ICacheService
 	/// <param name="key">The cache key used for this item.</param>
 	/// <param name="token">Cancellation token for this operation.</param>
 	/// <returns>The formerly cached item.</returns>
-	public ValueTask<T> RemoveAsync<T>(Object key, CancellationToken token);
+	public ValueTask<T> RemoveAsync<T>
+	(
+		Object key,
+		CancellationToken token
+	);
 
 
 	/// <summary>
@@ -119,7 +158,10 @@ public interface ICacheService
 	/// <typeparam name="T">The type to be set.</typeparam>
 	/// <param name="expiration">The new absolute expiration timespan.</param>
 	/// <returns>The cache service for chaining.</returns>
-	public ICacheService SetAbsoluteExpiration<T>(TimeSpan expiration);
+	public ICacheService SetAbsoluteExpiration<T>
+	(
+		TimeSpan expiration
+	);
 
 	/// <summary>
 	/// Sets the sliding expiration for a specific type.
@@ -127,5 +169,8 @@ public interface ICacheService
 	/// <typeparam name="T">The type to be set.</typeparam>
 	/// <param name="expiration">The new sliding expiration timespan.</param>
 	/// <returns>The cache service for chaining.</returns>
-	public ICacheService SetSlidingExpiration<T>(TimeSpan expiration);
+	public ICacheService SetSlidingExpiration<T>
+	(
+		TimeSpan expiration
+	);
 }
