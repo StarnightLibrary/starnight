@@ -30,9 +30,10 @@
   <ItemGroup>
     <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <ProjectReference Include="..\Starnight.Internal\Starnight.Internal.csproj" />
+    <PackageReference Include="Starnight.Internal" Version="0.1.0-dev.8" />
   </ItemGroup>
+
 
 </Project>
