@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -18,6 +17,9 @@ using Starnight.Caching.Abstractions;
 /// </summary>
 internal delegate void SetGenericEntryDelegate(Object key, Object value);
 
+// the same, but for async methods
+internal delegate ValueTask AsyncSetGenericEntryDelegate(Object key, Object value);
+
 /// <summary>
 /// An implementation of <see cref="ICacheService"/> relying on a memory cache.
 /// </summary>
@@ -26,6 +28,7 @@ public class MemoryCacheService : ICacheService
 	private readonly MemoryCacheOptions __options;
 	private readonly MemoryCache __backing;
 	private readonly Dictionary<Type, SetGenericEntryDelegate> __generic_delegates;
+	private readonly Dictionary<Type, AsyncSetGenericEntryDelegate> __async_delegates;
 
 	/// <inheritdoc/>
 	public MemoryCacheService
@@ -39,6 +42,7 @@ public class MemoryCacheService : ICacheService
 			"Microsoft.Extensions.Caching.Memory.MemoryCache as backing cache.");
 
 		this.__generic_delegates = new();
+		this.__async_delegates = new();
 	}
 
 	/// <inheritdoc/>
@@ -60,6 +64,7 @@ public class MemoryCacheService : ICacheService
 		this.__backing = new MemoryCache(settings);
 
 		this.__generic_delegates = new();
+		this.__async_delegates = new();
 	}
 
 	/// <summary>
@@ -157,6 +162,8 @@ public class MemoryCacheService : ICacheService
 			if(this.__generic_delegates.ContainsKey(entry.Value.GetType()))
 			{
 				this.__generic_delegates[entry.Value.GetType()](entry.Key, entry.Value);
+
+				return;
 			}
 
 			SetGenericEntryDelegate currentDelegate = this.createDelegate(entry.Value.GetType());
@@ -279,8 +286,84 @@ public class MemoryCacheService : ICacheService
 
 		return ValueTask.CompletedTask;
 	}
-	public ValueTask SetAsync(AbstractCacheEntry entry) => throw new NotImplementedException();
-	public ValueTask SetAsync<TInterface>(AbstractCacheEntry entry) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public ValueTask SetAsync
+	(
+		AbstractCacheEntry entry
+	)
+	{
+		if(entry is not MemoryCacheEntry memoryEntry)
+		{
+			if(this.__async_delegates.ContainsKey(entry.Value.GetType()))
+			{
+				return this.__async_delegates[entry.Value.GetType()](entry.Key, entry.Value);
+			}
+
+			AsyncSetGenericEntryDelegate currentDelegate = this.createAsyncDelegate(entry.Value.GetType());
+
+			this.__async_delegates.Add(entry.Value.GetType(), currentDelegate);
+
+			return currentDelegate(entry.Key, entry.Value);
+		}
+
+		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
+			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultAbsoluteExpiration);
+
+		TimeSpan sliding = memoryEntry.SlidingExpiration ??
+			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultSlidingExpiration);
+
+		ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
+			.SetValue(memoryEntry.Value)
+			.SetAbsoluteExpiration(absolute)
+			.SetSlidingExpiration(sliding);
+
+		if(memoryEntry.PostEvictionCallback is not null)
+		{
+			_ = finalEntry.RegisterPostEvictionCallback(memoryEntry.PostEvictionCallback);
+		}
+
+		return ValueTask.CompletedTask;
+	}
+
+	/// <inheritdoc/>
+	public ValueTask SetAsync<TInterface>
+	(
+		AbstractCacheEntry entry
+	)
+	{
+		ICacheEntry cacheEntry = this.__backing.CreateEntry(entry.Key)
+			.SetValue(entry.Value);
+
+		if(entry is not MemoryCacheEntry memoryEntry)
+		{
+			return ValueTask.CompletedTask;
+		}
+
+		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
+			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultAbsoluteExpiration);
+
+		TimeSpan sliding = memoryEntry.SlidingExpiration ??
+			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultSlidingExpiration);
+
+		_ = cacheEntry.SetAbsoluteExpiration(absolute)
+			.SetSlidingExpiration(sliding);
+
+		if(memoryEntry.PostEvictionCallback is not null)
+		{
+			_ = cacheEntry.RegisterPostEvictionCallback(memoryEntry.PostEvictionCallback);
+		}
+
+		return ValueTask.CompletedTask;
+	}
 
 	/// <inheritdoc/>
 	public ICacheService SetSlidingExpiration<T>
@@ -299,7 +382,6 @@ public class MemoryCacheService : ICacheService
 		Type valueType
 	)
 	{
-
 		// get the single-generic-parameter Set method
 		// adapted from https://stackoverflow.com/a/44569347
 		MethodInfo? method = typeof(MemoryCacheService)
@@ -334,5 +416,44 @@ public class MemoryCacheService : ICacheService
 
 		// compile the expression and return
 		return Expression.Lambda<SetGenericEntryDelegate>(call).Compile();
+	}
+
+	// same as above but for async
+	private AsyncSetGenericEntryDelegate createAsyncDelegate(Type valueType)
+	{
+		// get the single-generic-parameter SetAsync method
+		// adapted from https://stackoverflow.com/a/44569347
+		MethodInfo? method = typeof(MemoryCacheService)
+			.GetRuntimeMethods()
+			.Where(xm => xm.Name == "SetAsync")
+			.Select(xm => new
+			{
+				Method = xm,
+				Parameters = xm.GetParameters()
+			})
+			.FirstOrDefault(xm =>
+				xm.Parameters.Length == 2 &&
+				xm.Method.GetGenericArguments().Length == 1
+			)
+			?.Method;
+
+		// ascertain it exists
+		if(method is null)
+		{
+			throw new MissingMethodException($"The method {nameof(MemoryCacheService)}#{nameof(Set)} went missing.");
+		}
+
+		// get the implemented generic for our type
+		MethodInfo generic = method!.MakeGenericMethod(valueType);
+
+		// create parameter expressions for the delegate parameters
+		ParameterExpression key = Expression.Parameter(typeof(Object), "key");
+		ParameterExpression value = Expression.Parameter(valueType, "value");
+
+		// call our generic method
+		MethodCallExpression call = Expression.Call(generic, key, value);
+
+		// compile the expression and return
+		return Expression.Lambda<AsyncSetGenericEntryDelegate>(call).Compile();
 	}
 }
