@@ -146,6 +146,7 @@ public class MemoryCacheService : ICacheService
 			.SetValue(item!);
 	}
 
+	/// <inheritdoc/>
 	public void Set
 	(
 		AbstractCacheEntry entry
@@ -163,6 +164,28 @@ public class MemoryCacheService : ICacheService
 			this.__generic_delegates.Add(entry.Value.GetType(), currentDelegate);
 
 			currentDelegate(entry.Key, entry.Value);
+
+			return;
+		}
+
+		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
+			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultAbsoluteExpiration);
+
+		TimeSpan sliding = memoryEntry.SlidingExpiration ??
+			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultAbsoluteExpiration);
+
+		ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
+			.SetValue(memoryEntry.Value)
+			.SetAbsoluteExpiration(absolute)
+			.SetSlidingExpiration(sliding);
+
+		if(memoryEntry.PostEvictionCallback is not null)
+		{
+			_ = finalEntry.RegisterPostEvictionCallback(memoryEntry.PostEvictionCallback);
 		}
 	}
 
