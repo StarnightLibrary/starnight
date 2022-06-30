@@ -5,7 +5,7 @@ using System;
 /// <summary>
 /// Represents an extendable class for more complex cache entries supported by <see cref="ICacheService"/>.
 /// </summary>
-public abstract class AbstractCacheEntry
+public abstract record AbstractCacheEntry
 {
 	/// <summary>
 	/// The key used to store this object into cache.

@@ -1,6 +1,10 @@
 namespace Starnight.Caching.Memory;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,12 +14,18 @@ using Microsoft.Extensions.Options;
 using Starnight.Caching.Abstractions;
 
 /// <summary>
+/// A delegate created from a compiled expression to invoke a strictly-typed Set method from an object.
+/// </summary>
+internal delegate void SetGenericEntryDelegate(Object key, Object value);
+
+/// <summary>
 /// An implementation of <see cref="ICacheService"/> relying on a memory cache.
 /// </summary>
 public class MemoryCacheService : ICacheService
 {
 	private readonly MemoryCacheOptions __options;
 	private readonly MemoryCache __backing;
+	private readonly Dictionary<Type, SetGenericEntryDelegate> __generic_delegates;
 
 	/// <inheritdoc/>
 	public MemoryCacheService
@@ -27,6 +37,8 @@ public class MemoryCacheService : ICacheService
 		this.__options = options.Value;
 		this.__backing = (cache as MemoryCache) ?? throw new ArgumentException("At this time, MemoryCacheService only supports " +
 			"Microsoft.Extensions.Caching.Memory.MemoryCache as backing cache.");
+
+		this.__generic_delegates = new();
 	}
 
 	/// <inheritdoc/>
@@ -46,6 +58,8 @@ public class MemoryCacheService : ICacheService
 		};
 
 		this.__backing = new MemoryCache(settings);
+
+		this.__generic_delegates = new();
 	}
 
 	/// <summary>
@@ -132,7 +146,26 @@ public class MemoryCacheService : ICacheService
 			.SetValue(item!);
 	}
 
-	public void Set(AbstractCacheEntry entry) => throw new NotImplementedException();
+	public void Set
+	(
+		AbstractCacheEntry entry
+	)
+	{
+		if(entry is not MemoryCacheEntry memoryEntry)
+		{
+			if(this.__generic_delegates.ContainsKey(entry.Value.GetType()))
+			{
+				this.__generic_delegates[entry.Value.GetType()](entry.Key, entry.Value);
+			}
+
+			SetGenericEntryDelegate currentDelegate = this.createDelegate(entry.Value.GetType());
+
+			this.__generic_delegates.Add(entry.Value.GetType(), currentDelegate);
+
+			currentDelegate(entry.Key, entry.Value);
+		}
+	}
+
 	public void Set<TInterface>(AbstractCacheEntry entry) => throw new NotImplementedException();
 	public ICacheService SetAbsoluteExpiration<T>(TimeSpan expiration) => throw new NotImplementedException();
 	public ValueTask SetAsync<T>(Object key, T item) => throw new NotImplementedException();
@@ -140,4 +173,44 @@ public class MemoryCacheService : ICacheService
 	public ValueTask SetAsync(AbstractCacheEntry entry) => throw new NotImplementedException();
 	public ValueTask SetAsync<TInterface>(AbstractCacheEntry entry) => throw new NotImplementedException();
 	public ICacheService SetSlidingExpiration<T>(TimeSpan expiration) => throw new NotImplementedException();
+
+	// gets a compiled expression for invoking the single-generic-parameter Set method from an Object type
+	private SetGenericEntryDelegate createDelegate(Type valueType)
+	{
+
+		// get the single-generic-parameter Set method
+		// adapted from https://stackoverflow.com/a/44569347
+		MethodInfo? method = typeof(MemoryCacheService)
+			.GetRuntimeMethods()
+			.Where(xm => xm.Name == "Set")
+			.Select(xm => new
+			{
+				Method = xm,
+				Parameters = xm.GetParameters()
+			})
+			.FirstOrDefault(xm =>
+				xm.Parameters.Length == 2 &&
+				xm.Method.GetGenericArguments().Length == 1
+			)
+			?.Method;
+
+		// ascertain it exists
+		if(method == null)
+		{
+			throw new MissingMethodException($"The method {nameof(MemoryCacheService)}#{nameof(Set)} went missing.");
+		}
+
+		// get the implemented generic for our type
+		MethodInfo generic = method!.MakeGenericMethod(valueType);
+
+		// create parameter expressions for the delegate parameters
+		ParameterExpression key = Expression.Parameter(typeof(Object), "key");
+		ParameterExpression value = Expression.Parameter(valueType, "value");
+
+		// call our generic method
+		MethodCallExpression call = Expression.Call(generic, key, value);
+
+		// compile the expression and return
+		return Expression.Lambda<SetGenericEntryDelegate>(call).Compile();
+	}
 }
