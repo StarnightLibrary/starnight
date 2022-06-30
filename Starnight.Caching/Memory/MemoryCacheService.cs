@@ -176,7 +176,7 @@ public class MemoryCacheService : ICacheService
 		TimeSpan sliding = memoryEntry.SlidingExpiration ??
 			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
 				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
-				: this.__options.DefaultAbsoluteExpiration);
+				: this.__options.DefaultSlidingExpiration);
 
 		ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
 			.SetValue(memoryEntry.Value)
@@ -189,16 +189,71 @@ public class MemoryCacheService : ICacheService
 		}
 	}
 
-	public void Set<TInterface>(AbstractCacheEntry entry) => throw new NotImplementedException();
-	public ICacheService SetAbsoluteExpiration<T>(TimeSpan expiration) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public void Set<TInterface>
+	(
+		AbstractCacheEntry entry
+	)
+	{
+		ICacheEntry cacheEntry = this.__backing.CreateEntry(entry.Key)
+			.SetValue(entry.Value);
+
+		if(entry is not MemoryCacheEntry memoryEntry)
+		{
+			return;
+		}
+
+		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
+			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultAbsoluteExpiration);
+
+		TimeSpan sliding = memoryEntry.SlidingExpiration ??
+			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
+				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+				: this.__options.DefaultSlidingExpiration);
+
+		_ = cacheEntry.SetAbsoluteExpiration(absolute)
+			.SetSlidingExpiration(sliding);
+
+		if(memoryEntry.PostEvictionCallback is not null)
+		{
+			_ = cacheEntry.RegisterPostEvictionCallback(memoryEntry.PostEvictionCallback);
+		}
+	}
+
+	/// <inheritdoc/>
+	public ICacheService SetAbsoluteExpiration<T>
+	(
+		TimeSpan expiration
+	)
+	{
+		this.__options.AbsoluteExpirations[typeof(T).TypeHandle.Value] = expiration;
+
+		return this;
+	}
+
 	public ValueTask SetAsync<T>(Object key, T item) => throw new NotImplementedException();
 	public ValueTask SetAsync<TItem, TInterface>(Object key, TItem item) => throw new NotImplementedException();
 	public ValueTask SetAsync(AbstractCacheEntry entry) => throw new NotImplementedException();
 	public ValueTask SetAsync<TInterface>(AbstractCacheEntry entry) => throw new NotImplementedException();
-	public ICacheService SetSlidingExpiration<T>(TimeSpan expiration) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public ICacheService SetSlidingExpiration<T>
+	(
+		TimeSpan expiration
+	)
+	{
+		this.__options.SlidingExpirations[typeof(T).TypeHandle.Value] = expiration;
+
+		return this;
+	}
 
 	// gets a compiled expression for invoking the single-generic-parameter Set method from an Object type
-	private SetGenericEntryDelegate createDelegate(Type valueType)
+	private SetGenericEntryDelegate createDelegate
+	(
+		Type valueType
+	)
 	{
 
 		// get the single-generic-parameter Set method
@@ -218,7 +273,7 @@ public class MemoryCacheService : ICacheService
 			?.Method;
 
 		// ascertain it exists
-		if(method == null)
+		if(method is null)
 		{
 			throw new MissingMethodException($"The method {nameof(MemoryCacheService)}#{nameof(Set)} went missing.");
 		}
