@@ -456,4 +456,26 @@ public class MemoryCacheService : ICacheService
 		// compile the expression and return
 		return Expression.Lambda<AsyncSetGenericEntryDelegate>(call).Compile();
 	}
+
+	/// <inheritdoc/>
+	public T? Get<T>
+	(
+		Object key
+	)
+	{
+		_ = this.__backing.TryGetValue(key, out T? value);
+
+		return value;
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<T?> GetAsync<T>
+	(
+		Object key
+	)
+	{
+		_ = this.__backing.TryGetValue(key, out T? value);
+
+		return ValueTask.FromResult(value);
+	}
 }

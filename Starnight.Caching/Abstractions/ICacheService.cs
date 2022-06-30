@@ -76,6 +76,17 @@ public interface ICacheService
 		Object key
 	);
 
+	/// <summary>
+	/// Obtains an item from cache.
+	/// </summary>
+	/// <typeparam name="T">The type of the item to obtain.</typeparam>
+	/// <param name="key">The cache key of this item.</param>
+	/// <returns>The item, or null if no item was found.</returns>
+	public T? Get<T>
+	(
+		Object key
+	);
+
 
 	/// <summary>
 	/// Adds an item to the cache.
@@ -138,6 +149,17 @@ public interface ICacheService
 	/// <param name="key">The cache key used for this item.</param>
 	/// <returns>The formerly cached item.</returns>
 	public ValueTask<T?> RemoveAsync<T>
+	(
+		Object key
+	);
+
+	/// <summary>
+	/// Obtains an item from cache.
+	/// </summary>
+	/// <typeparam name="T">The type of the item to obtain.</typeparam>
+	/// <param name="key">The cache key of this item.</param>
+	/// <returns>The item, or null if no item was found.</returns>
+	public ValueTask<T?> GetAsync<T>
 	(
 		Object key
 	);
