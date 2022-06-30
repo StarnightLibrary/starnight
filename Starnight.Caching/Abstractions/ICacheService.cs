@@ -107,7 +107,8 @@ public interface ICacheService
 	(
 		Object key,
 		TItem item
-	);
+	)
+		where TItem : TInterface;
 
 	/// <summary>
 	/// Adds an item to the cache.

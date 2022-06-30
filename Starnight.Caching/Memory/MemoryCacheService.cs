@@ -233,8 +233,52 @@ public class MemoryCacheService : ICacheService
 		return this;
 	}
 
-	public ValueTask SetAsync<T>(Object key, T item) => throw new NotImplementedException();
-	public ValueTask SetAsync<TItem, TInterface>(Object key, TItem item) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public ValueTask SetAsync<T>
+	(
+		Object key,
+		T item
+	)
+	{
+		TimeSpan absolute = this.__options.AbsoluteExpirations.ContainsKey(typeof(T).TypeHandle.Value)
+			? this.__options.AbsoluteExpirations[typeof(T).TypeHandle.Value]
+			: this.__options.DefaultAbsoluteExpiration;
+
+		TimeSpan sliding = this.__options.SlidingExpirations.ContainsKey(typeof(T).TypeHandle.Value)
+			? this.__options.SlidingExpirations[typeof(T).TypeHandle.Value]
+			: this.__options.DefaultSlidingExpiration;
+
+		_ = this.__backing.CreateEntry(key)
+			.SetAbsoluteExpiration(absolute)
+			.SetSlidingExpiration(sliding)
+			.SetValue(item!);
+
+		return ValueTask.CompletedTask;
+	}
+
+	/// <inheritdoc/>
+	public ValueTask SetAsync<TItem, TInterface>
+	(
+		Object key,
+		TItem item
+	)
+		where TItem : TInterface
+	{
+		TimeSpan absolute = this.__options.AbsoluteExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
+			? this.__options.AbsoluteExpirations[typeof(TInterface).TypeHandle.Value]
+			: this.__options.DefaultAbsoluteExpiration;
+
+		TimeSpan sliding = this.__options.SlidingExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
+			? this.__options.SlidingExpirations[typeof(TInterface).TypeHandle.Value]
+			: this.__options.DefaultSlidingExpiration;
+
+		_ = this.__backing.CreateEntry(key)
+			.SetAbsoluteExpiration(absolute)
+			.SetSlidingExpiration(sliding)
+			.SetValue(item!);
+
+		return ValueTask.CompletedTask;
+	}
 	public ValueTask SetAsync(AbstractCacheEntry entry) => throw new NotImplementedException();
 	public ValueTask SetAsync<TInterface>(AbstractCacheEntry entry) => throw new NotImplementedException();
 
