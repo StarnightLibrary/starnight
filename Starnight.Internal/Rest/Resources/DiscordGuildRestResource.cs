@@ -8,8 +8,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Caching.Memory;
-
+using Starnight.Caching.Abstractions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Guilds.Invites;
@@ -32,9 +31,9 @@ public class DiscordGuildRestResource : AbstractRestResource
 	public DiscordGuildRestResource
 	(
 		RestClient client,
-		IMemoryCache ratelimitBucketCache
+		ICacheService cache
 	)
-		: base(ratelimitBucketCache)
+		: base(cache)
 		=> this.__rest_client = client;
 
 	/// <summary>

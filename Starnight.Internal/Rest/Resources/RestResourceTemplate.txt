@@ -1,6 +1,6 @@
 namespace Starnight.Internal.Rest.Resources;
 
-using Microsoft.Extensions.Caching.Memory;
+using Starnight.Caching.Abstractions;
 
 public class TemplateRestResource : AbstractRestResource
 {
@@ -9,7 +9,7 @@ public class TemplateRestResource : AbstractRestResource
 	public TemplateRestResource
 	(
 		RestClient client,
-		IMemoryCache cache
+		ICacheService cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

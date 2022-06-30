@@ -10,8 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Caching.Memory;
-
+using Starnight.Caching.Abstractions;
 using Starnight.Internal.Entities.Stickers;
 using Starnight.Internal.Rest.Payloads.Stickers;
 
@@ -29,7 +28,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 	public DiscordStickerRestResource
 	(
 		RestClient client,
-		IMemoryCache cache
+		ICacheService cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

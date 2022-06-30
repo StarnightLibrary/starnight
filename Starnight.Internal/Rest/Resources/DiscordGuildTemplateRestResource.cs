@@ -6,8 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Caching.Memory;
-
+using Starnight.Caching.Abstractions;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Rest.Payloads.GuildTemplates;
 
@@ -26,7 +25,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 	public DiscordGuildTemplateRestResource
 	(
 		RestClient client,
-		IMemoryCache cache
+		ICacheService cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

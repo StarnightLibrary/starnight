@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 
+using Starnight.Caching.Abstractions;
 using Starnight.Internal;
 using Starnight.Internal.Exceptions;
 using Starnight.Internal.Rest.Resources;
@@ -73,6 +74,10 @@ public static class RestRegistration
 			.AddSingleton<DiscordStageInstanceRestResource>()
 			.AddSingleton<DiscordStickerRestResource>()
 			.AddSingleton<DiscordUserRestResource>();
+
+		_ = collection.Configure<AbstractCacheOptions>(xm =>
+			_ = xm.SetSlidingExpiration<RatelimitBucket>(TimeSpan.FromSeconds(1))
+				.SetAbsoluteExpiration<RatelimitBucket>(TimeSpan.FromSeconds(1)));
 
 		return collection;
 	}

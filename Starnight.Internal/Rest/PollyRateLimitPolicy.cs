@@ -8,9 +8,9 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Caching.Memory;
-
 using Polly;
+
+using Starnight.Caching.Abstractions;
 
 public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 {
@@ -37,7 +37,7 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			throw new InvalidOperationException("No endpoint passed.");
 		}
 
-		if(!context.TryGetValue("cache", out Object cacheRaw) || cacheRaw is not IMemoryCache cache)
+		if(!context.TryGetValue("cache", out Object cacheRaw) || cacheRaw is not ICacheService cache)
 		{
 			throw new InvalidOperationException("No cache passed.");
 		}
@@ -74,7 +74,9 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			? bucketHashNullable
 			: endpoint;
 
-		if(cache.TryGetValue(bucketHash, out RatelimitBucket? bucket))
+		RatelimitBucket? bucket = cache.Get<RatelimitBucket>(bucketHash);
+
+		if(bucket is not null)
 		{
 			if(!bucket?.AllowNextRequest() ?? false)
 			{
@@ -99,17 +101,17 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			_ = this.__endpoint_buckets.TryRemove(endpoint, out _);
 
 			// expire a second later, to pre-act a server/local time desync
-			_ = cache.Set(endpoint, extractedBucket, extractedBucket.ResetTime + __one_second);
+			cache.Set(endpoint, extractedBucket);
 
 			return message;
 		}
 
 		_ = this.__endpoint_buckets.AddOrUpdate(endpoint, extractedBucket.Hash, (_, _) => extractedBucket.Hash);
-		_ = cache.Set(endpoint, extractedBucket, extractedBucket.ResetTime + __one_second);
+		cache.Set(endpoint, extractedBucket);
 
 		if(extractedBucket.Hash != bucketHash)
 		{
-			cache.Remove(bucketHash);
+			_ = cache.Remove<RatelimitBucket>(bucketHash);
 		}
 
 		return message;

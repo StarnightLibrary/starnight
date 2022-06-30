@@ -8,8 +8,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Caching.Memory;
-
+using Starnight.Caching.Abstractions;
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
@@ -29,7 +28,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 	public DiscordApplicationCommandsRestResource
 	(
 		RestClient client,
-		IMemoryCache cache
+		ICacheService cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

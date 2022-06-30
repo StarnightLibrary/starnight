@@ -5,8 +5,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Caching.Memory;
-
+using Starnight.Caching.Abstractions;
 using Starnight.Internal.Entities.Guilds.Audit;
 
 using static DiscordApiConstants;
@@ -24,7 +23,7 @@ public class DiscordAuditLogRestResource : AbstractRestResource
 	public DiscordAuditLogRestResource
 	(
 		RestClient client,
-		IMemoryCache cache
+		ICacheService cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

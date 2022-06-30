@@ -1,6 +1,6 @@
 namespace Starnight.Internal.Rest.Resources;
 
-using Microsoft.Extensions.Caching.Memory;
+using Starnight.Caching.Abstractions;
 
 /// <summary>
 /// An abstract base class for all rest resources.
@@ -10,12 +10,12 @@ public abstract class AbstractRestResource
 	/// <summary>
 	/// MemoryCache holding all ratelimit buckets currently in use.
 	/// </summary>
-	public IMemoryCache RatelimitBucketCache { get; internal set; }
+	public ICacheService RatelimitBucketCache { get; internal set; }
 
 	/// <inheritdoc/>
 	public AbstractRestResource
 	(
-		IMemoryCache ratelimitBucketCache
+		ICacheService ratelimitBucketCache
 	)
 		=> this.RatelimitBucketCache = ratelimitBucketCache;
 }
