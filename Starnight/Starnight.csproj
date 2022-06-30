@@ -32,7 +32,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Starnight.Internal" Version="0.1.0-dev.8" />
+    <PackageReference Include="Starnight.Internal" Version="0.1.0-*" />
   </ItemGroup>
 
 

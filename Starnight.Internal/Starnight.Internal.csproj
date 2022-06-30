@@ -34,15 +34,11 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0-preview.5.22301.12" />
     <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="runtime" />
     <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
-    <PackageReference Include="Starnight.Caching" Version="0.1.0-dev.20" />
+    <PackageReference Include="Starnight.Caching" Version="0.1.0-*" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Starnight.Caching\Starnight.Caching.csproj" />
   </ItemGroup>
 
 </Project>
