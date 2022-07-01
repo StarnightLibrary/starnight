@@ -1,5 +1,6 @@
 namespace Starnight.Internal.Rest.Resources;
 
+using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -44,6 +45,33 @@ public class DiscordUserRestResource : AbstractRestResource
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Returns the requested user.
+	/// </summary>
+	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	public async ValueTask<DiscordUser> GetUserAsync
+	(
+		Int64 userId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Users}/{UserId}",
+			Url = new($"{BaseUri}/{Users}/{userId}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Users}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
