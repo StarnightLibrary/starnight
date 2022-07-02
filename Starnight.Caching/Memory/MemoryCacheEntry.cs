@@ -1,4 +1,4 @@
-﻿namespace Starnight.Caching.Memory;
+namespace Starnight.Caching.Memory;
 
 using System;
 
@@ -12,17 +12,17 @@ using Starnight.Caching.Abstractions;
 public record MemoryCacheEntry : AbstractCacheEntry
 {
     /// <summary>
-	/// Overrides the absolute expiration for this entry.
-	/// </summary>
+    /// Overrides the absolute expiration for this entry.
+    /// </summary>
     public TimeSpan? AbsoluteExpiration { get; set; }
 
     /// <summary>
-	/// Overrides the sliding expiration for this entry.
-	/// </summary>
+    /// Overrides the sliding expiration for this entry.
+    /// </summary>
     public TimeSpan? SlidingExpiration { get; set; }
 
     /// <summary>
-	/// Sets a post-eviction callback for this entry.
-	/// </summary>
+    /// Sets a post-eviction callback for this entry.
+    /// </summary>
     public PostEvictionDelegate? PostEvictionCallback { get; set; }
 }
