@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
 using Starnight.Internal.Entities.Users;
+using Starnight.Internal.Rest.Payloads.Users;
 
 using static DiscordApiConstants;
 
@@ -72,6 +73,34 @@ public class DiscordUserRestResource : AbstractRestResource
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{UserId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <summary>
+	/// Modifies the current user.
+	/// </summary>
+	/// <param name="payload">Payload to modify the current user by.</param>
+	/// <returns>The newlly modified current user.</returns>
+	public async ValueTask<DiscordUser> ModifyCurrentUserAsync
+	(
+		ModifyCurrentUserRequestPayload payload
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Users}/{Me}",
+			Url = new($"{BaseUri}/{Users}/{Me}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Users}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false
 			}
