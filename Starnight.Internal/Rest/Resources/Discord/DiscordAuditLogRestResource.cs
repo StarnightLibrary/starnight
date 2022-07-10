@@ -12,10 +12,8 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all requests to the audit log rest resource.
-/// </summary>
-public class DiscordAuditLogRestResource : AbstractRestResource
+/// <inheritdoc cref="IDiscordAuditLogRestResource"/>
+public class DiscordAuditLogRestResource : AbstractRestResource, IDiscordAuditLogRestResource
 {
 	private readonly RestClient __rest_client;
 
@@ -28,14 +26,7 @@ public class DiscordAuditLogRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Fetches the audit logs for this guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="userId">User ID to obtain entries from.</param>
-	/// <param name="actionType">Action type to obtain entries for.</param>
-	/// <param name="before">Snowflake identifier all returned entries will precede.</param>
-	/// <param name="limit">Maximum number of entries to return, defaults to 50.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordAuditLogObject> GetGuildAuditLogAsync
 	(
 		Int64 guildId,

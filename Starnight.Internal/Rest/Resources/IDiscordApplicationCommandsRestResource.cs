@@ -9,7 +9,7 @@ using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
 /// <summary>
-/// Represents a request wrapper for all requests to the Application Commands rest resource
+/// Represents a request wrapper for all requests to the application commands rest resource
 /// </summary>
 public interface IDiscordApplicationCommandsRestResource
 {
