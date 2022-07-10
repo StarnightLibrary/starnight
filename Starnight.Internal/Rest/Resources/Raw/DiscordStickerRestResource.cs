@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Resources;
+namespace Starnight.Internal.Rest.Resources.Raw;
 
 using System;
 using System.Buffers;
@@ -163,11 +163,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 		OperationStatus encodingStatus = Base64.EncodeToUtf8(payload.File.Span, fileContent.Span, out Int32 _, out Int32 _);
 
 		if(encodingStatus != OperationStatus.Done)
-		{
 #pragma warning disable CA2208 // we do in fact want to pass payload.File, not a method parameter
 			throw new ArgumentException($"Could not encode sticker to base64: {encodingStatus}", nameof(payload.File));
-#pragma warning restore CA2208
-		}
 
 		IRestRequest request = new MultipartRestRequest
 		{

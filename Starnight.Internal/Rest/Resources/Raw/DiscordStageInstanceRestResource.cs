@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Resources;
+namespace Starnight.Internal.Rest.Resources.Raw;
 
 using System;
 using System.Net;
@@ -42,7 +42,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 	)
 	{
 		IRestRequest request = new RestRequest
-{
+		{
 			Path = $"/{StageInstances}",
 			Url = new($"{BaseUri}/{StageInstances}"),
 			Payload = JsonSerializer.Serialize(payload),

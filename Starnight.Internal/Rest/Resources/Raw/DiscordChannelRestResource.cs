@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Resources;
+namespace Starnight.Internal.Rest.Resources.Raw;
 
 using System;
 using System.Collections.Generic;
@@ -813,9 +813,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 
 		// always pass an empty json object
 		if(String.IsNullOrWhiteSpace(serializedPayload))
-		{
 			serializedPayload = "{}";
-		}
 
 		IRestRequest request = new RestRequest
 		{

@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Resources;
+namespace Starnight.Internal.Rest.Resources.Raw;
 
 using System;
 using System.Collections.Generic;

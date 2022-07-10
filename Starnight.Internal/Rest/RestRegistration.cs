@@ -15,7 +15,7 @@ using Polly.Contrib.WaitAndRetry;
 using Starnight.Caching.Memory;
 using Starnight.Internal;
 using Starnight.Internal.Exceptions;
-using Starnight.Internal.Rest.Resources;
+using Starnight.Internal.Rest.Resources.Raw;
 
 /// <summary>
 /// Contains an extension method on IServiceCollection to register Starnight's rest client
