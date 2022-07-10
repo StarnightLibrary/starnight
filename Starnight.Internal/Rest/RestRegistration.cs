@@ -39,7 +39,6 @@ public static class RestRegistration
 			{
 				client.BaseAddress = new(DiscordApiConstants.BaseUri);
 				client.DefaultRequestHeaders.UserAgent.Add(new(StarnightConstants.UserAgentHeader, StarnightConstants.Version));
-				client.DefaultRequestHeaders.Authorization = new("Bot", options.Token);
 			})
 			.AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(retryDelay).WrapAsync(ratelimiter))
 			.AddPolicyHandler

@@ -26,11 +26,13 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 		this.__endpoint_buckets = new();
 	}
 
-	protected override async Task<HttpResponseMessage> ImplementationAsync(
+	protected override async Task<HttpResponseMessage> ImplementationAsync
+	(
 		Func<Context, CancellationToken, Task<HttpResponseMessage>> action,
 		Context context,
 		CancellationToken cancellationToken,
-		Boolean continueOnCapturedContext = true)
+		Boolean continueOnCapturedContext = true
+	)
 	{
 		if(!context.TryGetValue("endpoint", out Object endpointRaw) || endpointRaw is not String endpoint)
 		{

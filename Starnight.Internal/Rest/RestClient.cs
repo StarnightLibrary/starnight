@@ -2,10 +2,12 @@ namespace Starnight.Internal.Rest;
 
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Starnight.Internal.Exceptions;
 using Starnight.Internal.Utils;
@@ -16,21 +18,34 @@ using Starnight.Internal.Utils;
 public sealed partial class RestClient
 {
 	private readonly HttpClient __http_client;
-	private readonly ILogger? __logger;
+	private readonly ILogger<RestClient>? __logger;
+	private readonly String __token;
 
 	[RegexGenerator(@"([0-9a-z_/:]+)")]
 	private static partial Regex routeRegex();
 
-	public void SetTimeout(TimeSpan timeout)
+	public void SetTimeout
+	(
+		TimeSpan timeout
+	)
 		=> this.__http_client.Timeout = timeout;
 
-	public RestClient(HttpClient client, ILogger logger)
+	public RestClient
+	(
+		HttpClient client,
+		ILogger<RestClient> logger,
+		IOptions<RestClientOptions> options
+	)
 	{
 		this.__http_client = client;
 		this.__logger = logger;
+		this.__token = options.Value.Token;
 	}
 
-	public async ValueTask<HttpResponseMessage> MakeRequestAsync(IRestRequest request)
+	public async ValueTask<HttpResponseMessage> MakeRequestAsync
+	(
+		IRestRequest request
+	)
 	{
 		if(!routeRegex().IsMatch(request.Path))
 		{
@@ -40,6 +55,15 @@ public sealed partial class RestClient
 		}
 
 		HttpRequestMessage message = request.Build();
+
+		Boolean isWebhookRequest = request.Context is not null
+				&& request.Context!.TryGetValue("is-webhook-request", out Object webhookRaw)
+				&& (Boolean)webhookRaw;
+
+		if(!isWebhookRequest)
+		{
+			message.Headers.Authorization = new AuthenticationHeaderValue("Bot", this.__token);
+		}
 
 		this.__logger?.LogTrace(LoggingEvents.RestClientOutgoing,
 			"Outgoing HTTP payload:\n{Payload}", message.ToString());
