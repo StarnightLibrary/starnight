@@ -47,7 +47,8 @@ public class DiscordUserRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Users}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -74,7 +75,8 @@ public class DiscordUserRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Users}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -102,7 +104,8 @@ public class DiscordUserRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Users}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 

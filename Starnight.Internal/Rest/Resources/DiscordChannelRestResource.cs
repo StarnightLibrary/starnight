@@ -57,7 +57,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -89,7 +90,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -128,7 +130,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -167,7 +170,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -204,7 +208,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -251,7 +256,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -281,7 +287,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -319,7 +326,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
 						["cache"] = this.RatelimitBucketCache,
-						["exempt-from-global-limit"] = false
+						["exempt-from-global-limit"] = false,
+						["is-webhook-request"] = false
 					}
 				} :
 
@@ -339,7 +347,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{MessageId}",
 						["cache"] = this.RatelimitBucketCache,
-						["exempt-from-global-limit"] = false
+						["exempt-from-global-limit"] = false,
+						["is-webhook-request"] = false
 					}
 				};
 
@@ -369,7 +378,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Crosspost}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -401,7 +411,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -433,7 +444,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -467,7 +479,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -507,7 +520,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -536,7 +550,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -565,7 +580,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -601,7 +617,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
 						["cache"] = this.RatelimitBucketCache,
-						["exempt-from-global-limit"] = false
+						["exempt-from-global-limit"] = false,
+						["is-webhook-request"] = false
 					}
 				} :
 
@@ -621,7 +638,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{MessageId}",
 						["cache"] = this.RatelimitBucketCache,
-						["exempt-from-global-limit"] = false
+						["exempt-from-global-limit"] = false,
+						["is-webhook-request"] = false
 					}
 				};
 
@@ -658,7 +676,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -697,7 +716,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{BulkDelete}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -737,7 +757,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -764,7 +785,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Invites}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -805,7 +827,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Invites}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -842,7 +865,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -876,7 +900,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Followers}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -903,7 +928,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Typing}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -928,7 +954,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Pins}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -965,7 +992,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1002,7 +1030,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1034,7 +1063,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1061,7 +1091,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1099,7 +1130,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1137,7 +1169,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1177,7 +1210,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
 						["cache"] = this.RatelimitBucketCache,
-						["exempt-from-global-limit"] = false
+						["exempt-from-global-limit"] = false,
+						["is-webhook-request"] = false
 					}
 				} :
 
@@ -1197,7 +1231,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
 						["cache"] = this.RatelimitBucketCache,
-						["exempt-from-global-limit"] = false
+						["exempt-from-global-limit"] = false,
+						["is-webhook-request"] = false
 					}
 				};
 
@@ -1225,7 +1260,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1255,7 +1291,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1283,7 +1320,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{Me}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1313,7 +1351,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1342,7 +1381,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{UserId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1369,7 +1409,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1405,7 +1446,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Threads}/{Archived}/{Public}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1441,7 +1483,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Threads}/{Archived}/{Private}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -1477,7 +1520,8 @@ public class DiscordChannelRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 

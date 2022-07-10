@@ -55,7 +55,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -92,7 +93,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -127,7 +129,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -167,7 +170,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -197,7 +201,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -241,7 +246,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}/{Users}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 

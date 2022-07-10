@@ -47,7 +47,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -81,7 +82,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -108,7 +110,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -139,7 +142,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -169,7 +173,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -202,7 +207,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -232,7 +238,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 

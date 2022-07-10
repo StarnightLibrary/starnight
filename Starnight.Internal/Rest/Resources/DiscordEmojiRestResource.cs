@@ -49,7 +49,8 @@ public class DiscordEmojiRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -78,7 +79,8 @@ public class DiscordEmojiRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}/{EmojiId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -116,7 +118,8 @@ public class DiscordEmojiRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -156,7 +159,8 @@ public class DiscordEmojiRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}/{EmojiId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -193,7 +197,8 @@ public class DiscordEmojiRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}/{EmojiId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 

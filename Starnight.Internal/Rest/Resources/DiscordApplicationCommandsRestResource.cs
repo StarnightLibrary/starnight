@@ -65,7 +65,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -96,7 +97,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -125,7 +127,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -158,7 +161,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -188,7 +192,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -222,7 +227,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -256,7 +262,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -289,7 +296,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -320,7 +328,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -355,7 +364,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -387,7 +397,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -420,7 +431,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -450,7 +462,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{Permissions}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -481,7 +494,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}/{Permissions}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -516,7 +530,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = true
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			}
 			: new MultipartRestRequest
@@ -533,7 +548,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = false
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			};
 
@@ -562,7 +578,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
 			}
 		};
 
@@ -597,7 +614,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = true
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			}
 			: new MultipartRestRequest
@@ -614,7 +632,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = false
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			};
 
@@ -644,7 +663,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
 			}
 		};
 
@@ -679,7 +699,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = true
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			}
 			: new MultipartRestRequest
@@ -696,7 +717,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = false
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			};
 
@@ -727,7 +749,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
 			}
 		};
 
@@ -764,7 +787,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = true
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			}
 			: new MultipartRestRequest
@@ -781,7 +805,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 					["cache"] = this.RatelimitBucketCache,
-					["exempt-from-global-limit"] = false
+					["exempt-from-global-limit"] = true,
+					["is-webhook-request"] = true
 				}
 			};
 
@@ -812,7 +837,8 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
 			}
 		};
 

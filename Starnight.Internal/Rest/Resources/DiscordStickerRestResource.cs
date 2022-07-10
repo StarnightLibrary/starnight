@@ -51,7 +51,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Stickers}/{StickerId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -74,7 +75,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{StickerPacks}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -101,7 +103,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -130,7 +133,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -186,7 +190,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -226,7 +231,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -263,7 +269,8 @@ public class DiscordStickerRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 

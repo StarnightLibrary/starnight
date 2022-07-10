@@ -57,7 +57,8 @@ public class DiscordInviteRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Invites}/{InviteCode}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -92,7 +93,8 @@ public class DiscordInviteRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{Invites}/{InviteCode}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 

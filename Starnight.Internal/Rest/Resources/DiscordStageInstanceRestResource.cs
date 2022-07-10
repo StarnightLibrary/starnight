@@ -56,7 +56,8 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{StageInstances}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -83,7 +84,8 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{StageInstances}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -121,7 +123,8 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{StageInstances}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
@@ -156,7 +159,8 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 			{
 				["endpoint"] = $"/{StageInstances}/{channelId}",
 				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
 			}
 		};
 
