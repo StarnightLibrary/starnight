@@ -14,9 +14,7 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all requests to the guild template resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordGuildTemplateRestResource"/>
 public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGuildTemplateRestResource
 {
 	private readonly RestClient __rest_client;

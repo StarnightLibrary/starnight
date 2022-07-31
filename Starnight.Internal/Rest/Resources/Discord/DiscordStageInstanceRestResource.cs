@@ -14,9 +14,7 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all rest requests to Discord's stage instance resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordStageInstanceRestResource"/>
 public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordStageInstanceRestResource
 {
 	private readonly RestClient __rest_client;

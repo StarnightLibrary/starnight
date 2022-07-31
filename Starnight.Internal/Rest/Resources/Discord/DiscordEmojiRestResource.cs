@@ -15,9 +15,7 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all requests to the emoji rest resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordEmojiRestResource"/>
 public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestResource
 {
 	private readonly RestClient __rest_client;

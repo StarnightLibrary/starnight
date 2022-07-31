@@ -15,9 +15,7 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all requests to the Guild Scheduled Event rest resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordScheduledEventRestResource"/>
 public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordScheduledEventRestResource
 {
 	private readonly RestClient __rest_client;

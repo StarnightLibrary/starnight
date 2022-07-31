@@ -15,6 +15,12 @@
     <PackageIcon>starnight.png</PackageIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>CS1591</NoWarn>
+
+    <!-- SourceLink -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,6 +38,8 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="All" />
+    
     <PackageReference Include="Starnight.Internal" Version="0.1.0-*" />
   </ItemGroup>
 

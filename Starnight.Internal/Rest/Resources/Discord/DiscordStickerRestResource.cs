@@ -18,9 +18,7 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all requests to discord's Sticker rest resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordStickerRestResource"/>
 public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerRestResource
 {
 	private readonly RestClient __rest_client;

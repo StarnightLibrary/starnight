@@ -15,6 +15,12 @@
     <PackageIcon>starnight.png</PackageIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>CS1591</NoWarn>
+
+    <!-- SourceLink -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,6 +34,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="All" />
+    
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-preview.5.22301.12" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-preview.5.22301.12" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.0-preview.5.22303.8" />

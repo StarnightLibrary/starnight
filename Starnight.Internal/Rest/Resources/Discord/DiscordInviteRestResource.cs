@@ -12,9 +12,7 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all requests to the invite rest resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordInviteRestResource"/>
 public class DiscordInviteRestResource : AbstractRestResource, IDiscordInviteRestResource
 {
 	private readonly RestClient __rest_client;

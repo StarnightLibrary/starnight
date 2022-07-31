@@ -9,7 +9,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
-using Starnight.Internal.Exceptions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Guilds.Invites;
@@ -21,9 +20,7 @@ using static Starnight.Internal.DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a request wrapper for all requests to the Channel resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordChannelRestResource"/>
 public class DiscordChannelRestResource : AbstractRestResource, IDiscordChannelRestResource
 {
 	private readonly RestClient __rest_client;

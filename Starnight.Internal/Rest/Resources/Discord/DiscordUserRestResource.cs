@@ -13,9 +13,7 @@ using static DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a wrapper for all requests to Discord's User rest resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordUserRestResource"/>
 public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestResource
 {
 	private readonly RestClient __rest_client;

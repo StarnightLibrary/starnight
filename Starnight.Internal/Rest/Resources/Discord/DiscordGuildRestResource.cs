@@ -13,16 +13,13 @@ using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Voice;
-using Starnight.Internal.Exceptions;
 using Starnight.Internal.Rest.Payloads.Guilds;
 
 using static Starnight.Internal.DiscordApiConstants;
 
 using HttpMethodEnum = HttpMethod;
 
-/// <summary>
-/// Represents a request wrapper for all requests against the Guild resource.
-/// </summary>
+/// <inheritdoc cref="IDiscordGuildRestResource"/>
 public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestResource
 {
 	private readonly RestClient __rest_client;
