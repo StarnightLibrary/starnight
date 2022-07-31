@@ -57,4 +57,12 @@ public interface IDiscordUserRestResource
 		Int64? after,
 		Int32? limit
 	);
+
+	/// <summary>
+	/// Returns a guild member object for the current user for the given guild.
+	/// </summary>
+	public ValueTask<DiscordGuildMember> GetCurrentUserGuildMemberAsync
+	(
+		Int64 guildId
+	);
 }

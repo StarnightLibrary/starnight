@@ -39,6 +39,7 @@ public static class DiscordApiConstants
 	public const String Invites = "invites";
 	public const String Login = "login";
 	public const String Me = "@me";
+	public const String Member = "member";
 	public const String Members = "members";
 	public const String MemberVerification = "member-verification";
 	public const String Messages = "messages";

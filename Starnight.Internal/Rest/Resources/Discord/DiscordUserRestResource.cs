@@ -133,4 +133,29 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuild>>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildMember> GetCurrentUserGuildMemberAsync
+	(
+		Int64 guildId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}/{Member}",
+			Url = new($"{BaseUri}/{Users}/{Me}/{Guilds}/{guildId}/{Member}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Users}/{Me}/{Guilds}/{GuildId}/{Member}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
+	}
 }
