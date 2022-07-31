@@ -1,11 +1,13 @@
 namespace Starnight.Internal.Rest.Resources.Discord;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
+using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Rest.Payloads.Users;
 
@@ -97,5 +99,38 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordGuild>> GetCurrentUserGuildsAsync
+	(
+		Int64? before = null,
+		Int64? after = null,
+		Int32? limit = null
+	)
+	{
+		QueryBuilder builder = new($"{BaseUri}/{Users}/{Me}/{Guilds}");
+
+		_ = builder.AddParameter("before", before?.ToString())
+			.AddParameter("after", after?.ToString())
+			.AddParameter("limit", limit?.ToString());
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Users}/{Me}/{Guilds}",
+			Url = builder.Build(),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Users}/{Me}/{Guilds}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuild>>(await response.Content.ReadAsStringAsync())!;
 	}
 }
