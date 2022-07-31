@@ -17,7 +17,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a wrapper for all requests to the guild template resource.
 /// </summary>
-public class DiscordGuildTemplateRestResource : AbstractRestResource
+public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGuildTemplateRestResource
 {
 	private readonly RestClient __rest_client;
 

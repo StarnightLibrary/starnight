@@ -15,7 +15,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a wrapper for all requests to the invite rest resource.
 /// </summary>
-public class DiscordInviteRestResource : AbstractRestResource
+public class DiscordInviteRestResource : AbstractRestResource, IDiscordInviteRestResource
 {
 	private readonly RestClient __rest_client;
 
@@ -27,13 +27,7 @@ public class DiscordInviteRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Returns the queried invite.
-	/// </summary>
-	/// <param name="inviteCode">Invite code identifying this invite.</param>
-	/// <param name="withCounts">Whether the invite should contain approximate member counts.</param>
-	/// <param name="withExpiration">Whether the invite should contain the expiration date</param>
-	/// <param name="scheduledEventId">The scheduled event to include with the invite.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordInvite> GetInviteAsync
 	(
 		String inviteCode,
@@ -67,12 +61,7 @@ public class DiscordInviteRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordInvite>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes the given invite.
-	/// </summary>
-	/// <param name="inviteCode">The code identifying the invite.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The deleted invite object.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordInvite> DeleteInviteAsync
 	(
 		String inviteCode,
