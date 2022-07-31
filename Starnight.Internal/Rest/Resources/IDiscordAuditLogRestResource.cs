@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Guilds.Audit;
 
+/// <summary>
+/// Represents a request wrapper for all requests to discord's audit log rest resource.
+/// </summary>
 public interface IDiscordAuditLogRestResource
 {
 	/// <summary>

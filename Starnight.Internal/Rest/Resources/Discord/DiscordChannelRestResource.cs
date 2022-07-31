@@ -24,7 +24,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a request wrapper for all requests to the Channel resource.
 /// </summary>
-public class DiscordChannelRestResource : AbstractRestResource
+public class DiscordChannelRestResource : AbstractRestResource, IDiscordChannelRestResource
 {
 	private readonly RestClient __rest_client;
 
@@ -37,12 +37,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Returns a channel object for the given ID. If the channel is a thread channel, a
-	/// <see cref="DiscordThreadMember"/> object is included in the returned channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> GetChannelAsync
 	(
 		Int64 channelId
@@ -67,13 +62,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies a group DM channel with the given parameters.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the group DM in question.</param>
-	/// <param name="payload">Payload object containing the modification parameters.</param>
-	/// <returns>The modified channel object.</returns>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> ModifyChannelAsync
 	(
 		Int64 channelId,
@@ -100,14 +89,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies a guild channel with the given parameters.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	/// <param name="payload">Payload object containing the modification parameters.</param>
-	/// <param name="reason">Optional audit log reason for the edit.</param>
-	/// <returns>The modified channel object.</returns>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	///<inheritdoc/>
 	public async ValueTask<DiscordChannel> ModifyChannelAsync
 	(
 		Int64 channelId,
@@ -140,14 +122,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies a thread channel with the given parameters.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	/// <param name="payload">Payload object containing the modification parameters.</param>
-	/// <param name="reason">Optional audit log reason for the edit.</param>
-	/// <returns>The modified channel object.</returns>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> ModifyChannelAsync
 	(
 		Int64 channelId,
@@ -180,14 +155,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes a channel. Deleting guild channels cannot be undone. DM channels, however, cannot be deleted
-	/// and are restored by opening a direct message channel again.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	/// <param name="reason">Optional audit log reason if this is a guild channel.</param>
-	/// <returns>The associated channel object.</returns>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> DeleteChannelAsync
 	(
 		Int64 channelId,
@@ -218,19 +186,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns a set amount of messages, optionally before, after or around a certain message.
-	/// </summary>
-	/// <remarks>
-	/// <c>around</c>, <c>before</c> and <c>after</c> are mutually exclusive. Only one may be passed. If multiple are passed,
-	/// only the first one in the parameter list is respected, independent of the order they are passed in client code.
-	/// </remarks>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	/// <param name="count">Maximum amount of messages to return.</param>
-	/// <param name="around">Snowflake identifier of the center message of the requested block.</param>
-	/// <param name="before">Snowflake identifier of the first older message than the requested block.</param>
-	/// <param name="after">Snowflake identifier of the first newer message than the requested block.</param>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordMessage>> GetChannelMessagesAsync
 	(
 		Int64 channelId,
@@ -266,12 +222,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordMessage>>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Gets a message by snowflake identifier.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordMessage> GetChannelMessageAsync
 	(
 		Int64 channelId,
@@ -297,13 +248,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a new message in a channel.
-	/// </summary>
-	/// <param name="channelId">snowflake identifier of the message's target channel.</param>
-	/// <param name="payload">Message creation payload including potential attachment files.</param>
-	/// <returns>The newly created message object.</returns>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordMessage> CreateMessageAsync
 	(
 		Int64 channelId,
@@ -357,12 +302,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Publishes a message in an announcement channel to following channels.
-	/// </summary>
-	/// <param name="channelId">Source announcement channel for this message.</param>
-	/// <param name="messageId">Snowflake identifier of the message.</param>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordMessage> CrosspostMessageAsync
 	(
 		Int64 channelId,
@@ -388,13 +328,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a reaction with the given emoji on the specified message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emoji">String representation of the emoji.</param>
-	/// <returns>Whether the reaction was added successfully.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> CreateReactionAsync
 	(
 		Int64 channelId,
@@ -421,13 +355,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Deletes your own reaction with the specified emoji on the specified message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emoji">String representation of the emoji.</param>
-	/// <returns>Whether the reaction was removed successfully.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteOwnReactionAsync
 	(
 		Int64 channelId,
@@ -454,14 +382,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Deletes the specified user's reaction with the specified emoji on the specified message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="userId">Snowflake identifier of the user in question.</param>
-	/// <param name="emoji">String representation of the emoji.</param>
-	/// <returns>Whether the reaction was removed successfully.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteUserReactionAsync
 	(
 		Int64 channelId,
@@ -489,14 +410,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Gets a list of users that reacted with the given emoji.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emoji">String representation of the queried emoji.</param>
-	/// <param name="after">Specifies a minimum user ID to return from, to paginate queries.</param>
-	/// <param name="limit">Maximum amount of users to return. Defaults to 25.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync
 	(
 		Int64 channelId,
@@ -530,11 +444,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordUser>>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes all reactions on the given message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask DeleteAllReactionsAsync
 	(
 		Int64 channelId,
@@ -558,12 +468,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
 
-	/// <summary>
-	/// Deletes all reactions with a specific emoji from the specified message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="emoji">String representation of the emoji in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask DeleteEmojiReactionsAsync
 	(
 		Int64 channelId,
@@ -588,12 +493,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
 
-	/// <summary>
-	/// Edits the given message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="payload">Edit payload.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordMessage> EditMessageAsync
 	(
 		Int64 channelId,
@@ -648,13 +548,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordMessage>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes a message, potentially passing an audit log reason.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the message was successfully deleted.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteMessageAsync
 	(
 		Int64 channelId,
@@ -686,14 +580,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Bulk deletes the given messages.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageIds">Up to 100 message IDs to delete. If any messages older than two weeks are included,
-	/// or any of the IDs are duplicated, the entire request will fail.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the messages were deleted successfully.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> BulkDeleteMessagesAsync
 	(
 		Int64 channelId,
@@ -726,14 +613,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Edits a permission overwrite for a guild channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier for the channel in question.</param>
-	/// <param name="overwriteId">Snowflake identifier of the entity (role/user) this overwrite targets.</param>
-	/// <param name="payload">Edit payload.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the overwrite was successfully edited.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> EditChannelPermissionsAsync
 	(
 		Int64 channelId,
@@ -767,10 +647,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Returns a list of invite objects with invite metadata pointing to this channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordInvite>> GetChannelInvitesAsync
 	(
 		Int64 channelId
@@ -795,13 +672,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordInvite>>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates an invite on the specified channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	/// <param name="payload">Additional invite metadata.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly created invite object.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordInvite> CreateChannelInviteAsync
 	(
 		Int64 channelId,
@@ -835,13 +706,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordInvite>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes a channel permission overwrite.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
-	/// <param name="overwriteId">Snowflake identifier of the object this overwrite points to.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the deletion was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync
 	(
 		Int64 channelId,
@@ -873,12 +738,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Follows a news channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the news channel to follow.</param>
-	/// <param name="targetChannelId">Snowflake identifier of the channel you want messages to be cross-posted into.</param>
-	/// <returns></returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync
 	(
 		Int64 channelId,
@@ -908,10 +768,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordFollowedChannel>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Triggers the typing indicator for the current user in the given channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask TriggerTypingIndicatorAsync
 	(
 		Int64 channelId
@@ -934,10 +791,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
 
-	/// <summary>
-	/// Returns all pinned messages as message objects.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the messages' parent channel.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordMessage>> GetPinnedMessagesAsync
 	(
 		Int64 channelId
@@ -962,13 +816,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordMessage>>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Pins a message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the message was successfully pinned.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> PinMessageAsync
 	(
 		Int64 channelId,
@@ -1000,13 +848,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Unpins a message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the message's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the message in question.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the message was successfully unpinned.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> UnpinMessageAsync
 	(
 		Int64 channelId,
@@ -1038,12 +880,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Adds the given user to a specified group DM channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the group DM channel in question.</param>
-	/// <param name="userId">Snowflake identifier of the user in question.</param>
-	/// <param name="payload">Request payload, containing the access token needed.</param>
+	/// <inheritdoc/>
 	public async ValueTask AddGroupDMRecipientAsync
 	(
 		Int64 channelId,
@@ -1069,11 +906,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
 
-	/// <summary>
-	/// Removes the given user from the given group DM channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the group DM channel in question.</param>
-	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask RemoveGroupDMRecipientAsync
 	(
 		Int64 channelId,
@@ -1097,14 +930,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		_ = await this.__rest_client.MakeRequestAsync(request);
 	}
 
-	/// <summary>
-	/// Creates a new thread channel from the given message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
-	/// <param name="messageId">Snowflake identifier of the thread's parent message.</param>
-	/// <param name="payload">Request payload for this request.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly created thread channel.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> StartThreadFromMessageAsync
 	(
 		Int64 channelId,
@@ -1138,13 +964,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a new thread channel without a message.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
-	/// <param name="payload">Request payload for this request.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly created thread channel.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> StartThreadWithoutMessageAsync
 	(
 		Int64 channelId,
@@ -1177,14 +997,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a new thread with a starting message in a forum channel.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the parent forum channel.</param>
-	/// <param name="payload">A <see cref="CreateMessageRequestPayload"/> combined with a
-	/// <see cref="StartThreadFromMessageRequestPayload"/>. A new message is created, then a thread is started from it.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly created thread channel.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> StartThreadInForumChannelAsync
 	(
 		Int64 channelId,
@@ -1239,11 +1052,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Joins the current user into a thread.
-	/// </summary>
-	/// <param name="threadId">Snowflake identifier of the thread channel to be joined.</param>
-	/// <returns>Whether the operation was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> JoinThreadAsync
 	(
 		Int64 threadId
@@ -1268,12 +1077,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Adds another member into a thread.
-	/// </summary>
-	/// <param name="threadId">Snowflake identifier of the thread to be joined.</param>
-	/// <param name="userId">Snowflake identifier of the user to join into the thread.</param>
-	/// <returns>Whether the operation was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> AddToThreadAsync
 	(
 		Int64 threadId,
@@ -1299,11 +1103,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Leaves a thread as the current bot.
-	/// </summary>
-	/// <param name="threadId">Snowflake identifier of the thread to be left.</param>
-	/// <returns>Whether the operation was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> LeaveThreadAsync
 	(
 		Int64 threadId
@@ -1328,12 +1128,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Removes another user from a thread.
-	/// </summary>
-	/// <param name="threadId">Snowflake identifier of the thread to be left.</param>
-	/// <param name="userId">Snowflake identifier of the user to be removed.</param>
-	/// <returns>Whether the operation was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> RemoveFromThreadAsync
 	(
 		Int64 threadId,
@@ -1359,11 +1154,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return message.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Returns a thread member object for the specified user.
-	/// </summary>
-	/// <param name="threadId">Snowflake identifier of the thread to obtain data from.</param>
-	/// <param name="userId">Snowflake identifier of the user to obtain data for.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordThreadMember> GetThreadMemberAsync
 	(
 		Int64 threadId,
@@ -1389,10 +1180,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordThreadMember>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns a list of all thread members for the specified thread.
-	/// </summary>
-	/// <param name="threadId">Snowflake identifier fo the thread to obtain data from.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync
 	(
 		Int64 threadId
@@ -1417,12 +1205,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordThreadMember>>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns all public, archived threads for this channel including respective thread member objects.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
-	/// <param name="before">Timestamp to filter threads by: only threads archived before this timestamp will be returned.</param>
-	/// <param name="limit">Maximum amount of threads to return.</param>
+	/// <inheritdoc/>
 	public async ValueTask<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync
 	(
 		Int64 channelId,
@@ -1454,12 +1237,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<ListArchivedThreadsResponsePayload>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns all private, accessible, archived threads for this channel including respective thread member objects.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the thread's parent channel.</param>
-	/// <param name="before">Timestamp to filter threads by: only threads archived before this timestamp will be returned.</param>
-	/// <param name="limit">Maximum amount of threads to return.</param>
+	/// <inheritdoc/>
 	public async ValueTask<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync
 	(
 		Int64 channelId,
@@ -1491,12 +1269,7 @@ public class DiscordChannelRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<ListArchivedThreadsResponsePayload>(await message.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns a list of joined, private, archived threads.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of their parent channel.</param>
-	/// <param name="before">Timestamp to act as upper boundary for archival dates.</param>
-	/// <param name="limit">Maximum amount of threads to return from this request.</param>
+	/// <inheritdoc/>
 	public async ValueTask<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync
 	(
 		Int64 channelId,
