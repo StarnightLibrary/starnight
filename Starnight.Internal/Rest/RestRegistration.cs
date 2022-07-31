@@ -15,6 +15,7 @@ using Polly.Contrib.WaitAndRetry;
 using Starnight.Caching.Memory;
 using Starnight.Internal;
 using Starnight.Internal.Exceptions;
+using Starnight.Internal.Rest.Resources;
 using Starnight.Internal.Rest.Resources.Discord;
 
 /// <summary>
@@ -62,17 +63,17 @@ public static class RestRegistration
 			);
 
 		_ = collection
-			.AddSingleton<DiscordChannelRestResource>()
-			.AddSingleton<DiscordGuildRestResource>()
-			.AddSingleton<DiscordApplicationCommandsRestResource>()
-			.AddSingleton<DiscordAuditLogRestResource>()
-			.AddSingleton<DiscordEmojiRestResource>()
-			.AddSingleton<DiscordScheduledEventRestResource>()
-			.AddSingleton<DiscordGuildTemplateRestResource>()
-			.AddSingleton<DiscordInviteRestResource>()
-			.AddSingleton<DiscordStageInstanceRestResource>()
-			.AddSingleton<DiscordStickerRestResource>()
-			.AddSingleton<DiscordUserRestResource>();
+			.AddSingleton<IDiscordChannelRestResource, DiscordChannelRestResource>()
+			.AddSingleton<IDiscordGuildRestResource, DiscordGuildRestResource>()
+			.AddSingleton<IDiscordApplicationCommandsRestResource, DiscordApplicationCommandsRestResource>()
+			.AddSingleton<IDiscordAuditLogRestResource, DiscordAuditLogRestResource>()
+			.AddSingleton<IDiscordEmojiRestResource, DiscordEmojiRestResource>()
+			.AddSingleton<IDiscordScheduledEventRestResource, DiscordScheduledEventRestResource>()
+			.AddSingleton<IDiscordGuildTemplateRestResource, DiscordGuildTemplateRestResource>()
+			.AddSingleton<IDiscordInviteRestResource, DiscordInviteRestResource>()
+			.AddSingleton<IDiscordStageInstanceRestResource, DiscordStageInstanceRestResource>()
+			.AddSingleton<IDiscordStickerRestResource, DiscordStickerRestResource>()
+			.AddSingleton<IDiscordUserRestResource, DiscordUserRestResource>();
 
 		_ = collection.Configure<MemoryCacheOptions>(xm =>
 			_ = xm.SetSlidingExpiration<RatelimitBucket>(TimeSpan.FromSeconds(1))
