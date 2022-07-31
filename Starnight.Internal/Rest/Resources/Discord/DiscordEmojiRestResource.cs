@@ -18,7 +18,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a wrapper for all requests to the emoji rest resource.
 /// </summary>
-public class DiscordEmojiRestResource : AbstractRestResource
+public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestResource
 {
 	private readonly RestClient __rest_client;
 
