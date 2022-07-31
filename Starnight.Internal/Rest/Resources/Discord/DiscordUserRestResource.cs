@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -157,5 +158,30 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> LeaveGuildAsync
+	(
+		Int64 guildId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}",
+			Url = new($"{BaseUri}/{Users}/{Me}/{Guilds}/{guildId}"),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Users}/{Me}/{Guilds}/{GuildId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 }

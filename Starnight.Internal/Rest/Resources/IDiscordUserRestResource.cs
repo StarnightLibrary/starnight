@@ -65,4 +65,14 @@ public interface IDiscordUserRestResource
 	(
 		Int64 guildId
 	);
+
+	/// <summary>
+	/// Leaves a guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild to be left.</param>
+	/// <returns>Whether the operation was successful.</returns>
+	public ValueTask<Boolean> LeaveGuildAsync
+	(
+		Int64 guildId
+	);
 }
