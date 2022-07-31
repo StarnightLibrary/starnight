@@ -16,7 +16,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a wrapper for all requests to Discord's User rest resource.
 /// </summary>
-public class DiscordUserRestResource : AbstractRestResource
+public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestResource
 {
 	private readonly RestClient __rest_client;
 
@@ -29,13 +29,7 @@ public class DiscordUserRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Returns the current user.
-	/// </summary>
-	/// <remarks>
-	/// For OAuth2, this requires the <c>identify</c> scope, which will return the object without an email,
-	/// and optionally the <c>email</c> scope, which will return the object with an email.
-	/// </remarks>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordUser> GetCurrentUserAsync()
 	{
 		IRestRequest request = new RestRequest
@@ -57,10 +51,7 @@ public class DiscordUserRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns the requested user.
-	/// </summary>
-	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordUser> GetUserAsync
 	(
 		Int64 userId
@@ -85,11 +76,7 @@ public class DiscordUserRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies the current user.
-	/// </summary>
-	/// <param name="payload">Payload to modify the current user by.</param>
-	/// <returns>The newlly modified current user.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordUser> ModifyCurrentUserAsync
 	(
 		ModifyCurrentUserRequestPayload payload
