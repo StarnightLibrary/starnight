@@ -17,7 +17,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a wrapper for all rest requests to Discord's stage instance resource.
 /// </summary>
-public class DiscordStageInstanceRestResource : AbstractRestResource
+public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordStageInstanceRestResource
 {
 	private readonly RestClient __rest_client;
 
@@ -29,12 +29,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Creates a new stage instance associated to a stage channel.
-	/// </summary>
-	/// <param name="payload">Request payload, among others containing the channel ID to create a stage instance for.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly created stage instance.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordStageInstance> CreateStageInstanceAsync
 	(
 		CreateStageInstanceRequestPayload payload,
@@ -66,10 +61,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns the stage instance associated with the stage channel, if one exists.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the associated stage channel.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordStageInstance?> GetStageInstanceAsync
 	(
 		Int64 channelId
@@ -94,13 +86,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync());
 	}
 
-	/// <summary>
-	/// Modifies the given stage instance.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of the parent channel.</param>
-	/// <param name="payload">Request payload.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly modified stage instance.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordStageInstance> ModifyStageInstanceAsync
 	(
 		Int64 channelId,
@@ -133,12 +119,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes the given stage instance.
-	/// </summary>
-	/// <param name="channelId">Snowflake identifier of its parent channel.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the request was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteStageInstanceAsync
 	(
 		Int64 channelId,
