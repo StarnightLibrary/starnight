@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Rest.Payloads.Users;
@@ -74,5 +75,15 @@ public interface IDiscordUserRestResource
 	public ValueTask<Boolean> LeaveGuildAsync
 	(
 		Int64 guildId
+	);
+
+	/// <summary>
+	/// Creates a new DM channel with a user.
+	/// </summary>
+	/// <param name="recipientId">Snowflake identifier of the user to create a DM channel with.</param>
+	/// <returns>The newly created channel object.</returns>
+	public ValueTask<DiscordChannel> CreateDMAsync
+	(
+		Int64 recipientId
 	);
 }

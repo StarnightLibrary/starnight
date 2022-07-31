@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Rest.Payloads.Users;
@@ -183,5 +184,34 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordChannel> CreateDMAsync
+	(
+		Int64 recipientId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Users}/{Me}/{Channels}",
+			Url = new($"{BaseUri}/{Users}/{Me}/{Channels}"),
+			Method = HttpMethodEnum.Post,
+			Payload =
+			$$"""
+			{ "recipient_id": {{recipientId}} }
+			""",
+			Context = new()
+			{
+				["endpoint"] = $"/{Users}/{Me}/{Channels}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
 }
