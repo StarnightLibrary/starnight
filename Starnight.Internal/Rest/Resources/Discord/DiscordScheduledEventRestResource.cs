@@ -18,7 +18,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a wrapper for all requests to the Guild Scheduled Event rest resource.
 /// </summary>
-public class DiscordScheduledEventRestResource : AbstractRestResource
+public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordScheduledEventRestResource
 {
 	private readonly RestClient __rest_client;
 
@@ -31,11 +31,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Returns a list of scheduled events taking place in this guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="withUserCount">Whether the answer should include user counts.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync
 	(
 		Int64 guildId,
@@ -65,13 +61,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordScheduledEvent>>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a new scheduled event in the specified guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="payload">Event creation payload.</param>
-	/// <param name="reason">Optional audit log reason</param>
-	/// <returns>The newly created scheduled event.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordScheduledEvent> CreateScheduledEventAsync
 	(
 		Int64 guildId,
@@ -103,12 +93,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns the requested scheduled event.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild this scheduled event takes place in.</param>
-	/// <param name="eventId">Snowflake identifier of the scheduled event in qeustion.</param>
-	/// <param name="withUserCount">Specifies whether the number of users subscribed to this event should be included.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordScheduledEvent> GetScheduledEventAsync
 	(
 		Int64 guildId,
@@ -139,14 +124,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies the given scheduled event.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild this event takes place in.</param>
-	/// <param name="eventId">Snowflake identifier of the event to be modified.</param>
-	/// <param name="payload">Request payload.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly modified scheduled event.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordScheduledEvent> ModifyScheduledEventAsync
 	(
 		Int64 guildId,
@@ -180,12 +158,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes the given scheduled event.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild this event takes place in.</param>
-	/// <param name="eventId">Snowflake identifier of the event to be modified.</param>
-	/// <returns>Whether the deletion was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteScheduledEventAsync
 	(
 		Int64 guildId,
@@ -211,15 +184,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 
-	/// <summary>
-	/// Returns <seealso cref="DiscordScheduledEventUser"/> objects for each participant of the given scheduled event.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild this scheduled event belongs to.</param>
-	/// <param name="eventId">Snowflake identifier of the scheduled event in question.</param>
-	/// <param name="limit">Number of users to return.</param>
-	/// <param name="withMemberObject">Specifies whether the response should include guild member data.</param>
-	/// <param name="before">Only return users before the given snowflake ID, used for pagination.</param>
-	/// <param name="after">Only return users after the given snowflake ID, used for pagination.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordScheduledEventUser>> GetScheduledEventUsersAsync
 	(
 		Int64 guildId,
