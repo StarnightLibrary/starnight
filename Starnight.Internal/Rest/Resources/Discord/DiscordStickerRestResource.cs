@@ -21,7 +21,7 @@ using HttpMethodEnum = HttpMethod;
 /// <summary>
 /// Represents a wrapper for all requests to discord's Sticker rest resource.
 /// </summary>
-public class DiscordStickerRestResource : AbstractRestResource
+public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerRestResource
 {
 	private readonly RestClient __rest_client;
 
@@ -33,10 +33,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Returns the given sticker object.
-	/// </summary>
-	/// <param name="stickerId">Snowflake identifier of the sticker in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordSticker> GetStickerAsync
 	(
 		Int64 stickerId
@@ -61,9 +58,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns the list of sticker packs available to nitro subscribers.
-	/// </summary>
+	/// <inheritdoc/>
 	public async ValueTask<ListNitroStickerPacksResponsePayload> ListNitroStickerPacksAsync()
 	{
 		IRestRequest request = new RestRequest
@@ -85,10 +80,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<ListNitroStickerPacksResponsePayload>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns the sticker objects for the given guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordSticker>> ListGuildStickersAsync
 	(
 		Int64 guildId
@@ -113,11 +105,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordSticker>>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns the specified guild sticker.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild owning this sticker.</param>
-	/// <param name="stickerId">Snowflake identifier of the sticker in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordSticker> GetGuildStickerAsync
 	(
 		Int64 guildId,
@@ -143,14 +131,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a sticker in the specified guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="payload">Request payload, containing the raw, unencoded image.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly created sticker object.</returns>
-	/// <exception cref="ArgumentException">Thrown if the file could not be encoded to base64 for any reason.</exception>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordSticker> CreateGuildStickerAsync
 	(
 		Int64 guildId,
@@ -165,6 +146,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		if(encodingStatus != OperationStatus.Done)
 #pragma warning disable CA2208 // we do in fact want to pass payload.File, not a method parameter
 			throw new ArgumentException($"Could not encode sticker to base64: {encodingStatus}", nameof(payload.File));
+#pragma warning restore CA2208
 
 		IRestRequest request = new MultipartRestRequest
 		{
@@ -197,14 +179,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies the given sticker.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild owning the sticker.</param>
-	/// <param name="stickerId">Snowflake identifier of the sticker in question.</param>
-	/// <param name="payload">Request payload.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly updated sticker object.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordSticker> ModifyGuildStickerAsync
 	(
 		Int64 guildId,
@@ -238,13 +213,7 @@ public class DiscordStickerRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes the specified sticker.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild owning the sticker.</param>
-	/// <param name="stickerId">Snowflake identifier of the sticker in question.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the deletion was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteGuildStickerAsync
 	(
 		Int64 guildId,
