@@ -30,9 +30,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Fetches the guild template object corresponding to the given template code.
-	/// </summary>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordGuildTemplate> GetGuildTemplateAsync
 	(
 		String templateCode
@@ -57,15 +55,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a new guild from the given guild template.
-	/// </summary>
-	/// <remarks>
-	/// This endpoint can only be used by bots in less than 10 guilds.
-	/// </remarks>
-	/// <param name="templateCode">Template code to create the guild from.</param>
-	/// <param name="payload">Request payload.</param>
-	/// <returns>The newly created guild.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordGuild> CreateGuildFromTemplateAsync
 	(
 		String templateCode,
@@ -92,10 +82,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordGuild>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns all guild templates associated with this guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordGuildTemplate>> GetGuildTemplatesAsync
 	(
 		Int64 guildId
@@ -120,12 +107,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildTemplate>>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a new guild template from the given guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="payload">Request payload for this request.</param>
-	/// <returns>The newly created guild template.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordGuildTemplate> CreateGuildTemplateAsync
 	(
 		Int64 guildId,
@@ -152,12 +134,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Syncs the given template to the given guild's current state.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="templateCode">Snowflake identifier of the template in question.</param>
-	/// <returns>The newly modified guild template.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordGuildTemplate> SyncGuildTemplateAsync
 	(
 		Int64 guildId,
@@ -183,13 +160,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies the given guild template.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="templateCode">Template code of the template in question.</param>
-	/// <param name="payload">Request payload for this request.</param>
-	/// <returns>The newly modified guild template.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordGuildTemplate> ModifyGuildTemplateAsync
 	(
 		Int64 guildId,
@@ -217,12 +188,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes the given guild template.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="templateCode">Code of the template to be deleted.</param>
-	/// <returns>The deleted guild template.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordGuildTemplate> DeleteGuildTemplateAsync
 	(
 		Int64 guildId,
