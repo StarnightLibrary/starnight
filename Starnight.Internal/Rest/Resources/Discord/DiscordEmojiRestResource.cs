@@ -31,10 +31,7 @@ public class DiscordEmojiRestResource : AbstractRestResource
 		: base(cache)
 		=> this.__rest_client = client;
 
-	/// <summary>
-	/// Fetches a list of emojis for the given guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordEmoji>> ListGuildEmojisAsync
 	(
 		Int64 guildId
@@ -59,11 +56,7 @@ public class DiscordEmojiRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<IEnumerable<DiscordEmoji>>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Returns the specified emoji.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild owning the emoji.</param>
-	/// <param name="emojiId">Snowflake identifier of the emoji in question.</param>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordEmoji> GetGuildEmojiAsync
 	(
 		Int64 guildId,
@@ -89,13 +82,7 @@ public class DiscordEmojiRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Creates a new guild emoji in the specified guild.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
-	/// <param name="payload">Payload for this request.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly created emoji.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<DiscordEmoji> CreateGuildEmojiAsync
 	(
 		Int64 guildId,
@@ -128,14 +115,7 @@ public class DiscordEmojiRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Modifies the given emoji.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild owning the emoji.</param>
-	/// <param name="emojiId">Snowflake identifier of the emoji in question.</param>
-	/// <param name="payload">Payload for this request.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>The newly updated emoji.</returns>
+	///<inheritdoc/>
 	public async ValueTask<DiscordEmoji> ModifyGuildEmojiAsync
 	(
 		Int64 guildId,
@@ -169,13 +149,7 @@ public class DiscordEmojiRestResource : AbstractRestResource
 		return JsonSerializer.Deserialize<DiscordEmoji>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	/// <summary>
-	/// Deletes the given emoji.
-	/// </summary>
-	/// <param name="guildId">Snowflake identifier of the guild owning this emoji.</param>
-	/// <param name="emojiId">Snowflake identifier of the emoji to be deleted.</param>
-	/// <param name="reason">Optional audit log reason.</param>
-	/// <returns>Whether the deletion was successful.</returns>
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteGuildEmojiAsync
 	(
 		Int64 guildId,
