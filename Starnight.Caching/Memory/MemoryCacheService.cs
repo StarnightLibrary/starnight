@@ -109,12 +109,12 @@ public class MemoryCacheService : ICacheService
 		T item
 	)
 	{
-		TimeSpan absolute = this.__options.AbsoluteExpirations.ContainsKey(typeof(T).TypeHandle.Value)
-			? this.__options.AbsoluteExpirations[typeof(T).TypeHandle.Value]
+		TimeSpan absolute = this.__options.AbsoluteExpirations.TryGetValue(typeof(T).TypeHandle.Value, out TimeSpan value)
+			? value
 			: this.__options.DefaultAbsoluteExpiration;
 
-		TimeSpan sliding = this.__options.SlidingExpirations.ContainsKey(typeof(T).TypeHandle.Value)
-			? this.__options.SlidingExpirations[typeof(T).TypeHandle.Value]
+		TimeSpan sliding = this.__options.SlidingExpirations.TryGetValue(typeof(T).TypeHandle.Value, out value)
+			? value
 			: this.__options.DefaultSlidingExpiration;
 
 		_ = this.__backing.CreateEntry(key)
@@ -137,12 +137,12 @@ public class MemoryCacheService : ICacheService
 	)
 		where TItem : TInterface
 	{
-		TimeSpan absolute = this.__options.AbsoluteExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
-			? this.__options.AbsoluteExpirations[typeof(TInterface).TypeHandle.Value]
+		TimeSpan absolute = this.__options.AbsoluteExpirations.TryGetValue(typeof(TInterface).TypeHandle.Value, out TimeSpan value)
+			? value
 			: this.__options.DefaultAbsoluteExpiration;
 
-		TimeSpan sliding = this.__options.SlidingExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
-			? this.__options.SlidingExpirations[typeof(TInterface).TypeHandle.Value]
+		TimeSpan sliding = this.__options.SlidingExpirations.TryGetValue(typeof(TInterface).TypeHandle.Value, out value)
+			? value
 			: this.__options.DefaultSlidingExpiration;
 
 		_ = this.__backing.CreateEntry(key)
@@ -159,9 +159,9 @@ public class MemoryCacheService : ICacheService
 	{
 		if(entry is not MemoryCacheEntry memoryEntry)
 		{
-			if(this.__generic_delegates.ContainsKey(entry.Value.GetType()))
+			if(this.__generic_delegates.TryGetValue(entry.Value.GetType(), out SetGenericEntryDelegate? del))
 			{
-				this.__generic_delegates[entry.Value.GetType()](entry.Key, entry.Value);
+				del!(entry.Key, entry.Value);
 
 				return;
 			}
@@ -176,13 +176,13 @@ public class MemoryCacheService : ICacheService
 		}
 
 		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
-			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.AbsoluteExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out TimeSpan value)
+				? value
 				: this.__options.DefaultAbsoluteExpiration);
 
 		TimeSpan sliding = memoryEntry.SlidingExpiration ??
-			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.SlidingExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out value)
+				? value
 				: this.__options.DefaultSlidingExpiration);
 
 		ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
@@ -211,13 +211,13 @@ public class MemoryCacheService : ICacheService
 		}
 
 		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
-			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.AbsoluteExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out TimeSpan value)
+				? value
 				: this.__options.DefaultAbsoluteExpiration);
 
 		TimeSpan sliding = memoryEntry.SlidingExpiration ??
-			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.SlidingExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out value)
+				? value
 				: this.__options.DefaultSlidingExpiration);
 
 		_ = cacheEntry.SetAbsoluteExpiration(absolute)
@@ -247,12 +247,12 @@ public class MemoryCacheService : ICacheService
 		T item
 	)
 	{
-		TimeSpan absolute = this.__options.AbsoluteExpirations.ContainsKey(typeof(T).TypeHandle.Value)
-			? this.__options.AbsoluteExpirations[typeof(T).TypeHandle.Value]
+		TimeSpan absolute = this.__options.AbsoluteExpirations.TryGetValue(typeof(T).TypeHandle.Value, out TimeSpan value)
+			? value
 			: this.__options.DefaultAbsoluteExpiration;
 
-		TimeSpan sliding = this.__options.SlidingExpirations.ContainsKey(typeof(T).TypeHandle.Value)
-			? this.__options.SlidingExpirations[typeof(T).TypeHandle.Value]
+		TimeSpan sliding = this.__options.SlidingExpirations.TryGetValue(typeof(T).TypeHandle.Value, out value)
+			? value
 			: this.__options.DefaultSlidingExpiration;
 
 		_ = this.__backing.CreateEntry(key)
@@ -271,12 +271,12 @@ public class MemoryCacheService : ICacheService
 	)
 		where TItem : TInterface
 	{
-		TimeSpan absolute = this.__options.AbsoluteExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
-			? this.__options.AbsoluteExpirations[typeof(TInterface).TypeHandle.Value]
+		TimeSpan absolute = this.__options.AbsoluteExpirations.TryGetValue(typeof(TInterface).TypeHandle.Value, out TimeSpan value)
+			? value
 			: this.__options.DefaultAbsoluteExpiration;
 
-		TimeSpan sliding = this.__options.SlidingExpirations.ContainsKey(typeof(TInterface).TypeHandle.Value)
-			? this.__options.SlidingExpirations[typeof(TInterface).TypeHandle.Value]
+		TimeSpan sliding = this.__options.SlidingExpirations.TryGetValue(typeof(TInterface).TypeHandle.Value, out value)
+			? value
 			: this.__options.DefaultSlidingExpiration;
 
 		_ = this.__backing.CreateEntry(key)
@@ -295,9 +295,9 @@ public class MemoryCacheService : ICacheService
 	{
 		if(entry is not MemoryCacheEntry memoryEntry)
 		{
-			if(this.__async_delegates.ContainsKey(entry.Value.GetType()))
+			if(this.__async_delegates.TryGetValue(entry.Value.GetType(), out AsyncSetGenericEntryDelegate? del))
 			{
-				return this.__async_delegates[entry.Value.GetType()](entry.Key, entry.Value);
+				return del!(entry.Key, entry.Value);
 			}
 
 			AsyncSetGenericEntryDelegate currentDelegate = this.createAsyncDelegate(entry.Value.GetType());
@@ -308,13 +308,13 @@ public class MemoryCacheService : ICacheService
 		}
 
 		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
-			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.AbsoluteExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out TimeSpan value)
+				? value
 				: this.__options.DefaultAbsoluteExpiration);
 
 		TimeSpan sliding = memoryEntry.SlidingExpiration ??
-			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.SlidingExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out value)
+				? value
 				: this.__options.DefaultSlidingExpiration);
 
 		ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
@@ -345,13 +345,13 @@ public class MemoryCacheService : ICacheService
 		}
 
 		TimeSpan absolute = memoryEntry.AbsoluteExpiration ??
-			(this.__options.AbsoluteExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.AbsoluteExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.AbsoluteExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out TimeSpan value)
+				? value
 				: this.__options.DefaultAbsoluteExpiration);
 
 		TimeSpan sliding = memoryEntry.SlidingExpiration ??
-			(this.__options.SlidingExpirations.ContainsKey(memoryEntry.Value.GetType().TypeHandle.Value)
-				? this.__options.SlidingExpirations[memoryEntry.Value.GetType().TypeHandle.Value]
+			(this.__options.SlidingExpirations.TryGetValue(memoryEntry.Value.GetType().TypeHandle.Value, out value)
+				? value
 				: this.__options.DefaultSlidingExpiration);
 
 		_ = cacheEntry.SetAbsoluteExpiration(absolute)
