@@ -18,6 +18,7 @@ public static class DiscordApiConstants
 	public const String Assets = "assets";
 	public const String AuditLogs = "audit-logs";
 	public const String Auth = "auth";
+	public const String AutoModeration = "auto-moderation";
 	public const String Avatars = "avatars";
 	public const String Bans = "bans";
 	public const String Bot = "bot";
@@ -55,6 +56,7 @@ public static class DiscordApiConstants
 	public const String Recipients = "recipients";
 	public const String Regions = "regions";
 	public const String Roles = "roles";
+	public const String Rules = "rules";
 	public const String Search = "search";
 	public const String Slack = "slack";
 	public const String StageInstances = "stage-instances";

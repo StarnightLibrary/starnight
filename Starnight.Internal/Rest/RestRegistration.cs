@@ -73,7 +73,8 @@ public static class RestRegistration
 			.AddSingleton<IDiscordInviteRestResource, DiscordInviteRestResource>()
 			.AddSingleton<IDiscordStageInstanceRestResource, DiscordStageInstanceRestResource>()
 			.AddSingleton<IDiscordStickerRestResource, DiscordStickerRestResource>()
-			.AddSingleton<IDiscordUserRestResource, DiscordUserRestResource>();
+			.AddSingleton<IDiscordUserRestResource, DiscordUserRestResource>()
+			.AddSingleton<IDiscordAutoModerationRestResource, DiscordAutoModerationRestResource>();
 
 		_ = collection.Configure<MemoryCacheOptions>(xm =>
 			_ = xm.SetSlidingExpiration<RatelimitBucket>(TimeSpan.FromSeconds(1))
