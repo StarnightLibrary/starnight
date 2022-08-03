@@ -51,4 +51,30 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordAutoModerationRule>>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordAutoModerationRule> GetAutoModerationRuleAsync
+	(
+		Int64 guildId,
+		Int64 ruleId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
+			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordAutoModerationRule>(await response.Content.ReadAsStringAsync())!;
+	}
 }

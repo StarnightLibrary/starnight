@@ -19,4 +19,15 @@ public interface IDiscordAutoModerationRestResource
 	(
 		Int64 guildId
 	);
+
+	/// <summary>
+	/// Returns a single auto moderation rule.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild this rule is a part of.</param>
+	/// <param name="ruleId">Snowflake identifier of the rule in question.</param>
+	public ValueTask<DiscordAutoModerationRule> GetAutoModerationRuleAsync
+	(
+		Int64 guildId,
+		Int64 ruleId
+	);
 }

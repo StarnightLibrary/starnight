@@ -80,6 +80,7 @@ public static class DiscordApiConstants
 
 	#region route parameters
 	public const String AppId = ":app_id";
+	public const String AutoModerationRuleId = ":auto_moderation_rule_id";
 	public const String ChannelId = ":channel_id";
 	public const String CommandId = ":command_id";
 	public const String Emoji = ":emoji";
