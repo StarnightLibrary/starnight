@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Guilds.AutoModeration;
+using Starnight.Internal.Rest.Payloads.AutoModeration;
 
 /// <summary>
 /// Represents a wrapper for all requests to discord's audit log rest resource.
@@ -29,5 +30,19 @@ public interface IDiscordAutoModerationRestResource
 	(
 		Int64 guildId,
 		Int64 ruleId
+	);
+
+	/// <summary>
+	/// Creates a new auto moderation rule in the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="payload">Request payload.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly created audit log rule.</returns>
+	public ValueTask<DiscordAutoModerationRule> CreateAutoModerationRuleAsync
+	(
+		Int64 guildId,
+		CreateAutoModerationRuleRequestPayload payload,
+		String? reason
 	);
 }
