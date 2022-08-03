@@ -92,7 +92,7 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 		{
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}"),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethodEnum.Post,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason is not null ? new()
 			{
@@ -102,6 +102,40 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordAutoModerationRule>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordAutoModerationRule> ModifyAutoModerationRuleAsync
+	(
+		Int64 guildId,
+		Int64 ruleId,
+		ModifyAutoModerationRuleRequestPayload payload,
+		String? reason
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
+			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}"),
+			Method = HttpMethodEnum.Patch,
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false,
 				["is-webhook-request"] = false

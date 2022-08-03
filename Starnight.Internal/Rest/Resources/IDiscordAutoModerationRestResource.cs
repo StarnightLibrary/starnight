@@ -45,4 +45,20 @@ public interface IDiscordAutoModerationRestResource
 		CreateAutoModerationRuleRequestPayload payload,
 		String? reason
 	);
+
+	/// <summary>
+	/// Modifies an existing auto moderation rule in the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="ruleId">Snowflake identifier of the rule in question.</param>
+	/// <param name="payload">Request payload.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The newly modified auto moderation rule.</returns>
+	public ValueTask<DiscordAutoModerationRule> ModifyAutoModerationRuleAsync
+	(
+		Int64 guildId,
+		Int64 ruleId,
+		ModifyAutoModerationRuleRequestPayload payload,
+		String? reason
+	);
 }
