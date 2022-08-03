@@ -37,7 +37,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{Templates}/{TemplateCode}",
-			Url = new($"{BaseUri}/{Guilds}/{Templates}/{templateCode}"),
+			Url = new($"{Guilds}/{Templates}/{templateCode}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -63,7 +63,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{Templates}/{TemplateCode}",
-			Url = new($"{BaseUri}/{Guilds}/{Templates}/{templateCode}"),
+			Url = new($"{Guilds}/{Templates}/{templateCode}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Context = new()
@@ -89,7 +89,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}"),
+			Url = new($"{Guilds}/{guildId}/{Templates}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -115,7 +115,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}"),
+			Url = new($"{Guilds}/{guildId}/{Templates}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Context = new()
@@ -142,7 +142,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}/{templateCode}"),
+			Url = new($"{Guilds}/{guildId}/{Templates}/{templateCode}"),
 			Method = HttpMethodEnum.Put,
 			Context = new()
 			{
@@ -169,7 +169,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}/{templateCode}"),
+			Url = new($"{Guilds}/{guildId}/{Templates}/{templateCode}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
@@ -196,7 +196,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Templates}/{templateCode}"),
+			Url = new($"{Guilds}/{guildId}/{Templates}/{templateCode}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{

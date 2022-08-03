@@ -36,7 +36,7 @@ public class DiscordAuditLogRestResource : AbstractRestResource, IDiscordAuditLo
 		Int32? limit = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{AuditLogs}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{AuditLogs}");
 
 		_ = builder.AddParameter("user_id", userId.ToString())
 			.AddParameter("action_type", ((Int32?)actionType).ToString())

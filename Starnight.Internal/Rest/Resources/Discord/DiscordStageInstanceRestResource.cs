@@ -37,7 +37,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}",
-			Url = new($"{BaseUri}/{StageInstances}"),
+			Url = new($"{StageInstances}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
@@ -68,7 +68,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
-			Url = new($"{BaseUri}/{StageInstances}/{channelId}"),
+			Url = new($"{StageInstances}/{channelId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -95,7 +95,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
-			Url = new($"{BaseUri}/{StageInstances}/{channelId}"),
+			Url = new($"{StageInstances}/{channelId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
@@ -127,7 +127,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
-			Url = new($"{BaseUri}/{StageInstances}/{channelId}"),
+			Url = new($"{StageInstances}/{channelId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{

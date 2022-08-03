@@ -38,7 +38,7 @@ public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}"),
+			Url = new($"{Guilds}/{guildId}/{Emojis}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -64,7 +64,7 @@ public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}/{emojiId}"),
+			Url = new($"{Guilds}/{guildId}/{Emojis}/{emojiId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -91,7 +91,7 @@ public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}"),
+			Url = new($"{Guilds}/{guildId}/{Emojis}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
@@ -125,7 +125,7 @@ public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}/{emojiId}"),
+			Url = new($"{Guilds}/{guildId}/{Emojis}/{emojiId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
@@ -158,7 +158,7 @@ public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Emojis}/{emojiId}"),
+			Url = new($"{Guilds}/{guildId}/{Emojis}/{emojiId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{

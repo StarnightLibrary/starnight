@@ -38,7 +38,7 @@ public static class RestRegistration
 			.AddHttpClient<RestClient>()
 			.ConfigureHttpClient((client) =>
 			{
-				client.BaseAddress = new(DiscordApiConstants.BaseUri);
+				client.BaseAddress = new($"{DiscordApiConstants.BaseUri}/");
 				client.DefaultRequestHeaders.UserAgent.Add(new(StarnightConstants.UserAgentHeader, StarnightConstants.Version));
 			})
 			.AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(retryDelay).WrapAsync(ratelimiter))

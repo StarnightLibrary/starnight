@@ -34,7 +34,7 @@ public class DiscordInviteRestResource : AbstractRestResource, IDiscordInviteRes
 		Int64? scheduledEventId = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Templates}/{inviteCode}");
+		QueryBuilder builder = new($"{Templates}/{inviteCode}");
 
 		_ = builder.AddParameter("with_counts", withCounts.ToString())
 			.AddParameter("with_expiration", withExpiration.ToString())
@@ -69,7 +69,7 @@ public class DiscordInviteRestResource : AbstractRestResource, IDiscordInviteRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Invites}/{InviteCode}",
-			Url = new($"{BaseUri}/{Invites}/{inviteCode}"),
+			Url = new($"{Invites}/{inviteCode}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{

@@ -39,7 +39,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		String? locale = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}");
+		QueryBuilder builder = new($"{Channels}/{applicationId}/{Commands}");
 		_ = builder.AddParameter("with_localizations", withLocalizations.ToString());
 
 		IRestRequest request = new RestRequest
@@ -76,7 +76,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}"),
+			Url = new($"{Channels}/{applicationId}/{Commands}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Context = new()
@@ -103,7 +103,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}/{commandId}"),
+			Url = new($"{Channels}/{applicationId}/{Commands}/{commandId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -130,7 +130,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}/{commandId}"),
+			Url = new($"{Channels}/{applicationId}/{Commands}/{commandId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
@@ -157,7 +157,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}/{commandId}"),
+			Url = new($"{Channels}/{applicationId}/{Commands}/{commandId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -183,7 +183,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Commands}"),
+			Url = new($"{Channels}/{applicationId}/{Commands}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Put,
 			Context = new()
@@ -208,7 +208,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		Boolean? withLocalizations = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}");
+		QueryBuilder builder = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}");
 		_ = builder.AddParameter("with_localizations", withLocalizations.ToString());
 
 		IRestRequest request = new RestRequest
@@ -241,7 +241,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
+			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Context = new()
@@ -269,7 +269,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
+			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -297,7 +297,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
+			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
@@ -325,7 +325,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
+			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -352,7 +352,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
+			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
@@ -379,7 +379,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{Permissions}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{Permissions}"),
+			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{Permissions}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -406,7 +406,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}/{Permissions}",
-			Url = new($"{BaseUri}/{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}/{Permissions}"),
+			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}/{Permissions}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -435,7 +435,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
-				Url = new($"{BaseUri}/{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
+				Url = new($"{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
 				Method = HttpMethodEnum.Post,
 				Payload = JsonSerializer.Serialize(payload),
 				Context = new()
@@ -449,7 +449,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
-				Url = new($"{BaseUri}/{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
+				Url = new($"{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload),
@@ -480,7 +480,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-			Url = new($"{BaseUri}/{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -509,7 +509,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-				Url = new($"{BaseUri}/{AppId}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+				Url = new($"{AppId}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Method = HttpMethodEnum.Post,
 				Payload = JsonSerializer.Serialize(payload),
 				Context = new()
@@ -523,7 +523,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+				Url = new($"{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload),
@@ -554,7 +554,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-			Url = new($"{BaseUri}/{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -583,7 +583,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
-				Url = new($"{BaseUri}/{AppId}/{applicationId}/{interactionToken}"),
+				Url = new($"{AppId}/{applicationId}/{interactionToken}"),
 				Method = HttpMethodEnum.Post,
 				Payload = JsonSerializer.Serialize(payload),
 				Context = new()
@@ -597,7 +597,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
-				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}"),
+				Url = new($"{Interactions}/{applicationId}/{interactionToken}"),
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload),
@@ -629,7 +629,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-			Url = new($"{BaseUri}/{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -659,7 +659,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-				Url = new($"{BaseUri}/{AppId}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+				Url = new($"{AppId}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
 				Method = HttpMethodEnum.Post,
 				Payload = JsonSerializer.Serialize(payload),
 				Context = new()
@@ -673,7 +673,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-				Url = new($"{BaseUri}/{Interactions}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+				Url = new($"{Interactions}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload),
@@ -705,7 +705,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-			Url = new($"{BaseUri}/{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{

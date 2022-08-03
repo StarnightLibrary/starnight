@@ -36,7 +36,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 		Boolean? withUserCount = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{ScheduledEvents}");
 
 		_ = builder.AddParameter("with_user_count", withUserCount.ToString());
 
@@ -99,7 +99,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 		Boolean? withUserCount = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}");
 
 		_ = builder.AddParameter("with_user_count", withUserCount.ToString());
 
@@ -134,7 +134,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
+			Url = new($"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
@@ -166,7 +166,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
+			Url = new($"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -193,7 +193,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 		Int64? after = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{ScheduledEvents}/{eventId}/{Users}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}/{Users}");
 
 		_ = builder.AddParameter("limit", limit.ToString())
 			.AddParameter("with_member", withMemberObject.ToString())

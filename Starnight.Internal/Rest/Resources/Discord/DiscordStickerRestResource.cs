@@ -40,7 +40,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Stickers}/{StickerId}",
-			Url = new($"{BaseUri}/{Stickers}/{stickerId}"),
+			Url = new($"{Stickers}/{stickerId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -62,7 +62,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StickerPacks}",
-			Url = new($"{BaseUri}/{StickerPacks}"),
+			Url = new($"{StickerPacks}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -87,7 +87,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}"),
+			Url = new($"{Guilds}/{guildId}/{Stickers}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -113,7 +113,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}/{stickerId}"),
+			Url = new($"{Guilds}/{guildId}/{Stickers}/{stickerId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -149,7 +149,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		IRestRequest request = new MultipartRestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}"),
+			Url = new($"{Guilds}/{guildId}/{Stickers}"),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
 			{
@@ -189,7 +189,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}/{stickerId}"),
+			Url = new($"{Guilds}/{guildId}/{Stickers}/{stickerId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
@@ -222,7 +222,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Stickers}/{stickerId}"),
+			Url = new($"{Guilds}/{guildId}/{Stickers}/{stickerId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{

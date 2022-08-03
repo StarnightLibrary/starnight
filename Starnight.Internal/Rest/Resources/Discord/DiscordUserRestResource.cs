@@ -37,7 +37,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}",
-			Url = new($"{BaseUri}/{Users}/{Me}"),
+			Url = new($"{Users}/{Me}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -62,7 +62,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{UserId}",
-			Url = new($"{BaseUri}/{Users}/{userId}"),
+			Url = new($"{Users}/{userId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -87,7 +87,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}",
-			Url = new($"{BaseUri}/{Users}/{Me}"),
+			Url = new($"{Users}/{Me}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -111,7 +111,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		Int32? limit = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Users}/{Me}/{Guilds}");
+		QueryBuilder builder = new($"{Users}/{Me}/{Guilds}");
 
 		_ = builder.AddParameter("before", before?.ToString())
 			.AddParameter("after", after?.ToString())
@@ -145,7 +145,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}/{Member}",
-			Url = new($"{BaseUri}/{Users}/{Me}/{Guilds}/{guildId}/{Member}"),
+			Url = new($"{Users}/{Me}/{Guilds}/{guildId}/{Member}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -170,7 +170,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}",
-			Url = new($"{BaseUri}/{Users}/{Me}/{Guilds}/{guildId}"),
+			Url = new($"{Users}/{Me}/{Guilds}/{guildId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -195,7 +195,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Channels}",
-			Url = new($"{BaseUri}/{Users}/{Me}/{Channels}"),
+			Url = new($"{Users}/{Me}/{Channels}"),
 			Method = HttpMethodEnum.Post,
 			Payload =
 			$$"""
@@ -221,7 +221,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Connections}",
-			Url = new($"{BaseUri}/{Users}/{Me}/{Connections}"),
+			Url = new($"{Users}/{Me}/{Connections}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{

@@ -40,7 +40,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		Boolean? withCounts = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}");
 
 		_ = builder.AddParameter("with_counts", withCounts.ToString());
 
@@ -72,7 +72,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Preview}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Preview}"),
+			Url = new($"{Guilds}/{guildId}/{Preview}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -99,7 +99,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}"),
+			Url = new($"{Guilds}/{guildId}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason is not null ? new()
@@ -130,7 +130,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}"),
+			Url = new($"{Guilds}/{guildId}"),
 			Method = HttpMethodEnum.Delete,
 			Context = new()
 			{
@@ -155,7 +155,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Channels}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Channels}"),
+			Url = new($"{Guilds}/{guildId}/{Channels}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -182,7 +182,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Channels}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Channels}"),
+			Url = new($"{Guilds}/{guildId}/{Channels}"),
 			Method = HttpMethodEnum.Post,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason is not null ? new()
@@ -214,7 +214,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Channels}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Channels}"),
+			Url = new($"{Guilds}/{guildId}/{Channels}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
 			Context = new()
@@ -240,7 +240,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Threads}/{Active}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Threads}/{Active}"),
+			Url = new($"{Guilds}/{guildId}/{Threads}/{Active}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -266,7 +266,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -290,7 +290,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		Int64? afterUserId = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Members}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{Members}");
 
 		_ = builder.AddParameter("limit", limit.ToString())
 			.AddParameter("after", afterUserId.ToString());
@@ -322,7 +322,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		Int32? limit = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Members}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{Members}");
 
 		_ = builder.AddParameter("query", query)
 			.AddParameter("limit", limit.ToString());
@@ -357,7 +357,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Put,
 			Payload = JsonSerializer.Serialize(payload),
 			Context = new()
@@ -388,7 +388,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Patch,
 			Payload = JsonSerializer.Serialize(payload),
 			Headers = reason is not null ? new()
@@ -421,7 +421,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{Me}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{Me}"),
+			Url = new($"{Guilds}/{guildId}/{Members}/{Me}"),
 			Method = HttpMethodEnum.Patch,
 			Payload =
 			$$"""
@@ -458,7 +458,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
+			Url = new($"{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Method = HttpMethodEnum.Put,
 			Headers = reason is not null ? new()
 			{
@@ -491,7 +491,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
+			Url = new($"{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{
@@ -523,7 +523,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Members}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{
@@ -553,7 +553,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}"),
+			Url = new($"{Guilds}/{guildId}/{Bans}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -579,7 +579,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{Bans}/{userId}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -607,7 +607,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{Bans}/{userId}"),
 			Method = HttpMethodEnum.Put,
 			Payload =
 			$$"""
@@ -641,7 +641,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Bans}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{Bans}/{userId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{
@@ -671,7 +671,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
+			Url = new($"{Guilds}/{guildId}/{Roles}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -698,7 +698,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
+			Url = new($"{Guilds}/{guildId}/{Roles}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
@@ -731,7 +731,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}"),
+			Url = new($"{Guilds}/{guildId}/{Roles}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
@@ -765,7 +765,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
+			Url = new($"{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
@@ -798,7 +798,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Roles}/{roleId}"),
+			Url = new($"{Guilds}/{guildId}/{Roles}/{roleId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{
@@ -827,7 +827,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		String? roles = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{Prune}");
 
 		_ = builder.AddParameter("days", days.ToString())
 			.AddParameter("include_roles", roles);
@@ -865,7 +865,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		String? reason = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{Prune}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{Prune}");
 
 		_ = builder.AddParameter("days", days.ToString())
 			.AddParameter("include_roles", roles)
@@ -909,7 +909,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Voice}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Voice}"),
+			Url = new($"{Guilds}/{guildId}/{Voice}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -934,7 +934,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Invites}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Invites}"),
+			Url = new($"{Guilds}/{guildId}/{Invites}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -959,7 +959,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Integrations}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}"),
+			Url = new($"{Guilds}/{guildId}/{Integrations}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -986,7 +986,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Integrations}/{IntegrationId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Integrations}/{integrationId}"),
+			Url = new($"{Guilds}/{guildId}/{Integrations}/{integrationId}"),
 			Method = HttpMethodEnum.Delete,
 			Headers = reason is not null ? new()
 			{
@@ -1016,7 +1016,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Widget}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
+			Url = new($"{Guilds}/{guildId}/{Widget}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1043,7 +1043,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Widget}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{Widget}"),
+			Url = new($"{Guilds}/{guildId}/{Widget}"),
 			Payload = JsonSerializer.Serialize(settings),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
@@ -1074,7 +1074,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{WidgetJson}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetJson}"),
+			Url = new($"{Guilds}/{guildId}/{WidgetJson}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1099,7 +1099,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{VanityUrl}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VanityUrl}"),
+			Url = new($"{Guilds}/{guildId}/{VanityUrl}"),
 			Method = HttpMethodEnum.Get,
 			Context = new()
 			{
@@ -1122,7 +1122,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		String? style = null
 	)
 	{
-		QueryBuilder builder = new($"{BaseUri}/{Guilds}/{guildId}/{WidgetPng}");
+		QueryBuilder builder = new($"{Guilds}/{guildId}/{WidgetPng}");
 
 		_ = builder.AddParameter("style", style);
 
@@ -1155,7 +1155,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{Me}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{Me}"),
+			Url = new($"{Guilds}/{guildId}/{VoiceStates}/{Me}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
@@ -1183,7 +1183,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{UserId}",
-			Url = new($"{BaseUri}/{Guilds}/{guildId}/{VoiceStates}/{userId}"),
+			Url = new($"{Guilds}/{guildId}/{VoiceStates}/{userId}"),
 			Payload = JsonSerializer.Serialize(payload),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
