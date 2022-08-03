@@ -86,4 +86,9 @@ public interface IDiscordUserRestResource
 	(
 		Int64 recipientId
 	);
+
+	/// <summary>
+	/// Returns a list of connection objects for the current user.
+	/// </summary>
+	public ValueTask<IEnumerable<DiscordUserConnection>> GetUserConnectionsAsync();
 }

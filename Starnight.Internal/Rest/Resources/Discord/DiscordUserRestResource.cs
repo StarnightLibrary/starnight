@@ -214,4 +214,26 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
 	}
+
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordUserConnection>> GetUserConnectionsAsync()
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Users}/{Me}/{Connections}",
+			Url = new($"{BaseUri}/{Users}/{Me}/{Connections}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Users}/{Me}/{Connections}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordUserConnection>>(await response.Content.ReadAsStringAsync())!;
+	}
 }
