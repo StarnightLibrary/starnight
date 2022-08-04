@@ -17,7 +17,8 @@ public static class StarnightConstants
 	public static JsonSerializerOptions DefaultSerializerOptions { get; } = new()
 	{
 		NumberHandling = JsonNumberHandling.AllowReadingFromString,
-		WriteIndented = false
+		WriteIndented = false,
+		TypeInfoResolver = OptionalTypeInfoResolver.Default
 	};
 
 	static StarnightConstants()
