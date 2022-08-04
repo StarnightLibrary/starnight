@@ -38,7 +38,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 		{
 			Path = $"/{StageInstances}",
 			Url = new($"{StageInstances}"),
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
 			{
@@ -56,7 +56,8 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordStageInstance>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -81,7 +82,8 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync());
+		return JsonSerializer.Deserialize<DiscordStageInstance>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions);
 	}
 
 	/// <inheritdoc/>
@@ -96,7 +98,7 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
 			Url = new($"{StageInstances}/{channelId}"),
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -114,7 +116,8 @@ public class DiscordStageInstanceRestResource : AbstractRestResource, IDiscordSt
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordStageInstance>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordStageInstance>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
