@@ -56,7 +56,8 @@ public class DiscordInviteRestResource : AbstractRestResource, IDiscordInviteRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordInvite>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordInvite>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -87,6 +88,7 @@ public class DiscordInviteRestResource : AbstractRestResource, IDiscordInviteRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordInvite>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordInvite>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 }
