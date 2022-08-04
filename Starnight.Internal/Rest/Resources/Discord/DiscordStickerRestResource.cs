@@ -53,7 +53,8 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordSticker>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -75,7 +76,8 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<ListNitroStickerPacksResponsePayload>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<ListNitroStickerPacksResponsePayload>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -100,7 +102,8 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordSticker>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordSticker>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -126,7 +129,8 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordSticker>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -174,7 +178,8 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordSticker>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -190,7 +195,7 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
 			Url = new($"{Guilds}/{guildId}/{Stickers}/{stickerId}"),
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -208,7 +213,8 @@ public class DiscordStickerRestResource : AbstractRestResource, IDiscordStickerR
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordSticker>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordSticker>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
