@@ -56,7 +56,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordScheduledEvent>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordScheduledEvent>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -88,7 +89,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordScheduledEvent>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -119,7 +121,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordScheduledEvent>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -135,7 +138,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
 			Url = new($"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -153,7 +156,8 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordScheduledEvent>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordScheduledEvent>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -216,6 +220,7 @@ public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordS
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordScheduledEventUser>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordScheduledEventUser>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 }
