@@ -1,5 +1,6 @@
 namespace Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Interactions;
@@ -20,4 +21,11 @@ public record CreateInteractionCallbackRequestPayload
 	/// </summary>
 	[JsonPropertyName("data")]
 	public Optional<DiscordInteractionCallbackData> Data { get; init; }
+
+
+	/// <summary>
+	/// Files to be uploaded with this message.
+	/// </summary>
+	[JsonIgnore]
+	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
 }

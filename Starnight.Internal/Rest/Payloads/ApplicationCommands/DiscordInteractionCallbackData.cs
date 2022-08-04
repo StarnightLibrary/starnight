@@ -19,53 +19,47 @@ public record DiscordInteractionCallbackData
 	/// Whether this response is a TTS message.
 	/// </summary>
 	[JsonPropertyName("tts")]
-	public Boolean? TTS { get; init; }
+	public Optional<Boolean> TTS { get; init; }
 
 	/// <summary>
 	/// Response message content.
 	/// </summary>
 	[JsonPropertyName("content")]
-	public String? Content { get; init; }
+	public Optional<String> Content { get; init; }
 
 	/// <summary>
 	/// Up to 10 embeds to be attached to this message.
 	/// </summary>
 	[JsonPropertyName("embeds")]
-	public IEnumerable<DiscordEmbed>? Embeds { get; init; }
+	public Optional<IEnumerable<DiscordEmbed>> Embeds { get; init; }
 
 	/// <summary>
 	/// Controls what mentions should be parsed as such.
 	/// </summary>
 	[JsonPropertyName("allowed_mentions")]
-	public DiscordAllowedMentions? AllowedMentions { get; init; }
+	public Optional<DiscordAllowedMentions> AllowedMentions { get; init; }
 
 	/// <summary>
 	/// Message flags for this interaction response.
 	/// </summary>
 	[JsonPropertyName("flags")]
-	public DiscordMessageFlags? Flags { get; init; }
+	public Optional<DiscordMessageFlags> Flags { get; init; }
 
 	/// <summary>
 	/// Message components to be attached to this interaction response message.
 	/// </summary>
 	[JsonPropertyName("components")]
-	public IEnumerable<AbstractDiscordMessageComponent>? Components { get; init; }
+	public Optional<IEnumerable<AbstractDiscordMessageComponent>> Components { get; init; }
 
 	/// <summary>
 	/// Attachments to be... attached... to this interaction response message.
 	/// </summary>
 	[JsonPropertyName("attachments")]
-	public IEnumerable<DiscordMessageAttachment>? Attachments { get; init; }
-
-	/// <summary>
-	/// Files to be uploaded with this message.
-	/// </summary>
-	[JsonIgnore]
-	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
+	public Optional<IEnumerable<DiscordMessageAttachment>> Attachments { get; init; }
 
 	/// <summary>
 	/// Up to 25 autocomplete choices. Mutually exclusive with all other properties.
 	/// </summary>
 	[JsonPropertyName("choices")]
-	public IEnumerable<DiscordApplicationCommandOptionChoice>? Choices { get; init; }
+	public Optional<IEnumerable<DiscordApplicationCommandOptionChoice>> Choices { get; init; }
 }

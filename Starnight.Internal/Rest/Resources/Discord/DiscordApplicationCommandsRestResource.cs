@@ -442,7 +442,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 		CreateInteractionCallbackRequestPayload payload
 	)
 	{
-		IRestRequest request = payload.Data?.Files == null
+		IRestRequest request = payload.Files == null
 
 			? new RestRequest
 			{
@@ -467,7 +467,7 @@ public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDis
 					["payload_json"] = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 				},
 				Method = HttpMethodEnum.Post,
-				Files = payload.Data.Files.ToList(),
+				Files = payload.Files.ToList(),
 				Context = new()
 				{
 					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
