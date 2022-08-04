@@ -18,7 +18,7 @@ public record ModifyScheduledEventRequestPayload
 	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("channel_id")]
-	public OptionalParameter<Int64>? ChannelId { get; init; }
+	public Optional<Int64>? ChannelId { get; init; }
 
 	/// <summary>
 	/// Represents metadata about the scheduled event.

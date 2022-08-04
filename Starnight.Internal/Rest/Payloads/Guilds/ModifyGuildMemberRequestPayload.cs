@@ -17,7 +17,7 @@ public record ModifyGuildMemberRequestPayload
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("nick")]
 	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
-	public OptionalParameter<String>? Nickname { get; init; }
+	public Optional<String>? Nickname { get; init; }
 
 	/// <summary>
 	/// An array of role IDs to assign.
@@ -55,5 +55,5 @@ public record ModifyGuildMemberRequestPayload
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("communication_disabled_until")]
 	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
-	public OptionalParameter<DateTimeOffset>? CommunicationDisabledUntil { get; init; }
+	public Optional<DateTimeOffset>? CommunicationDisabledUntil { get; init; }
 }

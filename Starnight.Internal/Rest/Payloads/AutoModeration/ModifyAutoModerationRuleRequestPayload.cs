@@ -16,35 +16,35 @@ public record ModifyAutoModerationRuleRequestPayload
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name")]
-	public OptionalParameter<String> Name { get; init; }
+	public Optional<String> Name { get; init; }
 
 	/// <summary>
 	/// The new event type this rule will check on.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("event_type")]
-	public OptionalParameter<DiscordAutoModerationEventType> EventType { get; init; }
+	public Optional<DiscordAutoModerationEventType> EventType { get; init; }
 
 	/// <summary>
 	/// The new trigger metadata.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("trigger_metadata")]
-	public OptionalParameter<DiscordAutoModerationTriggerMetadata> TriggerMetadata { get; init; }
+	public Optional<DiscordAutoModerationTriggerMetadata> TriggerMetadata { get; init; }
 
 	/// <summary>
 	/// The new actions to execute when something triggers this rule.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("actions")]
-	public OptionalParameter<IEnumerable<DiscordAutoModerationAction>> Actions { get; init; }
+	public Optional<IEnumerable<DiscordAutoModerationAction>> Actions { get; init; }
 
 	/// <summary>
 	/// Whether the rule shall be enabled.
 	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("enabled")]
-	public OptionalParameter<Boolean> Enabled { get; init; }
+	public Optional<Boolean> Enabled { get; init; }
 
 	/// <summary>
 	/// The role IDs that should be exempt from this rule.
@@ -54,7 +54,7 @@ public record ModifyAutoModerationRuleRequestPayload
 	/// </remarks>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("exempt_roles")]
-	public OptionalParameter<IEnumerable<Int64>> ExemptRoles { get; init; }
+	public Optional<IEnumerable<Int64>> ExemptRoles { get; init; }
 
 	/// <summary>
 	/// The channel IDs that should be exempt from this rule.
@@ -64,5 +64,5 @@ public record ModifyAutoModerationRuleRequestPayload
 	/// </remarks>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("exempt_channels")]
-	public OptionalParameter<IEnumerable<Int64>> ExemptChannels { get; init; }
+	public Optional<IEnumerable<Int64>> ExemptChannels { get; init; }
 }

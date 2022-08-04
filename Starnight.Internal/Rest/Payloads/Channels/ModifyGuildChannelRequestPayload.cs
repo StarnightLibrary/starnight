@@ -91,7 +91,7 @@ public record ModifyGuildChannelRequestPayload
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
 	[JsonPropertyName("rtc_region")]
-	public OptionalParameter<String>? VoiceChannelRegion { get; init; }
+	public Optional<String>? VoiceChannelRegion { get; init; }
 
 	/// <summary>
 	/// The new camera video quality mode for this channel.

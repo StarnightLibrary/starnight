@@ -27,7 +27,7 @@ public record EditApplicationCommandRequestPayload
 	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name_localizations")]
-	public OptionalParameter<IDictionary<String, String>>? NameLocalizations { get; init; }
+	public Optional<IDictionary<String, String>>? NameLocalizations { get; init; }
 
 	/// <summary>
 	/// The new description for this application command.
@@ -42,7 +42,7 @@ public record EditApplicationCommandRequestPayload
 	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("description_localizations")]
-	public OptionalParameter<IDictionary<String, String>>? DescriptionLocalizations { get; init; }
+	public Optional<IDictionary<String, String>>? DescriptionLocalizations { get; init; }
 
 	/// <summary>
 	/// New options for this application command.
@@ -50,7 +50,7 @@ public record EditApplicationCommandRequestPayload
 	[JsonConverter(typeof(OptionalParameterJsonConverterFactory))]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("options")]
-	public OptionalParameter<IEnumerable<DiscordApplicationCommandOption>>? Options { get; init; }
+	public Optional<IEnumerable<DiscordApplicationCommandOption>>? Options { get; init; }
 
 	/// <summary>
 	/// Default permissions required to execute this command.

@@ -9,7 +9,7 @@ using Starnight.Internal;
 internal class OptionalParameterJsonConverterFactory : JsonConverterFactory
 {
 	public override Boolean CanConvert(Type typeToConvert)
-		=> typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(OptionalParameter<>);
+		=> typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Optional<>);
 
 	public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
 	{

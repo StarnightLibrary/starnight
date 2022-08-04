@@ -6,17 +6,20 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal;
 
-internal class OptionalParameterJsonConverter<TParamType> : JsonConverter<OptionalParameter<TParamType>?>
+internal class OptionalParameterJsonConverter<TParamType> : JsonConverter<Optional<TParamType>?>
 {
-	public override OptionalParameter<TParamType>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-		=> throw new NotImplementedException();
-
-
-	public override void Write(Utf8JsonWriter writer, OptionalParameter<TParamType>? value, JsonSerializerOptions options)
+	public override Optional<TParamType>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
-		if(value is null)
-			JsonSerializer.Serialize(writer, (Int32?)null, options);
-		else
-			JsonSerializer.Serialize(writer, value.Value, options);
+		TParamType value = JsonSerializer.Deserialize<TParamType>(ref reader, options)!;
+		return new Optional<TParamType>(value);
+	}
+
+
+	public override void Write(Utf8JsonWriter writer, Optional<TParamType>? value, JsonSerializerOptions options)
+	{
+		if(value.HasValue)
+		{
+			JsonSerializer.Serialize<TParamType>(writer, value.Value, options);
+		}
 	}
 }
