@@ -50,7 +50,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -64,7 +65,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		{
 			Path = $"/{Guilds}/{Templates}/{TemplateCode}",
 			Url = new($"{Guilds}/{Templates}/{templateCode}"),
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Context = new()
 			{
@@ -77,7 +78,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuild>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordGuild>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -102,7 +104,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildTemplate>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildTemplate>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -116,7 +119,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}",
 			Url = new($"{Guilds}/{guildId}/{Templates}"),
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Context = new()
 			{
@@ -129,7 +132,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -155,7 +159,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -170,7 +175,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
 			Url = new($"{Guilds}/{guildId}/{Templates}/{templateCode}"),
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
 			{
@@ -183,7 +188,8 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -209,6 +215,7 @@ public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGu
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildTemplate>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 }
