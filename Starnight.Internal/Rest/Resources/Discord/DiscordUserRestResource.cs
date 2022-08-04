@@ -50,7 +50,8 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordUser>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -75,7 +76,8 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordUser>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -89,6 +91,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 			Path = $"/{Users}/{Me}",
 			Url = new($"{Users}/{Me}"),
 			Method = HttpMethodEnum.Get,
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}",
@@ -100,7 +103,8 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordUser>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordUser>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -133,7 +137,8 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordGuild>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuild>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -158,7 +163,8 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordGuildMember>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordGuildMember>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -212,7 +218,8 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordChannel>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordChannel>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -234,6 +241,7 @@ public class DiscordUserRestResource : AbstractRestResource, IDiscordUserRestRes
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordUserConnection>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordUserConnection>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 }
