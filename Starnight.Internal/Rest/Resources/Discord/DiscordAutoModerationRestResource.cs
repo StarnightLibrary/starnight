@@ -51,7 +51,8 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<IEnumerable<DiscordAutoModerationRule>>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<IEnumerable<DiscordAutoModerationRule>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -77,7 +78,8 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordAutoModerationRule>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordAutoModerationRule>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -93,7 +95,7 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}"),
 			Method = HttpMethodEnum.Post,
-			Payload = JsonSerializer.Serialize(payload),
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -110,7 +112,8 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordAutoModerationRule>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordAutoModerationRule>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -144,7 +147,8 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
-		return JsonSerializer.Deserialize<DiscordAutoModerationRule>(await response.Content.ReadAsStringAsync())!;
+		return JsonSerializer.Deserialize<DiscordAutoModerationRule>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
