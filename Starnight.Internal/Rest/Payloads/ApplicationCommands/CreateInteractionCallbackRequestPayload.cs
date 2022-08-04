@@ -19,5 +19,5 @@ public record CreateInteractionCallbackRequestPayload
 	/// Optional data for this response.
 	/// </summary>
 	[JsonPropertyName("data")]
-	public DiscordInteractionCallbackData? Data { get; init; }
+	public Optional<DiscordInteractionCallbackData> Data { get; init; }
 }

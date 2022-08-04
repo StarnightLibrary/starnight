@@ -16,7 +16,6 @@ public record CreateApplicationCommandRequestPayload
     /// <summary>
     /// The type of this application command.
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [JsonPropertyName("type")]
     public Optional<DiscordApplicationCommandType> Type { get; init; }
 
@@ -32,7 +31,6 @@ public record CreateApplicationCommandRequestPayload
     /// <remarks>
     /// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
     /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [JsonPropertyName("name_localizations")]
     public Optional<IDictionary<String, String>?> NameLocalizations { get; init; }
 
@@ -48,21 +46,18 @@ public record CreateApplicationCommandRequestPayload
     /// <remarks>
     /// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
     /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [JsonPropertyName("description_localizations")]
     public Optional<IDictionary<String, String>?> DescriptionLocalizations { get; init; }
 
     /// <summary>
     /// The parameters for this command, up to 25.
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [JsonPropertyName("options")]
     public Optional<IEnumerable<DiscordApplicationCommandOption>> Options { get; init; }
 
     /// <summary>
     /// Default permissions required to execute this command.
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [JsonPropertyName("default_member_permission")]
     public Optional<DiscordPermissions?> DefaultMemberPermission { get; init; }
 
