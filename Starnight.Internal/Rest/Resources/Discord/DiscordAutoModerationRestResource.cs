@@ -2,7 +2,7 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -145,5 +145,37 @@ public class DiscordAutoModerationRestResource : AbstractRestResource, IDiscordA
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordAutoModerationRule>(await response.Content.ReadAsStringAsync())!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> DeleteAutoModerationRuleAsync
+	(
+		Int64 guildId,
+		Int64 ruleId,
+		String? reason
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
+			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}"),
+			Method = HttpMethodEnum.Delete,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 }

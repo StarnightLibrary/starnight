@@ -61,4 +61,18 @@ public interface IDiscordAutoModerationRestResource
 		ModifyAutoModerationRuleRequestPayload payload,
 		String? reason
 	);
+
+	/// <summary>
+	/// Deletes an auto moderation rule in the given guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="ruleId">Snowflake identifier of the rule in question.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether deletion was successful</returns>
+	public ValueTask<Boolean> DeleteAutoModerationRuleAsync
+	(
+		Int64 guildId,
+		Int64 ruleId,
+		String? reason
+	);
 }
