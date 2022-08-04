@@ -14,35 +14,30 @@ public record ModifyAutoModerationRuleRequestPayload
 	/// <summary>
 	/// The new rule name.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name")]
 	public Optional<String> Name { get; init; }
 
 	/// <summary>
 	/// The new event type this rule will check on.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("event_type")]
 	public Optional<DiscordAutoModerationEventType> EventType { get; init; }
 
 	/// <summary>
 	/// The new trigger metadata.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("trigger_metadata")]
 	public Optional<DiscordAutoModerationTriggerMetadata> TriggerMetadata { get; init; }
 
 	/// <summary>
 	/// The new actions to execute when something triggers this rule.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("actions")]
 	public Optional<IEnumerable<DiscordAutoModerationAction>> Actions { get; init; }
 
 	/// <summary>
 	/// Whether the rule shall be enabled.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("enabled")]
 	public Optional<Boolean> Enabled { get; init; }
 
@@ -52,7 +47,6 @@ public record ModifyAutoModerationRuleRequestPayload
 	/// <remarks>
 	/// If you wish to retain any previously exempted role IDs they have to be passed here as well.
 	/// </remarks>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("exempt_roles")]
 	public Optional<IEnumerable<Int64>> ExemptRoles { get; init; }
 
@@ -62,7 +56,6 @@ public record ModifyAutoModerationRuleRequestPayload
 	/// <remarks>
 	/// If you wish to retain any previously exempted channel IDs they have to be passed here as well.
 	/// </remarks>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("exempt_channels")]
 	public Optional<IEnumerable<Int64>> ExemptChannels { get; init; }
 }

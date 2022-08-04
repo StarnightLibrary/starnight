@@ -32,9 +32,8 @@ public record CreateAutoModerationRuleRequestPayload
 	/// <summary>
 	/// Optional trigger metadata for this rule.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("trigger_metadata")]
-	public DiscordAutoModerationTriggerMetadata? Metadata { get; init; }
+	public Optional<DiscordAutoModerationTriggerMetadata> Metadata { get; init; }
 
 	/// <summary>
 	/// Actions to be executed when the rule is triggered.
@@ -45,21 +44,18 @@ public record CreateAutoModerationRuleRequestPayload
 	/// <summary>
 	/// Specifies whether or not the rule is disabled.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("enabled")]
-	public Boolean? Enabled { get; init; }
+	public Optional<Boolean> Enabled { get; init; }
 
 	/// <summary>
 	/// List of up to 20 role IDs that shall not be affected by this rule.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("exempt_roles")]
-	public IEnumerable<Int64>? ExemptRoles { get; init; }
+    public Optional<IEnumerable<Int64>> ExemptRoles { get; init; }
 
 	/// <summary>
 	/// List of up to 20 channel IDs that shall not be affected by this rule.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("exempt_channels")]
-	public IEnumerable<Int64>? ExemptChannels { get; init; }
+    public Optional<IEnumerable<Int64>> ExemptChannels { get; init; }
 }
