@@ -24,8 +24,6 @@ public record CreateGuildEmojiRequestPayload
 	/// <summary>
 	/// Array of snowflakes allowed to use this emoji.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("roles")]
-	public IEnumerable<Int64>? Roles { get; init; }
+	public Optional<IEnumerable<Int64>> Roles { get; init; }
 }

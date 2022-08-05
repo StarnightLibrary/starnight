@@ -12,15 +12,12 @@ public record ModifyGuildEmojiRequestPayload
 	/// <summary>
 	/// New name of this emoji.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name")]
-	public String? Name { get; init; }
+	public Optional<String> Name { get; init; }
 
 	/// <summary>
 	/// New array of snowflakes allowed to use this emoji.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("roles")]
-	public IEnumerable<Int64>? Roles { get; init; }
+	public Optional<IEnumerable<Int64>?> Roles { get; init; }
 }
