@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.Channels;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -31,4 +32,10 @@ public record StartThreadInForumChannelRequestPayload
 	/// </summary>
 	[JsonPropertyName("rate_limit_per_user")]
 	public Optional<Int32?> Slowmode { get; init; }
+
+	/// <summary>
+	/// Files to be attached to this message.
+	/// </summary>
+	[JsonIgnore]
+	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
 }

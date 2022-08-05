@@ -50,12 +50,6 @@ public sealed record ForumThreadMessageParameters
 	public Optional<IEnumerable<Int64>> StickerIds { get; init; }
 
 	/// <summary>
-	/// Files to be attached to this message.
-	/// </summary>
-	[JsonIgnore]
-	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
-
-	/// <summary>
 	/// Attachment metadata for this message.
 	/// </summary>
 	[JsonPropertyName("attachments")]
