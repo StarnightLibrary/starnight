@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Messages.Embeds;
 /// <summary>
 /// Represents a payload to POST /webhooks/:application_id/:interaction_token
 /// </summary>
-public record CreateFollowupMessageRequestPayload
+public sealed record CreateFollowupMessageRequestPayload
 {
     /// <summary>
     /// Represents the message content.

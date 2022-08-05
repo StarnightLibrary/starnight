@@ -8,12 +8,11 @@ using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Entities.Interactions.Components;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Messages.Embeds;
-using Starnight.Internal.Rest.Payloads;
 
 /// <summary>
 /// Represents the response body of a <see cref="CreateInteractionCallbackRequestPayload"/>
 /// </summary>
-public record DiscordInteractionCallbackData
+public sealed record DiscordInteractionCallbackData
 {
 	/// <summary>
 	/// Whether this response is a TTS message.

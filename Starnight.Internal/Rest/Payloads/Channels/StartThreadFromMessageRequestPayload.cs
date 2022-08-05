@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a payload to POST /channels/:channel_id/messages/:message_id/threads
 /// </summary>
-public record StartThreadFromMessageRequestPayload
+public sealed record StartThreadFromMessageRequestPayload
 {
 	/// <summary>
 	/// 1-100 characters, channel name for this thread.

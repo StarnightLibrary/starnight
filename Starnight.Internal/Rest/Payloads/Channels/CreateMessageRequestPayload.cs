@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Messages.Embeds;
 /// <summary>
 /// Represents a request payload to POST /channels/:channel_id/messages.
 /// </summary>
-public record CreateMessageRequestPayload
+public sealed record CreateMessageRequestPayload
 {
     /// <summary>
     /// Represents the message content.

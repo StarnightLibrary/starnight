@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Represents a payload to PATCH /channels/:channel_id, where the channel ID points to a guild channel.
 /// </summary>
-public record ModifyGuildChannelRequestPayload
+public sealed record ModifyGuildChannelRequestPayload
 {
 	/// <summary>
 	/// New channel name.

@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Messages.Embeds;
 /// <summary>
 /// Represents a payload to PATCH /channels/:channel_id/messages/:message_id
 /// </summary>
-public record EditMessageRequestPayload
+public sealed record EditMessageRequestPayload
 {
 	/// <summary>
 	/// New string content of the message, up to 2000 characters.

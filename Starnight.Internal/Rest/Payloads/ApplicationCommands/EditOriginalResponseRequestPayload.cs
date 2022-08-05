@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Messages.Embeds;
 /// <summary>
 /// Represents a payload to PATCH /webhooks/:application_id/:interaction_token/messages/@original
 /// </summary>
-public record EditOriginalResponseRequestPayload
+public sealed record EditOriginalResponseRequestPayload
 {
 	/// <summary>
 	/// Response message content.

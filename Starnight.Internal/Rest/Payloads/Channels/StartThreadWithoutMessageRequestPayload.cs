@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Represents a payload to POST /channels/:channel_id/threads
 /// </summary>
-public record StartThreadWithoutMessageRequestPayload
+public sealed record StartThreadWithoutMessageRequestPayload
 {
 	/// <summary>
 	/// 1-100 characters, channel name for this thread.

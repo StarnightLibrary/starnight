@@ -9,7 +9,7 @@ using Starnight.Internal.Entities.Guilds.AutoModeration;
 /// <summary>
 /// Represents a request payload to PATCH /guilds/:guild_id/auto-moderation/rules/:auto_moderation_rule_id.
 /// </summary>
-public record ModifyAutoModerationRuleRequestPayload
+public sealed record ModifyAutoModerationRuleRequestPayload
 {
 	/// <summary>
 	/// The new rule name.

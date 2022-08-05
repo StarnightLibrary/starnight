@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Guilds.Invites;
 /// <summary>
 /// Represents a payload to POST /channels/:channel_id/invites
 /// </summary>
-public record CreateChannelInviteRequestPayload
+public sealed record CreateChannelInviteRequestPayload
 {
 	/// <summary>
 	/// Specifies the expiry time for this invite. Setting it to 0 means the invite never expires.

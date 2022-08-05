@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a payload to PATCH /channels/:channel_id, where the channel ID points to a group DM.
 /// </summary>
-public record ModifyGroupDMRequestPayload
+public sealed record ModifyGroupDMRequestPayload
 {
 	/// <summary>
 	/// The new name for this channel.

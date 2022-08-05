@@ -4,15 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal;
-using Starnight.Internal.Converters;
 using Starnight.Internal.Entities;
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 
 /// <summary>
 /// Represents a payload to PATCH /applications/:app_id/commands/:command_id
 /// </summary>
-public record EditApplicationCommandRequestPayload
+public sealed record EditApplicationCommandRequestPayload
 {
 	/// <summary>
 	/// The new name for this application command.

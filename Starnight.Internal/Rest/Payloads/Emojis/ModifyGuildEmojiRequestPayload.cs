@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a payload to PATCH /guilds/:guild_id/emojis/:emoji_id
 /// </summary>
-public record ModifyGuildEmojiRequestPayload
+public sealed record ModifyGuildEmojiRequestPayload
 {
 	/// <summary>
 	/// New name of this emoji.

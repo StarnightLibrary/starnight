@@ -9,7 +9,7 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Represents a payload to PUT /channels/:channel_id/permissions/:overwrite_id.
 /// </summary>
-public record EditChannelPermissionsRequestPayload
+public sealed record EditChannelPermissionsRequestPayload
 {
 	/// <summary>
 	/// Overwrite type - either role or member.

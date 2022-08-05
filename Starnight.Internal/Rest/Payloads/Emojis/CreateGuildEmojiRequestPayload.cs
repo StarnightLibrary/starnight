@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a payload to POST /guilds/:guild_id/emojis.
 /// </summary>
-public record CreateGuildEmojiRequestPayload
+public sealed record CreateGuildEmojiRequestPayload
 {
 	/// <summary>
 	/// Name of this emoji.

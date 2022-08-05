@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a payload to PUT /channel/:channel_id/recipients/:user_id.
 /// </summary>
-public record AddGroupDMRecipientRequestPayload
+public sealed record AddGroupDMRecipientRequestPayload
 {
 	/// <summary>
 	/// Access token of the user, which must have granted you the <c>gdm.join</c> oauth scope.

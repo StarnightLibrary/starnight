@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a payload to POST /channels/:channel_id/threads on a forum channel.
 /// </summary>
-public record StartThreadInForumChannelRequestPayload
+public sealed record StartThreadInForumChannelRequestPayload
 {
 	/// <summary>
 	/// Contents of the first message in this forum thread.

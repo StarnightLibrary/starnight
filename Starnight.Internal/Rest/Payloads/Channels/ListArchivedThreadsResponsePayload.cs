@@ -13,7 +13,7 @@ using Starnight.Internal.Entities.Channels.Threads;
 /// GET /channels/:channel_id/threads/archived/private and <br/>
 /// GET /channels/:channel_id/users/@me/threads/archived/private.
 /// </summary>
-public record ListArchivedThreadsResponsePayload
+public sealed record ListArchivedThreadsResponsePayload
 {
 	/// <summary>
 	/// Thread channels included in this response.
