@@ -17,14 +17,12 @@ public record StartThreadFromMessageRequestPayload
 	/// <summary>
 	/// Auto archive duration for this thread in minutes.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("auto_archive_duration")]
-	public Int32? AutoArchiveDuration { get; init; }
+	public Optional<Int32> AutoArchiveDuration { get; init; }
 
 	/// <summary>
 	/// Slowmode for users in seconds.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("rate_limit_per_user")]
-	public Int32? Slowmode { get; init; }
+	public Optional<Int32?> Slowmode { get; init; }
 }

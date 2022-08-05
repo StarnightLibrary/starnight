@@ -11,14 +11,12 @@ public record ModifyGroupDMRequestPayload
 	/// <summary>
 	/// The new name for this channel.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name")]
-	public String? Name { get; init; }
+	public Optional<String?> Name { get; init; }
 
 	/// <summary>
 	/// The new icon for this channel, as read from a png file. This cannot be base64-encoded.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("icon")]
-	public Byte[]? Icon { get; init; }
+	public Optional<Byte[]?> Icon { get; init; }
 }

@@ -19,27 +19,26 @@ public record StartThreadWithoutMessageRequestPayload
 	/// <summary>
 	/// Auto archive duration for this thread in minutes.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("auto_archive_duration")]
-	public Int32? AutoArchiveDuration { get; init; }
+	public Optional<Int32> AutoArchiveDuration { get; init; }
 
 	/// <summary>
 	/// Slowmode for users in seconds.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("rate_limit_per_user")]
-	public Int32? Slowmode { get; init; }
+	public Optional<Int32?> Slowmode { get; init; }
 
 	/// <summary>
 	/// The type of thread to be created.
 	/// </summary>
+	// This field is currently technically optional as per API spec, but this behaviour is slated for removal in the future.
+	// Therefore, it is kept as a required field here.
 	[JsonPropertyName("type")]
 	public DiscordChannelType ThreadType { get; init; }
 
 	/// <summary>
 	/// Indicates whether non-moderators can add members to this private thread.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("invitable")]
-	public Boolean? Invitable { get; init; }
+	public Optional<Boolean> Invitable { get; init; }
 }

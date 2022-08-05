@@ -1,14 +1,16 @@
-namespace Starnight.Internal;
+namespace Starnight;
 
 using System;
 using System.Collections.Generic;
+
+using Starnight.Internal;
 
 /// <summary>
 /// Represents an optional value - that is, a value that may either be present or not be present.
 /// <see langword="null"/> is a valid presence.
 /// </summary>
 /// <typeparam name="T">Any parameter type.</typeparam>
-public struct Optional<T>
+public struct Optional<T> : IOptional
 {
 	/// <summary>
 	/// Gets an empty <see cref="Optional{T}"/>, with no provided value and indicating that no value will be provided.
@@ -43,7 +45,7 @@ public struct Optional<T>
 	public static implicit operator T(Optional<T> parameter)
 		=> parameter.Value;
 
-	public static explicit operator Optional<T>(T value)
+	public static implicit operator Optional<T>(T value)
 		=> new() { Value = value, HasValue = true };
 
 	public Optional(T value)
