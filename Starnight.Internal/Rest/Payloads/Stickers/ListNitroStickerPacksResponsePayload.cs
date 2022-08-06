@@ -8,11 +8,11 @@ using Starnight.Internal.Entities.Stickers;
 /// <summary>
 /// Represents a response payload from GET /sticker-packs.
 /// </summary>
-public record ListNitroStickerPacksResponsePayload
+public sealed record ListNitroStickerPacksResponsePayload
 {
 	/// <summary>
 	/// The list of sticker packs available to nitro subscribers.
 	/// </summary>
 	[JsonPropertyName("sticker_packs")]
-	public IEnumerable<DiscordStickerPack> Packs { get; init; } = null!;
+	public required IEnumerable<DiscordStickerPack> Packs { get; init; }
 }
