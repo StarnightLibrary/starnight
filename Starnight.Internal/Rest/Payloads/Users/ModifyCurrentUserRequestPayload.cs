@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a request payload to PATCH /users/@me.
 /// </summary>
-public record ModifyCurrentUserRequestPayload
+public sealed record ModifyCurrentUserRequestPayload
 {
 	/// <summary>
 	/// The new username for this user.
@@ -14,14 +14,12 @@ public record ModifyCurrentUserRequestPayload
 	/// <remarks>
 	/// Changing the username may cause the user's discriminator to be randomized.
 	/// </remarks>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("username")]
-	public String? Username { get; init; }
+	public Optional<String> Username { get; init; }
 
 	/// <summary>
 	/// Image data string representing the user's avatar.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("avatar")]
-	public String? Avatar { get; init; }
+	public Optional<String?> Avatar { get; init; }
 }
