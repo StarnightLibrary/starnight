@@ -21,7 +21,8 @@ using static Starnight.Internal.DiscordApiConstants;
 using HttpMethodEnum = HttpMethod;
 
 /// <inheritdoc cref="IDiscordChannelRestResource"/>
-public class DiscordChannelRestResource : AbstractRestResource, IDiscordChannelRestResource
+public sealed class DiscordChannelRestResource
+	: AbstractRestResource, IDiscordChannelRestResource
 {
 	private readonly RestClient __rest_client;
 

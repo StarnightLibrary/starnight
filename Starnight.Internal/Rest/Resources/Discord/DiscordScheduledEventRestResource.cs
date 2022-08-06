@@ -16,7 +16,8 @@ using static DiscordApiConstants;
 using HttpMethodEnum = HttpMethod;
 
 /// <inheritdoc cref="IDiscordScheduledEventRestResource"/>
-public class DiscordScheduledEventRestResource : AbstractRestResource, IDiscordScheduledEventRestResource
+public sealed class DiscordScheduledEventRestResource
+	: AbstractRestResource, IDiscordScheduledEventRestResource
 {
 	private readonly RestClient __rest_client;
 

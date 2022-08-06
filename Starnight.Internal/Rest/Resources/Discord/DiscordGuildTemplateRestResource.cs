@@ -15,7 +15,8 @@ using static DiscordApiConstants;
 using HttpMethodEnum = HttpMethod;
 
 /// <inheritdoc cref="IDiscordGuildTemplateRestResource"/>
-public class DiscordGuildTemplateRestResource : AbstractRestResource, IDiscordGuildTemplateRestResource
+public sealed class DiscordGuildTemplateRestResource
+	: AbstractRestResource, IDiscordGuildTemplateRestResource
 {
 	private readonly RestClient __rest_client;
 

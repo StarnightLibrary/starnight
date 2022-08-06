@@ -2,7 +2,8 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 
 using Starnight.Caching.Abstractions;
 
-public class TemplateRestResource : AbstractRestResource
+public sealed class TemplateRestResource
+	: AbstractRestResource
 {
 	private readonly RestClient __rest_client;
 

@@ -16,7 +16,8 @@ using static DiscordApiConstants;
 using HttpMethodEnum = HttpMethod;
 
 /// <inheritdoc cref="IDiscordEmojiRestResource"/>
-public class DiscordEmojiRestResource : AbstractRestResource, IDiscordEmojiRestResource
+public sealed class DiscordEmojiRestResource
+	: AbstractRestResource, IDiscordEmojiRestResource
 {
 	private readonly RestClient __rest_client;
 

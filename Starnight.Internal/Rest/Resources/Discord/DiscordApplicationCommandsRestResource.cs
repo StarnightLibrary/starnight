@@ -18,7 +18,8 @@ using static Starnight.Internal.DiscordApiConstants;
 using HttpMethodEnum = HttpMethod;
 
 /// <inheritdoc cref="IDiscordApplicationCommandsRestResource"/>
-public class DiscordApplicationCommandsRestResource : AbstractRestResource, IDiscordApplicationCommandsRestResource
+public sealed class DiscordApplicationCommandsRestResource
+	: AbstractRestResource, IDiscordApplicationCommandsRestResource
 {
 	private readonly RestClient __rest_client;
 
