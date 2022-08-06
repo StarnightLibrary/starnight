@@ -390,11 +390,12 @@ public class MemoryCacheService : ICacheService
 			.Select(xm => new
 			{
 				Method = xm,
-				Parameters = xm.GetParameters()
+				Parameters = xm.GetParameters(),
+				GenericArguments = xm.GetGenericArguments()
 			})
 			.FirstOrDefault(xm =>
 				xm.Parameters.Length == 2 &&
-				xm.Method.GetGenericArguments().Length == 1
+				xm.GenericArguments.Length == 1
 			)
 			?.Method;
 
@@ -429,11 +430,12 @@ public class MemoryCacheService : ICacheService
 			.Select(xm => new
 			{
 				Method = xm,
-				Parameters = xm.GetParameters()
+				Parameters = xm.GetParameters(),
+				GenericArguments = xm.GetGenericArguments()
 			})
 			.FirstOrDefault(xm =>
 				xm.Parameters.Length == 2 &&
-				xm.Method.GetGenericArguments().Length == 1
+				xm.GenericArguments.Length == 1
 			)
 			?.Method;
 
