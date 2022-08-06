@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 /// <summary>
@@ -9,6 +10,7 @@ using System.IO;
 public record struct DiscordAttachmentFile
 {
 	/// <inheritdoc/>
+	[SetsRequiredMembers]
 	public DiscordAttachmentFile(Stream stream, String? filename, String? contentType)
 	{
 		this.FileStream = stream;
@@ -19,12 +21,12 @@ public record struct DiscordAttachmentFile
 	/// <summary>
 	/// A stream to the file.
 	/// </summary>
-	public Stream FileStream { get; set; }
+	public required Stream FileStream { get; set; }
 
 	/// <summary>
 	/// The file name as sent to Discord.
 	/// </summary>
-	public String Filename { get; set; }
+	public required String Filename { get; set; }
 
 	/// <summary>
 	/// Semi-optional content type for Discord.
