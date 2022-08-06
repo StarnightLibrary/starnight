@@ -15,8 +15,7 @@ public record DiscordSnowflakeObject : IConvertible, IEquatable<DiscordSnowflake
 	/// Snowflake Identifier of this object.
 	/// </summary>
 	[JsonPropertyName("id")]
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-	public Int64 Id { get; init; }
+	public required Int64 Id { get; init; }
 
 	/// <summary>
 	/// Creation date of this object.
