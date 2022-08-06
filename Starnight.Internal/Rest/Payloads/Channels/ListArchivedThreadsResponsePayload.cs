@@ -19,13 +19,13 @@ public sealed record ListArchivedThreadsResponsePayload
 	/// Thread channels included in this response.
 	/// </summary>
 	[JsonPropertyName("threads")]
-	public IEnumerable<DiscordChannel> Threads { get; init; } = null!;
+	public required IEnumerable<DiscordChannel> Threads { get; init; }
 
 	/// <summary>
 	/// Thread member objects for these respective threads.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public IEnumerable<DiscordThreadMember> ThreadMembers { get; init; } = null!;
+	public required IEnumerable<DiscordThreadMember> ThreadMembers { get; init; }
 
 	/// <summary>
 	/// Indicates whether the returned list is exhaustive; whether subsequent calls could return more data.
@@ -34,5 +34,5 @@ public sealed record ListArchivedThreadsResponsePayload
 	/// This being set to true does not guarantee additional data may be included.
 	/// </remarks>
 	[JsonPropertyName("has_more")]
-	public Boolean HasMore { get; init; }
+	public required Boolean HasMore { get; init; }
 }

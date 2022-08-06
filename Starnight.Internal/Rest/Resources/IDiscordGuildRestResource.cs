@@ -308,7 +308,7 @@ public interface IDiscordGuildRestResource
 	public ValueTask<DiscordRole> CreateRoleAsync
 	(
 		Int64 guildId,
-		RoleMetadataRequestPayload payload,
+		CreateGuildRoleRequestPayload payload,
 		String? reason
 	);
 
@@ -338,7 +338,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		Int64 roleId,
-		RoleMetadataRequestPayload payload,
+		ModifyGuildRoleRequestPayload payload,
 		String? reason
 	);
 

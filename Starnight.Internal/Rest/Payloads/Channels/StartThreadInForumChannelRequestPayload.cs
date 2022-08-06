@@ -13,13 +13,13 @@ public sealed record StartThreadInForumChannelRequestPayload
 	/// Contents of the first message in this forum thread.
 	/// </summary>
 	[JsonPropertyName("message")]
-	public ForumThreadMessageParameters Message { get; init; } = null!;
+	public required ForumThreadMessageParameters Message { get; init; }
 
 	/// <summary>
 	/// 1-100 characters, channel name for this thread.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Auto archive duration for this thread in minutes.

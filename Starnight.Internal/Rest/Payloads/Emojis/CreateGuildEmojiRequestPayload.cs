@@ -13,13 +13,13 @@ public sealed record CreateGuildEmojiRequestPayload
 	/// Name of this emoji.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Image data for this emoji.
 	/// </summary>
 	[JsonPropertyName("image")]
-	public String ImageData { get; init; } = null!;
+	public required String ImageData { get; init; }
 
 	/// <summary>
 	/// Array of snowflakes allowed to use this emoji.

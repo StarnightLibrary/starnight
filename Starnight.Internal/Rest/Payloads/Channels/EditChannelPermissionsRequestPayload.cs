@@ -15,7 +15,7 @@ public sealed record EditChannelPermissionsRequestPayload
 	/// Overwrite type - either role or member.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public DiscordChannelOverwriteType Type { get; init; }
+	public required DiscordChannelOverwriteType Type { get; init; }
 
 	/// <summary>
 	/// Granted permissions, by overwrite, see <see cref="DiscordPermissions"/>

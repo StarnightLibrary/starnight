@@ -706,7 +706,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 	public async ValueTask<DiscordRole> CreateRoleAsync
 	(
 		Int64 guildId,
-		RoleMetadataRequestPayload payload,
+		CreateGuildRoleRequestPayload payload,
 		String? reason = null
 	)
 	{
@@ -775,7 +775,7 @@ public class DiscordGuildRestResource : AbstractRestResource, IDiscordGuildRestR
 	(
 		Int64 guildId,
 		Int64 roleId,
-		RoleMetadataRequestPayload payload,
+		ModifyGuildRoleRequestPayload payload,
 		String? reason = null
 	)
 	{

@@ -14,7 +14,7 @@ public sealed record CreateInteractionCallbackRequestPayload
 	/// The selected response type.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public DiscordInteractionCallbackType Type { get; init; }
+	public required DiscordInteractionCallbackType Type { get; init; }
 
 	/// <summary>
 	/// Optional data for this response.

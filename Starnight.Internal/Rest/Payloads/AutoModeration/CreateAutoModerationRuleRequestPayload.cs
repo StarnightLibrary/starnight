@@ -15,19 +15,19 @@ public sealed record CreateAutoModerationRuleRequestPayload
     /// The rule name.
     /// </summary>
     [JsonPropertyName("name")]
-    public String Name { get; init; } = null!;
+    public required String Name { get; init; }
 
     /// <summary>
     /// The event type this rule checks on.
     /// </summary>
     [JsonPropertyName("event_type")]
-    public DiscordAutoModerationEventType EventType { get; init; }
+    public required DiscordAutoModerationEventType EventType { get; init; }
 
     /// <summary>
     /// The trigger type this rule triggers on.
     /// </summary>
     [JsonPropertyName("trigger_type")]
-    public DiscordAutoModerationTriggerType TriggerType { get; init; }
+    public required DiscordAutoModerationTriggerType TriggerType { get; init; }
 
     /// <summary>
     /// Optional trigger metadata for this rule.
@@ -39,7 +39,7 @@ public sealed record CreateAutoModerationRuleRequestPayload
     /// Actions to be executed when the rule is triggered.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<DiscordAutoModerationAction> Actions { get; init; } = null!;
+    public required IEnumerable<DiscordAutoModerationAction> Actions { get; init; }
 
     /// <summary>
     /// Specifies whether or not the rule is disabled.

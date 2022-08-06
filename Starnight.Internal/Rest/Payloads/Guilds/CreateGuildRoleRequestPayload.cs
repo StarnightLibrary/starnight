@@ -4,56 +4,49 @@ using System;
 using System.Text.Json.Serialization;
 
 /// <summary>
-/// Represents a payload to POST /guilds/:guild_id/roles or PATCH /guilds/:guild_id/roles/:role_id
+/// Represents a payload to POST /guilds/:guild_id/roles
 /// </summary>
-public record RoleMetadataRequestPayload
+public sealed record CreateGuildRoleRequestPayload
 {
 	/// <summary>
 	/// The name of the to-be-created role.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("name")]
-	public String? Name { get; init; }
+	public Optional<String> Name { get; init; }
 
 	/// <summary>
 	/// Permissions for this role. Defaults to the @everyone permissions.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("permissions")]
-	public String? Permissions { get; init; }
+	public Optional<String> Permissions { get; init; }
 
 	/// <summary>
 	/// RGB color value for this role.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("color")]
-	public Int32? Color { get; init; }
+	public Optional<Int32> Color { get; init; }
 
 	/// <summary>
 	/// Whether the role should be hoisted in the sidebar. Defaults to <see langword="false"/>.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("hoist")]
-	public Boolean? Hoist { get; init; }
+	public Optional<Boolean> Hoist { get; init; }
 
 	/// <summary>
 	/// The role's icon image, if possible.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("icon")]
-	public String? Icon { get; init; }
+	public Optional<String?> Icon { get; init; }
 
 	/// <summary>
 	/// The role's unicode emoji as role icon, if possible.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("unicode_emoji")]
-	public String? UnicodeEmoji { get; init; }
+	public Optional<String?> UnicodeEmoji { get; init; }
 
 	/// <summary>
 	/// Whether the role should be mentionable by everyone.
 	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	[JsonPropertyName("mentionable")]
-	public Boolean? Mentionable { get; init; }
+	public Optional<Boolean> Mentionable { get; init; }
 }

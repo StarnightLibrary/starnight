@@ -9,75 +9,65 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Represents the REST payload for POST /guilds/:guild_id/channels
 /// </summary>
-public record CreateGuildChannelRequestPayload
+public sealed record CreateGuildChannelRequestPayload
 {
-	/// <summary>
-	/// The name of the channel to be created.
-	/// </summary>
-	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+    /// <summary>
+    /// The name of the channel to be created.
+    /// </summary>
+    [JsonPropertyName("name")]
+    public required String Name { get; init; }
 
-	/// <summary>
-	/// The channel type.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonPropertyName("type")]
-	public DiscordChannelType? Type { get; init; }
+    /// <summary>
+    /// The channel type.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public Optional<DiscordChannelType?> Type { get; init; }
 
-	/// <summary>
-	/// The channel topic.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-	[JsonPropertyName("topic")]
-	public String? Topic { get; init; }
+    /// <summary>
+    /// The channel topic.
+    /// </summary>
+    [JsonPropertyName("topic")]
+    public Optional<String?> Topic { get; init; }
 
-	/// <summary>
-	/// The voice channel bitrate.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonPropertyName("bitrate")]
-	public Int32? Bitrate { get; init; }
+    /// <summary>
+    /// The voice channel bitrate.
+    /// </summary>
+    [JsonPropertyName("bitrate")]
+    public Optional<Int32?> Bitrate { get; init; }
 
-	/// <summary>
-	/// The voice channel user limit.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonPropertyName("user_limit")]
-	public Int32? UserLimit { get; init; }
+    /// <summary>
+    /// The voice channel user limit.
+    /// </summary>
+    [JsonPropertyName("user_limit")]
+    public Optional<Int32?> UserLimit { get; init; }
 
-	/// <summary>
-	/// The user slowmode in seconds.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonPropertyName("rate_limit_per_user")]
-	public Int32? Slowmode { get; init; }
+    /// <summary>
+    /// The user slowmode in seconds.
+    /// </summary>
+    [JsonPropertyName("rate_limit_per_user")]
+    public Optional<Int32?> Slowmode { get; init; }
 
-	/// <summary>
-	/// The sorting position in the channel list for this channel.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonPropertyName("position")]
-	public Int32? Position { get; init; }
+    /// <summary>
+    /// The sorting position in the channel list for this channel.
+    /// </summary>
+    [JsonPropertyName("position")]
+    public Optional<Int32?> Position { get; init; }
 
-	/// <summary>
-	/// The permission overwrites for this channel.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-	[JsonPropertyName("permission_overwrites")]
-	public IEnumerable<DiscordChannelOverwrite>? PermissionOverwrites { get; init; }
+    /// <summary>
+    /// The permission overwrites for this channel.
+    /// </summary>
+    [JsonPropertyName("permission_overwrites")]
+    public Optional<IEnumerable<DiscordChannelOverwrite>?> PermissionOverwrites { get; init; }
 
-	/// <summary>
-	/// The category channel ID for this channel.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-	[JsonPropertyName("parent_id")]
-	public Int64? ParentChannelId { get; init; }
+    /// <summary>
+    /// The category channel ID for this channel.
+    /// </summary>
+    [JsonPropertyName("parent_id")]
+    public Optional<Int64?> ParentChannelId { get; init; }
 
-	/// <summary>
-	/// Whether this channel is to be created as NSFW.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	[JsonPropertyName("nsfw")]
-	public Boolean? Nsfw { get; init; }
+    /// <summary>
+    /// Whether this channel is to be created as NSFW.
+    /// </summary>
+    [JsonPropertyName("nsfw")]
+    public Optional<Boolean?> Nsfw { get; init; }
 }

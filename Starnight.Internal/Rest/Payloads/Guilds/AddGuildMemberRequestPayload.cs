@@ -10,36 +10,35 @@ using System.Text.Json.Serialization;
 /// <remarks>
 /// <see cref="AccessToken"/> is required, all other members are optional. See the Discord documentation to see which permissions are needed.
 /// </remarks>
-public record AddGuildMemberRequestPayload
+public sealed record AddGuildMemberRequestPayload
 {
 	/// <summary>
 	/// An OAuth2 access token granted with the <c>guilds.join</c> scope.
 	/// </summary>
 	[JsonPropertyName("access_token")]
-	public String AccessToken { get; init; } = default!;
+	public required String AccessToken { get; init; }
 
 	/// <summary>
 	/// The nickname to initialize the user with.
 	/// </summary>
 	[JsonPropertyName("nick")]
-	public String? Nickname { get; init; }
+	public Optional<String> Nickname { get; init; }
 
 	/// <summary>
 	/// An array of role IDs to assign immediately upon join.
 	/// </summary>
 	[JsonPropertyName("roles")]
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-	public IEnumerable<Int64>? Roles { get; init; }
+	public Optional<IEnumerable<Int64>> Roles { get; init; }
 
 	/// <summary>
 	/// Whether to immediately mute the user upon join.
 	/// </summary>
 	[JsonPropertyName("mute")]
-	public Boolean Mute { get; init; }
+	public Optional<Boolean> Mute { get; init; }
 
 	/// <summary>
 	/// Whether to immediately deafen the user upon join.
 	/// </summary>
 	[JsonPropertyName("deaf")]
-	public Boolean Deafen { get; init; }	
+	public Optional<Boolean> Deafen { get; init; }	
 }

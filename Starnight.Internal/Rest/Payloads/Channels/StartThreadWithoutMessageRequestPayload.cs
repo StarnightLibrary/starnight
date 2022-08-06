@@ -14,7 +14,7 @@ public sealed record StartThreadWithoutMessageRequestPayload
 	/// 1-100 characters, channel name for this thread.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Auto archive duration for this thread in minutes.
@@ -34,7 +34,7 @@ public sealed record StartThreadWithoutMessageRequestPayload
 	// This field is currently technically optional as per API spec, but this behaviour is slated for removal in the future.
 	// Therefore, it is kept as a required field here.
 	[JsonPropertyName("type")]
-	public DiscordChannelType ThreadType { get; init; }
+	public required DiscordChannelType ThreadType { get; init; }
 
 	/// <summary>
 	/// Indicates whether non-moderators can add members to this private thread.

@@ -12,7 +12,7 @@ public sealed record StartThreadFromMessageRequestPayload
 	/// 1-100 characters, channel name for this thread.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Auto archive duration for this thread in minutes.

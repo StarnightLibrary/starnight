@@ -23,7 +23,7 @@ public sealed record CreateApplicationCommandRequestPayload
     /// Name of this application command.
     /// </summary>
     [JsonPropertyName("name")]
-    public String Name { get; init; } = default!;
+    public required String Name { get; init; }
 
     /// <summary>
     /// Localization dictionary for the <see cref="Name"/> field.
@@ -38,7 +38,7 @@ public sealed record CreateApplicationCommandRequestPayload
     /// Description for this application command.
     /// </summary>
     [JsonPropertyName("description")]
-    public String Description { get; init; } = default!;
+    public required String Description { get; init; }
 
     /// <summary>
     /// Localization dictionary for the <see cref="Description"/> field.
