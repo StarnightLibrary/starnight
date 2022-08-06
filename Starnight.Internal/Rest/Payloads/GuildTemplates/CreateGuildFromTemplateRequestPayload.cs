@@ -6,17 +6,17 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a payload to POST /guilds/templates/:template_code
 /// </summary>
-public record CreateGuildFromTemplateRequestPayload
+public sealed record CreateGuildFromTemplateRequestPayload
 {
 	/// <summary>
 	/// The name of your guild.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// The 128x128 icon for this guild.
 	/// </summary>
 	[JsonPropertyName("icon")]
-	public String? Icon { get; init; }
+	public Optional<String> Icon { get; init; }
 }
