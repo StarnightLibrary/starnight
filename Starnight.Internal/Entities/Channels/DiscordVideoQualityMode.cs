@@ -8,7 +8,7 @@ public enum DiscordVideoQualityMode
 	/// <summary>
 	/// Discord chooses the quality.
 	/// </summary>
-	Auto,
+	Auto = 1,
 
 	/// <summary>
 	/// 720p.
