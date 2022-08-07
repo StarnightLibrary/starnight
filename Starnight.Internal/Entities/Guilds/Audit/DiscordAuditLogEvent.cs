@@ -52,5 +52,9 @@ public enum DiscordAuditLogEvent
 	ThreadCreated = 110,
 	ThreadUpdated = 111,
 	ThreadDeleted = 112,
-	ApplicationCommandPermissionsUpdated = 121
+	ApplicationCommandPermissionsUpdated = 121,
+	AutoModerationRuleCreated = 140,
+	AutoModerationRuleUpdated = 141,
+	AutoModerationRuleDeleted = 142,
+	AutoModerationMessageBlocked = 143
 }
