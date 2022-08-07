@@ -11,19 +11,19 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents an invite to a guild, application or stage channel.
 /// </summary>
-public record DiscordInvite
+public sealed record DiscordInvite
 {
 	/// <summary>
 	/// The invite code, as in <c>discord.gg/invcode</c>
 	/// </summary>
 	[JsonPropertyName("code")]
-	public String Code { get; init; } = default!;
+	public required String Code { get; init; }
 
 	/// <summary>
 	/// The guild targeted by this invite.
 	/// </summary>
 	[JsonPropertyName("guild")]
-	public DiscordGuild? Guild { get; init; }
+	public Optional<DiscordGuild> Guild { get; init; }
 
 	/// <summary>
 	/// The channel targeted by this invite.
@@ -35,55 +35,49 @@ public record DiscordInvite
 	/// The user who created this invite.
 	/// </summary>
 	[JsonPropertyName("inviter")]
-	public DiscordUser? Creator { get; init; }
+	public Optional<DiscordUser> Creator { get; init; }
 
 	/// <summary>
 	/// The target type of this voice channel invite.
 	/// </summary>
 	[JsonPropertyName("target_type")]
-	public DiscordVoiceInviteTargetType? TargetType { get; init; }
+	public Optional<DiscordVoiceInviteTargetType> TargetType { get; init; }
 
 	/// <summary>
 	/// The streaming user targeted by this invite.
 	/// </summary>
 	[JsonPropertyName("target_user")]
-	public DiscordUser? TargetUser { get; init; }
+	public Optional<DiscordUser> TargetUser { get; init; }
 
 	/// <summary>
 	/// The embedded application targeted by this invite.
 	/// </summary>
 	[JsonPropertyName("target_application")]
-	public DiscordApplication? TargetApplication { get; init; }
+	public Optional<DiscordApplication> TargetApplication { get; init; }
 
 	/// <summary>
 	/// Approximate count of guild members in this guild.
 	/// </summary>
 	[JsonPropertyName("approximate_member_count")]
-	public Int32? ApproximateMemberCount { get; init; }
+	public Optional<Int32> ApproximateMemberCount { get; init; }
 
 	/// <summary>
 	/// Approximate count of online members in this guild.
 	/// </summary>
 	[JsonPropertyName("approximate_presence_count")]
-	public Int32? ApproximatePresenceCount { get; init; }
+	public Optional<Int32> ApproximatePresenceCount { get; init; }
 
 	/// <summary>
 	/// Describes when this invite expires.
 	/// </summary>
 	[JsonPropertyName("expires_at")]
-	public DateTime? ExpiresAt { get; init; }
-
-	/// <summary>
-	/// The stage instance targeted by this stage invite.
-	/// </summary>
-	[JsonPropertyName("stage_instance")]
-	public DiscordInviteStageInstance? StageInstance { get; init; }
+	public Optional<DateTimeOffset> ExpiresAt { get; init; }
 
 	/// <summary>
 	/// The scheduled event targeted by this scheduled event invite.
 	/// </summary>
 	[JsonPropertyName("scheduled_event")]
-	public DiscordScheduledEvent? ScheduledEvent { get; init; }
+	public Optional<DiscordScheduledEvent> ScheduledEvent { get; init; }
 
 	// METADATA - not always sent, but always part of this object if sent. //
 
@@ -91,29 +85,29 @@ public record DiscordInvite
 	/// Stores how many times this invite has been used.
 	/// </summary>
 	[JsonPropertyName("uses")]
-	public Int32? Uses { get; init; }
+	public Optional<Int32> Uses { get; init; }
 
 	/// <summary>
 	/// Stores how many times this invite can be used.
 	/// </summary>
 	[JsonPropertyName("max_uses")]
-	public Int32? MaxUses { get; init; }
+	public Optional<Int32> MaxUses { get; init; }
 
 	/// <summary>
 	/// Stores after how many seconds this invite expires.
 	/// </summary>
 	[JsonPropertyName("max_age")]
-	public Int32? MaxAge { get; init; }
+	public Optional<Int32> MaxAge { get; init; }
 
 	/// <summary>
 	/// Stores whether this invite grants temporary membership.
 	/// </summary>
 	[JsonPropertyName("temporary")]
-	public Boolean? Temporary { get; init; }
+	public Optional<Boolean> Temporary { get; init; }
 
 	/// <summary>
 	/// Stores when this invite was created.
 	/// </summary>
 	[JsonPropertyName("created_at")]
-	public DateTime? CreatedAt { get; init; }
+	public Optional<DateTimeOffset> CreatedAt { get; init; }
 }
