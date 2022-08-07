@@ -6,25 +6,23 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a channel in a <see cref="DiscordGuildWelcomeScreen"/>.
 /// </summary>
-public record DiscordGuildWelcomeChannel
+public sealed record DiscordGuildWelcomeChannel
 {
 	/// <summary>
 	/// The target channel's snowflake ID.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("channel_id")]
-	public Int64 ChannelId { get; init; }
+	public required Int64 ChannelId { get; init; }
 
 	/// <summary>
 	/// Description shown for this channel.
 	/// </summary>
 	[JsonPropertyName("description")]
-	public String Description { get; init; } = default!;
+	public required String Description { get; init; }
 
 	/// <summary>
 	/// The emoji ID if this description uses a custom emoji.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("emoji_id")]
 	public Int64? EmojiId { get; init; }
 

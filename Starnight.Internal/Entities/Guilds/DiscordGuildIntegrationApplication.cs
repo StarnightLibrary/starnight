@@ -8,13 +8,13 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents a guild integration application.
 /// </summary>
-public record DiscordGuildIntegrationApplication : DiscordSnowflakeObject
+public sealed record DiscordGuildIntegrationApplication : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Name of the application.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Icon hash of the application.
@@ -26,17 +26,11 @@ public record DiscordGuildIntegrationApplication : DiscordSnowflakeObject
 	/// Application description.
 	/// </summary>
 	[JsonPropertyName("description")]
-	public String Description { get; init; } = default!;
-
-	/// <summary>
-	/// Application summary.
-	/// </summary>
-	[JsonPropertyName("summary")]
-	public String Summary { get; init; } = default!;
+	public required String Description { get; init; }
 
 	/// <summary>
 	/// Bot account associated with this application.
 	/// </summary>
 	[JsonPropertyName("bot")]
-	public DiscordUser? Bot { get; init; }
+	public Optional<DiscordUser> Bot { get; init; }
 }

@@ -10,13 +10,13 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents a guild widget.
 /// </summary>
-public record DiscordGuildWidget : DiscordSnowflakeObject
+public sealed record DiscordGuildWidget : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Name of the guild this widget represents.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = null!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Instant invite code for the guild's specified widget invite channel.
@@ -28,17 +28,17 @@ public record DiscordGuildWidget : DiscordSnowflakeObject
 	/// Voice and stage channels accessible to everyone. 
 	/// </summary>
 	[JsonPropertyName("channels")]
-	public IEnumerable<DiscordChannel>? VoiceChannels { get; init; }
+	public required IEnumerable<DiscordChannel> VoiceChannels { get; init; }
 
 	/// <summary>
 	/// Up to 100 special widget users. IDs, discriminators and avatars are anonymized.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public IEnumerable<DiscordUser>? Users { get; init; }
+	public required IEnumerable<DiscordUser> Users { get; init; }
 
 	/// <summary>
 	/// Approximate amount of online users in this guild.
 	/// </summary>
 	[JsonPropertyName("presence_count")]
-	public Int32 OnlineUserCount { get; init; }
+	public required Int32 OnlineUserCount { get; init; }
 }

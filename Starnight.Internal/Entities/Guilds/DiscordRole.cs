@@ -6,66 +6,65 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a discord role.
 /// </summary>
-public record DiscordRole : DiscordSnowflakeObject
+public sealed record DiscordRole : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Name of this role.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Integer representation of this role's colour code.
 	/// </summary>
 	[JsonPropertyName("color")]
-	public Int32 Color { get; init; }
+	public required Int32 Color { get; init; }
 
 	/// <summary>
 	/// Whether this role is hoisted on the member list.
 	/// </summary>
 	[JsonPropertyName("hoist")]
-	public Boolean Hoisted { get; init; }
+	public required Boolean Hoisted { get; init; }
 
 	/// <summary>
 	/// Role icon hash.
 	/// </summary>
 	[JsonPropertyName("icon")]
-	public String? Icon { get; init; }
+	public Optional<String?> Icon { get; init; }
 
 	/// <summary>
 	/// Unicode emoji serving as role icon.
 	/// </summary>
 	[JsonPropertyName("unicode_emoji")]
-	public String? UnicodeEmoji { get; init; }
+	public Optional<String?> UnicodeEmoji { get; init; }
 
 	/// <summary>
 	/// Position of this role in the role list.
 	/// </summary>
 	[JsonPropertyName("position")]
-	public Int32 Position { get; init; }
+	public required Int32 Position { get; init; }
 
 	/// <summary>
 	/// Guild-wide permissions for this role, excluding channel overrides.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("permissions")]
-	public DiscordPermissions Permissions { get; init; }
+	public required DiscordPermissions Permissions { get; init; }
 
 	/// <summary>
 	/// Whether this role is managed by an integration.
 	/// </summary>
 	[JsonPropertyName("managed")]
-	public Boolean Managed { get; init; }
+	public required Boolean Managed { get; init; }
 
 	/// <summary>
 	/// Whether this role is mentionable.
 	/// </summary>
 	[JsonPropertyName("mentionable")]
-	public Boolean Mentionable { get; init; }
+	public required Boolean Mentionable { get; init; }
 
 	/// <summary>
 	/// The role tags for this role.
 	/// </summary>
 	[JsonPropertyName("tags")]
-	public DiscordRoleTags? Tags { get; init; }
+	public Optional<DiscordRoleTags> Tags { get; init; }
 }

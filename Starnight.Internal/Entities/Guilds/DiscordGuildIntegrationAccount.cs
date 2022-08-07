@@ -6,17 +6,17 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a Discord Guild Integration Account object.
 /// </summary>
-public record DiscordGuildIntegrationAccount
+public sealed record DiscordGuildIntegrationAccount
 {
 	/// <summary>
 	/// ID of the integration account.
 	/// </summary>
 	[JsonPropertyName("id")]
-	public String Id { get; init; } = default!;
+	public required String Id { get; init; }
 
 	/// <summary>
 	/// Name of the integration account.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 }

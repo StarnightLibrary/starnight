@@ -9,13 +9,13 @@ using Starnight.Internal.Entities.Stickers;
 /// <summary>
 /// Represents guild data for a guild preview.
 /// </summary>
-public record DiscordGuildPreview : DiscordSnowflakeObject
+public sealed record DiscordGuildPreview : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Guild name, 2 - 100 characters.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Icon hash for this guild.
@@ -39,25 +39,25 @@ public record DiscordGuildPreview : DiscordSnowflakeObject
 	/// List of custom emojis in this guild.
 	/// </summary>
 	[JsonPropertyName("emojis")]
-	public IEnumerable<DiscordEmoji> Emojis { get; init; } = default!;
+	public required IEnumerable<DiscordEmoji> Emojis { get; init; }
 
 	/// <summary>
 	/// List of guild features.
 	/// </summary>
 	[JsonPropertyName("features")]
-	public IEnumerable<String> Features { get; init; } = default!;
+	public required IEnumerable<String> Features { get; init; }
 
 	/// <summary>
 	/// Approximate member count for this guild.
 	/// </summary>
 	[JsonPropertyName("approximate_member_count")]
-	public Int32 ApproximateMemberCount { get; init; }
+	public required Int32 ApproximateMemberCount { get; init; }
 
 	/// <summary>
 	/// Approximate online member count for this guild.
 	/// </summary>
 	[JsonPropertyName("approximate_presence_count")]
-	public Int32 ApproximatePresenceCount { get; init; }
+	public required Int32 ApproximatePresenceCount { get; init; }
 
 	/// <summary>
 	/// Discovery description for this guild.
@@ -69,5 +69,5 @@ public record DiscordGuildPreview : DiscordSnowflakeObject
 	/// Stickers for this guild.
 	/// </summary>
 	[JsonPropertyName("stickers")]
-	public IEnumerable<DiscordSticker>? Stickers { get; init; }
+	public required IEnumerable<DiscordSticker> Stickers { get; init; }
 }

@@ -8,5 +8,5 @@ public enum DiscordScheduledEventPrivacyLevel
 	/// <summary>
 	/// This scheduled event is only accessible to guild members.
 	/// </summary>
-	GuildOnly
+	GuildOnly = 2
 }

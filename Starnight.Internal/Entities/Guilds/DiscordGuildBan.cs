@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents a guild ban.
 /// </summary>
-public record DiscordGuildBan
+public sealed record DiscordGuildBan
 {
 	/// <summary>
 	/// Audit log reason for this ban.
@@ -20,5 +20,5 @@ public record DiscordGuildBan
 	/// The user affected by this ban.
 	/// </summary>
 	[JsonPropertyName("user")]
-	public DiscordUser User { get; init; } = default!;
+	public required DiscordUser User { get; init; }
 }
