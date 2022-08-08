@@ -24,7 +24,7 @@ public sealed record DiscordThreadMetadata
 	/// Last activity change in this thread, used to calculate auto archive.
 	/// </summary>
 	[JsonPropertyName("archive_timestamp")]
-	public required DateTime ArchiveTimestamp { get; init; }
+	public required DateTimeOffset ArchiveTimestamp { get; init; }
 
 	/// <summary>
 	/// Gets whether this thread is locked.
