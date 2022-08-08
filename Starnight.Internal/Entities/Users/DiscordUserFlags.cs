@@ -62,7 +62,7 @@ public enum DiscordUserFlags
 	TeamUser = 1 << 10, // 11 to 13 are bad numbers, everyone knows that
 
 	/// <summary>
-	/// Bug hunter badge two: electric boogaloo.
+	/// Bug hunter badge, Level 2
 	/// </summary>
 	BugHunterLevel2 = 1 << 14, // didnt need 15 anyways
 
@@ -80,5 +80,10 @@ public enum DiscordUserFlags
 	/// <summary>
 	/// Profile badge indicating this user has passed Discord's Moderator Exam.
 	/// </summary>
-	DiscordCertifiedModerator = 1 << 18
+	DiscordCertifiedModerator = 1 << 18,
+
+	/// <summary>
+	/// Bot that uses only HTTP interactions and is thus shown in the online member list.
+	/// </summary>
+	BotHttpInteractions = 1 << 19
 }
