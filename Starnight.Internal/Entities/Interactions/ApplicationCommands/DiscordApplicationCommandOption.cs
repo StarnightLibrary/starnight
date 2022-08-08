@@ -4,30 +4,31 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Interactions;
 
 /// <summary>
 /// Represents a slash command parameter.
 /// </summary>
-public record DiscordApplicationCommandOption
+public sealed record DiscordApplicationCommandOption
 {
 	/// <summary>
 	/// The parameter type.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public DiscordApplicationCommandOptionType Type { get; init; }
+	public required DiscordApplicationCommandOptionType Type { get; init; }
 
 	/// <summary>
 	/// The parameter name.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Localized name of this application command option.
 	/// </summary>
 	[JsonPropertyName("name_localized")]
-	public String? NameLocalized { get; init; }
+	public Optional<String> NameLocalized { get; init; }
 
 	/// <summary>
 	/// Localization dictionary for the <see cref="Name"/> field.
@@ -36,19 +37,19 @@ public record DiscordApplicationCommandOption
 	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
 	/// </remarks>
 	[JsonPropertyName("name_localizations")]
-	public IDictionary<String, String>? NameLocalizations { get; init; }
+	public Optional<IDictionary<String, String>?> NameLocalizations { get; init; }
 
 	/// <summary>
 	/// The parameter description.
 	/// </summary>
 	[JsonPropertyName("description")]
-	public String Description { get; init; } = default!;
+	public required String Description { get; init; }
 
 	/// <summary>
 	/// Localized description of this application command option.
 	/// </summary>
 	[JsonPropertyName("description_localized")]
-	public String? DescriptionLocalized { get; init; }
+	public Optional<String> DescriptionLocalized { get; init; }
 
 	/// <summary>
 	/// Localization dictionary for the <see cref="Description"/> field.
@@ -57,41 +58,65 @@ public record DiscordApplicationCommandOption
 	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
 	/// </remarks>
 	[JsonPropertyName("description_localizations")]
-	public IDictionary<String, String>? DescriptionLocalizations { get; init; }
+	public Optional<IDictionary<String, String>?> DescriptionLocalizations { get; init; }
 
 	/// <summary>
 	/// Whether this parameter must be passed to the slash command.
 	/// </summary>
 	[JsonPropertyName("required")]
-	public Boolean? Required { get; init; } = false;
+	public Optional<Boolean> Required { get; init; }
 
 	/// <summary>
 	/// All valid choices for this parameter. Not listed choices are not valid inputs.
 	/// </summary>
 	[JsonPropertyName("choices")]
-	public IEnumerable<DiscordApplicationCommandOptionChoice>? Choices { get; init; }
+	public Optional<IEnumerable<DiscordApplicationCommandOptionChoice>> Choices { get; init; }
 
 	/// <summary>
 	/// If this is a subcommand/subcommand group; these options are valid for the next level.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public IEnumerable<DiscordApplicationCommandOption>? Suboptions { get; init; }
+	public Optional<IEnumerable<DiscordApplicationCommandOption>> Suboptions { get; init; }
+
+	/// <summary>
+	/// If the option is a channel, the channels suggested will be restricted to these types.
+	/// </summary>
+	[JsonPropertyName("channel_types")]
+	public Optional<IEnumerable<DiscordChannelType>> ChannelTypes { get; init; }
 
 	/// <summary>
 	/// The minimum value for this parameter. 
 	/// </summary>
+	/// <remarks>
+	/// This must be Int32 for integer options and Double for decimal options.
+	/// </remarks>
 	[JsonPropertyName("min_value")]
-	public Object? MinValue { get; init; }
+	public Optional<Object> MinValue { get; init; }
 
 	/// <summary>
 	/// The maximum value for this parameter.
 	/// </summary>
+	/// <remarks>
+	/// This must be Int32 for integer options and Double for decimal options.
+	/// </remarks>
 	[JsonPropertyName("max_value")]
-	public Object? MaxValue { get; init; }
+	public Optional<Object> MaxValue { get; init; }
 
 	/// <summary>
-	/// Whether this application command should use autocomplete.
+	/// For string options, the minimum allowed length (0-6000).
+	/// </summary>
+	[JsonPropertyName("min_length")]
+	public Optional<Int32> MinLength { get; init; }
+
+	/// <summary>
+	/// For string options, the maximum allowed length (1-6000).
+	/// </summary>
+	[JsonPropertyName("max_length")]
+	public Optional<Int32> MaxLength { get; init; }
+
+	/// <summary>
+	/// Whether this application command option should use autocomplete.
 	/// </summary>
 	[JsonPropertyName("autocomplete")]
-	public Boolean? Autocomplete { get; init; }
+	public Optional<Boolean> Autocomplete { get; init; }
 }

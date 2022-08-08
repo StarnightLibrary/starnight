@@ -17,7 +17,8 @@ public enum DiscordApplicationCommandOptionType
 	User,
 
 	/// <summary>
-	/// Includes <b>all</b> channel types, even categories.
+	/// Includes <b>all</b> channel types, even categories. May be restricted using
+	/// <see cref="DiscordApplicationCommandOption.ChannelTypes"/>.
 	/// </summary>
 	Channel,
 	Role,
@@ -30,5 +31,6 @@ public enum DiscordApplicationCommandOptionType
 	/// <summary>
 	/// Any decimal number between 2^53 and -2^53.
 	/// </summary>
-	Decimal
+	Decimal,
+	Attachment
 }

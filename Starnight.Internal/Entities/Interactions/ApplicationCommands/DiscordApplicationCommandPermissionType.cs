@@ -6,5 +6,6 @@ namespace Starnight.Internal.Entities.Interactions.ApplicationCommands;
 public enum DiscordApplicationCommandPermissionType
 {
 	Role = 1,
-	User
+	User,
+	Channel
 }

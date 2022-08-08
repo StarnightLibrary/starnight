@@ -7,35 +7,35 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a slash command data option.
 /// </summary>
-public record DiscordApplicationCommandDataOption
+public sealed record DiscordApplicationCommandDataOption
 {
 	/// <summary>
 	/// The name of the invoked option.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// The type of the invoked option.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public DiscordApplicationCommandOptionType Type { get; init; }
+	public required DiscordApplicationCommandOptionType Type { get; init; }
 
 	/// <summary>
 	/// The user input passed to this option.
 	/// </summary>
 	[JsonPropertyName("value")]
-	public Object? Value { get; init; }
+	public Optional<Object> Value { get; init; }
 
 	/// <summary>
 	/// Potential subcommand options if this is a group or subcommand.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public IEnumerable<DiscordApplicationCommandDataOption>? Options { get; init; }
+	public Optional<IEnumerable<DiscordApplicationCommandDataOption>> Options { get; init; }
 
 	/// <summary>
 	/// Whether this option is the currently focused option for autocomplete.
 	/// </summary>
 	[JsonPropertyName("focused")]
-	public Boolean? Focused { get; init; }
+	public Optional<Boolean> Focused { get; init; }
 }

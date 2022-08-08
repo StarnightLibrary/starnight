@@ -7,39 +7,37 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents an application command.
 /// </summary>
-public record DiscordApplicationCommand : DiscordSnowflakeObject
+public sealed record DiscordApplicationCommand : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// The type of this application command.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public DiscordApplicationCommandType Type { get; init; }
+	public Optional<DiscordApplicationCommandType> Type { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the application this command belongs to.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("application_id")]
-	public Int64 ApplicationId { get; init; }
+	public required Int64 ApplicationId { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the guild this command is registered to, if not global.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("guild_id")]
-	public Int64? GuildId { get; init; }
+	public Optional<Int64> GuildId { get; init; }
 
 	/// <summary>
 	/// Name of this application command.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public Optional<String> Name { get; init; }
 
 	/// <summary>
 	/// Localized name of this application command.
 	/// </summary>
 	[JsonPropertyName("name_localized")]
-	public String? NameLocalized { get; init; }
+	public Optional<String> NameLocalized { get; init; }
 
 	/// <summary>
 	/// Localization dictionary for the <see cref="Name"/> field.
@@ -48,19 +46,19 @@ public record DiscordApplicationCommand : DiscordSnowflakeObject
 	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
 	/// </remarks>
 	[JsonPropertyName("name_localizations")]
-	public IDictionary<String, String>? NameLocalizations { get; init; }
+	public Optional<IDictionary<String, String>?> NameLocalizations { get; init; }
 
 	/// <summary>
 	/// Description for this application command.
 	/// </summary>
 	[JsonPropertyName("description")]
-	public String Description { get; init; } = default!;
+	public required String Description { get; init; }
 
 	/// <summary>
-	/// Localized description of this application command.
+	/// Localized name of this application command.
 	/// </summary>
 	[JsonPropertyName("description_localized")]
-	public String? DescriptionLocalized { get; init; }
+	public Optional<String> DescriptionLocalized { get; init; }
 
 	/// <summary>
 	/// Localization dictionary for the <see cref="Description"/> field.
@@ -69,18 +67,17 @@ public record DiscordApplicationCommand : DiscordSnowflakeObject
 	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
 	/// </remarks>
 	[JsonPropertyName("description_localizations")]
-	public IDictionary<String, String>? DescriptionLocalizations { get; init; }
+	public Optional<IDictionary<String, String>?> DescriptionLocalizations { get; init; }
 
 	/// <summary>
 	/// The parameters for this command, up to 25.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public IEnumerable<DiscordApplicationCommandOption>? Options { get; init; }
+	public Optional<IEnumerable<DiscordApplicationCommandOption>> Options { get; init; }
 
 	/// <summary>
 	/// Default permissions required to execute this command.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("default_member_permission")]
 	public DiscordPermissions? DefaultMemberPermission { get; init; }
 
@@ -88,12 +85,11 @@ public record DiscordApplicationCommand : DiscordSnowflakeObject
 	/// Whether the command is available in DMs with the bot. This is only applicable to global commands.
 	/// </summary>
 	[JsonPropertyName("dm_permission")]
-	public Boolean? DMPermission { get; init; }
+	public Optional<Boolean> DMPermission { get; init; }
 
 	/// <summary>
 	/// Automatically incrementing version ID updated for substantial changes.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("version")]
-	public Int64 Version { get; init; }
+	public required Int64 Version { get; init; }
 }

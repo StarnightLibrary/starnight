@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a modal component.
 /// </summary>
-public record DiscordModalComponent : AbstractInteractiveDiscordMessageComponent
+public sealed record DiscordModalComponent : AbstractInteractiveDiscordMessageComponent
 {
 	/// <summary>
 	/// The title to be displayed above this modal.
@@ -17,7 +17,7 @@ public record DiscordModalComponent : AbstractInteractiveDiscordMessageComponent
 	/// lacking and we cannot (yet) fully know whether this property is nullable or not.
 	/// </remarks>
 	[JsonPropertyName("title")]
-	public String? Title { get; init; }
+	public Optional<String?> Title { get; init; }
 
 	/// <summary>
 	/// An action row holding the text input components for this modal.
@@ -28,5 +28,5 @@ public record DiscordModalComponent : AbstractInteractiveDiscordMessageComponent
 	/// this property to be an array, likely only with a single element.
 	/// </remarks>
 	[JsonPropertyName("components")]
-	public IEnumerable<DiscordActionRowComponent> Components { get; init; } = null!;
+	public required IEnumerable<DiscordActionRowComponent> Components { get; init; }
 }

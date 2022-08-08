@@ -7,19 +7,19 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a discord application option choice.
 /// </summary>
-public record DiscordApplicationCommandOptionChoice
+public sealed record DiscordApplicationCommandOptionChoice
 {
 	/// <summary>
 	/// The display name of this option.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Localized name of this application command option choice.
 	/// </summary>
 	[JsonPropertyName("name_localized")]
-	public String? NameLocalized { get; init; }
+	public Optional<String> NameLocalized { get; init; }
 
 	/// <summary>
 	/// Localization dictionary for the <see cref="Name"/> field.
@@ -28,11 +28,11 @@ public record DiscordApplicationCommandOptionChoice
 	/// Also refer to the documentation of <seealso cref="DiscordLocale"/>.
 	/// </remarks>
 	[JsonPropertyName("name_localizations")]
-	public IDictionary<String, String>? NameLocalizations { get; init; }
+	public Optional<IDictionary<String, String>?> NameLocalizations { get; init; }
 
 	/// <summary>
 	/// The value of this object, either a string, integer or floating-point number.
 	/// </summary>
 	[JsonPropertyName("value")]
-	public Object Value { get; init; } = default!;
+	public required Object Value { get; init; }
 }

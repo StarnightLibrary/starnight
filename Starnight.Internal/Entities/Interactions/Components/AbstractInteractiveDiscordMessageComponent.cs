@@ -16,5 +16,5 @@ public abstract record AbstractInteractiveDiscordMessageComponent : AbstractDisc
 	/// A developer-defined ID for this component, max. 100 characters.
 	/// </summary>
 	[JsonPropertyName("custom_id")]
-	public String? CustomId { get; init; }
+	public Optional<String> CustomId { get; init; }
 }

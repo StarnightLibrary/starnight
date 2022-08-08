@@ -19,8 +19,7 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of the given application.</param>
 	/// <param name="withLocalizations">Specifies whether the response should include the full localizations
 	/// (see also: <seealso cref="DiscordApplicationCommand.NameLocalizations"/> and related fields).</param>
-	/// <param name="locale">If <paramref name="withLocalizations"/> is false, specifies a locale to include localizations for
-	/// (see also: <seealso cref="DiscordApplicationCommand.NameLocalized"/> and related fields).</param>
+	/// <param name="locale">If <paramref name="withLocalizations"/> is false, specifies a locale to include localizations for</param>
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
