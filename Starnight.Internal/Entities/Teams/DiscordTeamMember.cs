@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Entities.Teams;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Users;
@@ -8,24 +9,29 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents a discord team member.
 /// </summary>
-public record DiscordTeamMember
+public sealed record DiscordTeamMember
 {
 	/// <summary>
 	/// Membership state on this team.
 	/// </summary>
 	[JsonPropertyName("membership_state")]
-	public DiscordTeamMembershipState State { get; init; }
+	public required DiscordTeamMembershipState State { get; init; }
+
+	/// <summary>
+	/// This will always be <c>["*"]</c>.
+	/// </summary>
+	[JsonPropertyName("permissions")]
+	public required IEnumerable<String> Permissions { get; init; }
 
 	/// <summary>
 	/// Team snowflake identifier.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("team_id")]
-	public Int64 TeamId { get; init; }
+	public required Int64 TeamId { get; init; }
 
 	/// <summary>
 	/// Discord user for this team member.
 	/// </summary>
 	[JsonPropertyName("user")]
-	public DiscordUser User { get; init; } = default!;
+	public required DiscordUser User { get; init; } 
 }

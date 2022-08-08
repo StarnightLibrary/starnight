@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a discord team.
 /// </summary>
-public record DiscordTeam : DiscordSnowflakeObject
+public sealed record DiscordTeam : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// The icon hash for this team's icon.
@@ -19,18 +19,17 @@ public record DiscordTeam : DiscordSnowflakeObject
 	/// Array of team members.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public IEnumerable<DiscordTeamMember> Members { get; init; } = default!;
+	public required IEnumerable<DiscordTeamMember> Members { get; init; } 
 
 	/// <summary>
 	/// Team name.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; } 
 
 	/// <summary>
 	/// Team owner snowflake identifier.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("owner_user_id")]
-	public Int64 TeamId { get; init; }
+	public required Int64 TeamOwnerId { get; init; }
 }
