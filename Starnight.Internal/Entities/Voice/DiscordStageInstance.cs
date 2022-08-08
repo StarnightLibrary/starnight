@@ -6,38 +6,35 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a stage channel instance.
 /// </summary>
-public record DiscordStageInstance : DiscordSnowflakeObject
+public sealed record DiscordStageInstance : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// The guild ID of the associated stage channel.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("guild_id")]
-	public Int64 GuildId { get; init; }
+	public required Int64 GuildId { get; init; }
 
 	/// <summary>
 	/// The channel ID of the associated stage channel.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("channel_id")]
-	public Int64 ChannelId { get; init; }
+	public required Int64 ChannelId { get; init; }
 
 	/// <summary>
 	/// The topic of this stage instance, 1 - 120 characters.
 	/// </summary>
 	[JsonPropertyName("topic")]
-	public String Topic { get; init; } = default!;
+	public required String Topic { get; init; } 
 
 	/// <summary>
 	/// The privacy level of this stage instance.
 	/// </summary>
 	[JsonPropertyName("privacy_level")]
-	public DiscordStagePrivacyLevel PrivacyLevel { get; init; }
+	public required DiscordStagePrivacyLevel PrivacyLevel { get; init; }
 
 	/// <summary>
-	/// Whether this stage is hidden from stage discovery.
+	/// The ID of the scheduled event corresponding to this stage instance.
 	/// </summary>
-	[JsonPropertyName("discoverable_disabled")]
-	[Obsolete("Public stages and therefore stage discovery is deprecated", DiagnosticId = "SE0006")]
-	public Boolean DiscoveryDisabled { get; init; }
+	[JsonPropertyName("guild_scheduled_event_id")]
+	public Int64? GuildScheduledEventId { get; init; }
 }
