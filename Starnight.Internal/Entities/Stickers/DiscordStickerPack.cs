@@ -7,44 +7,41 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents a sticker pack.
 /// </summary>
-public record DiscordStickerPack : DiscordSnowflakeObject
+public sealed record DiscordStickerPack : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// The stickers contained in this pack.
 	/// </summary>
 	[JsonPropertyName("stickers")]
-	public IEnumerable<DiscordSticker> Stickers { get; init; } = default!;
+	public required IEnumerable<DiscordSticker> Stickers { get; init; }
 
 	/// <summary>
 	/// The name of this sticker pack.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the pack SKU.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("sku_id")]
-	public Int64 SkuId { get; init; }
+	public required Int64 SkuId { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the cover sticker for this pack.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("cover_sticker_id")]
-	public Int64? CoverStickerId { get; init; }
+	public Optional<Int64> CoverStickerId { get; init; }
 
 	/// <summary>
 	/// This pack's description.
 	/// </summary>
 	[JsonPropertyName("description")]
-	public String Description { get; init; } = default!;
+	public required String Description { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the banner asset for this pack.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("banner_asset_id")]
-	public Int64? BannerAssetId { get; init; }
+	public Optional<Int64> BannerAssetId { get; init; }
 }

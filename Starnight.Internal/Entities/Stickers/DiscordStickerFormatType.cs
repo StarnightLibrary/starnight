@@ -5,7 +5,7 @@ namespace Starnight.Internal.Entities.Stickers;
 /// </summary>
 public enum DiscordStickerFormatType
 {
-	PNG,
+	PNG = 1,
 	APNG,
 	LOTTIE
 }

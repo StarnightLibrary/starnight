@@ -8,17 +8,17 @@ using Starnight.Internal.Entities.Messages;
 /// <summary>
 /// Represents a stripped-down sticker object, used in <see cref="DiscordMessage"/>s
 /// </summary>
-public record DiscordMessageSticker : DiscordSnowflakeObject
+public sealed record DiscordMessageSticker : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Name of this sticker.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public String Name { get; init; } = default!;
+	public required String Name { get; init; } 
 
 	/// <summary>
 	/// Format type of this sticker.
 	/// </summary>
 	[JsonPropertyName("format_type")]
-	public DiscordStickerFormatType Format { get; init; }
+	public required DiscordStickerFormatType Format { get; init; }
 }
