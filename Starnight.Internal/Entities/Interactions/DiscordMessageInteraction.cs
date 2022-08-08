@@ -27,7 +27,7 @@ public sealed record DiscordMessageInteraction : DiscordSnowflakeObject
 	/// The user who invoked this interaction.
 	/// </summary>
 	[JsonPropertyName("user")]
-	public required DiscordUser User { get; init; };
+	public required DiscordUser User { get; init; }
 
 	/// <summary>
 	/// The guild member who invoked this interaction

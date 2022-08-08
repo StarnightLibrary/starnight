@@ -10,7 +10,7 @@ namespace Starnight.Internal.Entities.Messages;
 /// </remarks>
 public enum DiscordMessageActivityType
 {
-	Join,
+	Join = 1,
 	Spectate,
 	Listen,
 	JoinRequest = 5

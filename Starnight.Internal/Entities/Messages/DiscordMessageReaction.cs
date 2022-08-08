@@ -8,23 +8,23 @@ using Starnight.Internal.Entities.Guilds;
 /// <summary>
 /// Represents a discord message reaction.
 /// </summary>
-public record DiscordReaction
+public sealed record DiscordMessageReaction
 {
 	/// <summary>
 	/// Gets however often this emoji has been used to react.
 	/// </summary>
 	[JsonPropertyName("count")]
-	public Int32 Count { get; init; }
+	public required Int32 Count { get; init; }
 
 	/// <summary>
 	/// Whether the current user reacted using this emoji.
 	/// </summary>
 	[JsonPropertyName("me")]
-	public Boolean CurrentUserReacted { get; init; }
+	public required Boolean CurrentUserReacted { get; init; }
 
 	/// <summary>
 	/// More emoji information
 	/// </summary>
 	[JsonPropertyName("emoji")]
-	public DiscordEmoji Emoji { get; init; } = default!;
+	public required DiscordEmoji Emoji { get; init; }
 }

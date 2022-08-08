@@ -6,32 +6,29 @@ using System;
 /// <summary>
 /// Represents data about a referenced message.
 /// </summary>
-public record DiscordMessageReference
+public sealed record DiscordMessageReference
 {
 	/// <summary>
 	/// Snowflake identifier of the original message.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("message_id")]
-	public Int64? MessageId { get; init; }
+	public Optional<Int64> MessageId { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the original channel.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("channel_id")]
-	public Int64? ChannelId { get; init; }
+	public Optional<Int64> ChannelId { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of the original guild.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("guild_id")]
-	public Int64? GuildId { get; init; }
+	public Optional<Int64> GuildId { get; init; }
 
 	/// <summary>
 	/// Fail-hard if the referenced message does not exist. Defaults to true.
 	/// </summary>
 	[JsonPropertyName("fail_if_not_exists")]
-	public Boolean? Failhard { get; init; } = true;
+	public Optional<Boolean> Failhard { get; init; }
 }
