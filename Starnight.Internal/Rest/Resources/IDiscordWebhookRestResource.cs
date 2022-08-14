@@ -158,4 +158,22 @@ public interface IDiscordWebhookRestResource
 		Int64? threadId,
 		ExecuteWebhookRequestPayload payload
 	);
+
+	/// <summary>
+	/// Returns a previously-sent webhook message from the same token.
+	/// </summary>
+	/// <param name="webhookId">Snowflake identifier of your webhook.</param>
+	/// <param name="webhookToken">Webhook token for your webhook. This must match the token of the original author.</param>
+	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="threadId">
+	///		Specifies the thread to search in rather than the parent channel. Only threads with the same parent channel
+	///		as the webhook can be passed.
+	/// </param>
+	public ValueTask<DiscordMessage> GetWebhookMessageAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		Int64 messageId,
+		Int64? threadId
+	);
 }

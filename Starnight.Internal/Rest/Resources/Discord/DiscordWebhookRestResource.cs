@@ -367,4 +367,37 @@ public sealed class DiscordWebhookRestResource
 				(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!
 			: null;
 	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> GetWebhookMessageAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		Int64 messageId,
+		Int64? threadId
+	)
+	{
+		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}/{Messages}/{messageId}");
+
+		_ = builder.AddParameter("thread_id", threadId?.ToString());
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{MessageId}",
+			Url = builder.Build(),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{messageId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
 }
