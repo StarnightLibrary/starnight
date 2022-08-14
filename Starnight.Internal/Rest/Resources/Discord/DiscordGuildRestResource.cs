@@ -807,6 +807,42 @@ public sealed class DiscordGuildRestResource
 	}
 
 	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildMultiFactorAuthLevel> ModifyGuildMFALevelAsync
+	(
+		Int64 guildId,
+		DiscordGuildMultiFactorAuthLevel level,
+		String? reason
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{guildId}/{MFA}",
+			Url = new($"{Guilds}/{guildId}/{MFA}"),
+			Payload = $$"""
+			{ "level" : {{(Int32)level}} }
+			""",
+			Method = HttpMethodEnum.Post,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{MFA}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordGuildMultiFactorAuthLevel>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
+
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteRoleAsync
 	(
 		Int64 guildId,

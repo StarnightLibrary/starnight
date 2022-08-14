@@ -343,6 +343,20 @@ public interface IDiscordGuildRestResource
 	);
 
 	/// <summary>
+	/// Modifies a guild's MFA level.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="level">The new MFA level for this guild.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The updated MFA level.</returns>
+	public ValueTask<DiscordGuildMultiFactorAuthLevel> ModifyGuildMFALevelAsync
+	(
+		Int64 guildId,
+		DiscordGuildMultiFactorAuthLevel level,
+		String? reason
+	);
+
+	/// <summary>
 	/// Deletes a role from a guild.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild the role belongs to.</param>

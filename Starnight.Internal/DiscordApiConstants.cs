@@ -44,6 +44,7 @@ public static class DiscordApiConstants
 	public const String Members = "members";
 	public const String MemberVerification = "member-verification";
 	public const String Messages = "messages";
+	public const String MFA = "mfa";
 	public const String OAuth2 = "oauth2";
 	public const String Original = "original";
 	public const String Permissions = "permissions";
