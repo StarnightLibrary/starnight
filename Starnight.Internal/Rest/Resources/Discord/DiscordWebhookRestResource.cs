@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources.Discord;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -58,6 +59,32 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordWebhook>> GetChannelWebhooksAsync
+	(
+		Int64 channelId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Channels}/{channelId}/{Webhooks}",
+			Url = new($"{Channels}/{channelId}/{Webhooks}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Channels}/{channelId}/{Webhooks}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordWebhook>>
 			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
 }

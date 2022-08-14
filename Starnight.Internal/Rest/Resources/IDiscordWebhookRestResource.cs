@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Channels;
@@ -23,5 +24,14 @@ public interface IDiscordWebhookRestResource
 		Int64 channelId,
 		CreateWebhookRequestPayload payload,
 		String? reason
+	);
+
+	/// <summary>
+	/// Returns a list of channel webhook objects.
+	/// </summary>
+	/// <param name="channelId">Snowflake identifier of the channel in question.</param>
+	public ValueTask<IEnumerable<DiscordWebhook>> GetChannelWebhooksAsync
+	(
+		Int64 channelId
 	);
 }
