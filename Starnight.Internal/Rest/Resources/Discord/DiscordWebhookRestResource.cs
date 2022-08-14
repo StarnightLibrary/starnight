@@ -201,4 +201,39 @@ public sealed class DiscordWebhookRestResource
 		return JsonSerializer.Deserialize<DiscordWebhook>
 			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
 	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordWebhook> ModifyWebhookWithTokenAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		ModifyWebhookWithTokenRequestPayload payload,
+		String? reason
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
+			Url = new($"{Webhooks}/{webhookId}/{webhookToken}"),
+			Method = HttpMethodEnum.Patch,
+			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{webhookId}/{WebhookToken}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordWebhook>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
 }

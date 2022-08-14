@@ -80,4 +80,23 @@ public interface IDiscordWebhookRestResource
 		ModifyWebhookRequestPayload payload,
 		String? reason
 	);
+
+	/// <summary>
+	/// Modifies the given webhook.
+	/// </summary>
+	/// <remarks>
+	/// This endpoint does not require authentication and is not counted to your global ratelimits.
+	/// </remarks>
+	/// <param name="webhookId">Snowflake identifier of the webhook to edit.</param>
+	/// <param name="webhookToken">Webhook token of the webhook to edit.</param>
+	/// <param name="payload">Request payload.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>The updated webhook object.</returns>
+	public ValueTask<DiscordWebhook> ModifyWebhookWithTokenAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		ModifyWebhookWithTokenRequestPayload payload,
+		String? reason
+	);
 }
