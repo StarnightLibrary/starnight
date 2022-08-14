@@ -66,4 +66,18 @@ public interface IDiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken
 	);
+
+	/// <summary>
+	/// Modifies the given webhook.
+	/// </summary>
+	/// <param name="webhookId">Snowflake identifier of the webhook to edit.</param>
+	/// <param name="payload">Request payload.</param>
+	/// <param name="reason">Optional audit log reason</param>
+	/// <returns>The updated webhook object.</returns>
+	public ValueTask<DiscordWebhook> ModifyWebhookAsync
+	(
+		Int64 webhookId,
+		ModifyWebhookRequestPayload payload,
+		String? reason
+	);
 }
