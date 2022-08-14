@@ -111,4 +111,21 @@ public interface IDiscordWebhookRestResource
 		Int64 webhookId,
 		String? reason
 	);
+
+	/// <summary>
+	/// Deletes the given webhook.
+	/// </summary>
+	/// <remarks>
+	/// This endpoint does not require authentication and is not counted to your global ratelimits.
+	/// </remarks>
+	/// <param name="webhookId">Snowflake identifier of the webhook to delete.</param>
+	/// <param name="webhookToken">Webhook token of the webhook to delete.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	public ValueTask<Boolean> DeleteWebhookWithTokenAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		String? reason
+	);
 }

@@ -268,4 +268,36 @@ public sealed class DiscordWebhookRestResource
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
+
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> DeleteWebhookWithTokenAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		String? reason
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
+			Url = new($"{Webhooks}/{webhookId}/{webhookToken}"),
+			Method = HttpMethodEnum.Delete,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{webhookId}/{WebhookToken}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
+	}
 }
