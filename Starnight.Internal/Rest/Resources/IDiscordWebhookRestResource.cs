@@ -99,4 +99,16 @@ public interface IDiscordWebhookRestResource
 		ModifyWebhookWithTokenRequestPayload payload,
 		String? reason
 	);
+
+	/// <summary>
+	/// Deletes the given webhook.
+	/// </summary>
+	/// <param name="webhookId">Snowflake identifier of the webhook to delete.</param>
+	/// <param name="reason">Optional audit log reason.</param>
+	/// <returns>Whether the deletion was successful.</returns>
+	public ValueTask<Boolean> DeleteWebhookAsync
+	(
+		Int64 webhookId,
+		String? reason
+	);
 }

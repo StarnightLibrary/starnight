@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Channels;
@@ -235,5 +236,36 @@ public sealed class DiscordWebhookRestResource
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
 			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> DeleteWebhookAsync
+	(
+		Int64 webhookId,
+		String? reason
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{webhookId}",
+			Url = new($"{Webhooks}/{webhookId}"),
+			Method = HttpMethodEnum.Delete,
+			Headers = reason is not null ? new()
+			{
+				["X-Audit-Log-Reason"] = reason
+			}
+			: new(),
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{webhookId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 }
