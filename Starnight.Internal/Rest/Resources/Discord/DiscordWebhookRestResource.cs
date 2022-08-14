@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
 using Starnight.Internal.Entities.Channels;
+using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.Webhooks;
 
 using static DiscordApiConstants;
@@ -299,5 +301,70 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage?> ExecuteWebhookAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		Boolean? wait,
+		Int64? threadId,
+		ExecuteWebhookRequestPayload payload
+	)
+	{
+		String payloadBody = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions);
+
+		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}");
+
+		_ = builder.AddParameter("wait", wait?.ToString())
+			.AddParameter("thread_id", threadId?.ToString());
+
+		IRestRequest request =
+
+			payload.Files is null ?
+
+				new RestRequest
+				{
+					Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
+					Url = builder.Build(),
+					Payload = payloadBody,
+					Method = HttpMethodEnum.Post,
+					Context = new()
+					{
+						["endpoint"] = $"/{Webhooks}/{webhookId}/{webhookToken}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = true,
+						["is-webhook-request"] = true
+					}
+				} :
+
+				new MultipartRestRequest
+				{
+					Path = $"/{Webhooks}/{webhookId}/{webhookToken}",
+					Url = builder.Build(),
+					Payload = String.IsNullOrWhiteSpace(payloadBody)
+						? new()
+						: new()
+						{
+							["payload_json"] = payloadBody
+						},
+					Method = HttpMethodEnum.Post,
+					Files = payload.Files.ToList(),
+					Context = new()
+					{
+						["endpoint"] = $"/{Webhooks}/{webhookId}/{webhookToken}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = false,
+						["is-webhook-request"] = false
+					}
+				};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return wait ?? false
+			? JsonSerializer.Deserialize<DiscordMessage>
+				(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!
+			: null;
 	}
 }

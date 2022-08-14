@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Channels;
+using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.Webhooks;
 
 /// <summary>
@@ -127,5 +128,34 @@ public interface IDiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		String? reason
+	);
+
+	/// <summary>
+	/// Executes the given webhook.
+	/// </summary>
+	/// <param name="webhookId">Snowflake identifier of the webhook to delete.</param>
+	/// <param name="webhookToken">Webhook token of the webhook to delete.</param>
+	/// <param name="wait">
+	///		Specifies whether to wait for server confirmation. If this is set to true, a <see cref="DiscordMessage"/>
+	///		object will be returned, if not, <see langword="null"/> will be returned on success instead. Defaults to
+	///		<see langword="false"/>
+	///	</param>
+	/// <param name="threadId">
+	///		Specifies a thread to send the message to rather than directly to the parent channel. If the thread is
+	///		archived, this will automatically unarchive it. Only threads with the same parent channel as the webhook
+	///		can be passed.
+	/// </param>
+	/// <param name="payload">Request payload.</param>
+	/// <returns>
+	/// If <paramref name="wait"/> was set to <see langword="true"/>, a <see cref="DiscordMessage"/> object.<br/>
+	/// If <paramref name="wait"/> was set to <see langword="false"/>, <see langword="null"/>.
+	/// </returns>
+	public ValueTask<DiscordMessage?> ExecuteWebhookAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		Boolean? wait,
+		Int64? threadId,
+		ExecuteWebhookRequestPayload payload
 	);
 }
