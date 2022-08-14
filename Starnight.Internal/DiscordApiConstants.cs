@@ -98,5 +98,6 @@ public static class DiscordApiConstants
 	public const String StickerId = ":sticker_id";
 	public const String TemplateCode = ":template_code";
 	public const String UserId = ":user_id";
+	public const String WebhookToken = ":webhook_token";
 	#endregion
 }

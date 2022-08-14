@@ -47,9 +47,23 @@ public interface IDiscordWebhookRestResource
 	/// <summary>
 	/// Returns the specified webhook object.
 	/// </summary>
-	/// <param name="webhookId"></param>
+	/// <param name="webhookId">Snowflake identifier of the webhook in question.</param>
 	public ValueTask<DiscordWebhook> GetWebhookAsync
 	(
 		Int64 webhookId
+	);
+
+	/// <summary>
+	/// Returns the specified webhook object.
+	/// </summary>
+	/// <remarks>
+	/// This endpoint does not require authentication and is not counted to your global ratelimits.
+	/// </remarks>
+	/// <param name="webhookId">Snowflake identifier of the webhook in question.</param>
+	/// <param name="webhookToken">Access token to this webhook.</param>
+	public ValueTask<DiscordWebhook> GetWebhookWithTokenAsync
+	(
+		Int64 webhookId,
+		String webhookToken
 	);
 }
