@@ -34,4 +34,13 @@ public interface IDiscordWebhookRestResource
 	(
 		Int64 channelId
 	);
+
+	/// <summary>
+	/// Returns a list of guild webhook objects.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	public ValueTask<IEnumerable<DiscordWebhook>> GetGuildWebhooksAsync
+	(
+		Int64 guildId
+	);
 }

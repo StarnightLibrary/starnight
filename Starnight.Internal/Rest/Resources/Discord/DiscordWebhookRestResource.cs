@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -76,6 +77,32 @@ public sealed class DiscordWebhookRestResource
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Webhooks}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordWebhook>>
+			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordWebhook>> GetGuildWebhooksAsync
+	(
+		Int64 guildId
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Guilds}/{guildId}/{Webhooks}",
+			Url = new($"{Guilds}/{guildId}/{Webhooks}"),
+			Method = HttpMethodEnum.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Webhooks}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false,
 				["is-webhook-request"] = false
