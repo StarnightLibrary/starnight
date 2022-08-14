@@ -43,4 +43,13 @@ public interface IDiscordWebhookRestResource
 	(
 		Int64 guildId
 	);
+
+	/// <summary>
+	/// Returns the specified webhook object.
+	/// </summary>
+	/// <param name="webhookId"></param>
+	public ValueTask<DiscordWebhook> GetWebhookAsync
+	(
+		Int64 webhookId
+	);
 }
