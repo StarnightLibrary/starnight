@@ -355,8 +355,8 @@ public sealed class DiscordWebhookRestResource
 					{
 						["endpoint"] = $"/{Webhooks}/{webhookId}/{webhookToken}",
 						["cache"] = this.RatelimitBucketCache,
-						["exempt-from-global-limit"] = false,
-						["is-webhook-request"] = false
+						["exempt-from-global-limit"] = true,
+						["is-webhook-request"] = true
 					}
 				};
 
@@ -399,5 +399,99 @@ public sealed class DiscordWebhookRestResource
 
 		return JsonSerializer.Deserialize<DiscordMessage>
 			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> EditWebhookMessageAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		Int64 messageId,
+		Int64? threadId,
+		EditWebhookMessageRequestPayload payload
+	)
+	{
+		String payloadBody = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions);
+
+		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}");
+
+		_ = builder.AddParameter("thread_id", threadId?.ToString());
+
+		IRestRequest request =
+
+			payload.Files is null ?
+
+				new RestRequest
+				{
+					Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
+					Url = builder.Build(),
+					Payload = payloadBody,
+					Method = HttpMethodEnum.Post,
+					Context = new()
+					{
+						["endpoint"] = $"/{Webhooks}/{webhookId}/{webhookToken}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = true,
+						["is-webhook-request"] = true
+					}
+				} :
+
+				new MultipartRestRequest
+				{
+					Path = $"/{Webhooks}/{webhookId}/{webhookToken}",
+					Url = builder.Build(),
+					Payload = String.IsNullOrWhiteSpace(payloadBody)
+						? new()
+						: new()
+						{
+							["payload_json"] = payloadBody
+						},
+					Method = HttpMethodEnum.Post,
+					Files = payload.Files.ToList(),
+					Context = new()
+					{
+						["endpoint"] = $"/{Webhooks}/{webhookId}/{webhookToken}",
+						["cache"] = this.RatelimitBucketCache,
+						["exempt-from-global-limit"] = true,
+						["is-webhook-request"] = true
+					}
+				};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return JsonSerializer.Deserialize<DiscordMessage>
+				(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> DeleteWebhookMessageAsync
+	(
+		Int64 webhookId,
+		String webhookToken,
+		Int64 messageId,
+		Int64? threadId
+	)
+	{
+		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}/{Messages}/{messageId}");
+
+		_ = builder.AddParameter("thread_id", threadId?.ToString());
+
+		IRestRequest request = new RestRequest
+		{
+			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{MessageId}",
+			Url = builder.Build(),
+			Method = HttpMethodEnum.Delete,
+			Context = new()
+			{
+				["endpoint"] = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{messageId}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = true,
+				["is-webhook-request"] = true
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+
+		return response.StatusCode == HttpStatusCode.NoContent;
 	}
 }
