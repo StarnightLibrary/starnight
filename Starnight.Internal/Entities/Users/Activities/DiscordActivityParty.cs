@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Gateway.Objects.User.Activity;
+namespace Starnight.Internal.Entities.Users.Activities;
 
 using System;
 using System.Collections.Generic;
@@ -7,13 +7,13 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents an activity party.
 /// </summary>
-public record DiscordActivityParty
+public sealed record DiscordActivityParty
 {
 	/// <summary>
 	/// The party ID.
 	/// </summary>
 	[JsonPropertyName("id")]
-	public String? Id { get; init; }
+	public Optional<String> Id { get; init; }
 
 	/// <summary>
 	/// size[0]: current size of the party.
@@ -21,5 +21,5 @@ public record DiscordActivityParty
 	/// size[1]: maximum size of the party.
 	/// </summary>
 	[JsonPropertyName("size")]
-	public IEnumerable<Int32>? Size { get; init; }
+	public Optional<IEnumerable<Int32>> Size { get; init; }
 }
