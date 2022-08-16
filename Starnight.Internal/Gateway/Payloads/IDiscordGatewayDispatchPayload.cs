@@ -6,19 +6,14 @@ using System;
 /// Represents a payload for opcode 0: dispatch. Note that implementers must set JSON attributes themselves, that is:
 /// </summary>
 /// <remarks>
-/// <inheritdoc path="//remarks"/>
-/// - <seealso cref="Data"/> must be annotated as <c>[JsonPropertyName("d")]</c> <br/>
+/// <inheritdoc path="//remarks" cref="IDiscordGatewayPayload"/>
+/// - <seealso cref="IDiscordGatewayPayload{TData}.Data"/> must be annotated as <c>[JsonPropertyName("d")]</c> <br/>
 /// - <seealso cref="Sequence"/> must be annotated as <c>[JsonPropertyName("s")]</c> <br/>
 /// - <seealso cref="EventName"/> must be annotated as <c>[JsonPropertyName("t")]</c> <br/>
 /// </remarks>
 /// <typeparam name="TData">The type of the </typeparam>
-public interface IDiscordGatewayDispatchPayload<TData> : IDiscordGatewayPayload
+public interface IDiscordGatewayDispatchPayload<TData> : IDiscordGatewayPayload<TData>
 {
-	/// <summary>
-	/// The payload data for this event.
-	/// </summary>
-	public TData Data { get; init; }
-
 	/// <summary>
 	/// The sequence number of this event, used for reconnecting.
 	/// </summary>
