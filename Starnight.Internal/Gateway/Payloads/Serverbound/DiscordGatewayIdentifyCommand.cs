@@ -12,11 +12,11 @@ public record struct DiscordGatewayIdentifyCommand : IDiscordGatewayPayload<Disc
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordIdentifyCommandObject Data { get; init; } = default;
+	public required DiscordIdentifyCommandObject Data { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public required DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.Identify;
+	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.Identify;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public DiscordGatewayIdentifyCommand() { }
