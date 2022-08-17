@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Represents the inner connection properties object of a <see cref="DiscordIdentifyCommandObject"/>.
 /// </summary>
-public sealed record DiscordIdentifyConnectionProperties
+public record struct DiscordIdentifyConnectionProperties
 {
 	/// <summary>
 	/// The operating system the client runs on.

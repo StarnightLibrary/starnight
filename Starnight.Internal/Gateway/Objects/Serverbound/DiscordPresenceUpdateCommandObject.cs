@@ -9,7 +9,7 @@ using Starnight.Internal.Entities.Users.Activities;
 /// <summary>
 /// Represents a payload for a Presence Update command.
 /// </summary>
-public sealed record DiscordPresenceUpdateCommandObject
+public record struct DiscordPresenceUpdateCommandObject
 {
 	/// <summary>
 	/// Unix time in millisecondsof when the client went idle, or null if the client is not idle.

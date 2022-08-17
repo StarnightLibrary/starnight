@@ -4,12 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal;
-
 /// <summary>
 /// Represents the payload of an identify command.
 /// </summary>
-public sealed record DiscordIdentifyCommandObject
+public record struct DiscordIdentifyCommandObject
 {
 	/// <summary>
 	/// Stores the bot token for this connection.
