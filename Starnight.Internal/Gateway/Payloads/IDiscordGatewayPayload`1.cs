@@ -1,7 +1,7 @@
 namespace Starnight.Internal.Gateway.Payloads;
 
 /// <summary>
-/// Represents a payload for opcode 0: dispatch. Note that implementers must set JSON attributes themselves, that is:
+/// Represents a payload for any opcode. Note that implementers must set JSON attributes themselves, that is:
 /// </summary>
 /// <remarks>
 /// <inheritdoc path="//remarks"/>
