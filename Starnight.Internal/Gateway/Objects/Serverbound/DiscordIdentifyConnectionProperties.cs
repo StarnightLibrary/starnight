@@ -1,11 +1,13 @@
 namespace Starnight.Internal.Gateway.Objects.Serverbound;
 
 using System;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents the inner connection properties object of a <see cref="DiscordIdentifyCommandObject"/>.
 /// </summary>
+[StructLayout(LayoutKind.Auto)]
 public record struct DiscordIdentifyConnectionProperties
 {
 	/// <summary>

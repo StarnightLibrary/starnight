@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway.Payloads.Serverbound;
 
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Gateway.Objects.Serverbound;
@@ -8,6 +9,7 @@ using Starnight.Internal.Gateway.Objects.Serverbound;
 /// <summary>
 /// Serverbound, <see cref="DiscordGatewayOpcode.Identify"/> command.
 /// </summary>
+[StructLayout(LayoutKind.Auto)]
 public record struct DiscordGatewayIdentifyCommand : IDiscordGatewayPayload<DiscordIdentifyCommandObject>
 {
 	/// <inheritdoc/>

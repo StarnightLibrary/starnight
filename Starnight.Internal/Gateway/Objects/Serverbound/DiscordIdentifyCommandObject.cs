@@ -2,11 +2,13 @@ namespace Starnight.Internal.Gateway.Objects.Serverbound;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents the payload of an identify command.
 /// </summary>
+[StructLayout(LayoutKind.Auto)]
 public record struct DiscordIdentifyCommandObject
 {
 	/// <summary>

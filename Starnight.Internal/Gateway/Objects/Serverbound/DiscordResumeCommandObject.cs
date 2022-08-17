@@ -1,11 +1,13 @@
 namespace Starnight.Internal.Gateway.Objects.Serverbound;
 
 using System;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents a payload for a <see cref="DiscordGatewayOpcode.Resume"/> command.
 /// </summary>
+[StructLayout(LayoutKind.Auto)]
 public record struct DiscordResumeCommandObject
 {
 	/// <summary>

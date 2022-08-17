@@ -2,6 +2,7 @@ namespace Starnight.Internal.Gateway.Objects.Serverbound;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Users.Activities;
@@ -9,6 +10,7 @@ using Starnight.Internal.Entities.Users.Activities;
 /// <summary>
 /// Represents a payload for a Presence Update command.
 /// </summary>
+[StructLayout(LayoutKind.Auto)]
 public record struct DiscordPresenceUpdateCommandObject
 {
 	/// <summary>
