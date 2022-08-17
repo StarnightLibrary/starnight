@@ -5,7 +5,7 @@ This document aims to clarify the parts of Starnight's code style rules that are
 
 ## Introduction
 
-Starnight is a modern, up-to-date, lightweight and fast Discord API wrapper, at this time developed against .NET 6 and Discord API v9. To both allow fast updating and proper maintenance, Starnight employs very rigorous code style outlined below and enforced in the editorconfig file.
+Starnight is a modern, up-to-date, lightweight and fast Discord API wrapper, at this time developed against .NET 7 and Discord API v10. To both allow fast updating and proper maintenance, Starnight employs very rigorous code style outlined below and enforced in the editorconfig file.
 
 If you plan to contribute to Starnight, make sure to rigorously and unconditionally follow these rules. If you feel like you absolutely have to,
 you can ignore some rules. If you decide to do so, make sure to discuss the breach before creating your pull request.
@@ -29,11 +29,11 @@ Raw Discord data structures are to be prefixed with `Discord`. For instance, `Ap
 
 Wrapped/safely handled data structures are to be prefixed with `Starnight`. For instance, for a `DiscordGuild` exposing all the raw data and no convenience features at all, there would be a `StarnightGuild` equivalent keeping back raw data and exposing convenience features. 
 
-In general, longer and more descriptive names are preferable to short and thus less descriptive names. There are exceptions, but - see the Architecture section - those do not really apply to Starnight. As a baseline, 48 characters is a limit that should not be exceeded.
+In general, longer and more descriptive names are preferable to short and thus less descriptive names. There are exceptions, but - see the Architecture section - those do not really apply to Starnight. As a baseline, 64 characters is a limit that should not be exceeded.
 
 #### Architecture ####
 
-Starnight mostly wraps Discord API v9 into C#, without much work around that. Please refrain from using any kind of design pattern for their own sake; a bare API is enough.
+Starnight mostly wraps Discord API v10 into C#, without much work around that. Please refrain from using any kind of design pattern for their own sake; a bare API is enough.
 
 Raw data is to be exposed as defined in Naming. `Starnight`-prefixed API should never require or return raw data, instead it should be up to the programmer.
 
@@ -44,3 +44,9 @@ Where `Discord`-API should (almost) solely match the Discord API specification, 
 Use namespaces where deemed appropriate. Creating a namespace just for two classes is probably not worth it. Put only one type into each file. Also avoid nested types - where they make sense, split the containing type up into a partial class and use a separate file for the nested type.
 
 Avoid overly long lines. Newlines are easy to use in this language, let's take advantage of that!
+
+#### Type System Usage ####
+
+Working with Discord can involve a lot of new objects, especially over the gateway. Correspondingly, we use value types where we know they will be swiftly destroyed again, and reference types where we deal with long-lived data.
+
+All direct gateway objects shall be `record struct`s, save only scenarios where it is impossible to employ this tech. Similarly, all async operations shall use `ValueTask` rather than `Task` - and their respective generic counterparts - save only scenarios where it is impossible to employ this tech. All cases where these rules are violated shall be documented and the reasoning explained.
