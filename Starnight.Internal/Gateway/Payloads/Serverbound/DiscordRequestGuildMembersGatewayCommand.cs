@@ -7,19 +7,19 @@ using System.Text.Json.Serialization;
 using Starnight.Internal.Gateway.Objects.Serverbound;
 
 /// <summary>
-/// Represents an Update Voice State gateway command.
+/// Gateway command to request guild members through the gateway.
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
-public record struct DiscordGatewayUpdateVoiceStateCommand : IDiscordGatewayPayload<DiscordUpdateVoiceStateCommandObject>
+public record struct DiscordRequestGuildMembersGatewayCommand : IDiscordGatewayPayload<DiscordRequestGuildMembersCommandObject>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordUpdateVoiceStateCommandObject Data { get; init; }
+	public required DiscordRequestGuildMembersCommandObject Data { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.VoiceStateUpdate;
+	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.RequestGuildMembers;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public DiscordGatewayUpdateVoiceStateCommand() { }
+	public DiscordRequestGuildMembersGatewayCommand() { }
 }

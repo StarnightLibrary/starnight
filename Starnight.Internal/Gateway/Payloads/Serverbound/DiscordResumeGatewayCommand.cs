@@ -7,19 +7,19 @@ using System.Text.Json.Serialization;
 using Starnight.Internal.Gateway.Objects.Serverbound;
 
 /// <summary>
-/// Gateway command to request guild members through the gateway.
+/// Serverbound, <see cref="DiscordGatewayOpcode.Resume"/> command.
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
-public record struct DiscordGatewayRequestGuildMembersCommand : IDiscordGatewayPayload<DiscordRequestGuildMembersCommandObject>
+public record struct DiscordResumeGatewayCommand : IDiscordGatewayPayload<DiscordResumeCommandObject>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordRequestGuildMembersCommandObject Data { get; init; }
+	public required DiscordResumeCommandObject Data { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.RequestGuildMembers;
+	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.Resume;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public DiscordGatewayRequestGuildMembersCommand() { }
+	public DiscordResumeGatewayCommand() { }
 }

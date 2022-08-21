@@ -10,7 +10,7 @@ using Starnight.Internal.Gateway.Objects.Serverbound;
 /// Serverbound, <see cref="DiscordGatewayOpcode.Identify"/> command.
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
-public record struct DiscordGatewayIdentifyCommand : IDiscordGatewayPayload<DiscordIdentifyCommandObject>
+public record struct DiscordIdentifyGatewayCommand : IDiscordGatewayPayload<DiscordIdentifyCommandObject>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
@@ -21,5 +21,5 @@ public record struct DiscordGatewayIdentifyCommand : IDiscordGatewayPayload<Disc
 	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.Identify;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public DiscordGatewayIdentifyCommand() { }
+	public DiscordIdentifyGatewayCommand() { }
 }

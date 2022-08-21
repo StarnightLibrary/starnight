@@ -7,19 +7,19 @@ using System.Text.Json.Serialization;
 using Starnight.Internal.Gateway.Objects.Serverbound;
 
 /// <summary>
-/// Represents an Update Presence gateway command
+/// Represents an Update Voice State gateway command.
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
-public record struct DiscordGatewayUpdatePresenceCommand : IDiscordGatewayPayload<DiscordPresenceUpdateCommandObject>
+public record struct DiscordUpdateVoiceStateGatewayCommand : IDiscordGatewayPayload<DiscordUpdateVoiceStateCommandObject>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordPresenceUpdateCommandObject Data { get; init; }
+	public required DiscordUpdateVoiceStateCommandObject Data { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.PresenceUpdate;
+	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.VoiceStateUpdate;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public DiscordGatewayUpdatePresenceCommand() { }
+	public DiscordUpdateVoiceStateGatewayCommand() { }
 }
