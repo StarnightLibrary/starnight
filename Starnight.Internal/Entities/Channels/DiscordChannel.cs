@@ -10,7 +10,8 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents any sort, shape or form of discord channel.
 /// </summary>
-public sealed record DiscordChannel : DiscordSnowflakeObject
+// not sealed because we have a Dispatch object inheriting from this
+public record DiscordChannel : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Discord channel type.
