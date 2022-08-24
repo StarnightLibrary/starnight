@@ -1,7 +1,5 @@
 namespace Starnight.Internal.Gateway.Payloads.Serverbound;
 
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Gateway.Objects.Serverbound;
@@ -9,8 +7,7 @@ using Starnight.Internal.Gateway.Objects.Serverbound;
 /// <summary>
 /// Represents an Update Voice State gateway command.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordUpdateVoiceStateGatewayCommand : IDiscordGatewayPayload<DiscordUpdateVoiceStateCommandObject>
+public sealed record DiscordUpdateVoiceStateCommand : IDiscordGatewayPayload<DiscordUpdateVoiceStateCommandObject>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
@@ -19,7 +16,4 @@ public record struct DiscordUpdateVoiceStateGatewayCommand : IDiscordGatewayPayl
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
 	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.VoiceStateUpdate;
-
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public DiscordUpdateVoiceStateGatewayCommand() { }
 }

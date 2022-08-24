@@ -1,7 +1,5 @@
 namespace Starnight.Internal.Gateway.Payloads.Serverbound;
 
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Gateway.Objects.Serverbound;
@@ -9,8 +7,7 @@ using Starnight.Internal.Gateway.Objects.Serverbound;
 /// <summary>
 /// Serverbound, <see cref="DiscordGatewayOpcode.Resume"/> command.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordResumeGatewayCommand : IDiscordGatewayPayload<DiscordResumeCommandObject>
+public sealed record DiscordResumeCommand : IDiscordGatewayPayload<DiscordResumeCommandObject>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
@@ -19,7 +16,4 @@ public record struct DiscordResumeGatewayCommand : IDiscordGatewayPayload<Discor
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
 	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.Resume;
-
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public DiscordResumeGatewayCommand() { }
 }

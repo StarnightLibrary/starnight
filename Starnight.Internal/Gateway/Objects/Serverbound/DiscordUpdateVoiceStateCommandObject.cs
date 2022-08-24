@@ -1,14 +1,12 @@
 namespace Starnight.Internal.Gateway.Objects.Serverbound;
 
 using System;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents a payload for an Update Voice State command.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordUpdateVoiceStateCommandObject
+public sealed record DiscordUpdateVoiceStateCommandObject
 {
 	/// <summary>
 	/// Snowflake ID of the guild you wish to change voice state in.

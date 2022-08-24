@@ -2,14 +2,12 @@ namespace Starnight.Internal.Gateway.Objects.Serverbound;
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents a payload to <see cref="DiscordGatewayOpcode.RequestGuildMembers"/>.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordRequestGuildMembersCommandObject
+public sealed record DiscordRequestGuildMembersCommandObject
 {
 	/// <summary>
 	/// Snowflake ID of the guild to get members for.

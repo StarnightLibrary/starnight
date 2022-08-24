@@ -2,7 +2,6 @@ namespace Starnight.Internal.Gateway.Objects.Clientbound;
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
@@ -13,8 +12,7 @@ using Starnight.Internal.Entities.Users;
 /// Represents the payload for a READY event. In Starnight, we call them Connected, as the connection
 /// is in fact not quite ready when this event is fired.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordConnectedEventObject
+public sealed record DiscordConnectedEventObject
 {
 	/// <summary>
 	/// Gateway version.

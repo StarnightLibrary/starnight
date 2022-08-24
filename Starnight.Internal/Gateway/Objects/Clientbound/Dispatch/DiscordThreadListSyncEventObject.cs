@@ -2,7 +2,6 @@ namespace Starnight.Internal.Gateway.Objects.Clientbound.Dispatch;
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
@@ -11,8 +10,7 @@ using Starnight.Internal.Entities.Channels.Threads;
 /// <summary>
 /// Inner payload for a ThreadListSync event.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordThreadListSyncEventObject
+public sealed record DiscordThreadListSyncEventObject
 {
 	/// <summary>
 	/// The snowflake ID of the guild in question.
@@ -37,5 +35,5 @@ public record struct DiscordThreadListSyncEventObject
 	/// All member objects for the current user.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public IEnumerable<DiscordThreadMember> ThreadMemberObjects { get; init; }
+	public required IEnumerable<DiscordThreadMember> ThreadMemberObjects { get; init; }
 }

@@ -1,7 +1,6 @@
 namespace Starnight.Internal.Gateway.Objects.Clientbound.Dispatch;
 
 using System;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds.AutoModeration;
@@ -9,8 +8,7 @@ using Starnight.Internal.Entities.Guilds.AutoModeration;
 /// <summary>
 /// Represents the inner payload of an AutoModerationActionExecuted event.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordAutoModerationActionExecutedEventObject
+public sealed record DiscordAutoModerationActionExecutedEventObject
 {
 	/// <summary>
 	/// The ID of the guild in which the action was executed.

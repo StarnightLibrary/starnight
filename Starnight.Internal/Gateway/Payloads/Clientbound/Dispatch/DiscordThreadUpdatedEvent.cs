@@ -1,7 +1,6 @@
 namespace Starnight.Internal.Gateway.Payloads.Clientbound.Dispatch;
 
 using System;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
@@ -9,22 +8,21 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Fired when a thread is updated.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordThreadUpdatedGatewayEvent : IDiscordGatewayDispatchPayload<DiscordChannel>
+public sealed record DiscordThreadUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordChannel>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]
-	public Int32 Sequence { get; init; }
+	public required Int32 Sequence { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("t")]
-	public String EventName { get; init; }
+	public required String EventName { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public DiscordChannel Data { get; init; }
+	public required DiscordChannel Data { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; }
+	public required DiscordGatewayOpcode Opcode { get; init; }
 }

@@ -1,6 +1,5 @@
 namespace Starnight.Internal.Gateway.Payloads.Clientbound;
 
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Gateway.Objects.Clientbound;
@@ -8,8 +7,7 @@ using Starnight.Internal.Gateway.Objects.Clientbound;
 /// <summary>
 /// Represents a gateway Hello event.
 /// </summary>
-[StructLayout(LayoutKind.Auto)]
-public record struct DiscordHelloGatewayEvent : IDiscordGatewayPayload<DiscordHelloEventObject>
+public sealed record DiscordHelloEvent : IDiscordGatewayPayload<DiscordHelloEventObject>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
@@ -17,5 +15,5 @@ public record struct DiscordHelloGatewayEvent : IDiscordGatewayPayload<DiscordHe
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; }
+	public required DiscordGatewayOpcode Opcode { get; init; }
 }
