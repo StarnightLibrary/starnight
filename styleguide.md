@@ -44,11 +44,3 @@ Where `Discord`-API should (almost) solely match the Discord API specification, 
 Use namespaces where deemed appropriate. Creating a namespace just for two classes is probably not worth it. Put only one type into each file. Also avoid nested types - where they make sense, split the containing type up into a partial class and use a separate file for the nested type.
 
 Avoid overly long lines. Newlines are easy to use in this language, let's take advantage of that!
-
-#### Type System Usage ####
-
-Working with Discord can involve a lot of new objects, especially over the gateway. Correspondingly, we use value types where we know they will be swiftly destroyed again, and reference types where we deal with long-lived data.
-
-All direct gateway objects shall be `record struct`s, save only scenarios where it is impossible to employ this tech. Similarly, all async operations shall use `ValueTask` rather than `Task` - and their respective generic counterparts - save only scenarios where it is impossible to employ this tech. All cases where these rules are violated shall be documented and the reasoning explained.
-
-Furthermore, all direct gateway intents shall be marked with `[StructLayout(LayoutKind.Auto)]`, telling the runtime to order fields as it sees fit, unlike the default for value types which is `LayoutKind.Sequential`.
