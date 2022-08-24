@@ -1,6 +1,6 @@
 namespace Starnight.Internal.Converters;
 
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization.Metadata;
 
 internal class OptionalTypeInfoResolver
@@ -13,9 +13,9 @@ internal class OptionalTypeInfoResolver
 			{
 				foreach(JsonPropertyInfo property in type.Properties)
 				{
-					if(property.PropertyType.GetInterfaces().Contains(typeof(IOptional)))
+					if(property.PropertyType.FullName == "Starnight.Optional`1")
 					{
-						property.ShouldSerialize = (_, value) => (value as IOptional)?.HasValue ?? false;
+						property.ShouldSerialize = (_, value) => Unsafe.As<IOptional>(value)?.HasValue ?? false;
 					}
 				}
 			}
