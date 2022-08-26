@@ -229,6 +229,16 @@ public class MemoryCacheService : ICacheService
 		}
 	}
 
+	/// <summary>
+	/// Creates a new <see cref="ICacheEntry"/> and returns it, leaving responsibility for what to do up to the caller.
+	/// </summary>
+	/// <param name="key">The cache key for this entry.</param>
+	public ICacheEntry Set
+	(
+		Object key
+	)
+		=> this.__backing.CreateEntry(key);
+
 	/// <inheritdoc/>
 	public ICacheService SetAbsoluteExpiration<T>
 	(
@@ -364,6 +374,16 @@ public class MemoryCacheService : ICacheService
 
 		return ValueTask.CompletedTask;
 	}
+
+	/// <summary>
+	/// Creates a new <see cref="ICacheEntry"/> and returns it, leaving responsibility for what to do up to the caller.
+	/// </summary>
+	/// <param name="key">The cache key for this entry.</param>
+	public ValueTask<ICacheEntry> SetAsync
+	(
+		Object key
+	)
+		=> ValueTask.FromResult(this.__backing.CreateEntry(key));
 
 	/// <inheritdoc/>
 	public ICacheService SetSlidingExpiration<T>
