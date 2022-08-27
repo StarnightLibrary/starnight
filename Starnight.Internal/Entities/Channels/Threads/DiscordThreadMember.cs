@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Additional data for a guild member that joined a thread.
 /// </summary>
-public sealed record DiscordThreadMember
+public record DiscordThreadMember
 {
 	/// <summary>
 	/// Snowflake identifier of the thread.
