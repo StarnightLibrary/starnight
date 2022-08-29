@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Users;
+
 /// <summary>
 /// Represents the payload of an identify command.
 /// </summary>
@@ -48,7 +50,7 @@ public sealed record DiscordIdentifyCommandObject
 	/// The initial presence information when connecting to the gateway.
 	/// </summary>
 	[JsonPropertyName("presence")]
-	public Optional<DiscordPresenceUpdateCommandObject> Presence { get; init; }
+	public Optional<DiscordPresence> Presence { get; init; }
 
 	/// <summary>
 	/// The gateway intents you wish to receive.

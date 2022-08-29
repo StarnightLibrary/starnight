@@ -11,7 +11,7 @@ using Starnight.Internal.Entities.Users;
 /// Represents any sort, shape or form of discord channel.
 /// </summary>
 // not sealed because we have a Dispatch object inheriting from this
-public record DiscordChannel : DiscordSnowflakeObject
+public sealed record DiscordChannel : DiscordSnowflakeObject
 {
 	/// <summary>
 	/// Discord channel type.
@@ -180,4 +180,11 @@ public record DiscordChannel : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("total_message_sent")]
 	public Optional<Int32> TotalMessagesSent { get; init; }
+
+
+	/// <summary>
+	/// Whether this thread was newly created.
+	/// </summary>
+	[JsonPropertyName("newly_created")]
+	public Optional<Boolean> NewlyCreated { get; init; }
 }

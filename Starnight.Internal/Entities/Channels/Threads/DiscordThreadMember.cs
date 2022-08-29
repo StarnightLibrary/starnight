@@ -3,10 +3,13 @@ namespace Starnight.Internal.Entities.Channels.Threads;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Entities.Users;
+
 /// <summary>
 /// Additional data for a guild member that joined a thread.
 /// </summary>
-public record DiscordThreadMember
+public sealed record DiscordThreadMember
 {
 	/// <summary>
 	/// Snowflake identifier of the thread.
@@ -31,4 +34,23 @@ public record DiscordThreadMember
 	/// </summary>
 	[JsonPropertyName("flags")]
 	public required Int32 Flags { get; init; }
+
+
+	/// <summary>
+	/// The ID of the guild this thread member belongs to.
+	/// </summary>
+	[JsonPropertyName("guild_id")]
+	public Optional<Int64> GuildId { get; init; }
+
+	/// <summary>
+	/// The associated guild member object.
+	/// </summary>
+	[JsonPropertyName("member")]
+	public Optional<DiscordGuildMember> Member { get; init; }
+
+	/// <summary>
+	/// The current presence of this guild member.
+	/// </summary>
+	[JsonPropertyName("presence")]
+	public Optional<DiscordPresence> Presence { get; init; }
 }

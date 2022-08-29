@@ -3,12 +3,12 @@ namespace Starnight.Internal.Gateway.Payloads.Clientbound.Dispatch;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Gateway.Objects.Clientbound.Dispatch;
+using Starnight.Internal.Entities.Channels.Threads;
 
 /// <summary>
 /// ThreadMemberUpdated event.
 /// </summary>
-public sealed record DiscordThreadMemberUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordThreadMemberUpdatedEventObject>
+public sealed record DiscordThreadMemberUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordThreadMember>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]
@@ -20,7 +20,7 @@ public sealed record DiscordThreadMemberUpdatedEvent : IDiscordGatewayDispatchPa
 
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordThreadMemberUpdatedEventObject Data { get; init; }
+	public required DiscordThreadMember Data { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
