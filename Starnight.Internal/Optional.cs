@@ -3,8 +3,6 @@ namespace Starnight;
 using System;
 using System.Collections.Generic;
 
-using Starnight.Internal;
-
 /// <summary>
 /// Represents an optional value - that is, a value that may either be present or not be present.
 /// <see langword="null"/> is a valid presence.
@@ -49,7 +47,7 @@ public struct Optional<T> : IOptional
 		=> new() { Value = value, HasValue = true };
 
 	public Optional(T value)
-	{ 
+	{
 		this.Value = value;
 		this.HasValue = true;
 	}

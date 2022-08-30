@@ -14,7 +14,7 @@ public sealed record DiscordMessageSticker : DiscordSnowflakeObject
 	/// Name of this sticker.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public required String Name { get; init; } 
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Format type of this sticker.

@@ -32,7 +32,7 @@ public sealed record DiscordSticker : DiscordSnowflakeObject
 	/// Comma-separated list of tags for this sticker, max. 200 characters.
 	/// </summary>
 	[JsonPropertyName("tags")]
-	public required String Tags { get; init; } 
+	public required String Tags { get; init; }
 
 	/// <summary>
 	/// Sticker type.

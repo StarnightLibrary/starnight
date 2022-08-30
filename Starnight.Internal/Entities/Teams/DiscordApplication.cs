@@ -15,7 +15,7 @@ public sealed record DiscordApplication : DiscordSnowflakeObject
 	/// The name of this application.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public required String Name { get; init; } 
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// The icon hash for this application.

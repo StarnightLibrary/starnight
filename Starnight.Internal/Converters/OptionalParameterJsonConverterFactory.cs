@@ -4,8 +4,6 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal;
-
 internal class OptionalParameterJsonConverterFactory : JsonConverterFactory
 {
 	public override Boolean CanConvert(Type typeToConvert)

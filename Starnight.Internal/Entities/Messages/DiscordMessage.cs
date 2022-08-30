@@ -6,7 +6,6 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities;
 using Starnight.Internal.Entities.Channels;
-using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Interactions;
 using Starnight.Internal.Entities.Interactions.Components;
 using Starnight.Internal.Entities.Messages.Embeds;
@@ -65,7 +64,7 @@ public sealed record DiscordMessage : DiscordSnowflakeObject
 	/// Array of the users specifically mentioned in this message.
 	/// </summary>
 	[JsonPropertyName("mentions")]
-	public required IEnumerable<DiscordUser> MentionedUsers { get; init; } 
+	public required IEnumerable<DiscordUser> MentionedUsers { get; init; }
 
 	/// <summary>
 	/// Array of role IDs specifically mentioned in this message.

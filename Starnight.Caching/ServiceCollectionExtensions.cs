@@ -1,4 +1,4 @@
-﻿namespace Starnight.Caching;
+namespace Starnight.Caching;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +13,6 @@ public static class ServiceCollectionExtensions
 	/// <summary>
 	/// Adds starnight's memory caching to the service collection.
 	/// </summary>
-	public static IServiceCollection AddStarnightMemoryCache(this IServiceCollection services) 
+	public static IServiceCollection AddStarnightMemoryCache(this IServiceCollection services)
 		=> services.AddSingleton<ICacheService, MemoryCacheService>();
 }

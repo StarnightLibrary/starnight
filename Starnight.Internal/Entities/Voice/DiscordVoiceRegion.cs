@@ -18,7 +18,7 @@ public sealed record DiscordVoiceRegion
 	/// Region name.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public required String Name { get; init; } 
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Whether this region is optimal for the current user's client.

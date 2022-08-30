@@ -1,4 +1,4 @@
-namespace Starnight.Internal;
+namespace Starnight;
 
 using System;
 

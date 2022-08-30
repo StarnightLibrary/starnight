@@ -9,7 +9,6 @@ using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Users;
-using Starnight.Internal.Exceptions;
 using Starnight.Internal.Rest.Payloads.Channels;
 
 /// <summary>

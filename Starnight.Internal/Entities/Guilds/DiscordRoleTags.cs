@@ -1,7 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds;
 
-using System.Text.Json.Serialization;
 using System;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents possible tags of a discord role.

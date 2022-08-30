@@ -1,7 +1,7 @@
 namespace Starnight.Internal.Rest.Payloads.GuildTemplates;
 
-using System.Text.Json.Serialization;
 using System;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents a payload to PATCH /guilds/:guild_id/templates/:template_code.

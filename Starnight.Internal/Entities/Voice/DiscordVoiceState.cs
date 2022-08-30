@@ -38,7 +38,7 @@ public sealed record DiscordVoiceState
 	/// The session ID for this voice state.
 	/// </summary>
 	[JsonPropertyName("session_id")]
-	public required String SessionId { get; init; } 
+	public required String SessionId { get; init; }
 
 	/// <summary>
 	/// Whether this user is server-deafened.

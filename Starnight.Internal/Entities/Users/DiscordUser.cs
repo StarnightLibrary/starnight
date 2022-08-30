@@ -36,13 +36,13 @@ public sealed record DiscordUser : DiscordSnowflakeObject
 	/// Gets whether this account is part of the official Discord Message System.
 	/// </summary>
 	[JsonPropertyName("system")]
-	public Optional<Boolean> System { get; init; } 
+	public Optional<Boolean> System { get; init; }
 
 	/// <summary>
 	/// Gets whether this account has Multi-Factor Authentication enabled.
 	/// </summary>
 	[JsonPropertyName("mfa_enabled")]
-	public Optional<Boolean> MfaEnabled { get; init; } 
+	public Optional<Boolean> MfaEnabled { get; init; }
 
 	/// <summary>
 	/// Gets the reference to this accounts' banner, null if the user has no banner.
@@ -54,7 +54,7 @@ public sealed record DiscordUser : DiscordSnowflakeObject
 	/// Gets the integer representation of this users baner colour, null if the user has a custom banner.
 	/// </summary>
 	[JsonPropertyName("accent_color")]
-	public Optional<Int32?> AccentColor { get; init; } 
+	public Optional<Int32?> AccentColor { get; init; }
 
 	/// <summary>
 	/// Gets the user's chosen locale option.

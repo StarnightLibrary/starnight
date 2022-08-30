@@ -1,7 +1,7 @@
 namespace Starnight.Internal.Entities.Messages.Embeds;
 
-using System.Text.Json.Serialization;
 using System;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents an image displayed in an embed.
@@ -12,7 +12,7 @@ public sealed record DiscordEmbedImage
 	/// Image source url.
 	/// </summary>
 	[JsonPropertyName("url")]
-	public required String Url { get; init; } 
+	public required String Url { get; init; }
 
 	/// <summary>
 	/// A proxied source url for this image.

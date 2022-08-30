@@ -24,7 +24,7 @@ public sealed record DiscordStageInstance : DiscordSnowflakeObject
 	/// The topic of this stage instance, 1 - 120 characters.
 	/// </summary>
 	[JsonPropertyName("topic")]
-	public required String Topic { get; init; } 
+	public required String Topic { get; init; }
 
 	/// <summary>
 	/// The privacy level of this stage instance.

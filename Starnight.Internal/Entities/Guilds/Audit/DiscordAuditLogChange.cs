@@ -1,11 +1,7 @@
 namespace Starnight.Internal.Entities.Guilds.Audit;
 
 using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
-
-using Starnight.Internal.Entities.Channels;
-using Starnight.Internal.Entities.Guilds;
 
 /// <summary>
 /// Represents an audit log reflected change.

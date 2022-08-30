@@ -3,7 +3,6 @@ namespace Starnight.Internal.Rest.Payloads.ScheduledEvents;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Converters;
 using Starnight.Internal.Entities.Guilds;
 
 /// <summary>

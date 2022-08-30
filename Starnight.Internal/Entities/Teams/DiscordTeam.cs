@@ -19,13 +19,13 @@ public sealed record DiscordTeam : DiscordSnowflakeObject
 	/// Array of team members.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public required IEnumerable<DiscordTeamMember> Members { get; init; } 
+	public required IEnumerable<DiscordTeamMember> Members { get; init; }
 
 	/// <summary>
 	/// Team name.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public required String Name { get; init; } 
+	public required String Name { get; init; }
 
 	/// <summary>
 	/// Team owner snowflake identifier.

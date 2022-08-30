@@ -33,5 +33,5 @@ public sealed record DiscordTeamMember
 	/// Discord user for this team member.
 	/// </summary>
 	[JsonPropertyName("user")]
-	public required DiscordUser User { get; init; } 
+	public required DiscordUser User { get; init; }
 }

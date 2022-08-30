@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 
@@ -22,7 +21,7 @@ public record RatelimitBucket
 
 	public Int32 Limit { get; internal set; } = __default_limit;
 
-#pragma warning disable CS0420 
+#pragma warning disable CS0420
 	public Int32 Remaining
 	{
 		get => Volatile.Read(ref this.__remaining);

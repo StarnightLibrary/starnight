@@ -1,7 +1,6 @@
 namespace Starnight.Caching.Abstractions;
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 /// <summary>

@@ -11,18 +11,18 @@ using Starnight.Caching.Abstractions;
 /// </summary>
 public record MemoryCacheEntry : AbstractCacheEntry
 {
-    /// <summary>
-    /// Overrides the absolute expiration for this entry.
-    /// </summary>
-    public TimeSpan? AbsoluteExpiration { get; set; }
+	/// <summary>
+	/// Overrides the absolute expiration for this entry.
+	/// </summary>
+	public TimeSpan? AbsoluteExpiration { get; set; }
 
-    /// <summary>
-    /// Overrides the sliding expiration for this entry.
-    /// </summary>
-    public TimeSpan? SlidingExpiration { get; set; }
+	/// <summary>
+	/// Overrides the sliding expiration for this entry.
+	/// </summary>
+	public TimeSpan? SlidingExpiration { get; set; }
 
-    /// <summary>
-    /// Sets a post-eviction callback for this entry.
-    /// </summary>
-    public PostEvictionDelegate? PostEvictionCallback { get; set; }
+	/// <summary>
+	/// Sets a post-eviction callback for this entry.
+	/// </summary>
+	public PostEvictionDelegate? PostEvictionCallback { get; set; }
 }

@@ -40,5 +40,5 @@ public sealed record AddGuildMemberRequestPayload
 	/// Whether to immediately deafen the user upon join.
 	/// </summary>
 	[JsonPropertyName("deaf")]
-	public Optional<Boolean> Deafen { get; init; }	
+	public Optional<Boolean> Deafen { get; init; }
 }

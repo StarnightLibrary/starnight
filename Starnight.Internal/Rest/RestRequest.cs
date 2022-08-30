@@ -3,7 +3,6 @@ namespace Starnight.Internal.Rest;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 
 using Polly;
 
@@ -13,7 +12,7 @@ using Polly;
 public struct RestRequest : IRestRequest
 {
 	public RestRequest()
-	{}
+	{ }
 
 	public HttpMethod Method { get; init; } = HttpMethod.Get;
 

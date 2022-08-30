@@ -16,7 +16,7 @@ public sealed record DiscordUserConnection
 	/// String ID of the connection account.
 	/// </summary>
 	[JsonPropertyName("id")]
-	public required String Id { get; init; } 
+	public required String Id { get; init; }
 
 	/// <summary>
 	/// Username of the connection account.
@@ -28,7 +28,7 @@ public sealed record DiscordUserConnection
 	/// Service type: twitch, youtube, github etc.
 	/// </summary>
 	[JsonPropertyName("type")]
-	public required String Type { get; init; } 
+	public required String Type { get; init; }
 
 	/// <summary>
 	/// Holds whether this connection is revoked.
@@ -40,7 +40,7 @@ public sealed record DiscordUserConnection
 	/// Holds whether this connection is verified.
 	/// </summary>
 	[JsonPropertyName("verified")]
-	public required Boolean Verified { get; init; } 
+	public required Boolean Verified { get; init; }
 
 	/// <summary>
 	/// Holds whether friend sync is enabled for this connection.
@@ -58,7 +58,7 @@ public sealed record DiscordUserConnection
 	/// Visibility of this connection.
 	/// </summary>
 	[JsonPropertyName("visibility")]
-	public required DiscordUserConnectionVisibility Visibility { get; init; } 
+	public required DiscordUserConnectionVisibility Visibility { get; init; }
 
 	/// <summary>
 	/// Active integrations tied to this user.

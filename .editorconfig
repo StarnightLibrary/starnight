@@ -32,7 +32,7 @@ dotnet_style_prefer_inferred_tuple_names = false:warning
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:warning
 dotnet_style_prefer_compound_assignment = true:warning
 dotnet_style_prefer_simplified_interpolation = true:error
-dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_namespace_match_folder = true:warning
 dotnet_style_readonly_field = true:error
 dotnet_style_predefined_type_for_locals_parameters_members = false:warning
 dotnet_style_predefined_type_for_member_access = false:warning
@@ -294,6 +294,7 @@ dotnet_naming_style.abstract_class.required_prefix = Abstract
 dotnet_naming_style.abstract_class.required_suffix = 
 dotnet_naming_style.abstract_class.word_separator =
 dotnet_naming_style.abstract_class.capitalization = pascal_case
+
 csharp_style_namespace_declarations = file_scoped:warning
 csharp_style_prefer_null_check_over_type_check = true:error
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
@@ -302,3 +303,7 @@ csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
 csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
 csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:silent
 csharp_style_prefer_extended_property_pattern = true:suggestion
+csharp_style_prefer_method_group_conversion = true:warning
+csharp_style_prefer_top_level_statements = false:error
+
+dotnet_diagnostic.IDE0005.severity = error
