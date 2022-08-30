@@ -9,8 +9,12 @@ using System.Text.Json.Serialization;
 public sealed record DiscordUnavailableGuild : DiscordSnowflakeObject
 {
 	/// <summary>
-	/// Always false.
+	/// Indicates whether this guild is unavailable.
 	/// </summary>
+	/// <remarks>
+	/// If this is sent as part of a GuildDeleted event, this indicates whether the guild is actually unavailable or
+	/// whether the user has been removed from this guild.
+	/// </remarks>
 	[JsonPropertyName("unavailable")]
 	public required Boolean Unavailable { get; init; }
 }
