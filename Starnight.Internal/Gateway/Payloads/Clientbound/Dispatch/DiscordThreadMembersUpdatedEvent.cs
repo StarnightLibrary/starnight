@@ -1,43 +1,28 @@
 namespace Starnight.Internal.Gateway.Payloads.Clientbound.Dispatch;
 
 using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Channels.Threads;
+using Starnight.Internal.Gateway.Objects.Clientbound.Dispatch;
 
 /// <summary>
-/// Represents a ThreadMembersUpdated event
+/// Represents a ThreadMembersUpdated event.
 /// </summary>
-public sealed record DiscordThreadMembersUpdatedEvent
+public sealed record DiscordThreadMembersUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordThreadMembersUpdatedEventObject>
 {
-	/// <summary>
-	/// The ID of the thread.
-	/// </summary>
-	[JsonPropertyName("id")]
-	public required Int64 ThreadId { get; init; }
+	/// <inheritdoc/>
+	[JsonPropertyName("s")]
+	public required Int32 Sequence { get; init; }
 
-	/// <summary>
-	/// The ID of the guild this thread belongs to.
-	/// </summary>
-	[JsonPropertyName("guild_id")]
-	public required Int64 GuildId { get; init; }
+	/// <inheritdoc/>
+	[JsonPropertyName("t")]
+	public required String EventName { get; init; }
 
-	/// <summary>
-	/// The approximate number of members in the thread, capped at 50.
-	/// </summary>
-	[JsonPropertyName("member_count")]
-	public required Int32 MemberCount { get; init; }
+	/// <inheritdoc/>
+	[JsonPropertyName("d")]
+	public required DiscordThreadMembersUpdatedEventObject Data { get; init; }
 
-	/// <summary>
-	/// The users who were added to the thread.
-	/// </summary>
-	[JsonPropertyName("added_members")]
-	public Optional<IEnumerable<DiscordThreadMember>> AddedMembers { get; init; }
-
-	/// <summary>
-	/// The users who were removed from the thread.
-	/// </summary>
-	[JsonPropertyName("removed_member_ids")]
-	public Optional<IEnumerable<Int64>> RemovedMemberIds { get; init; }
+	/// <inheritdoc/>
+	[JsonPropertyName("op")]
+	public required DiscordGatewayOpcode Opcode { get; init; }
 }
