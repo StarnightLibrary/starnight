@@ -4,7 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Stickers;
+using Starnight.Internal.Entities.Users;
+using Starnight.Internal.Entities.Voice;
 
 /// <summary>
 /// Represents a discord guild.
@@ -244,4 +247,70 @@ public sealed record DiscordGuild : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("premium_progress_bar_enabled")]
 	public required Boolean BoostProgressBarEnabled { get; init; }
+
+	/// <summary>
+	/// Specifies when the current user joined this guild.
+	/// </summary>
+	[JsonPropertyName("joined_at")]
+	public Optional<DateTimeOffset> JoinedAt { get; init; }
+
+	/// <summary>
+	/// Whether this guild is considered a large guild.
+	/// </summary>
+	[JsonPropertyName("large")]
+	public Optional<Boolean> Large { get; init; }
+
+	/// <summary>
+	/// Whether this guild is currently unavailable due to an outage.
+	/// </summary>
+	[JsonPropertyName("unavailable")]
+	public Optional<Boolean> Unavailable { get; init; }
+
+	/// <summary>
+	/// The total number of members in this guild
+	/// </summary>
+	[JsonPropertyName("member_count")]
+	public Optional<Int32> MemberCount { get; init; }
+
+	/// <summary>
+	/// Voice states of members currently in voice channels.
+	/// </summary>
+	[JsonPropertyName("voice_states")]
+	public Optional<IEnumerable<DiscordVoiceState>> VoiceStates { get; init; }
+
+	/// <summary>
+	/// Members of this guild.
+	/// </summary>
+	[JsonPropertyName("members")]
+	public Optional<IEnumerable<DiscordGuildMember>> Members { get; init; }
+
+	/// <summary>
+	/// Channels in this guild.
+	/// </summary>
+	[JsonPropertyName("channels")]
+	public Optional<IEnumerable<DiscordChannel>> Channels { get; init; }
+
+	/// <summary>
+	/// Threads in this guild.
+	/// </summary>
+	[JsonPropertyName("threads")]
+	public Optional<IEnumerable<DiscordChannel>> Threads { get; init; }
+
+	/// <summary>
+	/// Presences of the members in the guild.
+	/// </summary>
+	[JsonPropertyName("presences")]
+	public Optional<IEnumerable<DiscordPresence>> Presences { get; init; }
+
+	/// <summary>
+	/// Stage instances in this guild.
+	/// </summary>
+	[JsonPropertyName("stage_instances")]
+	public Optional<IEnumerable<DiscordStageInstance>> StageInstances { get; init; }
+
+	/// <summary>
+	/// Scheduled events for this guild.
+	/// </summary>
+	[JsonPropertyName("guild_scheduled_events")]
+	public Optional<IEnumerable<DiscordScheduledEvent>> ScheduledEvents { get; init; }
 }
