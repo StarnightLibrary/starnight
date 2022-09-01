@@ -14,7 +14,7 @@ jobs:
       - name: "Setup .NET"
         uses: "actions/setup-dotnet@v4"
         with:
-          dotnet-version: 7.0.100-preview.7.22377.5
+          dotnet-version: 7.0.100-rc.2.22426.5
 
       - name: "Build PR"
         run: "mkdir build && dotnet pack -o build -p:VersionSuffix='-pr.${{ github.run_number }}'"
