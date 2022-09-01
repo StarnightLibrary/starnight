@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Gateway.Events.Dispatch.ApplicationCommands;
+namespace Starnight.Internal.Gateway.Events.Dispatch.Interactions;
 
 using System;
 using System.Text.Json.Serialization;
