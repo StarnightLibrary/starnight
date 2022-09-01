@@ -68,7 +68,6 @@ public sealed record DiscordGuildMember
 	/// <summary>
 	/// Total permissions of this member in the context channel; returned only as part of the interaction object.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("permissions")]
 	public Optional<Int64> Permissions { get; init; }
 
@@ -77,4 +76,10 @@ public sealed record DiscordGuildMember
 	/// </summary>
 	[JsonPropertyName("communication_disabled_until")]
 	public Optional<DateTimeOffset?> TimeoutUntil { get; init; }
+
+	/// <summary>
+	/// The guild ID this guild member object belongs to.
+	/// </summary>
+	[JsonPropertyName("guild_id")]
+	public Optional<Int64> GuildId { get; init; }
 }
