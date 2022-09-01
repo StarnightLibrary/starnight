@@ -39,7 +39,7 @@ public sealed record DiscordGuildMember
 	/// Denotes when this user joined the guild.
 	/// </summary>
 	[JsonPropertyName("joined_at")]
-	public required DateTimeOffset JoinedAt { get; init; }
+	public DateTimeOffset? JoinedAt { get; init; }
 
 	/// <summary>
 	/// Denotes when this user started boosting the guild.
@@ -51,13 +51,13 @@ public sealed record DiscordGuildMember
 	/// Whether this user is deafened in voice channels.
 	/// </summary>
 	[JsonPropertyName("deaf")]
-	public required Boolean Deafened { get; init; }
+	public Optional<Boolean> Deafened { get; init; }
 
 	/// <summary>
 	/// Whether this user is muted in voice channels.
 	/// </summary>
 	[JsonPropertyName("mute")]
-	public required Boolean Muted { get; init; }
+	public Optional<Boolean> Muted { get; init; }
 
 	/// <summary>
 	/// Whether this user has passed the guild's Membership Screening.
