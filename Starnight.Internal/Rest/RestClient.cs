@@ -21,7 +21,7 @@ public sealed partial class RestClient
 	private readonly ILogger<RestClient>? __logger;
 	private readonly String __token;
 
-	[GeneratedRegex(@"([0-9a-z_/:]+)")]
+	[GeneratedRegex(@"([0-9a-z_\-\./:]+)")]
 	private static partial Regex routeRegex();
 
 	public void SetTimeout
