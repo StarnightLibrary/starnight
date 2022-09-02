@@ -94,4 +94,10 @@ public sealed record DiscordGuildIntegration : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("revoked")]
 	public Optional<Boolean> Revoked { get; init; }
+
+	/// <summary>
+	/// The ID of the guild this integration belongs to. Only available in gateway events.
+	/// </summary>
+	[JsonPropertyName("guild_id")]
+	public Optional<Int64> GuildId { get; init; }
 }
