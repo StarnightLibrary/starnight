@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest;
 
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
@@ -49,9 +50,17 @@ public sealed partial class RestClient
 	{
 		if(!routeRegex().IsMatch(request.Path))
 		{
-			this.__logger?.LogError(LoggingEvents.RestClientRequestDenied,
-				"Invalid request route. Please contact the library developers.");
-			throw new DiscordInvalidRequestException(0, "Requested HTTP method not implemented for this endpoint.");
+			this.__logger?.LogError
+			(
+				LoggingEvents.RestClientRequestDenied,
+				"Invalid request route. Please contact the library developers."
+			);
+
+			throw new StarnightRequestRejectedException
+			(
+				"Requested HTTP method not implemented for this endpoint.",
+				request
+			);
 		}
 
 		HttpRequestMessage message = request.Build();
@@ -73,17 +82,85 @@ public sealed partial class RestClient
 		this.__logger?.LogTrace(LoggingEvents.RestClientIncoming,
 			"Incoming HTTP payload:\n{Payload}", response.ToString());
 
-		return (Int32)response.StatusCode switch
+		return response.StatusCode switch
 		{
-			400 => throw new DiscordInvalidRequestException(400, "Invalid request."),
-			405 => throw new DiscordInvalidRequestException(405, "Requested HTTP method not implemented for this endpoint."),
-			401 => throw new DiscordMissingOrInvalidTokenException(401, "Authentication token missing or invalid."),
-			403 => throw new DiscordUnauthorizedException(403, "Not authorized for this action."),
-			413 => throw new DiscordOversizedPayloadException(413, "Oversized request payload."),
-			500 => throw new DiscordServerErrorException(500, "Internal server error."),
-			502 => throw new DiscordServerErrorException(502, "Bad gateway."),
-			503 => throw new DiscordServerErrorException(503, "Service unavailable."),
-			504 => throw new DiscordServerErrorException(504, "Gateway timeout."),
+			HttpStatusCode.BadRequest => throw new DiscordInvalidRequestException
+			(
+				400,
+				"Invalid request.",
+				message,
+				response
+			),
+			HttpStatusCode.MethodNotAllowed => throw new DiscordInvalidRequestException
+			(
+				405,
+				"Requested HTTP method not implemented for this endpoint.",
+				message,
+				response
+			),
+			HttpStatusCode.Unauthorized => throw new DiscordMissingOrInvalidTokenException
+			(
+				401,
+				"Authentication token missing or invalid.",
+				message,
+				response
+			),
+			HttpStatusCode.Forbidden => throw new DiscordUnauthorizedException
+			(
+				403,
+				"Not authorized for this action.",
+				message,
+				response
+			),
+			HttpStatusCode.NotFound => throw new DiscordNotFoundException
+			(
+				404,
+				"Not found.",
+				message,
+				response
+			),
+			HttpStatusCode.RequestEntityTooLarge => throw new DiscordOversizedPayloadException
+			(
+				413,
+				"Oversized request payload.",
+				message,
+				response
+			),
+			HttpStatusCode.TooManyRequests => throw new DiscordRatelimitHitException
+			(
+				429,
+				"Ratelimit hit.",
+				message,
+				response
+			),
+			HttpStatusCode.InternalServerError => throw new DiscordServerErrorException
+			(
+				500,
+				"Internal server error.",
+				message,
+				response
+			),
+			HttpStatusCode.BadGateway => throw new DiscordServerErrorException
+			(
+				502,
+				"Bad gateway.",
+				message,
+				response
+			),
+			HttpStatusCode.ServiceUnavailable => throw new DiscordServerErrorException
+			(
+				503,
+				"Service unavailable.",
+				message,
+				response
+			),
+			HttpStatusCode.GatewayTimeout => throw new DiscordServerErrorException
+			(
+				504,
+				"Gateway timeout.",
+				message,
+				response
+			),
 			_ => response,
 		};
 	}
