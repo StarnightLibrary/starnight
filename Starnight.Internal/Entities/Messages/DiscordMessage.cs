@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities;
 using Starnight.Internal.Entities.Channels;
+using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Interactions;
 using Starnight.Internal.Entities.Interactions.Components;
 using Starnight.Internal.Entities.Messages.Embeds;
@@ -183,4 +184,22 @@ public sealed record DiscordMessage : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("position")]
 	public Optional<Int32> Position { get; init; }
+
+	/// <summary>
+	/// Snowflake ID of the guild this message was sent in.
+	/// </summary>
+	[JsonPropertyName("guild_id")]
+	public Optional<Int64> GuildId { get; init; }
+
+	/// <summary>
+	/// Member properties for this message's author.
+	/// </summary>
+	[JsonPropertyName("member")]
+	public Optional<DiscordGuildMember> Member { get; init; }
+
+	/// <summary>
+	/// Users specifically mentioned in this message.
+	/// </summary>
+	[JsonPropertyName("mentions")]
+	public Optional<IEnumerable<DiscordUser>> Mentions { get; init; }
 }

@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Users;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Guilds;
+
 /// <summary>
 /// Represents a Discord user account, without additional information such as guilds.
 /// </summary>
@@ -91,4 +93,10 @@ public sealed record DiscordUser : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("verified")]
 	public Optional<Boolean> VerifiedEmail { get; init; }
+
+	/// <summary>
+	/// The associated guild member fields in gateway events.
+	/// </summary>
+	[JsonPropertyName("member")]
+	public Optional<DiscordGuildMember> Member { get; init; }
 }
