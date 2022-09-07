@@ -55,6 +55,7 @@ dlldata.c
 
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
+Starnight.Benchmarks/Transient/
 
 # .NET Core
 project.lock.json
