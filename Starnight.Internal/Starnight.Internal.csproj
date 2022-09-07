@@ -49,4 +49,8 @@
     <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Gateway\Commands\" />
+  </ItemGroup>
+
 </Project>
