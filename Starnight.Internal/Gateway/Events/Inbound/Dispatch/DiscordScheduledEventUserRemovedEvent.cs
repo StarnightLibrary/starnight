@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a GuildScheduledEventUserRemoved event.
 /// </summary>
-public sealed record DiscordScheduledEventUserRemovedEvent : IDiscordGatewayDispatchPayload<ScheduledEventUserRemovedPayload>
+public sealed record DiscordScheduledEventUserRemovedEvent : IDiscordGatewayDispatchEvent<ScheduledEventUserRemovedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

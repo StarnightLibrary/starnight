@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Fired when a new thread is created or if the current user is added to an existing thread.
 /// </summary>
-public sealed record DiscordThreadCreatedEvent : IDiscordGatewayDispatchPayload<DiscordChannel>
+public sealed record DiscordThreadCreatedEvent : IDiscordGatewayDispatchEvent<DiscordChannel>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Fired when the user gains access to a channel.
 /// </summary>
-public sealed record DiscordThreadListSyncEvent : IDiscordGatewayDispatchPayload<ThreadListSyncPayload>
+public sealed record DiscordThreadListSyncEvent : IDiscordGatewayDispatchEvent<ThreadListSyncPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

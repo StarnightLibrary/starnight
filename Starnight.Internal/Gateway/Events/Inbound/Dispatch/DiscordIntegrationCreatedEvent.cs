@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Guilds;
 /// <summary>
 /// Represents an IntegrationCreated event.
 /// </summary>
-public sealed record DiscordIntegrationCreatedEvent : IDiscordGatewayDispatchPayload<DiscordGuildIntegration>
+public sealed record DiscordIntegrationCreatedEvent : IDiscordGatewayDispatchEvent<DiscordGuildIntegration>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

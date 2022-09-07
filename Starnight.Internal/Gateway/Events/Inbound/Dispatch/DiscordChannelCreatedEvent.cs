@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Fired when a new channel is created.
 /// </summary>
-public sealed record DiscordChannelCreatedEvent : IDiscordGatewayDispatchPayload<DiscordChannel>
+public sealed record DiscordChannelCreatedEvent : IDiscordGatewayDispatchEvent<DiscordChannel>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

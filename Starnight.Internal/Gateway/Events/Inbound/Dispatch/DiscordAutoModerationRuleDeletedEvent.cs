@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Guilds.AutoModeration;
 /// <summary>
 /// Fired when an auto moderation rule is deleted.
 /// </summary>
-public sealed record DiscordAutoModerationRuleDeletedEvent : IDiscordGatewayDispatchPayload<DiscordAutoModerationRule>
+public sealed record DiscordAutoModerationRuleDeletedEvent : IDiscordGatewayDispatchEvent<DiscordAutoModerationRule>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

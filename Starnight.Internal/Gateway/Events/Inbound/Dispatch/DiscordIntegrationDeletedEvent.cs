@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents an IntegrationDeleted event.
 /// </summary>
-public sealed record DiscordIntegrationDeletedEvent : IDiscordGatewayDispatchPayload<IntegrationDeletedPayload>
+public sealed record DiscordIntegrationDeletedEvent : IDiscordGatewayDispatchEvent<IntegrationDeletedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

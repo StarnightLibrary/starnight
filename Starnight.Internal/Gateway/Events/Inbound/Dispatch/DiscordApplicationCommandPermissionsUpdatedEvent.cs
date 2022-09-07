@@ -9,7 +9,7 @@ using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 /// Fired when an application command's permissions are updated.
 /// </summary>
 public sealed record DiscordApplicationCommandPermissionsUpdatedEvent
-	: IDiscordGatewayDispatchPayload<DiscordApplicationCommandPermissions>
+	: IDiscordGatewayDispatchEvent<DiscordApplicationCommandPermissions>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

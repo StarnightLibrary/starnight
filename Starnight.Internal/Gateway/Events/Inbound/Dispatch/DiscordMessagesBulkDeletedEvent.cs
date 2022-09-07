@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 
-public sealed record DiscordMessagesBulkDeletedEvent : IDiscordGatewayDispatchPayload<MessagesBulkDeletedPayload>
+public sealed record DiscordMessagesBulkDeletedEvent : IDiscordGatewayDispatchEvent<MessagesBulkDeletedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

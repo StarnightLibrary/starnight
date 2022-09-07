@@ -6,7 +6,7 @@ namespace Starnight.Internal.Gateway;
 /// <remarks>
 /// - <seealso cref="Opcode"/> must be annotated as <c>[JsonPropertyName("op")]</c> <br/>
 /// </remarks>
-public interface IDiscordGatewayPayload
+public interface IDiscordGatewayEvent
 {
 	/// <summary>
 	/// Indicates the opcode of this gateway event or command.

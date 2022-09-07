@@ -9,7 +9,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// Fired when an auto-moderation rule is triggered and an action is executed.
 /// </summary>
 public sealed record DiscordAutoModerationActionExecutedEvent
-	: IDiscordGatewayDispatchPayload<AutoModerationActionExecutedPayload>
+	: IDiscordGatewayDispatchEvent<AutoModerationActionExecutedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

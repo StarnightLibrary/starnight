@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Messages;
 /// <summary>
 /// Represents a MessageCreated event.
 /// </summary>
-public sealed record DiscordMessageCreatedEvent : IDiscordGatewayDispatchPayload<DiscordMessage>
+public sealed record DiscordMessageCreatedEvent : IDiscordGatewayDispatchEvent<DiscordMessage>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Indicates to the client that the session is invalid, and that it may need to reconnect.
 /// </summary>
-public sealed record DiscordInvalidSessionEvent : IDiscordGatewayPayload<Boolean>
+public sealed record DiscordInvalidSessionEvent : IDiscordGatewayEvent<Boolean>
 {
 	/// <summary>
 	/// Indicates whether the session is resumable.

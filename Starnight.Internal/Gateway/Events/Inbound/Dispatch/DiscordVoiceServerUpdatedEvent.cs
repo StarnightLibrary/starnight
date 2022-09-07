@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a VoiceServerUpdated event.
 /// </summary>
-public sealed record DiscordVoiceServerUpdatedEvent : IDiscordGatewayDispatchPayload<VoiceServerUpdatedPayload>
+public sealed record DiscordVoiceServerUpdatedEvent : IDiscordGatewayDispatchEvent<VoiceServerUpdatedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

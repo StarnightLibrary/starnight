@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Guilds;
 /// <summary>
 /// Represents a GuildDeleted event.
 /// </summary>
-public sealed record DiscordGuildDeletedEvent : IDiscordGatewayDispatchPayload<DiscordUnavailableGuild>
+public sealed record DiscordGuildDeletedEvent : IDiscordGatewayDispatchEvent<DiscordUnavailableGuild>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

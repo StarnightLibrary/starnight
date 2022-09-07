@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Fired when a thread is deleted.
 /// </summary>
-public sealed record DiscordThreadDeletedEvent : IDiscordGatewayDispatchPayload<DiscordChannel>
+public sealed record DiscordThreadDeletedEvent : IDiscordGatewayDispatchEvent<DiscordChannel>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

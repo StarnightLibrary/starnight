@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Dispatched if resumption was successful.
 /// </summary>
-public sealed record DiscordResumedEvent : IDiscordGatewayPayload
+public sealed record DiscordResumedEvent : IDiscordGatewayEvent
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]

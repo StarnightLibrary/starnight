@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a MessageDeleted event.
 /// </summary>
-public sealed record DiscordMessageDeletedEvent : IDiscordGatewayDispatchPayload<MessageDeletedPayload>
+public sealed record DiscordMessageDeletedEvent : IDiscordGatewayDispatchEvent<MessageDeletedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

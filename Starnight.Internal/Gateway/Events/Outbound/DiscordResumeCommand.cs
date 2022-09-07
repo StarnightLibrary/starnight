@@ -7,7 +7,7 @@ using Starnight.Internal.Gateway.Payloads.Outbound;
 /// <summary>
 /// Serverbound, <see cref="DiscordGatewayOpcode.Resume"/> command.
 /// </summary>
-public sealed record DiscordResumeCommand : IDiscordGatewayPayload<ResumePayload>
+public sealed record DiscordResumeCommand : IDiscordGatewayEvent<ResumePayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]

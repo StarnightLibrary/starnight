@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a GuildRoleUpdated event.
 /// </summary>
-public sealed record DiscordGuildRoleUpdatedEvent : IDiscordGatewayDispatchPayload<GuildRoleUpdatedPayload>
+public sealed record DiscordGuildRoleUpdatedEvent : IDiscordGatewayDispatchEvent<GuildRoleUpdatedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

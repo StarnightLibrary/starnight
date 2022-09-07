@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a ChannelPinsUpdated event.
 /// </summary>
-public sealed record DiscordChannelPinsUpdatedEvent : IDiscordGatewayDispatchPayload<ChannelPinsUpdatedPayload>
+public sealed record DiscordChannelPinsUpdatedEvent : IDiscordGatewayDispatchEvent<ChannelPinsUpdatedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

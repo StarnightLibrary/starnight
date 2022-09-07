@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Channels.Threads;
 /// <summary>
 /// ThreadMemberUpdated event.
 /// </summary>
-public sealed record DiscordThreadMemberUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordThreadMember>
+public sealed record DiscordThreadMemberUpdatedEvent : IDiscordGatewayDispatchEvent<DiscordThreadMember>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

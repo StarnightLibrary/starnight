@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Voice;
 /// <summary>
 /// Represents a StageInstanceUpdated event.
 /// </summary>
-public sealed record DiscordStageInstanceUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordStageInstance>
+public sealed record DiscordStageInstanceUpdatedEvent : IDiscordGatewayDispatchEvent<DiscordStageInstance>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

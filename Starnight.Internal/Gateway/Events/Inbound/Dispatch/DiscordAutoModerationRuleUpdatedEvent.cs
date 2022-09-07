@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Guilds.AutoModeration;
 /// <summary>
 /// Sent when an auto moderation rule is updated.
 /// </summary>
-public sealed record DiscordAutoModerationRuleUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordAutoModerationRule>
+public sealed record DiscordAutoModerationRuleUpdatedEvent : IDiscordGatewayDispatchEvent<DiscordAutoModerationRule>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

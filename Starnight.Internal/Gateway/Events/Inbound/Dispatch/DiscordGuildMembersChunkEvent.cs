@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a GuildMembersChunk event.
 /// </summary>
-internal class DiscordGuildMembersChunkEvent : IDiscordGatewayDispatchPayload<GuildMembersChunkPayload>
+internal class DiscordGuildMembersChunkEvent : IDiscordGatewayDispatchEvent<GuildMembersChunkPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

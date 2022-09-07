@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Channels;
 /// <summary>
 /// Fired when a thread is updated.
 /// </summary>
-public sealed record DiscordThreadUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordChannel>
+public sealed record DiscordThreadUpdatedEvent : IDiscordGatewayDispatchEvent<DiscordChannel>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a GuildScheduledEventUserAdded event.
 /// </summary>
-public sealed record DiscordScheduledEventUserAddedEvent : IDiscordGatewayDispatchPayload<ScheduledEventUserAddedPayload>
+public sealed record DiscordScheduledEventUserAddedEvent : IDiscordGatewayDispatchEvent<ScheduledEventUserAddedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

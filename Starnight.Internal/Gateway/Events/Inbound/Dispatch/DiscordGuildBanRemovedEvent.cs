@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a GuildBanRemoved event.
 /// </summary>
-public sealed record DiscordGuildBanRemovedEvent : IDiscordGatewayDispatchPayload<GuildBanRemovedPayload>
+public sealed record DiscordGuildBanRemovedEvent : IDiscordGatewayDispatchEvent<GuildBanRemovedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

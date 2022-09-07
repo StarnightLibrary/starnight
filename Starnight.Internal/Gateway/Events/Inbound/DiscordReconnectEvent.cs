@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Indicates to the client that it should reconnect.
 /// </summary>
-public sealed record DiscordReconnectEvent : IDiscordGatewayPayload
+public sealed record DiscordReconnectEvent : IDiscordGatewayEvent
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]

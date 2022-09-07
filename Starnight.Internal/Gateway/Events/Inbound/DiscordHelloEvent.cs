@@ -7,7 +7,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound;
 /// <summary>
 /// Represents a gateway Hello event.
 /// </summary>
-public sealed record DiscordHelloEvent : IDiscordGatewayPayload<HelloPayload>
+public sealed record DiscordHelloEvent : IDiscordGatewayEvent<HelloPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]

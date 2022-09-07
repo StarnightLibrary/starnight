@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a PresenceUpdated event.
 /// </summary>
-public sealed record DiscordPresenceUpdatedEvent : IDiscordGatewayDispatchPayload<PresenceUpdatedPayload>
+public sealed record DiscordPresenceUpdatedEvent : IDiscordGatewayDispatchEvent<PresenceUpdatedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

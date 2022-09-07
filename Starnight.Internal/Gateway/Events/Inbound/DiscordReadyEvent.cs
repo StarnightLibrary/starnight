@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound;
 /// <summary>
 /// READY event.
 /// </summary>
-public sealed record DiscordReadyEvent : IDiscordGatewayDispatchPayload<ConnectedPayload>
+public sealed record DiscordReadyEvent : IDiscordGatewayDispatchEvent<ConnectedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

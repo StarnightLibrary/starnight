@@ -7,7 +7,7 @@ using Starnight.Internal.Gateway.Payloads.Outbound;
 /// <summary>
 /// Represents an Update Voice State gateway command.
 /// </summary>
-public sealed record DiscordUpdateVoiceStateCommand : IDiscordGatewayPayload<UpdateVoiceStatePayload>
+public sealed record DiscordUpdateVoiceStateCommand : IDiscordGatewayEvent<UpdateVoiceStatePayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]

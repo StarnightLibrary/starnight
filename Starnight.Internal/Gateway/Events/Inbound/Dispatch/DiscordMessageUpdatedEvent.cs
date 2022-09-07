@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Messages;
 
-public sealed record DiscordMessageUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordMessage>
+public sealed record DiscordMessageUpdatedEvent : IDiscordGatewayDispatchEvent<DiscordMessage>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

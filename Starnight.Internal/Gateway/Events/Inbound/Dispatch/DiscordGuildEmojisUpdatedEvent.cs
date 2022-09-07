@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a GuildEmojisUpdated event.
 /// </summary>
-public sealed record DiscordGuildEmojisUpdatedEvent : IDiscordGatewayDispatchPayload<GuildEmojisUpdatedPayload>
+public sealed record DiscordGuildEmojisUpdatedEvent : IDiscordGatewayDispatchEvent<GuildEmojisUpdatedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

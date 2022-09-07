@@ -8,7 +8,7 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents an UserUpdated event.
 /// </summary>
-public sealed record DiscordUserUpdatedEvent : IDiscordGatewayDispatchPayload<DiscordUser>
+public sealed record DiscordUserUpdatedEvent : IDiscordGatewayDispatchEvent<DiscordUser>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

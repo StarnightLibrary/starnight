@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a MessageReactionRemoved event.
 /// </summary>
-public sealed record DiscordMessageReactionRemovedEvent : IDiscordGatewayDispatchPayload<MessageReactionRemovedPayload>
+public sealed record DiscordMessageReactionRemovedEvent : IDiscordGatewayDispatchEvent<MessageReactionRemovedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

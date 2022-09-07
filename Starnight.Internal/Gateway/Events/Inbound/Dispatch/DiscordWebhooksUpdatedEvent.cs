@@ -8,7 +8,7 @@ using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 /// <summary>
 /// Represents a WebhooksUpdated event.
 /// </summary>
-public sealed record DiscordWebhooksUpdatedEvent : IDiscordGatewayDispatchPayload<WebhooksUpdatedPayload>
+public sealed record DiscordWebhooksUpdatedEvent : IDiscordGatewayDispatchEvent<WebhooksUpdatedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]

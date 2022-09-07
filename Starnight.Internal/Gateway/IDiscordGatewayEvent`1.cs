@@ -6,7 +6,7 @@ namespace Starnight.Internal.Gateway;
 /// <inheritdoc path="//remarks"/>
 /// - <seealso cref="Data"/> must be annotated as <c>[JsonPropertyName("d")]</c> <br/>
 /// </remarks>
-public interface IDiscordGatewayPayload<TData> : IDiscordGatewayPayload
+public interface IDiscordGatewayEvent<TData> : IDiscordGatewayEvent
 {
 	/// <summary>
 	/// The payload data for this command/event.
