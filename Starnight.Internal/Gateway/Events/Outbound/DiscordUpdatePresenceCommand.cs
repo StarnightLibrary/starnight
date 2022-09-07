@@ -11,9 +11,9 @@ public sealed record DiscordUpdatePresenceCommand : IDiscordGatewayEvent<Discord
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordPresence Data { get; init; }
+	public required DiscordPresence Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.PresenceUpdate;
+	public DiscordGatewayOpcode Opcode { get; set; } = DiscordGatewayOpcode.PresenceUpdate;
 }

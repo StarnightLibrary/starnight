@@ -11,9 +11,9 @@ public sealed record DiscordRequestGuildMembersCommand : IDiscordGatewayEvent<Re
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required RequestGuildMembersPayload Data { get; init; }
+	public required RequestGuildMembersPayload Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.RequestGuildMembers;
+	public DiscordGatewayOpcode Opcode { get; set; } = DiscordGatewayOpcode.RequestGuildMembers;
 }

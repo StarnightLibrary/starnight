@@ -12,9 +12,9 @@ public sealed record DiscordInvalidSessionEvent : IDiscordGatewayEvent<Boolean>
 	/// Indicates whether the session is resumable.
 	/// </summary>
 	[JsonPropertyName("d")]
-	public required Boolean Data { get; init; }
+	public required Boolean Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public required DiscordGatewayOpcode Opcode { get; init; }
+	public required DiscordGatewayOpcode Opcode { get; set; }
 }

@@ -11,5 +11,5 @@ public interface IDiscordGatewayEvent
 	/// <summary>
 	/// Indicates the opcode of this gateway event or command.
 	/// </summary>
-	public DiscordGatewayOpcode Opcode { get; init; }
+	public DiscordGatewayOpcode Opcode { get; set; }
 }

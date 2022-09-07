@@ -17,10 +17,10 @@ public interface IDiscordGatewayDispatchEvent<TData> : IDiscordGatewayEvent<TDat
 	/// <summary>
 	/// The sequence number of this event, used for reconnecting.
 	/// </summary>
-	public Int32 Sequence { get; init; }
+	public Int32 Sequence { get; set; }
 
 	/// <summary>
 	/// The name of this event, used to distinguish events.
 	/// </summary>
-	public String EventName { get; init; }
+	public String EventName { get; set; }
 }

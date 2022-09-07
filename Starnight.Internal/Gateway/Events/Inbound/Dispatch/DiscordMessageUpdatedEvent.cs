@@ -9,17 +9,17 @@ public sealed record DiscordMessageUpdatedEvent : IDiscordGatewayDispatchEvent<D
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]
-	public required Int32 Sequence { get; init; }
+	public required Int32 Sequence { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("t")]
-	public required String EventName { get; init; }
+	public required String EventName { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordMessage Data { get; init; }
+	public required DiscordMessage Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public required DiscordGatewayOpcode Opcode { get; init; }
+	public required DiscordGatewayOpcode Opcode { get; set; }
 }

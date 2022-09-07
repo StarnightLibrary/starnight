@@ -11,9 +11,9 @@ public sealed record DiscordIdentifyCommand : IDiscordGatewayEvent<IdentifyPaylo
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required IdentifyPayload Data { get; init; }
+	public required IdentifyPayload Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.Identify;
+	public DiscordGatewayOpcode Opcode { get; set; } = DiscordGatewayOpcode.Identify;
 }

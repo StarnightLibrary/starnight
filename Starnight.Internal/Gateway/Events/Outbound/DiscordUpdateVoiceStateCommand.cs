@@ -11,9 +11,9 @@ public sealed record DiscordUpdateVoiceStateCommand : IDiscordGatewayEvent<Updat
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required UpdateVoiceStatePayload Data { get; init; }
+	public required UpdateVoiceStatePayload Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.VoiceStateUpdate;
+	public DiscordGatewayOpcode Opcode { get; set; } = DiscordGatewayOpcode.VoiceStateUpdate;
 }

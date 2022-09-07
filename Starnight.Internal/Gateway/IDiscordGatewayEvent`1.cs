@@ -11,5 +11,5 @@ public interface IDiscordGatewayEvent<TData> : IDiscordGatewayEvent
 	/// <summary>
 	/// The payload data for this command/event.
 	/// </summary>
-	public TData Data { get; init; }
+	public TData Data { get; set; }
 }

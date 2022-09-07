@@ -11,9 +11,9 @@ public sealed record DiscordResumeCommand : IDiscordGatewayEvent<ResumePayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required ResumePayload Data { get; init; }
+	public required ResumePayload Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public DiscordGatewayOpcode Opcode { get; init; } = DiscordGatewayOpcode.Resume;
+	public DiscordGatewayOpcode Opcode { get; set; } = DiscordGatewayOpcode.Resume;
 }

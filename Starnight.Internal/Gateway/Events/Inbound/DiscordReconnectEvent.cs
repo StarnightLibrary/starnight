@@ -9,5 +9,5 @@ public sealed record DiscordReconnectEvent : IDiscordGatewayEvent
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public required DiscordGatewayOpcode Opcode { get; init; }
+	public required DiscordGatewayOpcode Opcode { get; set; }
 }

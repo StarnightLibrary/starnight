@@ -8,21 +8,21 @@ using Starnight.Internal.Entities.Guilds;
 /// <summary>
 /// Represents an IntegrationUpdated event.
 /// </summary>
-public sealed record DiscordIntegrationUpdateddEvent : IDiscordGatewayDispatchEvent<DiscordGuildIntegration>
+public sealed record DiscordIntegrationUpdatedEvent : IDiscordGatewayDispatchEvent<DiscordGuildIntegration>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]
-	public required Int32 Sequence { get; init; }
+	public required Int32 Sequence { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("t")]
-	public required String EventName { get; init; }
+	public required String EventName { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordGuildIntegration Data { get; init; }
+	public required DiscordGuildIntegration Data { get; set; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]
-	public required DiscordGatewayOpcode Opcode { get; init; }
+	public required DiscordGatewayOpcode Opcode { get; set; }
 }
