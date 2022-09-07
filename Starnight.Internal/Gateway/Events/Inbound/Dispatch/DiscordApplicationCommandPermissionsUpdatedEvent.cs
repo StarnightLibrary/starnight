@@ -4,7 +4,6 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
-using Starnight.Internal.Gateway;
 
 /// <summary>
 /// Fired when an application command's permissions are updated.

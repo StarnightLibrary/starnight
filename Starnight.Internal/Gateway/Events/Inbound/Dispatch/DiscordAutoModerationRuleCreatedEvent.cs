@@ -4,7 +4,6 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds.AutoModeration;
-using Starnight.Internal.Gateway;
 
 /// <summary>
 /// Fired when a new auto moderation rule is created.

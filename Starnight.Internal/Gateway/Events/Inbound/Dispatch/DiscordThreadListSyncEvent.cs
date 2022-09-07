@@ -3,7 +3,6 @@ namespace Starnight.Internal.Gateway.Events.Dispatch;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Gateway;
 using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 
 /// <summary>

@@ -3,7 +3,6 @@ namespace Starnight.Internal.Gateway.Events.Outbound;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Users;
-using Starnight.Internal.Gateway;
 
 /// <summary>
 /// Represents an Update Presence gateway command

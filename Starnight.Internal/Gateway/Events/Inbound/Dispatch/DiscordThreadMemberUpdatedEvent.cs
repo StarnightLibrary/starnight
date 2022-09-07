@@ -4,7 +4,6 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels.Threads;
-using Starnight.Internal.Gateway;
 
 /// <summary>
 /// ThreadMemberUpdated event.

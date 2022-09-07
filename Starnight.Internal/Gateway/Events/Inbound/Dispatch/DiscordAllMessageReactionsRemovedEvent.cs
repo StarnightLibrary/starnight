@@ -1,14 +1,14 @@
-namespace Starnight.Internal.Gateway.Events.Dispatch;
+namespace Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guilds.AutoModeration;
+using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 
 /// <summary>
-/// Fired when an auto moderation rule is deleted.
+/// Represents an AllMessageReactionsRemoved event.
 /// </summary>
-public sealed record DiscordAutoModerationRuleDeletedEvent : IDiscordGatewayDispatchPayload<DiscordAutoModerationRule>
+public sealed record DiscordAllMessageReactionsRemovedEvent : IDiscordGatewayDispatchPayload<AllMessageReactionsRemovedPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("s")]
@@ -20,7 +20,7 @@ public sealed record DiscordAutoModerationRuleDeletedEvent : IDiscordGatewayDisp
 
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
-	public required DiscordAutoModerationRule Data { get; init; }
+	public required AllMessageReactionsRemovedPayload Data { get; init; }
 
 	/// <inheritdoc/>
 	[JsonPropertyName("op")]

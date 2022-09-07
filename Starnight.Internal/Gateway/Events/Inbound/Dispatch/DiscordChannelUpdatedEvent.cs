@@ -4,7 +4,6 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
-using Starnight.Internal.Gateway;
 
 /// <summary>
 /// Fired when a channel is updated.
