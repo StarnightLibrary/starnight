@@ -150,6 +150,7 @@ internal unsafe static class DispatchEvents
 		}
 
 		DeserializeEventDelegate eventDelegate = createEventDeserializationDelegate(typeof(TGatewayEvent), payloadType);
+		__event_delegates.Add(eventDelegate);
 
 		return Marshal.GetFunctionPointerForDelegate(eventDelegate);
 	}
