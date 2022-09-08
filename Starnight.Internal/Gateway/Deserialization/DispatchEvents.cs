@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
+using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 
 /// <summary>
 /// Contains static deserialization information about dispatch events.
@@ -23,8 +25,12 @@ internal unsafe static class DispatchEvents
 	// delegate type holding dynamic methods for deserializing the entire event
 	private delegate IDiscordGatewayEvent DeserializeEventDelegate(JsonElement element);
 
+	// intermediary delegate type for dynamic methods
+	private delegate IDiscordGatewayEvent IntermediaryCreatorDelegate(Int32 sequence, String name, Object payload, DiscordGatewayOpcode opcode);
+
 	private readonly static List<DeserializePayloadDelegate> __payload_delegates;
 	private readonly static List<DeserializeEventDelegate> __event_delegates;
+	private readonly static List<DynamicMethod> __event_creators;
 			
 	private readonly static Dictionary<Type, Type> __payload_types;
 	private readonly static Dictionary<Type, IntPtr> __payload_delegate_pointers;
@@ -37,6 +43,7 @@ internal unsafe static class DispatchEvents
 		__event_delegates = new();
 		__payload_types = new();
 		__payload_delegate_pointers = new();
+		__event_creators = new();
 		__json_deserializer_method = typeof(JsonSerializer)
 			.GetMethods(BindingFlags.Static | BindingFlags.Public)
 			.Where(xm => xm.Name == nameof(JsonSerializer.Deserialize))
@@ -187,6 +194,14 @@ internal unsafe static class DispatchEvents
 		delegate* managed<JsonElement, JsonSerializerOptions, Object> payloadFunction =
 			(delegate* managed<JsonElement, JsonSerializerOptions, Object>)(void*)payloadPtr;
 
+		DynamicMethod creator = createDynamicEventCreator(eventType, payloadType);
+
+		__event_creators.Add(creator);
+
+		delegate* managed<Int32, String, Object, DiscordGatewayOpcode, IDiscordGatewayEvent> creatorFunction =
+			(delegate* managed<Int32, String, Object, DiscordGatewayOpcode, IDiscordGatewayEvent>)(void*)
+				Marshal.GetFunctionPointerForDelegate(creator.CreateDelegate<IntermediaryCreatorDelegate>());
+
 		return (element) =>
 		{
 			DiscordGatewayOpcode opcode = DiscordGatewayOpcode.Dispatch;
@@ -197,15 +212,79 @@ internal unsafe static class DispatchEvents
 
 			Object payload = payloadFunction(element.GetProperty("d"), StarnightConstants.DefaultSerializerOptions);
 
-			Object @event = RuntimeHelpers.GetUninitializedObject(eventType);
-
-			// future idea: use compiled expressions for this
-			_ = eventType.GetProperty("Sequence")!.GetSetMethod()!.Invoke(@event, new Object[] { sequence });
-			_ = eventType.GetProperty("EventName")!.GetSetMethod()!.Invoke(@event, new Object[] { name });
-			_ = eventType.GetProperty("Data")!.GetSetMethod()!.Invoke(@event, new Object[] { payload });
-			_ = eventType.GetProperty("Opcode")!.GetSetMethod()!.Invoke(@event, new Object[] { opcode });
-
-			return Unsafe.As<IDiscordGatewayEvent>(@event);
+			return creatorFunction(sequence, name, payload, opcode);
 		};
+	}
+
+	private static IDiscordGatewayEvent ilSample(Int32 sequence, String eventName, Object payload,
+		DiscordGatewayOpcode opcode)
+	{
+		return new DiscordAllMessageReactionsRemovedEvent
+		{
+			Sequence = sequence,
+			EventName = eventName,
+			Data = (AllMessageReactionsRemovedPayload)payload,
+			Opcode = opcode
+		};
+	}
+
+	private static DynamicMethod createDynamicEventCreator(Type eventType, Type payloadType)
+	{
+		DynamicMethod method = new
+		(
+			$"create{eventType}",
+			typeof(IDiscordGatewayEvent),
+			new[]
+			{
+				typeof(Int32),
+				typeof(String),
+				typeof(Object),
+				typeof(DiscordGatewayOpcode)
+			}
+		);
+
+		ILGenerator il = method.GetILGenerator();
+
+		MethodInfo sequenceSetter = eventType.GetProperty("EventType")!.GetSetMethod()!;
+		MethodInfo nameSetter = eventType.GetProperty("EventName")!.GetSetMethod()!;
+		MethodInfo payloadSetter = eventType.GetProperty("Data")!.GetSetMethod()!;
+		MethodInfo opcodeSetter = eventType.GetProperty("Opcode")!.GetSetMethod()!;
+
+		ConstructorInfo ctor = eventType.GetConstructor(Type.EmptyTypes)!;
+
+		// construct the event object
+		il.Emit(OpCodes.Newobj, ctor);
+		il.Emit(OpCodes.Dup);
+
+		// assign sequence number
+		il.Emit(OpCodes.Ldarg_0);
+		il.Emit(OpCodes.Call, sequenceSetter);
+		il.Emit(OpCodes.Nop);
+		il.Emit(OpCodes.Dup);
+
+		// assign name
+		il.Emit(OpCodes.Ldarg_1);
+		il.Emit(OpCodes.Call, nameSetter);
+		il.Emit(OpCodes.Nop);
+		il.Emit(OpCodes.Dup);
+
+		// cast and assign payload
+		il.Emit(OpCodes.Ldarg_2);
+		il.Emit(OpCodes.Castclass, payloadType);
+		il.Emit(OpCodes.Call, payloadSetter);
+		il.Emit(OpCodes.Nop);
+		il.Emit(OpCodes.Dup);
+
+		// assign opcode
+		il.Emit(OpCodes.Ldarg_3);
+		il.Emit(OpCodes.Call, opcodeSetter);
+		il.Emit(OpCodes.Nop);
+
+		// cleanup and return
+		il.Emit(OpCodes.Stloc_0);
+		il.Emit(OpCodes.Ldloc_0);
+		il.Emit(OpCodes.Ret);
+
+		return method;
 	}
 }
