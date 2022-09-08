@@ -11,7 +11,6 @@ using System.Text.Json;
 
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
-using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 
 /// <summary>
 /// Contains static deserialization information about dispatch events.
@@ -212,18 +211,6 @@ internal unsafe static class DispatchEvents
 			Object payload = payloadFunction(element.GetProperty("d"), StarnightConstants.DefaultSerializerOptions);
 
 			return creatorFunction(sequence, name, payload, opcode);
-		};
-	}
-
-	private static IDiscordGatewayEvent ilSample(Int32 sequence, String eventName, Object payload,
-		DiscordGatewayOpcode opcode)
-	{
-		return new DiscordAllMessageReactionsRemovedEvent
-		{
-			Sequence = sequence,
-			EventName = eventName,
-			Data = (AllMessageReactionsRemovedPayload)payload,
-			Opcode = opcode
 		};
 	}
 
