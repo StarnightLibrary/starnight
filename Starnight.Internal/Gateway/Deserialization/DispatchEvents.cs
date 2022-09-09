@@ -2,6 +2,7 @@ namespace Starnight.Internal.Gateway.Deserialization;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -15,6 +16,7 @@ using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 /// <summary>
 /// Contains static deserialization information about dispatch events.
 /// </summary>
+[RequiresDynamicCode("This class utilizes compiled expressions and System.Reflection.Emit for runtime performance.")]
 internal unsafe static class DispatchEvents
 {
 	// delegate type holding dynamic methods for deserializing the inner payload object
