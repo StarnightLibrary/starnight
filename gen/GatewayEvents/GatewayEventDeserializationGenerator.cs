@@ -2,15 +2,15 @@ namespace Starnight.SourceGenerators.GatewayEvents;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 [Generator]
-public class GatewayEventDeserializationGenerator : ISourceGenerator
+public class GatewayEventDeserializationGenerator : IIncrementalGenerator
 {
 	private const String __attribute =
 @"// auto-generated code
@@ -20,85 +20,177 @@ namespace Starnight.SourceGenerators.GatewayEvents;
 [global::System.CodeDom.Compiler.GeneratedCode(""starnight-gateway-events-generator"", ""0.1.0"")]
 internal sealed class GatewayEventAttribute : global::System.Attribute
 {
-	public global::System.String EventName { get; set; }
-	public global::System.Type EventType { get; set; }
-
-	public GatewayEventAttribute(global::System.String name, global::System.Type type)
-	{
-		this.EventName = name;
-		this.EventType = type;
-	}
+	public required global::System.String EventName { get; set; }
+	public required global::System.Type EventType { get; set; }
 }";
 
+	public void Initialize(IncrementalGeneratorInitializationContext context)
+	{
+		context.RegisterPostInitializationOutput
+		(
+			ctx => ctx.AddSource
+			(
+				"GatewayEventAttribute.generated.cs",
+				__attribute
+			)
+		);
 
-	public void Initialize(GeneratorInitializationContext context)
-	{ 
-		context.RegisterForPostInitialization(i => i.AddSource("GatewayEventAttribute.generated.cs", __attribute));
+		IncrementalValuesProvider<ClassDeclarationSyntax> classDeclarations =
+			context.SyntaxProvider.CreateSyntaxProvider
+			(
+				predicate: (s, _) => this.isSyntaxTargetForGeneration(s),
+				transform: (ctx, _) => this.getSemanticTargetForGeneration(ctx)
+			)
+			.Where(static xm => xm is not null)!;
 
-		context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
+		IncrementalValueProvider<(Compilation, ImmutableArray<ClassDeclarationSyntax>)> compilation =
+			context.CompilationProvider.Combine(classDeclarations.Collect());
+
+		context.RegisterSourceOutput
+		(
+			source: compilation,
+			action: (source, ctx) => this.execute(ctx.Item1, ctx.Item2, source)
+		);
 	}
 
-	public void Execute(GeneratorExecutionContext context)
+	private Boolean isSyntaxTargetForGeneration(SyntaxNode node)
+		=> node is ClassDeclarationSyntax { AttributeLists.Count: > 0 };
+
+	private ClassDeclarationSyntax? getSemanticTargetForGeneration(GeneratorSyntaxContext ctx)
 	{
-		if(context.SyntaxContextReceiver is not SyntaxReceiver receiver)
+		ClassDeclarationSyntax declaration = (ClassDeclarationSyntax)ctx.Node;
+
+		foreach(AttributeListSyntax attributeList in declaration.AttributeLists)
+		{
+			foreach(AttributeSyntax attribute in attributeList.Attributes)
+			{
+				if(ctx.SemanticModel.GetSymbolInfo(attribute).Symbol is not IMethodSymbol attributeSymbol)
+				{
+					continue;
+				}
+
+				INamedTypeSymbol attributeTypeSymbol = attributeSymbol.ContainingType;
+				if(attributeTypeSymbol.ToDisplayString() == "Starnight.SourceGenerators.GatewayEvents.GatewayEventAttribute")
+				{
+					return declaration;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private void execute(Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classes, SourceProductionContext ctx)
+	{
+		if(classes.IsDefaultOrEmpty)
 		{
 			return;
 		}
 
-		INamedTypeSymbol attributeSymbol = context.Compilation.GetTypeByMetadataName("Starnight.SourceGenerators.GatewayEvents.GatewayEventAttribute")!;
+		IEnumerable<GatewayEventMetadata> registeredEvents = this.getRegisteredEvents(compilation, classes, ctx);
 
-		foreach(ITypeSymbol type in receiver.SourceTypes)
+		foreach(GatewayEventMetadata metadata in registeredEvents)
 		{
-			foreach(AttributeData v in type.GetAttributes().Where(xm => xm.GetType() == attributeSymbol.GetType()))
-			{
-				String eventName = Unsafe.As<String>(v.ConstructorArguments.First().Value!);
-				Type eventType = Unsafe.As<Type>(v.ConstructorArguments.Last().Value!);
-
-				String source = this.processClassAttribute(type, eventName, eventType);
-				context.AddSource($"{type.Name}_{eventName}.generated.cs", source);
-			}
+			String result = this.generate(metadata);
+			ctx.AddSource($"Deserialize_{metadata.EventName}.generated.cs", result);
 		}
 	}
 
-	private String processClassAttribute(ITypeSymbol type, String eventName, Type eventType)
+	private IEnumerable<GatewayEventMetadata> getRegisteredEvents(Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classes, SourceProductionContext ctx)
 	{
-		if(type.ContainingType is not null)
+		List<GatewayEventMetadata> events = new();
+
+		INamedTypeSymbol? attribute = compilation.GetTypeByMetadataName("Starnight.SourceGenerators.GatewayEvents.GatewayEventAttribute");
+
+		if(attribute is null)
 		{
-			return " ";
+			// rome is burning
+			return events;
 		}
 
-		StringBuilder code = new();
+		foreach(ClassDeclarationSyntax classDeclaration in classes)
+		{
+			ctx.CancellationToken.ThrowIfCancellationRequested();
 
-		String eventTypeName = "global::" + eventType.Namespace + "." + eventType.Name;
+			SemanticModel semanticModel = compilation.GetSemanticModel(classDeclaration.SyntaxTree);
 
-		String payloadTypeName = "global::" + eventType.Namespace + "." +eventType.GetProperty("Data")!.PropertyType.Name;
+			if(semanticModel.GetDeclaredSymbol(classDeclaration) is not INamedTypeSymbol classSymbol)
+			{
+				continue;
+			}
 
-		_ = code.Append("// auto-generated code")
-			.Append($"namespace {type.ContainingType!.Name};\n")
-			.Append($"partial class {type.Name}\n")
-			.Append("{\n");
 
-		_ = code.Append(@"[global::System.CodeDom.Compiler.GeneratedCode(""starnight-gateway-events-generator"", ""0.1.0"")]");
-		_ = code.Append($"\tprivate static global::Starnight.Internal.Gateway.IDiscordGatewayEvent {this.getMethodName(eventName)}(global::System.Text.Json.JsonElement element)")
-			.Append("\t{")
-			.Append(
-@$"		   global::Starnight.Internal.Gateway.DiscordGatewayOpcode opcode = (global::Starnight.Internal.Gateway.DiscordGateway)element.GetProperty(""op"").GetInt32();
+			String eventType = classSymbol.Name;
+
+			ITypeSymbol payload = classSymbol.GetMembers()
+				.Where(xm => xm is IPropertySymbol property && property.Name == "Data")
+				.Select(xm => (xm as IPropertySymbol)!.Type)
+				.First()!;
+
+			String payloadType = payload.Name;
+			String eventName;
+
+			foreach(AttributeData attributeData in classSymbol.GetAttributes())
+			{
+				if(!attribute.Equals(attributeData.AttributeClass, SymbolEqualityComparer.Default))
+				{
+					continue;
+				}
+
+				foreach(KeyValuePair<String, TypedConstant> argument in attributeData.NamedArguments)
+				{
+					if(argument.Key == "EventName")
+					{
+						eventName = argument.Value.Value!.ToString();
+					}
+					else
+					{
+						continue;
+					}
+
+					events.Add(new()
+					{
+						EventName = eventName,
+						EventType = eventType,
+						EventNamespace = classSymbol.ContainingNamespace.GetFullNamespace(),
+						PayloadType = payloadType,
+						PayloadNamespace = payload.ContainingNamespace.GetFullNamespace(),
+						DeclaringClass = classSymbol
+					});
+
+					break;
+				}
+			}
+		}
+
+		return events;
+	}
+
+	private String generate(GatewayEventMetadata metadata)
+	{
+		return
+$@"// auto-generated code
+namespace {metadata.DeclaringClass.ContainingNamespace.GetFullNamespace()};
+
+partial class {metadata.DeclaringClass.Name}
+{{
+	[global::System.CodeDom.Compiler.GeneratedCode(""starnight-gateway-events-generator"", ""0.2.0"")]
+	private static global::Starnight.Internal.Gateway.IDiscordGatewayEvent {this.getMethodName(metadata.EventName)}(global::System.Text.Json.JsonElement element)
+	{{
+		global::Starnight.Internal.Gateway.DiscordGatewayOpcode opcode = (global::Starnight.Internal.Gateway.DiscordGatewayOpcode)element.GetProperty(""op"").GetInt32();
 		global::System.String name = element.GetProperty(""t"").GetString()!;
 		global::System.Int32 sequence = element.GetProperty(""s"").GetInt32();
-		{payloadTypeName} data = global::System.Text.Json.JsonSerializer.Deserialize<{payloadTypeName}>(element.GetProperty(""d""), global::Starnight.Internal.StarnightConstants.DefaultSerializerOptions)!;
-		return new {eventTypeName}
+		global::{metadata.PayloadNamespace}.{metadata.PayloadType} data = global::System.Text.Json.JsonSerializer.Deserialize<global::{metadata.PayloadNamespace}.{metadata.PayloadType}>(element.GetProperty(""d""), global::Starnight.Internal.StarnightConstants.DefaultSerializerOptions)!;
+		return new global::{metadata.EventNamespace}.{metadata.EventName}
 		{{
 			Opcode = opcode,
 			EventName = name,
 			Sequence = sequence,
 			Data = data
-		}};
-");
-
-		_ = code.Append("\t}")
-			.Append("}");
-
-		return code.ToString();
+		}}
+	}}
+}}
+";
 	}
 
 	private String getMethodName(String eventName)
@@ -113,23 +205,5 @@ internal sealed class GatewayEventAttribute : global::System.Attribute
 		}
 
 		return builder.ToString();
-	}
-}
-
-internal class SyntaxReceiver : ISyntaxContextReceiver
-{
-	public List<ITypeSymbol> SourceTypes { get; } = new List<ITypeSymbol>();
-
-	public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
-	{
-		if(context.Node is TypeDeclarationSyntax typeDeclarationSyntax && typeDeclarationSyntax.AttributeLists.Count > 0)
-		{
-			ITypeSymbol typeSymbol = (ITypeSymbol)context.SemanticModel.GetDeclaredSymbol(typeDeclarationSyntax)!;
-
-			if(typeSymbol.GetAttributes().Any(xm => xm.AttributeClass?.ToDisplayString() == "Starnight.SourceGenerator.GatewayEvents.GatewayEventAttribute"))
-			{
-				this.SourceTypes.Add(typeSymbol);
-			}
-		}
 	}
 }
