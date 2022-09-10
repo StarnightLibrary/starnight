@@ -1,36 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <LangVersion>Preview</LangVersion>
-    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <Authors>Starnight Contributors</Authors>
-    <Company>Insanity Team</Company>
     <Description>Lightweight and fast Discord API wrapper</Description>
-    <PackageProjectUrl>https://bot.insanity.host</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/starnightlibrary/starnight</RepositoryUrl>
     <VersionPrefix>0.1.0</VersionPrefix>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>starnight.png</PackageIcon>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <NoWarn>CS1591</NoWarn>
-    
-    <!-- SourceLink -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

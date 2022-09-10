@@ -1,0 +1,24 @@
+<Project>
+    <PropertyGroup>
+        <!-- general properties -->
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>Preview</LangVersion>
+        <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+        <Authors>Starnight Contributors</Authors>
+        <Company>Starnight Contributors</Company>
+        <PackageProjectUrl>https://github.com/starnightlibrary/starnight</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/starnightlibrary/starnight</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon>starnight.png</PackageIcon>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <NoWarn>CS1591</NoWarn><AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+
+        <!-- SourceLink -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+</Project>
