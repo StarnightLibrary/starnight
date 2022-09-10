@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../Starnight.targets" />
+
   <PropertyGroup>
     <Description>Lightweight and fast Discord API wrapper</Description>
     <VersionPrefix>0.1.0</VersionPrefix>
@@ -11,11 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="All" />
-    
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0-preview.7.22375.6" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0-preview.7.22375.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-preview.7.22375.6" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0-preview.7.22375.6" />
   </ItemGroup>
 
 </Project>

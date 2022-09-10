@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../Starnight.targets" />
+
   <PropertyGroup>
     <Description>Lightweight and fast Discord API wrapper</Description>
     <VersionPrefix>0.1.0</VersionPrefix>
