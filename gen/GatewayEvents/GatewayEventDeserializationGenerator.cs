@@ -2,7 +2,6 @@ namespace Starnight.SourceGenerators.GatewayEvents;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -18,6 +17,7 @@ public class GatewayEventDeserializationGenerator : ISourceGenerator
 namespace Starnight.SourceGenerators.GatewayEvents;
 
 [global::System.AttributeUsage(global::System.AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+[global::System.CodeDom.Compiler.GeneratedCode(""starnight-gateway-events-generator"", ""0.1.0"")]
 internal sealed class GatewayEventAttribute : global::System.Attribute
 {
 	public global::System.String EventName { get; set; }
@@ -69,15 +69,16 @@ internal sealed class GatewayEventAttribute : global::System.Attribute
 
 		StringBuilder code = new();
 
-		String eventTypeName = "global::" + eventType.Namespace + eventType.Name;
+		String eventTypeName = "global::" + eventType.Namespace + "." + eventType.Name;
 
-		String payloadTypeName = "global::" + eventType.Namespace + eventType.GetProperty("Data")!.PropertyType.Name;
+		String payloadTypeName = "global::" + eventType.Namespace + "." +eventType.GetProperty("Data")!.PropertyType.Name;
 
 		_ = code.Append("// auto-generated code")
 			.Append($"namespace {type.ContainingType!.Name};\n")
 			.Append($"partial class {type.Name}\n")
 			.Append("{\n");
 
+		_ = code.Append(@"[global::System.CodeDom.Compiler.GeneratedCode(""starnight-gateway-events-generator"", ""0.1.0"")]");
 		_ = code.Append($"\tprivate static global::Starnight.Internal.Gateway.IDiscordGatewayEvent {this.getMethodName(eventName)}(global::System.Text.Json.JsonElement element)")
 			.Append("\t{")
 			.Append(
@@ -96,8 +97,6 @@ internal sealed class GatewayEventAttribute : global::System.Attribute
 
 		_ = code.Append("\t}")
 			.Append("}");
-
-		_ = Debugger.Launch();
 
 		return code.ToString();
 	}
