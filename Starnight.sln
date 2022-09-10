@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starnight.Benchmarks", "Starnight.Benchmarks\Starnight.Benchmarks.csproj", "{1E396097-261E-4A4E-8855-95206B7FED05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Benchmarks", "Starnight.Benchmarks\Starnight.Benchmarks.csproj", "{1E396097-261E-4A4E-8855-95206B7FED05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.SourceGenerators", "gen\Starnight.SourceGenerators.csproj", "{AF523164-8CC1-4936-8F4F-8F850BE2EE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{1E396097-261E-4A4E-8855-95206B7FED05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E396097-261E-4A4E-8855-95206B7FED05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E396097-261E-4A4E-8855-95206B7FED05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF523164-8CC1-4936-8F4F-8F850BE2EE63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF523164-8CC1-4936-8F4F-8F850BE2EE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF523164-8CC1-4936-8F4F-8F850BE2EE63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF523164-8CC1-4936-8F4F-8F850BE2EE63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,14 +10,17 @@ using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
+using Starnight.SourceGenerators.GatewayEvents;
 
 /// <summary>
 /// Contains static deserialization information about dispatch events.
 /// </summary>
+[GatewayEvent("READY", typeof(DiscordConnectedEvent))]
 [RequiresDynamicCode("This class utilizes compiled expressions and System.Reflection.Emit for runtime performance.")]
-internal unsafe static class DispatchEvents
+internal unsafe static partial class DispatchEvents
 {
 	// delegate type holding dynamic methods for deserializing the inner payload object
 	private delegate Object DeserializePayloadDelegate(JsonElement element, JsonSerializerOptions options);
@@ -213,6 +216,21 @@ internal unsafe static class DispatchEvents
 			Object payload = payloadFunction(element.GetProperty("d"), StarnightConstants.DefaultSerializerOptions);
 
 			return creatorFunction(sequence, name, payload, opcode);
+		};
+	}
+
+	private static IDiscordGatewayEvent deserializeChannelCreate(JsonElement element)
+	{
+		DiscordGatewayOpcode opcode = (DiscordGatewayOpcode)element.GetProperty("op").GetInt32();
+		String name = element.GetProperty("t").GetString()!;
+		Int32 sequence = element.GetProperty("s").GetInt32();
+		DiscordChannel data = JsonSerializer.Deserialize<DiscordChannel>(element.GetProperty("d"), StarnightConstants.DefaultSerializerOptions)!;
+		return new DiscordChannelCreatedEvent
+		{
+			Opcode = opcode,
+			EventName = name,
+			Sequence = sequence,
+			Data = data
 		};
 	}
 
