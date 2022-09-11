@@ -44,4 +44,4 @@ jobs:
         embed-color: 15880824
     
     - name: Publish package
-      run: "dotnet nuget push ./build/* --api-key ${{ secrets.NUGET_API_KEY }} --source NuGet --no-service-endpoint --skip-duplicate"
+      run: "dotnet nuget push ./build/* --api-key ${{ secrets.NUGET_API_KEY }} --source nuget.org --no-service-endpoint --skip-duplicate"
