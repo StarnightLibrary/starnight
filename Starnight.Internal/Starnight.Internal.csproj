@@ -16,6 +16,10 @@
     <PackageReference Include="Starnight.Caching" Version="0.1.0-*" />
 
     <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="runtime" />
+
+    <ProjectReference Include="../gen/Starnight.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
