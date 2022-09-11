@@ -82,17 +82,25 @@ internal sealed class GatewayEventAttribute : global::System.Attribute
 
 	private void execute(Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classes, SourceProductionContext ctx)
 	{
-		if(classes.IsDefaultOrEmpty)
+		try
 		{
-			return;
+			if(classes.IsDefaultOrEmpty)
+			{
+				return;
+			}
+
+			IEnumerable<GatewayEventMetadata> registeredEvents = this.getRegisteredEvents(compilation, classes, ctx);
+
+			foreach(GatewayEventMetadata metadata in registeredEvents)
+			{
+				String result = this.generate(metadata);
+				ctx.AddSource($"Deserialize_{metadata.EventName}.generated.cs", result);
+			}
 		}
-
-		IEnumerable<GatewayEventMetadata> registeredEvents = this.getRegisteredEvents(compilation, classes, ctx);
-
-		foreach(GatewayEventMetadata metadata in registeredEvents)
+		catch(Exception e)
 		{
-			String result = this.generate(metadata);
-			ctx.AddSource($"Deserialize_{metadata.EventName}.generated.cs", result);
+			Console.WriteLine($"{e}: {e.Message}\n{e.StackTrace}");
+			throw;
 		}
 	}
 
@@ -119,16 +127,9 @@ internal sealed class GatewayEventAttribute : global::System.Attribute
 				continue;
 			}
 
-
-			String eventType = classSymbol.Name;
-
-			ITypeSymbol payload = classSymbol.GetMembers()
-				.Where(xm => xm is IPropertySymbol property && property.Name == "Data")
-				.Select(xm => (xm as IPropertySymbol)!.Type)
-				.First()!;
-
-			String payloadType = payload.Name;
-			String eventName;
+			String payloadType = "";
+			String eventName = "";
+			String eventType = "";
 
 			foreach(AttributeData attributeData in classSymbol.GetAttributes())
 			{
@@ -143,23 +144,31 @@ internal sealed class GatewayEventAttribute : global::System.Attribute
 					{
 						eventName = argument.Value.Value!.ToString();
 					}
+					else if(argument.Key == "EventType")
+					{
+						INamedTypeSymbol eventTypeSymbol = (INamedTypeSymbol)argument.Value.Value!;
+						eventType = $"{eventTypeSymbol.ContainingNamespace.GetFullNamespace()}.{eventTypeSymbol.Name}";
+
+						INamedTypeSymbol propertyTypeSymbol = (INamedTypeSymbol)eventTypeSymbol.GetMembers()
+							.Where(xm => xm is IPropertySymbol property && property.Name == "Data")
+							.Select(xm => (xm as IPropertySymbol)!.Type)
+							.First();
+
+						payloadType = $"{propertyTypeSymbol.ContainingNamespace.GetFullNamespace()}.{propertyTypeSymbol.Name}";
+					}
 					else
 					{
 						continue;
 					}
-
-					events.Add(new()
-					{
-						EventName = eventName,
-						EventType = eventType,
-						EventNamespace = classSymbol.ContainingNamespace.GetFullNamespace(),
-						PayloadType = payloadType,
-						PayloadNamespace = payload.ContainingNamespace.GetFullNamespace(),
-						DeclaringClass = classSymbol
-					});
-
-					break;
 				}
+
+				events.Add(new()
+				{
+					EventName = eventName,
+					EventType = eventType,
+					PayloadType = payloadType,
+					DeclaringClass = classSymbol
+				});
 			}
 		}
 
@@ -180,14 +189,14 @@ partial class {metadata.DeclaringClass.Name}
 		global::Starnight.Internal.Gateway.DiscordGatewayOpcode opcode = (global::Starnight.Internal.Gateway.DiscordGatewayOpcode)element.GetProperty(""op"").GetInt32();
 		global::System.String name = element.GetProperty(""t"").GetString()!;
 		global::System.Int32 sequence = element.GetProperty(""s"").GetInt32();
-		global::{metadata.PayloadNamespace}.{metadata.PayloadType} data = global::System.Text.Json.JsonSerializer.Deserialize<global::{metadata.PayloadNamespace}.{metadata.PayloadType}>(element.GetProperty(""d""), global::Starnight.Internal.StarnightConstants.DefaultSerializerOptions)!;
-		return new global::{metadata.EventNamespace}.{metadata.EventName}
+		global::{metadata.PayloadType} data = global::System.Text.Json.JsonSerializer.Deserialize<global::{metadata.PayloadType}>(element.GetProperty(""d""), global::Starnight.Internal.StarnightConstants.DefaultSerializerOptions)!;
+		return new global::{metadata.EventType}
 		{{
 			Opcode = opcode,
 			EventName = name,
 			Sequence = sequence,
 			Data = data
-		}}
+		}};
 	}}
 }}
 ";

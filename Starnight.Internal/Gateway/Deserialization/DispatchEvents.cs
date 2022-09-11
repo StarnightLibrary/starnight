@@ -1,16 +1,8 @@
 namespace Starnight.Internal.Gateway.Deserialization;
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 
-using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 using Starnight.SourceGenerators.GatewayEvents;
@@ -18,279 +10,200 @@ using Starnight.SourceGenerators.GatewayEvents;
 /// <summary>
 /// Contains static deserialization information about dispatch events.
 /// </summary>
-[GatewayEvent("READY", typeof(DiscordConnectedEvent))]
-[RequiresDynamicCode("This class utilizes compiled expressions and System.Reflection.Emit for runtime performance.")]
-internal unsafe static partial class DispatchEvents
+#region serialization attributes
+[GatewayEvent(EventName = Ready, EventType = typeof(DiscordConnectedEvent))]
+[GatewayEvent(EventName = ApplicationCommandPermissionsUpdate, EventType = typeof(DiscordApplicationCommandPermissionsUpdatedEvent))]
+[GatewayEvent(EventName = AutoModerationRuleCreate, EventType = typeof(DiscordAutoModerationRuleCreatedEvent))]
+[GatewayEvent(EventName = AutoModerationRuleUpdate, EventType = typeof(DiscordAutoModerationRuleUpdatedEvent))]
+[GatewayEvent(EventName = AutoModerationRuleDelete, EventType = typeof(DiscordAutoModerationRuleDeletedEvent))]
+[GatewayEvent(EventName = AutoModerationActionExecution, EventType = typeof(DiscordAutoModerationActionExecutedEvent))]
+[GatewayEvent(EventName = ChannelCreate, EventType = typeof(DiscordChannelCreatedEvent))]
+[GatewayEvent(EventName = ChannelUpdate, EventType = typeof(DiscordChannelUpdatedEvent))]
+[GatewayEvent(EventName = ChannelDelete, EventType = typeof(DiscordChannelDeletedEvent))]
+[GatewayEvent(EventName = ChannelPinsUpdate, EventType = typeof(DiscordChannelPinsUpdatedEvent))]
+[GatewayEvent(EventName = ThreadCreate, EventType = typeof(DiscordThreadCreatedEvent))]
+[GatewayEvent(EventName = ThreadUpdate, EventType = typeof(DiscordThreadUpdatedEvent))]
+[GatewayEvent(EventName = ThreadDelete, EventType = typeof(DiscordThreadDeletedEvent))]
+[GatewayEvent(EventName = ThreadListSync, EventType = typeof(DiscordThreadListSyncEvent))]
+[GatewayEvent(EventName = ThreadMemberUpdate, EventType = typeof(DiscordThreadMemberUpdatedEvent))]
+[GatewayEvent(EventName = ThreadMembersUpdate, EventType = typeof(DiscordThreadMembersUpdatedEvent))]
+[GatewayEvent(EventName = GuildCreate, EventType = typeof(DiscordGuildCreatedEvent))]
+[GatewayEvent(EventName = GuildUpdate, EventType = typeof(DiscordGuildUpdatedEvent))]
+[GatewayEvent(EventName = GuildDelete, EventType = typeof(DiscordGuildDeletedEvent))]
+[GatewayEvent(EventName = GuildBanAdd, EventType = typeof(DiscordGuildBanAddedEvent))]
+[GatewayEvent(EventName = GuildBanRemove, EventType = typeof(DiscordGuildBanRemovedEvent))]
+[GatewayEvent(EventName = GuildEmojisUpdate, EventType = typeof(DiscordGuildEmojisUpdatedEvent))]
+[GatewayEvent(EventName = GuildStickersUpdate, EventType = typeof(DiscordGuildStickersUpdatedEvent))]
+[GatewayEvent(EventName = GuildIntegrationsUpdate, EventType = typeof(DiscordGuildIntegrationsUpdatedEvent))]
+[GatewayEvent(EventName = GuildMemberAdd, EventType = typeof(DiscordGuildMemberAddedEvent))]
+[GatewayEvent(EventName = GuildMemberRemove, EventType = typeof(DiscordGuildMemberRemovedEvent))]
+[GatewayEvent(EventName = GuildMemberUpdate, EventType = typeof(DiscordGuildMemberUpdatedEvent))]
+[GatewayEvent(EventName = GuildMembersChunk, EventType = typeof(DiscordGuildMembersChunkEvent))]
+[GatewayEvent(EventName = GuildRoleCreate, EventType = typeof(DiscordGuildRoleCreatedEvent))]
+[GatewayEvent(EventName = GuildRoleUpdate, EventType = typeof(DiscordGuildRoleUpdatedEvent))]
+[GatewayEvent(EventName = GuildRoleDelete, EventType = typeof(DiscordGuildRoleDeletedEvent))]
+[GatewayEvent(EventName = GuildScheduledEventCreate, EventType = typeof(DiscordScheduledEventCreatedEvent))]
+[GatewayEvent(EventName = GuildScheduledEventUpdate, EventType = typeof(DiscordScheduledEventUpdatedEvent))]
+[GatewayEvent(EventName = GuildScheduledEventDelete, EventType = typeof(DiscordScheduledEventDeletedEvent))]
+[GatewayEvent(EventName = GuildScheduledEventUserAdd, EventType = typeof(DiscordScheduledEventUserAddedEvent))]
+[GatewayEvent(EventName = GuildScheduledEventUserRemove, EventType = typeof(DiscordScheduledEventUserRemovedEvent))]
+[GatewayEvent(EventName = IntegrationCreate, EventType = typeof(DiscordIntegrationCreatedEvent))]
+[GatewayEvent(EventName = IntegrationUpdate, EventType = typeof(DiscordIntegrationUpdatedEvent))]
+[GatewayEvent(EventName = IntegrationDelete, EventType = typeof(DiscordIntegrationDeletedEvent))]
+[GatewayEvent(EventName = InteractionCreate, EventType = typeof(DiscordInteractionCreatedEvent))]
+[GatewayEvent(EventName = InviteCreate, EventType = typeof(DiscordInviteCreatedEvent))]
+[GatewayEvent(EventName = InviteDelete, EventType = typeof(DiscordInviteDeletedEvent))]
+[GatewayEvent(EventName = MessageCreate, EventType = typeof(DiscordMessageCreatedEvent))]
+[GatewayEvent(EventName = MessageUpdate, EventType = typeof(DiscordMessageUpdatedEvent))]
+[GatewayEvent(EventName = MessageDelete, EventType = typeof(DiscordMessageDeletedEvent))]
+[GatewayEvent(EventName = MessageDeleteBulk, EventType = typeof(DiscordMessagesBulkDeletedEvent))]
+[GatewayEvent(EventName = MessageReactionAdd, EventType = typeof(DiscordMessageReactionAddedEvent))]
+[GatewayEvent(EventName = MessageReactionRemove, EventType = typeof(DiscordMessageReactionRemovedEvent))]
+[GatewayEvent(EventName = MessageReactionRemoveAll, EventType = typeof(DiscordAllMessageReactionsRemovedEvent))]
+[GatewayEvent(EventName = MessageReactionRemoveEmoji, EventType = typeof(DiscordEmojiMessageReactionsRemovedEvent))]
+[GatewayEvent(EventName = PresenceUpdate, EventType = typeof(DiscordPresenceUpdatedEvent))]
+[GatewayEvent(EventName = StageInstanceCreate, EventType = typeof(DiscordStageInstanceCreatedEvent))]
+[GatewayEvent(EventName = StageInstanceDelete, EventType = typeof(DiscordStageInstanceDeletedEvent))]
+[GatewayEvent(EventName = StageInstanceUpdate, EventType = typeof(DiscordStageInstanceUpdatedEvent))]
+[GatewayEvent(EventName = TypingStart, EventType = typeof(DiscordTypingStartedEvent))]
+[GatewayEvent(EventName = UserUpdate, EventType = typeof(DiscordUserUpdatedEvent))]
+[GatewayEvent(EventName = VoiceStateUpdate, EventType = typeof(DiscordVoiceStateUpdatedEvent))]
+[GatewayEvent(EventName = VoiceServerUpdate, EventType = typeof(DiscordVoiceServerUpdatedEvent))]
+[GatewayEvent(EventName = WebhooksUpdate, EventType = typeof(DiscordWebhooksUpdatedEvent))]
+#endregion
+internal static partial class DispatchEvents
 {
-	// delegate type holding dynamic methods for deserializing the inner payload object
-	private delegate Object DeserializePayloadDelegate(JsonElement element, JsonSerializerOptions options);
+	#region Events
+	public const String Ready = "READY";
+	public const String ApplicationCommandPermissionsUpdate = "APPLICATION_COMMAND_PERMISSIONS_UPDATE";
+	public const String AutoModerationRuleCreate = "AUTO_MODERATION_RULE_CREATE";
+	public const String AutoModerationRuleUpdate = "AUTO_MODERATION_RULE_UPDATE";
+	public const String AutoModerationRuleDelete = "AUTO_MODERATION_RULE_DELETE";
+	public const String AutoModerationActionExecution = "AUTO_MODERATION_ACTION_EXECUTION";
+	public const String ChannelCreate = "CHANNEL_CREATE";
+	public const String ChannelUpdate = "CHANNEL_UPDATE";
+	public const String ChannelDelete = "CHANNEL_DELETE";
+	public const String ChannelPinsUpdate = "CHANNEL_PINS_UPDATE";
+	public const String ThreadCreate = "THREAD_CREATE";
+	public const String ThreadUpdate = "THREAD_UPDATE";
+	public const String ThreadDelete = "THREAD_DELETE";
+	public const String ThreadListSync = "THREAD_LIST_SYNC";
+	public const String ThreadMemberUpdate = "THREAD_MEMBER_UPDATE";
+	public const String ThreadMembersUpdate = "THREAD_MEMBERS_UPDATE";
+	public const String GuildCreate = "GUILD_CREATE";
+	public const String GuildUpdate = "GUILD_UPDATE";
+	public const String GuildDelete = "GUILD_DELETE";
+	public const String GuildBanAdd = "GUILD_BAN_ADD";
+	public const String GuildBanRemove = "GUILD_BAN_REMOVE";
+	public const String GuildEmojisUpdate = "GUILD_EMOJIS_UPDATE";
+	public const String GuildStickersUpdate = "GUILD_STICKERS_UPDATE";
+	public const String GuildIntegrationsUpdate = "GUILD_INTEGRATIONS_UPDATE";
+	public const String GuildMemberAdd = "GUILD_MEMBER_ADD";
+	public const String GuildMemberRemove = "GUILD_MEMBER_REMOVE";
+	public const String GuildMemberUpdate = "GUILD_MEMBER_UPDATE";
+	public const String GuildMembersChunk = "GUILD_MEMBERS_CHUNK";
+	public const String GuildRoleCreate = "GUILD_ROLE_CREATE";
+	public const String GuildRoleUpdate = "GUILD_ROLE_UPDATE";
+	public const String GuildRoleDelete = "GUILD_ROLE_DELETE";
+	public const String GuildScheduledEventCreate = "GUILD_SCHEDULED_EVENT_CREATE";
+	public const String GuildScheduledEventUpdate = "GUILD_SCHEDULED_EVENT_UPDATE";
+	public const String GuildScheduledEventDelete = "GUILD_SCHEDULED_EVENT_DELETE";
+	public const String GuildScheduledEventUserAdd = "GUILD_SCHEDULED_EVENT_USER_ADD";
+	public const String GuildScheduledEventUserRemove = "GUILD_SCHEDULED_EVENT_USER_REMOVE";
+	public const String IntegrationCreate = "INTEGRATION_CREATE";
+	public const String IntegrationUpdate = "INTEGRATION_UPDATE";
+	public const String IntegrationDelete = "INTEGRATION_DELETE";
+	public const String InteractionCreate = "INTERACTION_CREATE";
+	public const String InviteCreate = "INVITE_CREATE";
+	public const String InviteDelete = "INVITE_DELETE";
+	public const String MessageCreate = "MESSAGE_CREATE";
+	public const String MessageUpdate = "MESSAGE_UPDATE";
+	public const String MessageDelete = "MESSAGE_DELETE";
+	public const String MessageDeleteBulk = "MESSAGE_DELETE_BULK";
+	public const String MessageReactionAdd = "MESSAGE_REACTION_ADD";
+	public const String MessageReactionRemove = "MESSAGE_REACTION_REMOVE";
+	public const String MessageReactionRemoveAll = "MESSAGE_REACTION_REMOVE_ALL";
+	public const String MessageReactionRemoveEmoji = "MESSAGE_REACTION_REMOVE_EMOJI";
+	public const String PresenceUpdate = "PRESENCE_UPDATE";
+	public const String StageInstanceCreate = "STAGE_INSTANCE_CREATE";
+	public const String StageInstanceDelete = "STAGE_INSTANCE_DELETE";
+	public const String StageInstanceUpdate = "STAGE_INSTANCE_UPDATE";
+	public const String TypingStart = "TYPING_START";
+	public const String UserUpdate = "USER_UPDATE";
+	public const String VoiceStateUpdate = "VOICE_STATE_UPDATE";
+	public const String VoiceServerUpdate = "VOICE_SERVER_UPDATE";
+	public const String WebhooksUpdate = "WEBHOOKS_UPDATE";
+	#endregion
 
-	// delegate type holding dynamic methods for deserializing the entire event
-	private delegate IDiscordGatewayEvent DeserializeEventDelegate(JsonElement element);
-
-	// intermediary delegate type for dynamic methods
-	private delegate IDiscordGatewayEvent IntermediaryCreatorDelegate(Int32 sequence, String name, Object payload, DiscordGatewayOpcode opcode);
-
-	private readonly static List<DeserializePayloadDelegate> __payload_delegates;
-	private readonly static List<DeserializeEventDelegate> __event_delegates;
-	private readonly static List<DynamicMethod> __event_creators;
-			
-	private readonly static Dictionary<Type, Type> __payload_types;
-	private readonly static Dictionary<Type, IntPtr> __payload_delegate_pointers;
-
-	private readonly static MethodInfo __json_deserializer_method;
-
-	static DispatchEvents()
+	public static IDiscordGatewayEvent Deserialize(String eventName, JsonElement element)
 	{
-		__payload_delegates = new();
-		__event_delegates = new();
-		__payload_types = new();
-		__payload_delegate_pointers = new();
-		__event_creators = new();
-		__json_deserializer_method = typeof(JsonSerializer)
-			.GetMethods(BindingFlags.Static | BindingFlags.Public)
-			.Where(xm => xm.Name == nameof(JsonSerializer.Deserialize))
-			.Select(xm => new
+		return eventName switch
+		{
+			Ready => deserializeReady(element),
+			ApplicationCommandPermissionsUpdate => deserializeApplicationCommandPermissionsUpdate(element),
+			AutoModerationRuleCreate => deserializeAutoModerationRuleCreate(element),
+			AutoModerationRuleUpdate => deserializeAutoModerationRuleUpdate(element),
+			AutoModerationRuleDelete => deserializeAutoModerationRuleDelete(element),
+			AutoModerationActionExecution => deserializeAutoModerationActionExecution(element),
+			ChannelCreate => deserializeChannelCreate(element),
+			ChannelUpdate => deserializeChannelUpdate(element),
+			ChannelDelete => deserializeChannelDelete(element),
+			ChannelPinsUpdate => deserializeChannelPinsUpdate(element),
+			ThreadCreate => deserializeThreadCreate(element),
+			ThreadUpdate => deserializeThreadUpdate(element),
+			ThreadDelete => deserializeThreadDelete(element),
+			ThreadListSync => deserializeThreadListSync(element),
+			ThreadMemberUpdate => deserializeThreadMemberUpdate(element),
+			ThreadMembersUpdate => deserializeThreadMembersUpdate(element),
+			GuildCreate => deserializeGuildCreate(element),
+			GuildUpdate => deserializeGuildUpdate(element),
+			GuildDelete => deserializeGuildDelete(element),
+			GuildBanAdd => deserializeGuildBanAdd(element),
+			GuildBanRemove => deserializeGuildBanRemove(element),
+			GuildEmojisUpdate => deserializeGuildEmojisUpdate(element),
+			GuildIntegrationsUpdate => deserializeGuildIntegrationsUpdate(element),
+			GuildMemberAdd => deserializeGuildMemberAdd(element),
+			GuildMemberRemove => deserializeGuildMemberRemove(element),
+			GuildMemberUpdate => deserializeGuildMemberUpdate(element),
+			GuildMembersChunk => deserializeGuildMembersChunk(element),
+			GuildRoleCreate => deserializeGuildRoleCreate(element),
+			GuildRoleUpdate => deserializeGuildRoleUpdate(element),
+			GuildRoleDelete => deserializeGuildRoleDelete(element),
+			GuildScheduledEventCreate => deserializeGuildScheduledEventCreate(element),
+			GuildScheduledEventUpdate => deserializeGuildScheduledEventUpdate(element),
+			GuildScheduledEventDelete => deserializeGuildScheduledEventDelete(element),
+			GuildScheduledEventUserAdd => deserializeGuildScheduledEventUserAdd(element),
+			GuildScheduledEventUserRemove => deserializeGuildScheduledEventUserRemove(element),
+			IntegrationCreate => deserializeIntegrationCreate(element),
+			IntegrationUpdate => deserializeIntegrationUpdate(element),
+			IntegrationDelete => deserializeIntegrationDelete(element),
+			InteractionCreate => deserializeInteractionCreate(element),
+			InviteCreate => deserializeInviteCreate(element),
+			InviteDelete => deserializeInviteDelete(element),
+			MessageCreate => deserializeMessageCreate(element),
+			MessageUpdate => deserializeMessageUpdate(element),
+			MessageDelete => deserializeMessageDelete(element),
+			MessageDeleteBulk => deserializeMessageDeleteBulk(element),
+			MessageReactionAdd => deserializeMessageReactionAdd(element),
+			MessageReactionRemove => deserializeMessageReactionRemove(element),
+			MessageReactionRemoveAll => deserializeMessageReactionRemoveAll(element),
+			MessageReactionRemoveEmoji => deserializeMessageReactionRemoveEmoji(element),
+			PresenceUpdate => deserializePresenceUpdate(element),
+			StageInstanceCreate => deserializeStageInstanceCreate(element),
+			StageInstanceDelete => deserializeStageInstanceDelete(element),
+			StageInstanceUpdate => deserializeStageInstanceUpdate(element),
+			TypingStart => deserializeTypingStart(element),
+			UserUpdate => deserializeUserUpdate(element),
+			VoiceStateUpdate => deserializeVoiceStateUpdate(element),
+			VoiceServerUpdate => deserializeVoiceServerUpdate(element),
+			WebhooksUpdate => deserializeWebhooksUpdate(element),
+			_ => new DiscordUnknownDispatchEvent()
 			{
-				Method = xm,
-				Parameters = xm.GetParameters(),
-				GenericArguments = xm.GetGenericArguments()
-			})
-			.Where(xm => xm.GenericArguments.Length == 1 &&
-						 xm.Parameters.Length == 2 &&
-						 xm.Parameters.First().ParameterType == typeof(JsonElement) &&
-						 xm.Parameters.Last().ParameterType == typeof(JsonSerializerOptions))
-			.Select(xm => xm.Method)
-			.FirstOrDefault()
-			?? throw new MissingMethodException($"The method {nameof(JsonSerializer)}#{nameof(JsonSerializer.Deserialize)} went missing.");
-	}
-
-	public static Dictionary<String, IntPtr> Events = new()
-	{
-		["READY"] = CreateDeserializationInfo<DiscordConnectedEvent>(),
-		["APPLICATION_COMMAND_PERMISSIONS_UPDATE"] = CreateDeserializationInfo<DiscordApplicationCommandPermissionsUpdatedEvent>(),
-		["AUTO_MODERATION_RULE_CREATE"] = CreateDeserializationInfo<DiscordAutoModerationRuleCreatedEvent>(),
-		["AUTO_MODERATION_RULE_UPDATE"] = CreateDeserializationInfo<DiscordAutoModerationRuleUpdatedEvent>(),
-		["AUTO_MODERATION_RULE_DELETE"] = CreateDeserializationInfo<DiscordAutoModerationRuleDeletedEvent>(),
-		["AUTO_MODERATION_ACTION_EXECUTION"] = CreateDeserializationInfo<DiscordAutoModerationActionExecutedEvent>(),
-		["CHANNEL_CREATE"] = CreateDeserializationInfo<DiscordChannelCreatedEvent>(),
-		["CHANNEL_UPDATE"] = CreateDeserializationInfo<DiscordChannelUpdatedEvent>(),
-		["CHANNEL_DELETE"] = CreateDeserializationInfo<DiscordChannelDeletedEvent>(),
-		["CHANNEL_PINS_UPDATE"] = CreateDeserializationInfo<DiscordChannelPinsUpdatedEvent>(),
-		["THREAD_CREATE"] = CreateDeserializationInfo<DiscordThreadCreatedEvent>(),
-		["THREAD_UPDATE"] = CreateDeserializationInfo<DiscordThreadUpdatedEvent>(),
-		["THREAD_DELETE"] = CreateDeserializationInfo<DiscordThreadDeletedEvent>(),
-		["THREAD_LIST_SYNC"] = CreateDeserializationInfo<DiscordThreadListSyncEvent>(),
-		["THREAD_MEMBER_UPDATE"] = CreateDeserializationInfo<DiscordThreadMemberUpdatedEvent>(),
-		["THREAD_MEMBERS_UPDATE"] = CreateDeserializationInfo<DiscordThreadMembersUpdatedEvent>(),
-		["GUILD_CREATE"] = CreateDeserializationInfo<DiscordGuildCreatedEvent>(),
-		["GUILD_UPDATE"] = CreateDeserializationInfo<DiscordGuildUpdatedEvent>(),
-		["GUILD_DELETE"] = CreateDeserializationInfo<DiscordGuildDeletedEvent>(),
-		["GUILD_BAN_ADD"] = CreateDeserializationInfo<DiscordGuildBanAddedEvent>(),
-		["GUILD_BAN_REMOVE"] = CreateDeserializationInfo<DiscordGuildBanRemovedEvent>(),
-		["GUILD_EMOJIS_UPDATE"] = CreateDeserializationInfo<DiscordGuildEmojisUpdatedEvent>(),
-		["GUILD_STICKERS_UPDATE"] = CreateDeserializationInfo<DiscordGuildStickersUpdatedEvent>(),
-		["GUILD_INTEGRATIONS_UPDATE"] = CreateDeserializationInfo<DiscordGuildIntegrationsUpdatedEvent>(),
-		["GUILD_MEMBER_ADD"] = CreateDeserializationInfo<DiscordGuildMemberAddedEvent>(),
-		["GUILD_MEMBER_REMOVE"] = CreateDeserializationInfo<DiscordGuildMemberRemovedEvent>(),
-		["GUILD_MEMBER_UPDATE"] = CreateDeserializationInfo<DiscordGuildMemberUpdatedEvent>(),
-		["GUILD_MEMBERS_CHUNK"] = CreateDeserializationInfo<DiscordGuildMembersChunkEvent>(),
-		["GUILD_ROLE_CREATE"] = CreateDeserializationInfo<DiscordGuildRoleCreatedEvent>(),
-		["GUILD_ROLE_UPDATE"] = CreateDeserializationInfo<DiscordGuildRoleUpdatedEvent>(),
-		["GUILD_ROLE_DELETE"] = CreateDeserializationInfo<DiscordGuildRoleDeletedEvent>(),
-		["GUILD_SCHEDULED_EVENT_CREATE"] = CreateDeserializationInfo<DiscordScheduledEventCreatedEvent>(),
-		["GUILD_SCHEDULED_EVENT_UPDATE"] = CreateDeserializationInfo<DiscordScheduledEventUpdatedEvent>(),
-		["GUILD_SCHEDULED_EVENT_DELETE"] = CreateDeserializationInfo<DiscordScheduledEventDeletedEvent>(),
-		["GUILD_SCHEDULED_EVENT_USER_ADD"] = CreateDeserializationInfo<DiscordScheduledEventUserAddedEvent>(),
-		["GUILD_SCHEDULED_EVENT_USER_REMOVE"] = CreateDeserializationInfo<DiscordScheduledEventUserRemovedEvent>(),
-		["INTEGRATION_CREATE"] = CreateDeserializationInfo<DiscordIntegrationCreatedEvent>(),
-		["INTEGRATION_UPDATE"] = CreateDeserializationInfo<DiscordIntegrationUpdatedEvent>(),
-		["INTEGRATION_DELETE"] = CreateDeserializationInfo<DiscordIntegrationDeletedEvent>(),
-		["INTERACTION_CREATE"] = CreateDeserializationInfo<DiscordInteractionCreatedEvent>(),
-		["INVITE_CREATE"] = CreateDeserializationInfo<DiscordInviteCreatedEvent>(),
-		["INVITE_DELETE"] = CreateDeserializationInfo<DiscordInviteDeletedEvent>(),
-		["MESSAGE_CREATE"] = CreateDeserializationInfo<DiscordMessageCreatedEvent>(),
-		["MESSAGE_UPDATE"] = CreateDeserializationInfo<DiscordMessageUpdatedEvent>(),
-		["MESSAGE_DELETE"] = CreateDeserializationInfo<DiscordMessageDeletedEvent>(),
-		["MESSAGE_DELETE_BULK"] = CreateDeserializationInfo<DiscordMessagesBulkDeletedEvent>(),
-		["MESSAGE_REACTION_ADD"] = CreateDeserializationInfo<DiscordMessageReactionAddedEvent>(),
-		["MESSAGE_REACTION_REMOVE"] = CreateDeserializationInfo<DiscordMessageReactionRemovedEvent>(),
-		["MESSAGE_REACTION_REMOVE_ALL"] = CreateDeserializationInfo<DiscordAllMessageReactionsRemovedEvent>(),
-		["MESSAGE_REACTION_REMOVE_EMOJI"] = CreateDeserializationInfo<DiscordEmojiMessageReactionsRemovedEvent>(),
-		["PRESENCE_UPDATE"] = CreateDeserializationInfo<DiscordPresenceUpdatedEvent>(),
-		["STAGE_INSTANCE_CREATE"] = CreateDeserializationInfo<DiscordStageInstanceCreatedEvent>(),
-		["STAGE_INSTANCE_DELETE"] = CreateDeserializationInfo<DiscordStageInstanceDeletedEvent>(),
-		["STAGE_INSTANCE_UPDATE"] = CreateDeserializationInfo<DiscordStageInstanceUpdatedEvent>(),
-		["TYPING_START"] = CreateDeserializationInfo<DiscordTypingStartedEvent>(),
-		["USER_UPDATE"] = CreateDeserializationInfo<DiscordUserUpdatedEvent>(),
-		["VOICE_STATE_UPDATE"] = CreateDeserializationInfo<DiscordVoiceStateUpdatedEvent>(),
-		["VOICE_SERVER_UPDATE"] = CreateDeserializationInfo<DiscordVoiceServerUpdatedEvent>(),
-		["WEBHOOKS_UPDATE"] = CreateDeserializationInfo<DiscordWebhooksUpdatedEvent>()
-	};
-
-	public static IntPtr CreateDeserializationInfo<TGatewayEvent>()
-		where TGatewayEvent : class, IDiscordGatewayEvent
-	{
-		Type payloadType;
-
-		// establish of which type the given payload is
-		if(!__payload_types.ContainsKey(typeof(TGatewayEvent)))
-		{
-			payloadType = typeof(TGatewayEvent).GetInterfaces()
-				.Where(xm => xm.FullName == "Starnight.Internal.Gateway.IDiscordGatewayDispatchEvent`1")
-				.FirstOrDefault() ?? throw new ArgumentException("The specified type is not a dispatch event.");
-
-			__payload_types.Add(typeof(TGatewayEvent), payloadType);
-		}
-		else
-		{
-			payloadType = __payload_types[typeof(TGatewayEvent)];
-		}
-
-		// get the deserializing function pointer for the given payload
-		if(!__payload_delegate_pointers.ContainsKey(payloadType))
-		{
-			DeserializePayloadDelegate payloadDelegate = createPayloadDeserializationDelegate(payloadType);
-
-			// keep the delegate alive
-			__payload_delegates.Add(payloadDelegate);
-
-			// the type in operation here is delegate* managed<JsonElement, JsonSerializerOptions, Object>
-			__payload_delegate_pointers.Add(payloadType, Marshal.GetFunctionPointerForDelegate(payloadDelegate));
-		}
-
-		DeserializeEventDelegate eventDelegate = createEventDeserializationDelegate(typeof(TGatewayEvent), payloadType);
-		__event_delegates.Add(eventDelegate);
-
-		return Marshal.GetFunctionPointerForDelegate(eventDelegate);
-	}
-
-	public static IDiscordGatewayEvent Dispatch(String eventName, JsonElement element)
-	{
-		IntPtr ptr = Events[eventName];
-
-		delegate* managed<JsonElement, IDiscordGatewayEvent> function =
-			(delegate* managed<JsonElement, IDiscordGatewayEvent>)(void*)ptr;
-
-		return function(element);
-	}
-
-	private static DeserializePayloadDelegate createPayloadDeserializationDelegate(Type payloadType)
-	{
-		MethodInfo deserializer = __json_deserializer_method.MakeGenericMethod(payloadType);
-
-		// create parameters
-		ParameterExpression element = Expression.Parameter(typeof(JsonElement), "element");
-		ParameterExpression options = Expression.Parameter(typeof(JsonSerializerOptions), "options");
-
-		// call
-		MethodCallExpression call = Expression.Call(deserializer, element, options);
-
-		// compile
-		return Expression.Lambda<DeserializePayloadDelegate>(call).Compile();
-	}
-
-	private static DeserializeEventDelegate createEventDeserializationDelegate(Type eventType, Type payloadType)
-	{
-		IntPtr payloadPtr = __payload_delegate_pointers[payloadType];
-
-		delegate* managed<JsonElement, JsonSerializerOptions, Object> payloadFunction =
-			(delegate* managed<JsonElement, JsonSerializerOptions, Object>)(void*)payloadPtr;
-
-		DynamicMethod creator = createDynamicEventCreator(eventType, payloadType);
-
-		__event_creators.Add(creator);
-
-		delegate* managed<Int32, String, Object, DiscordGatewayOpcode, IDiscordGatewayEvent> creatorFunction =
-			(delegate* managed<Int32, String, Object, DiscordGatewayOpcode, IDiscordGatewayEvent>)(void*)
-				Marshal.GetFunctionPointerForDelegate(creator.CreateDelegate<IntermediaryCreatorDelegate>());
-
-		return (element) =>
-		{
-			DiscordGatewayOpcode opcode = DiscordGatewayOpcode.Dispatch;
-
-			String name = element.GetProperty("t").GetString()!;
-
-			Int32 sequence = element.GetProperty("s").GetInt32()!;
-
-			Object payload = payloadFunction(element.GetProperty("d"), StarnightConstants.DefaultSerializerOptions);
-
-			return creatorFunction(sequence, name, payload, opcode);
-		};
-	}
-
-	private static IDiscordGatewayEvent deserializeChannelCreate(JsonElement element)
-	{
-		DiscordGatewayOpcode opcode = (DiscordGatewayOpcode)element.GetProperty("op").GetInt32();
-		String name = element.GetProperty("t").GetString()!;
-		Int32 sequence = element.GetProperty("s").GetInt32();
-		DiscordChannel data = JsonSerializer.Deserialize<DiscordChannel>(element.GetProperty("d"), StarnightConstants.DefaultSerializerOptions)!;
-		return new DiscordChannelCreatedEvent
-		{
-			Opcode = opcode,
-			EventName = name,
-			Sequence = sequence,
-			Data = data
-		};
-	}
-
-	private static DynamicMethod createDynamicEventCreator(Type eventType, Type payloadType)
-	{
-		DynamicMethod method = new
-		(
-			$"create{eventType}",
-			typeof(IDiscordGatewayEvent),
-			new[]
-			{
-				typeof(Int32),
-				typeof(String),
-				typeof(Object),
-				typeof(DiscordGatewayOpcode)
+				EventName = eventName,
+				Sequence = element.GetProperty("s").GetInt32(),
+				Opcode = (DiscordGatewayOpcode)element.GetProperty("op").GetInt32(),
+				Data = element.GetProperty("d")
 			}
-		);
-
-		ILGenerator il = method.GetILGenerator();
-
-		MethodInfo sequenceSetter = eventType.GetProperty("EventType")!.GetSetMethod()!;
-		MethodInfo nameSetter = eventType.GetProperty("EventName")!.GetSetMethod()!;
-		MethodInfo payloadSetter = eventType.GetProperty("Data")!.GetSetMethod()!;
-		MethodInfo opcodeSetter = eventType.GetProperty("Opcode")!.GetSetMethod()!;
-
-		ConstructorInfo ctor = eventType.GetConstructor(Type.EmptyTypes)!;
-
-		// construct the event object
-		il.Emit(OpCodes.Newobj, ctor);
-		il.Emit(OpCodes.Dup);
-
-		// assign sequence number
-		il.Emit(OpCodes.Ldarg_0);
-		il.Emit(OpCodes.Call, sequenceSetter);
-		il.Emit(OpCodes.Nop);
-		il.Emit(OpCodes.Dup);
-
-		// assign name
-		il.Emit(OpCodes.Ldarg_1);
-		il.Emit(OpCodes.Call, nameSetter);
-		il.Emit(OpCodes.Nop);
-		il.Emit(OpCodes.Dup);
-
-		// cast and assign payload
-		il.Emit(OpCodes.Ldarg_2);
-		il.Emit(OpCodes.Castclass, payloadType);
-		il.Emit(OpCodes.Call, payloadSetter);
-		il.Emit(OpCodes.Nop);
-		il.Emit(OpCodes.Dup);
-
-		// assign opcode
-		il.Emit(OpCodes.Ldarg_3);
-		il.Emit(OpCodes.Call, opcodeSetter);
-		il.Emit(OpCodes.Nop);
-
-		// cleanup and return
-		il.Emit(OpCodes.Stloc_0);
-		il.Emit(OpCodes.Ldloc_0);
-		il.Emit(OpCodes.Ret);
-
-		return method;
+		};
 	}
 }
