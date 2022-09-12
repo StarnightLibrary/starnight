@@ -10,6 +10,8 @@ public static class GatewayRegistration
 	{
 		_ = services.AddSingleton<DiscordGatewayRestResource>();
 
+		_ = services.AddSingleton<TransportService>();
+
 		return services;
 	}
 }
