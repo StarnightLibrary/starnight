@@ -1,9 +1,9 @@
 namespace Starnight.Internal.Gateway.Services;
 
 using System;
-using System.IO.Pipelines;
 using System.Net.WebSockets;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -14,15 +14,16 @@ using Starnight.Internal.Gateway.Payloads;
 /// <summary>
 /// Transports payloads to and from pipes into the websocket to communicate with discord.
 /// </summary>
-public class TransportService : IDuplexPipe
+public class TransportService : IAsyncDisposable
 {
 	private readonly ILogger<TransportService> __logger;
-	private readonly Pipe __pipe;
 	private readonly ClientWebSocket __socket;
 	private readonly DiscordGatewayRestResource __gateway_resource;
 	private readonly CancellationToken __ct;
+	private readonly Channel<IDiscordGatewayEvent> __channel;
 
 	private Boolean __is_connected = false;
+	private Boolean __is_disposed = false;
 
 	/// <summary>
 	/// Constructs a new TransportService.
@@ -34,23 +35,24 @@ public class TransportService : IDuplexPipe
 	)
 	{
 		this.__logger = logger;
-		this.__pipe = new Pipe();
 		this.__socket = new();
 		this.__gateway_resource = gatewayResource;
 
-		this.Input = this.__pipe.Reader;
-		this.Output = this.__pipe.Writer;
+		this.__channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
+
+		this.Inbound = this.__channel.Reader;
+		this.Outbound = this.__channel.Writer;
 	}
 
 	/// <summary>
 	/// Represents the inbound side of the gateway connection.
 	/// </summary>
-	public PipeReader Input { get; private set; }
+	public ChannelReader<IDiscordGatewayEvent> Inbound { get; private set; }
 
 	/// <summary>
 	/// Represents the outbound side of the gateway connection.
 	/// </summary>
-	public PipeWriter Output { get; private set; }
+	public ChannelWriter<IDiscordGatewayEvent> Outbound { get; private set; }
 
 	/// <summary>
 	/// Connects to the Discord websocket.
@@ -61,6 +63,16 @@ public class TransportService : IDuplexPipe
 	/// </exception>
 	public async ValueTask ConnectAsync(CancellationToken ct = default)
 	{
+		if(this.__is_connected)
+		{
+			this.__logger.LogWarning
+			(
+				"Attempted to connect, but there already is a connection opened. Ignoring."
+			);
+
+			return;
+		}
+
 		GetGatewayBotResponsePayload connectionObject = await this.__gateway_resource.GetBotGatewayInfoAsync();
 
 		this.__logger.LogDebug
@@ -105,5 +117,86 @@ public class TransportService : IDuplexPipe
 		(
 			"Connected to the Discord websocket."
 		);
+	}
+
+	/// <summary>
+	/// Closes the current websocket connection.
+	/// </summary>
+	/// <param name="reconnect">Whether reconnection is intended. If so, this must be set to true.</param>
+	/// <param name="closeStatus">The status message to give to the websocket.</param>
+	public async ValueTask DisconnectAsync
+	(
+		Boolean reconnect,
+		WebSocketCloseStatus closeStatus
+	)
+	{
+		if(!this.__is_connected)
+		{
+			this.__logger.LogWarning
+			(
+				"Attempting to disconnect from the Discord gateway, but there was no open connection. Ignoring."
+			);
+		}
+
+		switch(this.__socket.State)
+		{
+			case WebSocketState.CloseSent:
+			case WebSocketState.CloseReceived:
+			case WebSocketState.Closed:
+			case WebSocketState.Aborted:
+
+				this.__logger.LogWarning
+				(
+					"Attempting to disconnect from the Discord gateway, but there is a disconnect in progress or complete." +
+					"Current websocket state: {state}",
+					this.__socket.State.ToString()
+				);
+
+				return;
+
+			case WebSocketState.Open:
+			case WebSocketState.Connecting:
+
+				this.__logger.LogDebug
+				(
+					"Disconnecting. Current websocket state: {state}",
+					this.__socket.State.ToString()
+				);
+
+				try
+				{
+					await this.__socket.CloseAsync
+					(
+						reconnect ? (WebSocketCloseStatus)1012 : closeStatus,
+						"Disconnecting.",
+						this.__ct
+					);
+				}
+				catch(WebSocketException) { }
+				catch(OperationCanceledException) { }
+
+				break;
+		}
+
+		this.__is_connected = false;
+
+		if(!reconnect)
+		{
+			this.__socket.Dispose();
+			this.__is_disposed = true;
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(!this.__is_disposed)
+		{
+			if(this.__is_connected)
+			{
+				await this.DisconnectAsync(false, WebSocketCloseStatus.NormalClosure);
+			}
+		}
+
+		GC.SuppressFinalize(this);
 	}
 }
