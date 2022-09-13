@@ -19,9 +19,9 @@ public class TransportService : IAsyncDisposable
 	private readonly ILogger<TransportService> __logger;
 	private readonly ClientWebSocket __socket;
 	private readonly DiscordGatewayRestResource __gateway_resource;
-	private readonly CancellationToken __ct;
 	private readonly Channel<IDiscordGatewayEvent> __channel;
 
+	private CancellationToken __ct;
 	private Boolean __is_connected = false;
 	private Boolean __is_disposed = false;
 
@@ -72,6 +72,8 @@ public class TransportService : IAsyncDisposable
 
 			return;
 		}
+
+		this.__ct = ct;
 
 		GetGatewayBotResponsePayload connectionObject = await this.__gateway_resource.GetBotGatewayInfoAsync();
 
