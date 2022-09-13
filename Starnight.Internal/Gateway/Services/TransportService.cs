@@ -188,6 +188,12 @@ public class TransportService : IAsyncDisposable
 				StarnightConstants.DefaultSerializerOptions
 			)!;
 
+			this.__logger.LogTrace
+			(
+				"Gateway event received:\n{event}",
+				@event.ToString()
+			);
+
 			await this.__inbound_channel.Writer.WriteAsync(@event, this.__ct);
 
 		} while(this.__ct.IsCancellationRequested);
