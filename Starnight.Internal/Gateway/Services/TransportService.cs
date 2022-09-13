@@ -5,6 +5,7 @@ using System.Buffers;
 using System.IO;
 using System.IO.Compression;
 using System.Net.WebSockets;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Channels;
@@ -182,9 +183,13 @@ public class TransportService : IAsyncDisposable
 
 			await decompressor.FlushAsync();
 
+			_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
+
+			await decompressor.CopyToAsync(this.__reading_stream);
+
 			IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
 			(
-				decompressor,
+				this.__reading_stream,
 				StarnightConstants.DefaultSerializerOptions
 			)!;
 
@@ -193,6 +198,16 @@ public class TransportService : IAsyncDisposable
 				"Gateway event received:\n{event}",
 				@event.ToString()
 			);
+
+#if DEBUG
+			_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
+
+			this.__logger.LogTrace
+			(
+				"Decompressed payload for the last gateway event:\n{event}",
+				Encoding.UTF8.GetString(this.__reading_stream.ToArray())
+			);
+#endif
 
 			await this.__inbound_channel.Writer.WriteAsync(@event, this.__ct);
 
