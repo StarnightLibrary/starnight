@@ -1,7 +1,11 @@
 namespace Starnight.Internal.Gateway.Services;
 
 using System;
+using System.Buffers;
+using System.IO;
+using System.IO.Compression;
 using System.Net.WebSockets;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -19,11 +23,17 @@ public class TransportService : IAsyncDisposable
 	private readonly ILogger<TransportService> __logger;
 	private readonly ClientWebSocket __socket;
 	private readonly DiscordGatewayRestResource __gateway_resource;
-	private readonly Channel<IDiscordGatewayEvent> __channel;
+	private readonly Channel<IDiscordGatewayEvent> __inbound_channel;
+	private readonly Channel<IDiscordGatewayEvent> __outbound_channel;
+
+	private readonly MemoryStream __reading_stream;
+	private readonly Byte[] __reading_raw_buffer;
+	private readonly Memory<Byte> __reading_buffer;
 
 	private CancellationToken __ct;
 	private Boolean __is_connected = false;
 	private Boolean __is_disposed = false;
+
 
 	/// <summary>
 	/// Constructs a new TransportService.
@@ -38,10 +48,16 @@ public class TransportService : IAsyncDisposable
 		this.__socket = new();
 		this.__gateway_resource = gatewayResource;
 
-		this.__channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
+		this.__inbound_channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
+		this.__outbound_channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
 
-		this.Inbound = this.__channel.Reader;
-		this.Outbound = this.__channel.Writer;
+		this.Inbound = this.__inbound_channel.Reader;
+		this.Outbound = this.__outbound_channel.Writer;
+
+		this.__reading_stream = new();
+
+		this.__reading_raw_buffer = ArrayPool<Byte>.Shared.Rent(4096);
+		this.__reading_buffer = new(this.__reading_raw_buffer);
 	}
 
 	/// <summary>
@@ -109,7 +125,7 @@ public class TransportService : IAsyncDisposable
 
 		await this.__socket.ConnectAsync
 		(
-			new(connectionObject.Url),
+			new($"{connectionObject.Url}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
 			this.__ct
 		);
 
@@ -119,6 +135,62 @@ public class TransportService : IAsyncDisposable
 		(
 			"Connected to the Discord websocket."
 		);
+
+		_ = Task.Factory.StartNew(async () => await this.readAsync());
+	}
+
+	/// <summary>
+	/// Reads all payloads and enqueues them into the channel.
+	/// </summary>
+	private async ValueTask readAsync()
+	{
+		if(!this.__is_connected)
+		{
+			this.__logger.LogWarning
+			(
+				"Attempting to read from the Discord gateway, but there was no open connection. Ignoring."
+			);
+		}
+
+		if(this.__socket.State != WebSocketState.Open)
+		{
+			this.__logger.LogWarning
+			(
+				"Attempting to read from the Discord gateway, but the socket was not open. " +
+				"Current socket state: {state}",
+				this.__socket.State.ToString()
+			);
+		}
+
+		do
+		{
+			ValueWebSocketReceiveResult receiveResult;
+
+			try
+			{
+				do
+				{
+					receiveResult = await this.__socket.ReceiveAsync(this.__reading_buffer, this.__ct);
+
+					this.__reading_stream.Write(this.__reading_raw_buffer, 0, receiveResult.Count);
+
+				} while(!receiveResult.EndOfMessage);
+			}
+			catch(OperationCanceledException) { }
+
+			using DeflateStream decompressor = new(this.__reading_stream, CompressionMode.Decompress, true);
+
+			await decompressor.FlushAsync();
+
+			IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
+			(
+				decompressor,
+				StarnightConstants.DefaultSerializerOptions
+			)!;
+
+			await this.__inbound_channel.Writer.WriteAsync(@event, this.__ct);
+
+		} while(this.__ct.IsCancellationRequested);
 	}
 
 	/// <summary>
@@ -185,7 +257,6 @@ public class TransportService : IAsyncDisposable
 		if(!reconnect)
 		{
 			this.__socket.Dispose();
-			this.__is_disposed = true;
 		}
 	}
 
@@ -198,6 +269,10 @@ public class TransportService : IAsyncDisposable
 				await this.DisconnectAsync(false, WebSocketCloseStatus.NormalClosure);
 			}
 		}
+
+		ArrayPool<Byte>.Shared.Return(this.__reading_raw_buffer);
+
+		this.__is_disposed = true;
 
 		GC.SuppressFinalize(this);
 	}
