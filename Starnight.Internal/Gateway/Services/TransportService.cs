@@ -101,7 +101,7 @@ public class TransportService : IAsyncDisposable
 		this.__logger.LogInformation
 		(
 			"Connecting. Remaining session starts: {remaining}/{total}.\n" +
-				"This limit resets in {time}",
+			"This limit resets in {time}",
 			connectionObject.SessionStartLimit.Remaining,
 			connectionObject.SessionStartLimit.Total,
 			TimeSpan.FromMilliseconds(connectionObject.SessionStartLimit.ResetAfter)
@@ -149,7 +149,7 @@ public class TransportService : IAsyncDisposable
 
 				this.__logger.LogWarning
 				(
-					"Attempting to disconnect from the Discord gateway, but there is a disconnect in progress or complete." +
+					"Attempting to disconnect from the Discord gateway, but there is a disconnect in progress or complete. " +
 					"Current websocket state: {state}",
 					this.__socket.State.ToString()
 				);
