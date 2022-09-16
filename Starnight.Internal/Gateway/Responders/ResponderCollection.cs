@@ -80,14 +80,14 @@ public class ResponderCollection
 	/// <summary>
 	/// Gets a list of responders for the given event.
 	/// </summary>
-	/// <typeparam name="TEvent">The given gateway event.</typeparam>
+	/// <param name="eventType">The type of the event to obtain responders for.</param>
 	/// <param name="phase">The phase to obtain responders for.</param>
 	/// <exception cref="InvalidOperationException">Thrown if the phase wasn't a valid enum member.</exception>
-	public IEnumerable<Type> GetResponders<TEvent>
+	public IEnumerable<Type> GetResponders
 	(
+		Type eventType,
 		ResponderPhase phase
 	)
-		where TEvent : IDiscordGatewayEvent
 	{
 		ConcurrentDictionary<Type, List<Type>> dictionary = phase switch
 		{
@@ -99,7 +99,7 @@ public class ResponderCollection
 			_ => throw new InvalidOperationException("Invalid enum type.")
 		};
 
-		_ = dictionary.TryGetValue(typeof(TEvent), out List<Type>? directResponderTypes);
+		_ = dictionary.TryGetValue(eventType, out List<Type>? directResponderTypes);
 
 		_ = dictionary.TryGetValue(typeof(IDiscordGatewayEvent), out List<Type>? genericResponderTypes);
 
