@@ -3,8 +3,6 @@ namespace Starnight.Internal.Gateway.Services;
 using System;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Options;
-
 using Polly;
 using Polly.RateLimit;
 
@@ -17,18 +15,15 @@ using Starnight.Internal.Gateway.Payloads.Outbound;
 public class OutboundGatewayService : IOutboundGatewayService
 {
 	private readonly TransportService __transport_service;
-	private readonly OutboundGatewayServiceOptions __options;
 
 	private readonly RateLimitPolicy __policy;
 
 	public OutboundGatewayService
 	(
-		TransportService transportService,
-		IOptions<OutboundGatewayServiceOptions> options
+		TransportService transportService
 	)
 	{
 		this.__transport_service = transportService;
-		this.__options = options.Value;
 
 		this.__policy = Policy.RateLimit(120, TimeSpan.FromMinutes(1));
 	}
