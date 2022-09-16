@@ -1,7 +1,6 @@
 namespace Starnight.Internal.Gateway.Services;
 
 using System;
-using System.Buffers;
 using System.IO;
 using System.IO.Compression;
 using System.Net.WebSockets;
@@ -31,6 +30,10 @@ public class TransportService : IAsyncDisposable
 	private readonly Byte[] __reading_raw_buffer;
 	private readonly Memory<Byte> __reading_buffer;
 
+	private readonly MemoryStream __writing_stream;
+	private readonly Byte[] __writing_raw_buffer;
+	private readonly ReadOnlyMemory<Byte> __writing_buffer;
+
 	private CancellationToken __ct;
 	private Boolean __is_connected = false;
 	private Boolean __is_disposed = false;
@@ -57,8 +60,13 @@ public class TransportService : IAsyncDisposable
 
 		this.__reading_stream = new();
 
-		this.__reading_raw_buffer = ArrayPool<Byte>.Shared.Rent(4096);
+		this.__reading_raw_buffer = new Byte[4096];
 		this.__reading_buffer = new(this.__reading_raw_buffer);
+
+		this.__writing_stream = new();
+		this.__writing_raw_buffer = new Byte[4096];
+
+		this.__writing_buffer = new(this.__writing_raw_buffer);
 	}
 
 	/// <summary>
@@ -138,6 +146,7 @@ public class TransportService : IAsyncDisposable
 		);
 
 		_ = Task.Factory.StartNew(async () => await this.readAsync());
+		_ = Task.Factory.StartNew(async () => await this.writeAsync());
 	}
 
 	/// <summary>
@@ -163,7 +172,7 @@ public class TransportService : IAsyncDisposable
 			);
 		}
 
-		do
+		while(!this.__ct.IsCancellationRequested)
 		{
 			ValueWebSocketReceiveResult receiveResult;
 
@@ -195,7 +204,7 @@ public class TransportService : IAsyncDisposable
 
 			this.__logger.LogTrace
 			(
-				"Gateway event received:\n{event}",
+				"Inbound gateway event received:\n{event}",
 				@event.ToString()
 			);
 
@@ -204,14 +213,79 @@ public class TransportService : IAsyncDisposable
 
 			this.__logger.LogTrace
 			(
-				"Decompressed payload for the last gateway event:\n{event}",
+				"Decompressed payload for the last inbound gateway event:\n{event}",
 				Encoding.UTF8.GetString(this.__reading_stream.ToArray())
 			);
 #endif
 
 			await this.__inbound_channel.Writer.WriteAsync(@event, this.__ct);
 
-		} while(this.__ct.IsCancellationRequested);
+		}
+	}
+
+	/// <summary>
+	/// Writes all payloads passed through the channel.
+	/// </summary>
+	private async ValueTask writeAsync()
+	{
+		if(!this.__is_connected)
+		{
+			this.__logger.LogWarning
+			(
+				"Attempting to read from the Discord gateway, but there was no open connection. Ignoring."
+			);
+		}
+
+		if(this.__socket.State != WebSocketState.Open)
+		{
+			this.__logger.LogWarning
+			(
+				"Attempting to read from the Discord gateway, but the socket was not open. " +
+				"Current socket state: {state}",
+				this.__socket.State.ToString()
+			);
+		}
+
+		while(!this.__ct.IsCancellationRequested)
+		{
+			IDiscordGatewayEvent @event = await this.__outbound_channel.Reader.ReadAsync();
+
+			this.__logger.LogTrace
+			(
+				"Sending outbound gateway event:\n{event}",
+				@event.ToString()
+			);
+
+			JsonSerializer.Serialize(this.__writing_stream, @event, StarnightConstants.DefaultSerializerOptions);
+
+			_ = this.__writing_stream.Seek(0, SeekOrigin.Begin);
+
+			if(this.__writing_stream.Length > 4096)
+			{
+				throw new StarnightOversizedOutboundEventException
+				(
+					"The outbound event exceeded 4096 bytes after serialization",
+					@event
+				);
+			}
+
+			this.__writing_stream.Read(this.__writing_raw_buffer, 0, 4096);
+
+#if DEBUG
+			this.__logger.LogTrace
+			(
+				"Serialized payload for the last outbound event:\n{event}",
+				Encoding.UTF8.GetString(this.__writing_raw_buffer)
+			);
+#endif
+			await this.__socket.SendAsync
+			(
+				this.__writing_buffer[..(Int32)this.__writing_stream.Length],
+				WebSocketMessageType.Text,
+				true,
+				this.__ct
+			);
+		}
 	}
 
 	/// <summary>
@@ -290,8 +364,6 @@ public class TransportService : IAsyncDisposable
 				await this.DisconnectAsync(false, WebSocketCloseStatus.NormalClosure);
 			}
 		}
-
-		ArrayPool<Byte>.Shared.Return(this.__reading_raw_buffer);
 
 		this.__is_disposed = true;
 
