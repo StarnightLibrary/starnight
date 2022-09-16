@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Gateway.Deserialization;
+namespace Starnight.Internal.Gateway;
 
 using System;
 using System.Text.Json;

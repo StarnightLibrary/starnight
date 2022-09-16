@@ -38,7 +38,7 @@ public sealed record GuildMembersChunkPayload
 	public required Int32 ChunkCount { get; init; }
 
 	/// <summary>
-	/// Invalid/not found IDs passed to <see cref="DiscordRequestGuildMembersCommand"/> will be returned here.
+	/// Invalid/not found IDs passed to <see cref="DiscordRequestGuildMembersEvent"/> will be returned here.
 	/// </summary>
 	[JsonPropertyName("not_found")]
 	public Optional<IEnumerable<Int64>> NotFound { get; init; }
@@ -50,7 +50,7 @@ public sealed record GuildMembersChunkPayload
 	public Optional<IEnumerable<DiscordPresence>> Presences { get; init; }
 
 	/// <summary>
-	/// The nonce passed to <see cref="DiscordRequestGuildMembersCommand"/>, used for identifying responses.
+	/// The nonce passed to <see cref="DiscordRequestGuildMembersEvent"/>, used for identifying responses.
 	/// </summary>
 	[JsonPropertyName("nonce")]
 	public Optional<String> Nonce { get; init; }

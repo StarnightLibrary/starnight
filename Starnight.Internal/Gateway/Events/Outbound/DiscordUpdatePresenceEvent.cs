@@ -7,7 +7,7 @@ using Starnight.Internal.Entities.Users;
 /// <summary>
 /// Represents an Update Presence gateway command
 /// </summary>
-public sealed record DiscordUpdatePresenceCommand : IDiscordGatewayEvent<DiscordPresence>
+public sealed record DiscordUpdatePresenceEvent : IDiscordGatewayEvent<DiscordPresence>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]

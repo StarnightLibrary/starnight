@@ -7,7 +7,7 @@ using Starnight.Internal.Gateway.Payloads.Outbound;
 /// <summary>
 /// Serverbound, <see cref="DiscordGatewayOpcode.Identify"/> command.
 /// </summary>
-public sealed record DiscordIdentifyCommand : IDiscordGatewayEvent<IdentifyPayload>
+public sealed record DiscordIdentifyEvent : IDiscordGatewayEvent<IdentifyPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]

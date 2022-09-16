@@ -1,6 +1,7 @@
 namespace Starnight.Internal;
 
 using System;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -11,7 +12,10 @@ using Starnight.Internal.Converters;
 /// </summary>
 public static class StarnightConstants
 {
-	public static String Version => "0.0.1-dev";
+	public static String Version => Assembly.GetExecutingAssembly()
+		.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+		.InformationalVersion ?? "0.1.0";
+
 	public static String UserAgentHeader => "Starnight Library";
 
 	public static JsonSerializerOptions DefaultSerializerOptions { get; } = new()
@@ -22,5 +26,8 @@ public static class StarnightConstants
 	};
 
 	static StarnightConstants()
-		=> DefaultSerializerOptions.Converters.Add(new OptionalParameterJsonConverterFactory());
+	{
+		DefaultSerializerOptions.Converters.Add(new OptionalParameterJsonConverterFactory());
+		DefaultSerializerOptions.Converters.Add(new GatewayEventJsonConverter());
+	}
 }

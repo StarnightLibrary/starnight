@@ -7,7 +7,7 @@ using Starnight.Internal.Gateway.Payloads.Outbound;
 /// <summary>
 /// Gateway command to request guild members through the gateway.
 /// </summary>
-public sealed record DiscordRequestGuildMembersCommand : IDiscordGatewayEvent<RequestGuildMembersPayload>
+public sealed record DiscordRequestGuildMembersEvent : IDiscordGatewayEvent<RequestGuildMembersPayload>
 {
 	/// <inheritdoc/>
 	[JsonPropertyName("d")]
