@@ -110,6 +110,8 @@ public class ResponderService
 					.MakeGenericMethod(@event.GetType())
 					.CreateDelegate(delegateType, this)
 			);
+
+			this.__cached_delegates.Add(@event.GetType(), dispatchDelegate);
 		}
 
 		await dispatchDelegate(@event, responders, scope);
