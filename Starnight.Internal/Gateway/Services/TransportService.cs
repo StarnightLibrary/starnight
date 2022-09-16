@@ -269,15 +269,23 @@ public class TransportService : IAsyncDisposable
 				);
 			}
 
+#if DEBUG
 			this.__writing_stream.Read(this.__writing_raw_buffer, 0, 4096);
 
-#if DEBUG
 			this.__logger.LogTrace
 			(
 				"Serialized payload for the last outbound event:\n{event}",
 				Encoding.UTF8.GetString(this.__writing_raw_buffer)
 			);
 #endif
+			DeflateStream compressor = new(this.__writing_stream, CompressionMode.Compress);
+
+			await compressor.FlushAsync();
+
+			compressor.CopyTo(this.__writing_stream);
+
+			this.__writing_stream.Read(this.__writing_raw_buffer, 0, 4096);
+
 			await this.__socket.SendAsync
 			(
 				this.__writing_buffer[..(Int32)this.__writing_stream.Length],
