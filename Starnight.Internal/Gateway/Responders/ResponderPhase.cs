@@ -1,0 +1,47 @@
+namespace Starnight.Internal.Gateway.Responders;
+
+/// <summary>
+/// Represents the different phases event responders run in.
+/// </summary>
+public enum ResponderPhase
+{
+	/// <summary>
+	/// Responders registered in this group will run immediately after the scope is created.
+	/// </summary>
+	/// <remarks>
+	/// This phase is intended for globally preparing responder logic, such as opening connections for the responders.
+	/// </remarks>
+	PreEvent,
+
+	/// <summary>
+	/// Responders registered in this group will run early in the scope lifecycle.
+	/// </summary>
+	/// <remarks>
+	/// This phase is intended for preliminary, concrete logic, such as handling caches.
+	/// </remarks>
+	Early,
+
+	/// <summary>
+	/// Responders registered in this group will run midway through the scope lifecycle.
+	/// </summary>
+	/// <remarks>
+	/// This phase is intended for the main responder logic.
+	/// </remarks>
+	Normal,
+
+	/// <summary>
+	/// Responders registered in this group will run late in the scope lifecycle.
+	/// </summary>
+	/// <remarks>
+	/// This phase is intended for cleaning up the results of previous phases.
+	/// </remarks>
+	Late,
+
+	/// <summary>
+	/// Responders registered in this group will run immediately before the scope ends.
+	/// </summary>
+	/// <remarks>
+	/// This phase is intended for globally cleaning up, such as closing opened connections.
+	/// </remarks>
+	PostEvent
+}
