@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Responders;
 
 /// <summary>
@@ -100,7 +101,8 @@ public class InboundGatewayService : IInboundGatewayService
 						isControlEvent = !@event.GetType()
 							.GetInterfaces()
 							.Where(xm => xm.GetGenericTypeDefinition() == typeof(IDiscordGatewayDispatchEvent<>))
-							.Any();
+							.Any()
+							|| @event.GetType() == typeof(DiscordConnectedEvent);
 
 						this.__control_events.Add(@event.GetType(), isControlEvent);
 					}

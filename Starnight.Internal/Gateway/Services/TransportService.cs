@@ -2,7 +2,6 @@ namespace Starnight.Internal.Gateway.Services;
 
 using System;
 using System.IO;
-using System.IO.Compression;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -37,6 +36,11 @@ public class TransportService : IAsyncDisposable
 	private CancellationToken __ct;
 	private Boolean __is_connected = false;
 	private Boolean __is_disposed = false;
+
+	/// <summary>
+	/// Gets or sets the URL which should be used for resuming a session.
+	/// </summary>
+	public String? ResumeUrl { get; set; }
 
 
 	/// <summary>
@@ -100,43 +104,61 @@ public class TransportService : IAsyncDisposable
 
 		this.__ct = ct;
 
-		GetGatewayBotResponsePayload connectionObject = await this.__gateway_resource.GetBotGatewayInfoAsync();
-
-		this.__logger.LogDebug
-		(
-			"Attempting to connect to the Discord gateway, recommending {shards} shards.",
-			connectionObject.Shards
-		);
-
-		if(connectionObject.SessionStartLimit.Remaining == 0)
+		if(this.ResumeUrl is null)
 		{
-			this.__logger.LogError
+			GetGatewayBotResponsePayload connectionObject = await this.__gateway_resource.GetBotGatewayInfoAsync();
+
+			this.__logger.LogDebug
 			(
-				"Maximum session starts exceeded - wait {time} before attempting another start.",
+				"Attempting to connect to the Discord gateway, recommending {shards} shards.",
+				connectionObject.Shards
+			);
+
+			if(connectionObject.SessionStartLimit.Remaining == 0)
+			{
+				this.__logger.LogError
+				(
+					"Maximum session starts exceeded - wait {time} before attempting another start.",
+					TimeSpan.FromMilliseconds(connectionObject.SessionStartLimit.ResetAfter)
+				);
+
+				throw new StarnightGatewayConnectionRefusedException
+				(
+					"Session start limit reached.",
+					connectionObject.SessionStartLimit
+				);
+			}
+
+			this.__logger.LogInformation
+			(
+				"Connecting. Remaining session starts: {remaining}/{total}.\n" +
+				"This limit resets in {time}",
+				connectionObject.SessionStartLimit.Remaining,
+				connectionObject.SessionStartLimit.Total,
 				TimeSpan.FromMilliseconds(connectionObject.SessionStartLimit.ResetAfter)
 			);
 
-			throw new StarnightGatewayConnectionRefusedException
+			await this.__socket.ConnectAsync
 			(
-				"Session start limit reached.",
-				connectionObject.SessionStartLimit
+				new($"{connectionObject.Url}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
+				this.__ct
 			);
 		}
+		else
+		{
+			this.__logger.LogInformation
+			(
+				"Attempting to resume existing session."
+			);
 
-		this.__logger.LogInformation
-		(
-			"Connecting. Remaining session starts: {remaining}/{total}.\n" +
-			"This limit resets in {time}",
-			connectionObject.SessionStartLimit.Remaining,
-			connectionObject.SessionStartLimit.Total,
-			TimeSpan.FromMilliseconds(connectionObject.SessionStartLimit.ResetAfter)
-		);
+			this.__socket.Dispose();
 
-		await this.__socket.ConnectAsync
-		(
-			new($"{connectionObject.Url}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
-			this.__ct
-		);
+			await this.__socket.ConnectAsync
+			(
+				new($"{this.ResumeUrl}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
+				this.__ct
+			);
+		}
 
 		this.__is_connected = true;
 
@@ -188,13 +210,7 @@ public class TransportService : IAsyncDisposable
 			}
 			catch(OperationCanceledException) { }
 
-			using DeflateStream decompressor = new(this.__reading_stream, CompressionMode.Decompress, true);
-
-			await decompressor.FlushAsync();
-
 			_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
-
-			await decompressor.CopyToAsync(this.__reading_stream);
 
 			IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
 			(
@@ -262,15 +278,16 @@ public class TransportService : IAsyncDisposable
 
 			if(this.__writing_stream.Length > 4096)
 			{
-				throw new StarnightOversizedOutboundEventException
+				throw new StarnightInvalidOutboundEventException
 				(
 					"The outbound event exceeded 4096 bytes after serialization",
 					@event
 				);
 			}
 
-#if DEBUG
 			this.__writing_stream.Read(this.__writing_raw_buffer, 0, 4096);
+
+#if DEBUG
 
 			this.__logger.LogTrace
 			(
@@ -278,13 +295,6 @@ public class TransportService : IAsyncDisposable
 				Encoding.UTF8.GetString(this.__writing_raw_buffer)
 			);
 #endif
-			DeflateStream compressor = new(this.__writing_stream, CompressionMode.Compress);
-
-			await compressor.FlushAsync();
-
-			compressor.CopyTo(this.__writing_stream);
-
-			this.__writing_stream.Read(this.__writing_raw_buffer, 0, 4096);
 
 			await this.__socket.SendAsync
 			(

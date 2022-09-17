@@ -18,6 +18,8 @@ public static class StarnightConstants
 
 	public static String UserAgentHeader => "Starnight Library";
 
+	public static String LibraryName => "Starnight";
+
 	public static JsonSerializerOptions DefaultSerializerOptions { get; } = new()
 	{
 		NumberHandling = JsonNumberHandling.AllowReadingFromString,

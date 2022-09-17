@@ -7,17 +7,17 @@ using System.Runtime.CompilerServices;
 using Starnight.Internal.Gateway;
 
 /// <summary>
-/// An exception thrown if Starnight encountered an outbound event too large to send to Discord.
+/// Thrown if an event is considered invalid by the Starnight gateway client.
 /// </summary>
-public class StarnightOversizedOutboundEventException : AbstractStarnightException
+public class StarnightInvalidOutboundEventException : AbstractStarnightException
 {
 	/// <summary>
-	/// The event whose serialized form exceeded 4096 bytes.
+	/// The event which was invalid in one way or another.
 	/// </summary>
 	public required IDiscordGatewayEvent Event { get; set; }
 
 	[SetsRequiredMembers]
-	public StarnightOversizedOutboundEventException
+	public StarnightInvalidOutboundEventException
 	(
 		String message,
 		IDiscordGatewayEvent @event,
