@@ -1,9 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<Description>Caching library for Starnight</Description>
+	<VersionPrefix>0.1.0</VersionPrefix>
   </PropertyGroup>
+
+  <ItemGroup>
+	<None Include="../img/starnight.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(ReleaseBuild) == 'true'">
+	<ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj" />
+	<ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(ReleaseBuild) != 'true'">
+	<PackageReference Include="Starnight.Caching" Version="0.2.0-*" />
+	<PackageReference Include="Starnight.Internal" Version="0.1.0-*" />
+  </ItemGroup>
 
 </Project>
