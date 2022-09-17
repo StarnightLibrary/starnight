@@ -14,7 +14,8 @@ public static class GatewayRegistration
 		_ = services.AddSingleton<ResponderCollection>();
 
 		_ = services.AddSingleton<TransportService>()
-			.AddSingleton<IOutboundGatewayService, OutboundGatewayService>();
+			.AddSingleton<IOutboundGatewayService, OutboundGatewayService>()
+			.AddSingleton<IInboundGatewayService, InboundGatewayService>();
 
 		return services;
 	}
