@@ -24,8 +24,6 @@
     <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="All" />
     
     <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
-    
-    <PackageReference Include="Starnight.Caching" Version="0.1.0" />
 
     <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="runtime" />
 
@@ -36,8 +34,12 @@
     <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0-rc.1.22426.10" />
+  <ItemGroup Condition="$(ReleaseBuild) == 'true'">
+    <ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(ReleaseBuild) != 'true'">
+    <PackageReference Include="Starnight.Caching" Version="0.2.0-*" />
   </ItemGroup>
 
 </Project>

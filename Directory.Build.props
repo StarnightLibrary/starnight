@@ -12,7 +12,8 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>starnight.png</PackageIcon>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <NoWarn>CS1591</NoWarn><AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <NoWarn>CS1591</NoWarn>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 
         <!-- SourceLink -->

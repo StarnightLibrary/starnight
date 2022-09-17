@@ -11,8 +11,14 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="All" />
-    
-    <PackageReference Include="Starnight.Internal" Version="0.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(ReleaseBuild) == 'true'">
+    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(ReleaseBuild) != 'true'">
+    <PackageReference Include="Starnight.Internal" Version="0.2.0-*" />
   </ItemGroup>
 
 </Project>

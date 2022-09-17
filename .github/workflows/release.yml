@@ -21,7 +21,7 @@ jobs:
         run: "dotnet restore"
 
       - name: "Build Nuget Packages"
-        run: "mkdir build && dotnet pack -p:SymbolPackageFormat=snupkg -p:Version=${{ github.event.release.tag_name }} -p:IncludeSymbols=true -p:IncludeSource=true -c Release -o build"
+        run: "mkdir build && dotnet pack --no-dependencies -p:ReleaseBuild=true -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -c Release -o build"
 
       - name: Publish main package
         run: "dotnet nuget push /home/runner/work/starnight/starnight/build/* --api-key ${{ secrets.NUGET_API_KEY }} --source NuGet --no-service-endpoint --skip-duplicate"
