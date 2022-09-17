@@ -62,7 +62,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuild>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -88,7 +88,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildPreview>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -104,7 +104,7 @@ public sealed class DiscordGuildRestResource
 			Path = $"/{Guilds}/{guildId}",
 			Url = new($"{Guilds}/{guildId}"),
 			Method = HttpMethodEnum.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -122,7 +122,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuild>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -173,7 +173,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordChannel>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -189,7 +189,7 @@ public sealed class DiscordGuildRestResource
 			Path = $"/{Guilds}/{guildId}/{Channels}",
 			Url = new($"{Guilds}/{guildId}/{Channels}"),
 			Method = HttpMethodEnum.Post,
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -207,7 +207,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordChannel>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -222,7 +222,7 @@ public sealed class DiscordGuildRestResource
 			Path = $"/{Guilds}/{guildId}/{Channels}",
 			Url = new($"{Guilds}/{guildId}/{Channels}"),
 			Method = HttpMethodEnum.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Channels}",
@@ -260,7 +260,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<ListActiveThreadsResponsePayload>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -287,7 +287,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	///<inheritdoc/>
@@ -320,7 +320,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildMember>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -353,7 +353,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildMember>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -369,7 +369,7 @@ public sealed class DiscordGuildRestResource
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Put,
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}",
@@ -383,7 +383,7 @@ public sealed class DiscordGuildRestResource
 
 		return response.StatusCode == HttpStatusCode.Created
 			? JsonSerializer.Deserialize<DiscordGuildMember>
-				(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)
+				(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)
 			: null;
 	}
 
@@ -401,7 +401,7 @@ public sealed class DiscordGuildRestResource
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
 			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
 			Method = HttpMethodEnum.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -419,7 +419,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -456,7 +456,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -580,7 +580,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildBan>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -607,7 +607,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildBan>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -700,7 +700,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordRole>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -715,7 +715,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{Guilds}/{guildId}/{Roles}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
 			{
@@ -734,7 +734,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordRole>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -749,7 +749,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
 			Url = new($"{Guilds}/{guildId}/{Roles}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -768,7 +768,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordRole>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -784,7 +784,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
 			Url = new($"{Guilds}/{guildId}/{Roles}/{roleId}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -803,7 +803,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordRole>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -839,7 +839,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildMultiFactorAuthLevel>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -978,7 +978,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordVoiceRegion>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -1004,7 +1004,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordInvite>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -1030,7 +1030,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildIntegration>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	///<inheritdoc/>
@@ -1088,7 +1088,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildWidgetSettings>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -1103,7 +1103,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Widget}",
 			Url = new($"{Guilds}/{guildId}/{Widget}"),
-			Payload = JsonSerializer.Serialize(settings, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(settings, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -1122,7 +1122,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildWidget>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -1148,7 +1148,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordGuildWidget>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -1174,7 +1174,7 @@ public sealed class DiscordGuildRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordInvite>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -1218,7 +1218,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{Me}",
 			Url = new($"{Guilds}/{guildId}/{VoiceStates}/{Me}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
 			{
@@ -1246,7 +1246,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{UserId}",
 			Url = new($"{Guilds}/{guildId}/{VoiceStates}/{userId}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
 			{

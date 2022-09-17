@@ -215,7 +215,7 @@ public class TransportService : IAsyncDisposable
 			IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
 			(
 				this.__reading_stream,
-				StarnightConstants.DefaultSerializerOptions
+				StarnightInternalConstants.DefaultSerializerOptions
 			)!;
 
 			this.__logger.LogTrace
@@ -272,7 +272,7 @@ public class TransportService : IAsyncDisposable
 				@event.ToString()
 			);
 
-			JsonSerializer.Serialize(this.__writing_stream, @event, StarnightConstants.DefaultSerializerOptions);
+			JsonSerializer.Serialize(this.__writing_stream, @event, StarnightInternalConstants.DefaultSerializerOptions);
 
 			_ = this.__writing_stream.Seek(0, SeekOrigin.Begin);
 

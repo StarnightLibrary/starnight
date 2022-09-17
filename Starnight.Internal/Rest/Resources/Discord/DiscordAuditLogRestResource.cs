@@ -61,6 +61,6 @@ public sealed class DiscordAuditLogRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordAuditLogObject>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 }

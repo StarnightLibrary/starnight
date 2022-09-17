@@ -48,7 +48,7 @@ public sealed class DiscordGatewayRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<GetGatewayBotResponsePayload>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	public async ValueTask<String> GetGatewayUrlAsync()

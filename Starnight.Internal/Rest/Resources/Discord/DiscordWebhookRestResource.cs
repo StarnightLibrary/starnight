@@ -43,7 +43,7 @@ public sealed class DiscordWebhookRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Webhooks}",
 			Url = new($"{Channels}/{channelId}/{Webhooks}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
 			{
@@ -62,7 +62,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -88,7 +88,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordWebhook>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -114,7 +114,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordWebhook>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -140,7 +140,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -167,7 +167,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -183,7 +183,7 @@ public sealed class DiscordWebhookRestResource
 			Path = $"/{Webhooks}/{webhookId}",
 			Url = new($"{Webhooks}/{webhookId}"),
 			Method = HttpMethodEnum.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -201,7 +201,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -218,7 +218,7 @@ public sealed class DiscordWebhookRestResource
 			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 			Url = new($"{Webhooks}/{webhookId}/{webhookToken}"),
 			Method = HttpMethodEnum.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -236,7 +236,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -312,7 +312,7 @@ public sealed class DiscordWebhookRestResource
 		ExecuteWebhookRequestPayload payload
 	)
 	{
-		String payloadBody = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions);
+		String payloadBody = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions);
 
 		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}");
 
@@ -363,7 +363,7 @@ public sealed class DiscordWebhookRestResource
 
 		return wait ?? false
 			? JsonSerializer.Deserialize<DiscordMessage>
-				(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!
+				(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!
 			: null;
 	}
 
@@ -397,7 +397,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -410,7 +410,7 @@ public sealed class DiscordWebhookRestResource
 		EditWebhookMessageRequestPayload payload
 	)
 	{
-		String payloadBody = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions);
+		String payloadBody = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions);
 
 		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}");
 
@@ -459,7 +459,7 @@ public sealed class DiscordWebhookRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-				(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+				(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>

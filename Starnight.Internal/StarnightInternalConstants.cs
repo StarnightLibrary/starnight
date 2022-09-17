@@ -10,7 +10,7 @@ using Starnight.Internal.Converters;
 /// <summary>
 /// Represents constants shared by the Starnight library not directly related to the discord API.
 /// </summary>
-public static class StarnightConstants
+public static class StarnightInternalConstants
 {
 	public static String Version => Assembly.GetExecutingAssembly()
 		.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
@@ -27,7 +27,7 @@ public static class StarnightConstants
 		TypeInfoResolver = OptionalTypeInfoResolver.Default
 	};
 
-	static StarnightConstants()
+	static StarnightInternalConstants()
 	{
 		DefaultSerializerOptions.Converters.Add(new OptionalParameterJsonConverterFactory());
 		DefaultSerializerOptions.Converters.Add(new GatewayEventJsonConverter());

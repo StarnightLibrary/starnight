@@ -53,7 +53,7 @@ public sealed class DiscordEmojiRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordEmoji>>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -80,7 +80,7 @@ public sealed class DiscordEmojiRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordEmoji>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -95,7 +95,7 @@ public sealed class DiscordEmojiRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}",
 			Url = new($"{Guilds}/{guildId}/{Emojis}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
 			{
@@ -114,7 +114,7 @@ public sealed class DiscordEmojiRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordEmoji>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	///<inheritdoc/>
@@ -130,7 +130,7 @@ public sealed class DiscordEmojiRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
 			Url = new($"{Guilds}/{guildId}/{Emojis}/{emojiId}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -149,7 +149,7 @@ public sealed class DiscordEmojiRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordEmoji>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>

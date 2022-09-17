@@ -65,7 +65,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -79,7 +79,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
 			Url = new($"{Channels}/{applicationId}/{Commands}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Context = new()
 			{
@@ -93,7 +93,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -120,7 +120,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -135,7 +135,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 			Url = new($"{Channels}/{applicationId}/{Commands}/{commandId}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
 			{
@@ -149,7 +149,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -189,7 +189,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
 			Url = new($"{Channels}/{applicationId}/{Commands}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Put,
 			Context = new()
 			{
@@ -203,7 +203,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -234,7 +234,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -249,7 +249,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Context = new()
 			{
@@ -263,7 +263,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -291,7 +291,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -307,7 +307,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
 			{
@@ -321,7 +321,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommand>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -363,7 +363,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Context = new()
 			{
@@ -377,7 +377,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommand>>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -404,7 +404,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordApplicationCommandPermissions>>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -432,7 +432,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordApplicationCommandPermissions>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -450,7 +450,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
 				Url = new($"{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
 				Method = HttpMethodEnum.Post,
-				Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
 					["endpoint"] = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
@@ -465,7 +465,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Url = new($"{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
 				Payload = new()
 				{
-					["payload_json"] = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
 				Method = HttpMethodEnum.Post,
 				Files = payload.Files.ToList(),
@@ -507,7 +507,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -525,7 +525,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 				Url = new($"{AppId}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Method = HttpMethodEnum.Post,
-				Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
@@ -540,7 +540,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Url = new($"{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
 				Payload = new()
 				{
-					["payload_json"] = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
 				Method = HttpMethodEnum.Post,
 				Files = payload.Files.ToList(),
@@ -556,7 +556,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -600,7 +600,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
 				Url = new($"{AppId}/{applicationId}/{interactionToken}"),
 				Method = HttpMethodEnum.Post,
-				Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}",
@@ -615,7 +615,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Url = new($"{Interactions}/{applicationId}/{interactionToken}"),
 				Payload = new()
 				{
-					["payload_json"] = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
 				Method = HttpMethodEnum.Post,
 				Files = payload.Files.ToList(),
@@ -631,7 +631,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -659,7 +659,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -678,7 +678,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 				Url = new($"{AppId}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
 				Method = HttpMethodEnum.Post,
-				Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
 					["endpoint"] = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
@@ -693,7 +693,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				Url = new($"{Interactions}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
 				Payload = new()
 				{
-					["payload_json"] = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
 				Method = HttpMethodEnum.Post,
 				Files = payload.Files.ToList(),
@@ -709,7 +709,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-			(await message.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await message.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>

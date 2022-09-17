@@ -195,8 +195,8 @@ public class DiscordGatewayClient : IHostedService
 			Token = this.__options.Token,
 			ConnectionProperties = new()
 			{
-				Browser = StarnightConstants.LibraryName,
-				Device = StarnightConstants.LibraryName,
+				Browser = StarnightInternalConstants.LibraryName,
+				Device = StarnightInternalConstants.LibraryName,
 				OS = RuntimeInformation.OSDescription
 			},
 			Compress = false,

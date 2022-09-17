@@ -39,7 +39,7 @@ public sealed class DiscordStageInstanceRestResource
 		{
 			Path = $"/{StageInstances}",
 			Url = new($"{StageInstances}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Post,
 			Headers = reason is not null ? new()
 			{
@@ -58,7 +58,7 @@ public sealed class DiscordStageInstanceRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
@@ -84,7 +84,7 @@ public sealed class DiscordStageInstanceRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions);
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions);
 	}
 
 	/// <inheritdoc/>
@@ -99,7 +99,7 @@ public sealed class DiscordStageInstanceRestResource
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
 			Url = new($"{StageInstances}/{channelId}"),
-			Payload = JsonSerializer.Serialize(payload, StarnightConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Method = HttpMethodEnum.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -118,7 +118,7 @@ public sealed class DiscordStageInstanceRestResource
 		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>
-			(await response.Content.ReadAsStringAsync(), StarnightConstants.DefaultSerializerOptions)!;
+			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
 	}
 
 	/// <inheritdoc/>
