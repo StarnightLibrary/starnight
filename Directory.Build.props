@@ -13,7 +13,7 @@
         <PackageIcon>starnight.png</PackageIcon>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <NoWarn>CS1591</NoWarn>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 
         <!-- SourceLink -->
