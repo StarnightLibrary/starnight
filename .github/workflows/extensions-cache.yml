@@ -1,0 +1,47 @@
+name: Build Starnight.Extensions.Caching
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - Starnight.Extensions.Caching/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(toJSON(github.events.commits.*.message), '[ci skip]')"
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 7.0.100-rc.2.22426.5
+
+    - name: restore
+      run: dotnet restore Starnight.Extensions.Caching
+
+    - name: pack packages
+      run: "mkdir build && dotnet pack Starnight.Extensions.Caching --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Starnight
+        path: ./build/
+    
+    - name: Discord Webhook
+      uses: tsickert/discord-webhook@v4.0.0
+      with:
+        webhook-url: ${{ secrets.BUILD_WEBHOOK }}
+        embed-title: New Starnight.Extensions.Caching build available!
+        embed-description: |
+          Commit author: [${{ github.actor }}](https://github.com/${{ github.actor }})
+          Commit hash: [`${{ github.sha }}`](https://github.com/${{github.repository}}/commit/${{github.sha}})
+          GitHub Actions run: [${{ github.run_id }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+        embed-color: 14751108
+    
+    - name: Publish package
+      run: "dotnet nuget push ./build/* --api-key ${{ secrets.NUGET_API_KEY }} --source nuget.org --no-service-endpoint --skip-duplicate"
