@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(ReleaseBuild) == 'true'">
-    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj"/>
+    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="$(ReleaseBuild) != 'true'">
-    <PackageReference Include="Starnight.Internal" Version="0.2.0-*" />
+    <PackageReference Include="Starnight.Internal" Version="0.2.0-*" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
