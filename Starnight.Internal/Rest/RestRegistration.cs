@@ -13,8 +13,8 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 
 using Starnight.Caching.Memory;
+using Starnight.Exceptions;
 using Starnight.Internal;
-using Starnight.Internal.Exceptions;
 using Starnight.Internal.Rest.Resources;
 using Starnight.Internal.Rest.Resources.Discord;
 

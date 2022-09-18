@@ -189,7 +189,7 @@ partial class {metadata.DeclaringClass.Name}
 		global::Starnight.Internal.Gateway.DiscordGatewayOpcode opcode = (global::Starnight.Internal.Gateway.DiscordGatewayOpcode)element.GetProperty(""op"").GetInt32();
 		global::System.String name = element.GetProperty(""t"").GetString()!;
 		global::System.Int32 sequence = element.GetProperty(""s"").GetInt32();
-		global::{metadata.PayloadType} data = global::System.Text.Json.JsonSerializer.Deserialize<global::{metadata.PayloadType}>(element.GetProperty(""d""), global::Starnight.Internal.StarnightConstants.DefaultSerializerOptions)!;
+		global::{metadata.PayloadType} data = global::System.Text.Json.JsonSerializer.Deserialize<global::{metadata.PayloadType}>(element.GetProperty(""d""), global::Starnight.Internal.StarnightInternalConstants.DefaultSerializerOptions)!;
 		return new global::{metadata.EventType}
 		{{
 			Opcode = opcode,
