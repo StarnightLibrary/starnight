@@ -2,6 +2,7 @@ namespace Starnight.Internal.Gateway;
 
 using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -128,8 +129,8 @@ public class DiscordGatewayClient : IHostedService
 		_ = Task.Factory.StartNew(async () => await this.handleControlEventsAsync(cancellationToken));
 	}
 
-	public Task StopAsync(CancellationToken cancellationToken)
-		=> Task.CompletedTask;
+	public async Task StopAsync(CancellationToken cancellationToken)
+		=> await this.__transport_service.DisconnectAsync(false, WebSocketCloseStatus.NormalClosure);
 
 	/// <summary>
 	/// Reconnects to the discord gateway.
