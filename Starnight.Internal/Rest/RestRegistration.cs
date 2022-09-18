@@ -35,6 +35,13 @@ public static class RestRegistration
 			options.MedianFirstRequestRetryDelay, options.RetryCount);
 
 		_ = collection
+			.Configure<RestClientOptions>(xm =>
+			{
+				xm.MedianFirstRequestRetryDelay = options.MedianFirstRequestRetryDelay;
+				xm.RatelimitedRetryCount = options.RatelimitedRetryCount;
+				xm.RetryCount = options.RetryCount;
+				xm.Token = options.Token;
+			})
 			.AddHttpClient<RestClient>()
 			.ConfigureHttpClient((client) =>
 			{
