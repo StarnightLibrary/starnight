@@ -15,7 +15,7 @@ public static class GatewayRegistration
 	/// </summary>
 	/// <param name="services">The service collection to register this client into.</param>
 	/// <returns>The service collection, for chaining.</returns>
-	public static IServiceCollection RegisterStarnightGateway(this IServiceCollection services)
+	public static IServiceCollection AddStarnightGateway(this IServiceCollection services)
 	{
 		_ = services.AddSingleton<DiscordGatewayRestResource>();
 

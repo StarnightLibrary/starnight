@@ -112,7 +112,6 @@ public class DiscordGatewayClient : IHostedService
 
 	public async Task StartAsync(CancellationToken cancellationToken)
 	{
-
 		if(this.__options.ShardInformation is not null && this.__options.ShardInformation.Length != 2)
 		{
 			throw new StarnightInvalidConnectionException

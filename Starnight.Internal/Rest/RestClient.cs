@@ -66,8 +66,6 @@ public sealed partial class RestClient
 
 		HttpRequestMessage message = request.Build();
 
-		this.__logger?.LogTrace(this.__token);
-
 		Boolean isWebhookRequest = request.Context is not null
 				&& request.Context!.TryGetValue("is-webhook-request", out Object webhookRaw)
 				&& (Boolean)webhookRaw;

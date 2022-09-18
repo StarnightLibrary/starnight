@@ -2,7 +2,6 @@ namespace Starnight.Internal.Gateway.Services;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -98,10 +97,11 @@ public class InboundGatewayService : IInboundGatewayService
 
 					if(!this.__control_events.TryGetValue(@event.GetType(), out Boolean isControlEvent))
 					{
-						isControlEvent = !@event.GetType()
-							.GetInterfaces()
-							.Where(xm => xm.GetGenericTypeDefinition() == typeof(IDiscordGatewayDispatchEvent<>))
-							.Any()
+						isControlEvent = @event.Opcode is 
+							DiscordGatewayOpcode.Hello or
+							DiscordGatewayOpcode.Reconnect or
+							DiscordGatewayOpcode.InvalidSession or
+							DiscordGatewayOpcode.HeartbeatAck
 							|| @event.GetType() == typeof(DiscordConnectedEvent);
 
 						this.__control_events.Add(@event.GetType(), isControlEvent);
