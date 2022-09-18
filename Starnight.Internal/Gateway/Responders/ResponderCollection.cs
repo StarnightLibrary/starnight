@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-using Starnight.Internal.Exceptions;
+using Starnight.Exceptions;
 
 /// <summary>
 /// Represents a collection of responders.

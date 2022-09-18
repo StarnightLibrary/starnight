@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Starnight.Internal.Exceptions;
+using Starnight.Exceptions;
 using Starnight.Internal.Gateway.Payloads;
 
 /// <summary>

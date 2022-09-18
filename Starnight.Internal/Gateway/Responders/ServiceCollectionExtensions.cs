@@ -6,7 +6,7 @@ using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Starnight.Internal.Exceptions;
+using Starnight.Exceptions;
 
 /// <summary>
 /// Contains an extension to the service collection, enabling adding responders.

@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Exceptions;
+namespace Starnight.Exceptions;
 
 using System;
 using System.Diagnostics.CodeAnalysis;

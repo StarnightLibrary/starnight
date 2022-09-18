@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-using Starnight.Internal.Exceptions;
+using Starnight.Exceptions;
 
 [assembly:TypeForwardedTo(typeof(AbstractStarnightException))]
 [assembly:TypeForwardedTo(typeof(StarnightGatewayConnectionRefusedException))]

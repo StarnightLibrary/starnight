@@ -11,8 +11,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Starnight.Exceptions;
 using Starnight.Internal.Entities.Users;
-using Starnight.Internal.Exceptions;
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Payloads.Outbound;
 using Starnight.Internal.Gateway.Services;
