@@ -128,7 +128,6 @@ public interface IDiscordGuildRestResource
 	/// <param name="limit">Amount of users to query, between 1 and 1000</param>
 	/// <param name="afterUserId">Highest user ID to <b>not</b> query. Used for request pagination.</param>
 	/// <returns>A list of <see cref="DiscordGuildMember"/>s of the specified length.</returns>
-	/// <exception cref="StarnightSharedRatelimitHitException">Thrown if the shared resource ratelimit is exceeded.</exception>
 	public ValueTask<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync
 	(
 		Int64 guildId,
