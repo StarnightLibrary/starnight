@@ -1,34 +1,54 @@
 namespace Starnight.Test;
 
 using System;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
+using Starnight.Caching;
+using Starnight.Internal.Gateway;
 using Starnight.Internal.Rest;
 
 public class Program
 {
-	public static void Main(String[] args)
+	public static async Task Main(String[] args)
 	{
-		IServiceCollection collection = new ServiceCollection();
-		_ = collection
-			.AddMemoryCache()
-			.AddLogging();
+		IHostBuilder hostBuilder = Host
+			.CreateDefaultBuilder(args)
+			.UseConsoleLifetime();
 
-		try
+		_ = hostBuilder.ConfigureServices(services =>
 		{
-			_ = collection.AddStarnightRestClient(new RestClientOptions()
+			_ = services.AddMemoryCache().AddLogging(xm => xm.SetMinimumLevel(LogLevel.Trace));
+
+			_ = services.AddStarnightMemoryCache();
+
+			_ = services.AddStarnightRestClient(new RestClientOptions()
 			{
 				MedianFirstRequestRetryDelay = TimeSpan.FromSeconds(2),
 				RatelimitedRetryCount = 2,
 				RetryCount = 0,
-				Token = "ksjdlfkjsd"
+				Token = " "
 			});
-		}
-		catch(Exception e)
-		{
-			Console.WriteLine($"{e}: {e.Message}\n{e.StackTrace}");
-		}
+
+			_ = services.Configure<DiscordGatewayClientOptions>(xm =>
+			{
+				xm.Token = " ";
+				xm.Intents = DiscordGatewayIntents.Guilds;
+			});
+
+			_ = services.AddStarnightGateway();
+		});
+
+		IHost host = hostBuilder.Build();
+
+		await host.StartAsync();
+
+		await host.Services.GetRequiredService<DiscordGatewayClient>().StartAsync(default);
+
+		await host.WaitForShutdownAsync();
 
 		Console.WriteLine("success");
 
