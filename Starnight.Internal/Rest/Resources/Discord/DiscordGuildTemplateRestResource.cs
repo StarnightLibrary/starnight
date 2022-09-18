@@ -12,8 +12,6 @@ using Starnight.Internal.Rest.Payloads.GuildTemplates;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordGuildTemplateRestResource"/>
 public sealed class DiscordGuildTemplateRestResource
 	: AbstractRestResource, IDiscordGuildTemplateRestResource
@@ -38,8 +36,8 @@ public sealed class DiscordGuildTemplateRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{Templates}/{TemplateCode}",
-			Url = new($"{Guilds}/{Templates}/{templateCode}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{Templates}/{templateCode}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{Templates}/{TemplateCode}",
@@ -65,9 +63,9 @@ public sealed class DiscordGuildTemplateRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{Templates}/{TemplateCode}",
-			Url = new($"{Guilds}/{Templates}/{templateCode}"),
+			Url = $"{Guilds}/{Templates}/{templateCode}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{Templates}/{TemplateCode}",
@@ -92,8 +90,8 @@ public sealed class DiscordGuildTemplateRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}",
-			Url = new($"{Guilds}/{guildId}/{Templates}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Templates}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}",
@@ -119,9 +117,9 @@ public sealed class DiscordGuildTemplateRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}",
-			Url = new($"{Guilds}/{guildId}/{Templates}"),
+			Url = $"{Guilds}/{guildId}/{Templates}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}",
@@ -147,8 +145,8 @@ public sealed class DiscordGuildTemplateRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
-			Url = new($"{Guilds}/{guildId}/{Templates}/{templateCode}"),
-			Method = HttpMethodEnum.Put,
+			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
+			Method = HttpMethod.Put,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
@@ -175,9 +173,9 @@ public sealed class DiscordGuildTemplateRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
-			Url = new($"{Guilds}/{guildId}/{Templates}/{templateCode}"),
+			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
@@ -203,8 +201,8 @@ public sealed class DiscordGuildTemplateRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
-			Url = new($"{Guilds}/{guildId}/{Templates}/{templateCode}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",

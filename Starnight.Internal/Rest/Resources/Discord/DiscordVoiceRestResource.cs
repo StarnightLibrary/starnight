@@ -10,8 +10,6 @@ using Starnight.Internal.Entities.Voice;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordVoiceRestResource"/>
 public sealed class DiscordVoiceRestResource
 	: AbstractRestResource, IDiscordVoiceRestResource
@@ -32,8 +30,8 @@ public sealed class DiscordVoiceRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Voice}/{Regions}",
-			Url = new($"{Voice}/{Regions}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Voice}/{Regions}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Voice}/{Regions}",

@@ -17,8 +17,6 @@ using Starnight.Internal.Rest.Payloads.Guilds;
 
 using static Starnight.Internal.DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordGuildRestResource"/>
 public sealed class DiscordGuildRestResource
 	: AbstractRestResource, IDiscordGuildRestResource
@@ -49,7 +47,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}",
@@ -74,8 +72,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Preview}",
-			Url = new($"{Guilds}/{guildId}/{Preview}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Preview}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Preview}",
@@ -102,8 +100,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}",
-			Url = new($"{Guilds}/{guildId}"),
-			Method = HttpMethodEnum.Patch,
+			Url = $"{Guilds}/{guildId}",
+			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
@@ -134,8 +132,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}",
-			Url = new($"{Guilds}/{guildId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}",
@@ -159,8 +157,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Channels}",
-			Url = new($"{Guilds}/{guildId}/{Channels}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Channels}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Channels}",
@@ -187,8 +185,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Channels}",
-			Url = new($"{Guilds}/{guildId}/{Channels}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"{Guilds}/{guildId}/{Channels}",
+			Method = HttpMethod.Post,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
@@ -220,8 +218,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Channels}",
-			Url = new($"{Guilds}/{guildId}/{Channels}"),
-			Method = HttpMethodEnum.Patch,
+			Url = $"{Guilds}/{guildId}/{Channels}",
+			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Context = new()
 			{
@@ -246,8 +244,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Threads}/{Active}",
-			Url = new($"{Guilds}/{guildId}/{Threads}/{Active}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Threads}/{Active}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Threads}/{Active}",
@@ -273,8 +271,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Members}/{userId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{UserId}",
@@ -307,7 +305,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Members}",
@@ -340,7 +338,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{Search}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Members}/{Search}",
@@ -367,8 +365,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
-			Method = HttpMethodEnum.Put,
+			Url = $"{Guilds}/{guildId}/{Members}/{userId}",
+			Method = HttpMethod.Put,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Context = new()
 			{
@@ -399,8 +397,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
-			Method = HttpMethodEnum.Patch,
+			Url = $"{Guilds}/{guildId}/{Members}/{userId}",
+			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
@@ -433,8 +431,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{Me}",
-			Url = new($"{Guilds}/{guildId}/{Members}/{Me}"),
-			Method = HttpMethodEnum.Patch,
+			Url = $"{Guilds}/{guildId}/{Members}/{Me}",
+			Method = HttpMethod.Patch,
 			Payload =
 			$$"""
 			{ "nick": "{{nickname}}" }
@@ -471,8 +469,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
-			Url = new($"{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
-			Method = HttpMethodEnum.Put,
+			Url = $"{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}",
+			Method = HttpMethod.Put,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -504,8 +502,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}/{Roles}/{RoleId}",
-			Url = new($"{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Members}/{userId}/{Roles}/{roleId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -536,8 +534,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Members}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{Members}/{userId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Members}/{userId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -566,8 +564,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}",
-			Url = new($"{Guilds}/{guildId}/{Bans}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Bans}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Bans}",
@@ -593,8 +591,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Bans}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{Bans}/{userId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Bans}/{userId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
@@ -622,8 +620,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{Bans}/{userId}"),
-			Method = HttpMethodEnum.Put,
+			Url = $"{Guilds}/{guildId}/{Bans}/{userId}",
+			Method = HttpMethod.Put,
 			Payload =
 			$$"""
 			{ "delete_message_days": "{{deleteMessageDays}}" }
@@ -656,8 +654,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Bans}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{Bans}/{userId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Bans}/{userId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -686,8 +684,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
-			Url = new($"{Guilds}/{guildId}/{Roles}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Roles}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Roles}",
@@ -714,9 +712,9 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
-			Url = new($"{Guilds}/{guildId}/{Roles}"),
+			Url = $"{Guilds}/{guildId}/{Roles}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -748,9 +746,9 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}",
-			Url = new($"{Guilds}/{guildId}/{Roles}"),
+			Url = $"{Guilds}/{guildId}/{Roles}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -783,9 +781,9 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
-			Url = new($"{Guilds}/{guildId}/{Roles}/{roleId}"),
+			Url = $"{Guilds}/{guildId}/{Roles}/{roleId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -817,11 +815,11 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{MFA}",
-			Url = new($"{Guilds}/{guildId}/{MFA}"),
+			Url = $"{Guilds}/{guildId}/{MFA}",
 			Payload = $$"""
 			{ "level" : {{(Int32)level}} }
 			""",
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -853,8 +851,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Roles}/{RoleId}",
-			Url = new($"{Guilds}/{guildId}/{Roles}/{roleId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Roles}/{roleId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -891,7 +889,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Prune}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Prune}",
@@ -930,7 +928,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{Prune}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -964,8 +962,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Voice}",
-			Url = new($"{Guilds}/{guildId}/{Voice}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Voice}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Voice}",
@@ -990,8 +988,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Invites}",
-			Url = new($"{Guilds}/{guildId}/{Invites}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Invites}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Invites}",
@@ -1016,8 +1014,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Integrations}",
-			Url = new($"{Guilds}/{guildId}/{Integrations}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Integrations}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Integrations}",
@@ -1044,8 +1042,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Integrations}/{IntegrationId}",
-			Url = new($"{Guilds}/{guildId}/{Integrations}/{integrationId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Integrations}/{integrationId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -1074,8 +1072,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Widget}",
-			Url = new($"{Guilds}/{guildId}/{Widget}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Widget}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Widget}",
@@ -1102,9 +1100,9 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Widget}",
-			Url = new($"{Guilds}/{guildId}/{Widget}"),
+			Url = $"{Guilds}/{guildId}/{Widget}",
 			Payload = JsonSerializer.Serialize(settings, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -1134,8 +1132,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{WidgetJson}",
-			Url = new($"{Guilds}/{guildId}/{WidgetJson}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{WidgetJson}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{WidgetJson}",
@@ -1160,8 +1158,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{VanityUrl}",
-			Url = new($"{Guilds}/{guildId}/{VanityUrl}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{VanityUrl}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{VanityUrl}",
@@ -1192,7 +1190,7 @@ public sealed class DiscordGuildRestResource
 		{
 			Path = $"/{Guilds}/{guildId}/{WidgetPng}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{WidgetPng}",
@@ -1217,9 +1215,9 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{Me}",
-			Url = new($"{Guilds}/{guildId}/{VoiceStates}/{Me}"),
+			Url = $"{Guilds}/{guildId}/{VoiceStates}/{Me}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{VoiceStates}/{Me}",
@@ -1245,9 +1243,9 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{VoiceStates}/{UserId}",
-			Url = new($"{Guilds}/{guildId}/{VoiceStates}/{userId}"),
+			Url = $"{Guilds}/{guildId}/{VoiceStates}/{userId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{VoiceStates}/{UserId}",

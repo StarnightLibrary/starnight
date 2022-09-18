@@ -10,8 +10,6 @@ using Starnight.Internal.Entities.Guilds.Audit;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordAuditLogRestResource"/>
 public sealed class DiscordAuditLogRestResource
 	: AbstractRestResource, IDiscordAuditLogRestResource
@@ -48,7 +46,7 @@ public sealed class DiscordAuditLogRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{AuditLogs}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{AuditLogs}",

@@ -15,8 +15,6 @@ using Starnight.Internal.Rest.Payloads.Users;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordUserRestResource"/>
 public sealed class DiscordUserRestResource
 	: AbstractRestResource, IDiscordUserRestResource
@@ -38,8 +36,8 @@ public sealed class DiscordUserRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}",
-			Url = new($"{Users}/{Me}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Users}/{Me}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}",
@@ -64,8 +62,8 @@ public sealed class DiscordUserRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{UserId}",
-			Url = new($"{Users}/{userId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Users}/{userId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{UserId}",
@@ -90,8 +88,8 @@ public sealed class DiscordUserRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}",
-			Url = new($"{Users}/{Me}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Users}/{Me}",
+			Method = HttpMethod.Get,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Context = new()
 			{
@@ -126,7 +124,7 @@ public sealed class DiscordUserRestResource
 		{
 			Path = $"/{Users}/{Me}/{Guilds}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}/{Guilds}",
@@ -151,8 +149,8 @@ public sealed class DiscordUserRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}/{Member}",
-			Url = new($"{Users}/{Me}/{Guilds}/{guildId}/{Member}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Users}/{Me}/{Guilds}/{guildId}/{Member}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}/{Guilds}/{GuildId}/{Member}",
@@ -177,8 +175,8 @@ public sealed class DiscordUserRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}",
-			Url = new($"{Users}/{Me}/{Guilds}/{guildId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Users}/{Me}/{Guilds}/{guildId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}/{Guilds}/{GuildId}",
@@ -202,8 +200,8 @@ public sealed class DiscordUserRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Channels}",
-			Url = new($"{Users}/{Me}/{Channels}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"{Users}/{Me}/{Channels}",
+			Method = HttpMethod.Post,
 			Payload =
 			$$"""
 			{ "recipient_id": {{recipientId}} }
@@ -229,8 +227,8 @@ public sealed class DiscordUserRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Users}/{Me}/{Connections}",
-			Url = new($"{Users}/{Me}/{Connections}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Users}/{Me}/{Connections}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}/{Connections}",

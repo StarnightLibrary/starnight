@@ -12,8 +12,6 @@ using Starnight.Internal.Rest.Payloads.StageInstances;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordStageInstanceRestResource"/>
 public sealed class DiscordStageInstanceRestResource
 	: AbstractRestResource, IDiscordStageInstanceRestResource
@@ -38,9 +36,9 @@ public sealed class DiscordStageInstanceRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}",
-			Url = new($"{StageInstances}"),
+			Url = $"{StageInstances}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -70,8 +68,8 @@ public sealed class DiscordStageInstanceRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
-			Url = new($"{StageInstances}/{channelId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{StageInstances}/{channelId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{StageInstances}/{channelId}",
@@ -98,9 +96,9 @@ public sealed class DiscordStageInstanceRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
-			Url = new($"{StageInstances}/{channelId}"),
+			Url = $"{StageInstances}/{channelId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -131,8 +129,8 @@ public sealed class DiscordStageInstanceRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
-			Url = new($"{StageInstances}/{channelId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{StageInstances}/{channelId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason

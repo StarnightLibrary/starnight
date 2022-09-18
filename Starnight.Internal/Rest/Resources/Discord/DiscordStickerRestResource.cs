@@ -16,8 +16,6 @@ using Starnight.Internal.Rest.Payloads.Stickers;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordStickerRestResource"/>
 public sealed class DiscordStickerRestResource
 	: AbstractRestResource, IDiscordStickerRestResource
@@ -41,8 +39,8 @@ public sealed class DiscordStickerRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Stickers}/{StickerId}",
-			Url = new($"{Stickers}/{stickerId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Stickers}/{stickerId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Stickers}/{StickerId}",
@@ -64,8 +62,8 @@ public sealed class DiscordStickerRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StickerPacks}",
-			Url = new($"{StickerPacks}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{StickerPacks}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{StickerPacks}",
@@ -90,8 +88,8 @@ public sealed class DiscordStickerRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}",
-			Url = new($"{Guilds}/{guildId}/{Stickers}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Stickers}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}",
@@ -117,8 +115,8 @@ public sealed class DiscordStickerRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
-			Url = new($"{Guilds}/{guildId}/{Stickers}/{stickerId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
@@ -154,8 +152,8 @@ public sealed class DiscordStickerRestResource
 		IRestRequest request = new MultipartRestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}",
-			Url = new($"{Guilds}/{guildId}/{Stickers}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"{Guilds}/{guildId}/{Stickers}",
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -195,9 +193,9 @@ public sealed class DiscordStickerRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
-			Url = new($"{Guilds}/{guildId}/{Stickers}/{stickerId}"),
+			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -229,8 +227,8 @@ public sealed class DiscordStickerRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
-			Url = new($"{Guilds}/{guildId}/{Stickers}/{stickerId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason

@@ -13,8 +13,6 @@ using Starnight.Internal.Rest.Payloads.Emojis;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordEmojiRestResource"/>
 public sealed class DiscordEmojiRestResource
 	: AbstractRestResource, IDiscordEmojiRestResource
@@ -39,8 +37,8 @@ public sealed class DiscordEmojiRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}",
-			Url = new($"{Guilds}/{guildId}/{Emojis}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Emojis}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}",
@@ -66,8 +64,8 @@ public sealed class DiscordEmojiRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
-			Url = new($"{Guilds}/{guildId}/{Emojis}/{emojiId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Emojis}/{emojiId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Emojis}/{EmojiId}",
@@ -94,9 +92,9 @@ public sealed class DiscordEmojiRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}",
-			Url = new($"{Guilds}/{guildId}/{Emojis}"),
+			Url = $"{Guilds}/{guildId}/{Emojis}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -129,9 +127,9 @@ public sealed class DiscordEmojiRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
-			Url = new($"{Guilds}/{guildId}/{Emojis}/{emojiId}"),
+			Url = $"{Guilds}/{guildId}/{Emojis}/{emojiId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -163,8 +161,8 @@ public sealed class DiscordEmojiRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
-			Url = new($"{Guilds}/{guildId}/{Emojis}/{emojiId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{Emojis}/{emojiId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason

@@ -13,8 +13,6 @@ using Starnight.Internal.Rest.Payloads.AutoModeration;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordAutoModerationRestResource"/>
 public sealed class DiscordAutoModerationRestResource
 	: AbstractRestResource, IDiscordAutoModerationRestResource
@@ -39,8 +37,8 @@ public sealed class DiscordAutoModerationRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
-			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
@@ -66,8 +64,8 @@ public sealed class DiscordAutoModerationRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
-			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
@@ -94,8 +92,8 @@ public sealed class DiscordAutoModerationRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
-			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}",
+			Method = HttpMethod.Post,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
@@ -129,8 +127,8 @@ public sealed class DiscordAutoModerationRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
-			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}"),
-			Method = HttpMethodEnum.Patch,
+			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}",
+			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
@@ -163,8 +161,8 @@ public sealed class DiscordAutoModerationRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
-			Url = new($"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason

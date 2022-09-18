@@ -12,10 +12,6 @@ using Starnight.Internal.Rest.Resources.Discord;
 
 using static DiscordApiConstants;
 
-#pragma warning disable IDE0001 // don't simplify these. ever. shame that VS isn't applying the editorconfig rule to this.
-using HttpMethodEnum = Starnight.Internal.Rest.HttpMethod;
-#pragma warning restore IDE0001
-
 public sealed class DiscordGatewayRestResource
 	: AbstractRestResource
 {
@@ -34,8 +30,8 @@ public sealed class DiscordGatewayRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Gateway}/{Bot}",
-			Url = new($"{Gateway}/{Bot}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Gateway}/{Bot}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}",
@@ -56,8 +52,8 @@ public sealed class DiscordGatewayRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Gateway}",
-			Url = new($"{Gateway}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Gateway}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}",

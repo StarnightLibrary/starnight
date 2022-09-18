@@ -10,8 +10,6 @@ using Starnight.Internal.Entities.Guilds.Invites;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordInviteRestResource"/>
 public sealed class DiscordInviteRestResource
 	: AbstractRestResource, IDiscordInviteRestResource
@@ -45,7 +43,7 @@ public sealed class DiscordInviteRestResource
 		{
 			Path = $"/{Invites}/{InviteCode}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Invites}/{InviteCode}",
@@ -71,8 +69,8 @@ public sealed class DiscordInviteRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Invites}/{InviteCode}",
-			Url = new($"{Invites}/{inviteCode}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Invites}/{inviteCode}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason

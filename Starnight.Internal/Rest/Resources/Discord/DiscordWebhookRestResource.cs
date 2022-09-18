@@ -15,8 +15,6 @@ using Starnight.Internal.Rest.Payloads.Webhooks;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordWebhookRestResource"/>
 public sealed class DiscordWebhookRestResource
 	: AbstractRestResource, IDiscordWebhookRestResource
@@ -42,9 +40,9 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Webhooks}",
-			Url = new($"{Channels}/{channelId}/{Webhooks}"),
+			Url = $"{Channels}/{channelId}/{Webhooks}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -74,8 +72,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Webhooks}",
-			Url = new($"{Channels}/{channelId}/{Webhooks}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{channelId}/{Webhooks}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Webhooks}",
@@ -100,8 +98,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{guildId}/{Webhooks}",
-			Url = new($"{Guilds}/{guildId}/{Webhooks}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Guilds}/{guildId}/{Webhooks}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{Webhooks}",
@@ -126,8 +124,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{webhookId}",
-			Url = new($"{Webhooks}/{webhookId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Webhooks}/{webhookId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{webhookId}",
@@ -153,8 +151,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
-			Url = new($"{Webhooks}/{webhookId}/{webhookToken}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Webhooks}/{webhookId}/{webhookToken}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{webhookId}/{WebhookToken}",
@@ -181,8 +179,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{webhookId}",
-			Url = new($"{Webhooks}/{webhookId}"),
-			Method = HttpMethodEnum.Patch,
+			Url = $"{Webhooks}/{webhookId}",
+			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
@@ -216,8 +214,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
-			Url = new($"{Webhooks}/{webhookId}/{webhookToken}"),
-			Method = HttpMethodEnum.Patch,
+			Url = $"{Webhooks}/{webhookId}/{webhookToken}",
+			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
@@ -249,8 +247,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{webhookId}",
-			Url = new($"{Webhooks}/{webhookId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Webhooks}/{webhookId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -281,8 +279,8 @@ public sealed class DiscordWebhookRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
-			Url = new($"{Webhooks}/{webhookId}/{webhookToken}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Webhooks}/{webhookId}/{webhookToken}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -328,7 +326,7 @@ public sealed class DiscordWebhookRestResource
 					Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 					Url = builder.Build(),
 					Payload = payloadBody,
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Context = new()
 					{
 						["endpoint"] = $"/{Webhooks}/{webhookId}/{webhookToken}",
@@ -348,7 +346,7 @@ public sealed class DiscordWebhookRestResource
 						{
 							["payload_json"] = payloadBody
 						},
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Files = payload.Files.ToList(),
 					Context = new()
 					{
@@ -384,7 +382,7 @@ public sealed class DiscordWebhookRestResource
 		{
 			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{MessageId}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{messageId}",
@@ -425,7 +423,7 @@ public sealed class DiscordWebhookRestResource
 					Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 					Url = builder.Build(),
 					Payload = payloadBody,
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Context = new()
 					{
 						["endpoint"] = $"/{Webhooks}/{webhookId}/{webhookToken}",
@@ -445,7 +443,7 @@ public sealed class DiscordWebhookRestResource
 						{
 							["payload_json"] = payloadBody
 						},
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Files = payload.Files.ToList(),
 					Context = new()
 					{
@@ -479,7 +477,7 @@ public sealed class DiscordWebhookRestResource
 		{
 			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{MessageId}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Delete,
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{messageId}",

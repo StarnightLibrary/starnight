@@ -15,8 +15,6 @@ using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
 using static Starnight.Internal.DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordApplicationCommandsRestResource"/>
 public sealed class DiscordApplicationCommandsRestResource
 	: AbstractRestResource, IDiscordApplicationCommandsRestResource
@@ -52,7 +50,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				["X-Discord-Locale"] = locale
 			}
 			: new(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
@@ -78,9 +76,9 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
-			Url = new($"{Channels}/{applicationId}/{Commands}"),
+			Url = $"{Channels}/{applicationId}/{Commands}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
@@ -106,8 +104,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
-			Url = new($"{Channels}/{applicationId}/{Commands}/{commandId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{applicationId}/{Commands}/{commandId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
@@ -134,9 +132,9 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
-			Url = new($"{Channels}/{applicationId}/{Commands}/{commandId}"),
+			Url = $"{Channels}/{applicationId}/{Commands}/{commandId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
@@ -162,8 +160,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
-			Url = new($"{Channels}/{applicationId}/{Commands}/{commandId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{applicationId}/{Commands}/{commandId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
@@ -188,9 +186,9 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
-			Url = new($"{Channels}/{applicationId}/{Commands}"),
+			Url = $"{Channels}/{applicationId}/{Commands}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Put,
+			Method = HttpMethod.Put,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Commands}",
@@ -221,7 +219,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
@@ -248,9 +246,9 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
-			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
+			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
@@ -277,8 +275,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
-			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
@@ -306,9 +304,9 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
-			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
+			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
@@ -335,8 +333,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
-			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
@@ -362,9 +360,9 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
-			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}"),
+			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
@@ -390,8 +388,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{Permissions}",
-			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{Permissions}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{Permissions}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{Permissions}",
@@ -418,8 +416,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}/{Permissions}",
-			Url = new($"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}/{Permissions}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}/{Permissions}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}/{Permissions}",
@@ -448,8 +446,8 @@ public sealed class DiscordApplicationCommandsRestResource
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
-				Url = new($"{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
-				Method = HttpMethodEnum.Post,
+				Url = $"{Interactions}/{interactionId}/{interactionToken}/{Callback}",
+				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
@@ -462,12 +460,12 @@ public sealed class DiscordApplicationCommandsRestResource
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
-				Url = new($"{Interactions}/{interactionId}/{interactionToken}/{Callback}"),
+				Url = $"{Interactions}/{interactionId}/{interactionToken}/{Callback}",
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
-				Method = HttpMethodEnum.Post,
+				Method = HttpMethod.Post,
 				Files = payload.Files.ToList(),
 				Context = new()
 				{
@@ -493,8 +491,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
@@ -523,8 +521,8 @@ public sealed class DiscordApplicationCommandsRestResource
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-				Url = new($"{AppId}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
-				Method = HttpMethodEnum.Post,
+				Url = $"{AppId}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
+				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
@@ -537,12 +535,12 @@ public sealed class DiscordApplicationCommandsRestResource
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-				Url = new($"{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
+				Url = $"{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
-				Method = HttpMethodEnum.Post,
+				Method = HttpMethod.Post,
 				Files = payload.Files.ToList(),
 				Context = new()
 				{
@@ -569,8 +567,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
-			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
@@ -598,8 +596,8 @@ public sealed class DiscordApplicationCommandsRestResource
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
-				Url = new($"{AppId}/{applicationId}/{interactionToken}"),
-				Method = HttpMethodEnum.Post,
+				Url = $"{AppId}/{applicationId}/{interactionToken}",
+				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
@@ -612,12 +610,12 @@ public sealed class DiscordApplicationCommandsRestResource
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
-				Url = new($"{Interactions}/{applicationId}/{interactionToken}"),
+				Url = $"{Interactions}/{applicationId}/{interactionToken}",
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
-				Method = HttpMethodEnum.Post,
+				Method = HttpMethod.Post,
 				Files = payload.Files.ToList(),
 				Context = new()
 				{
@@ -645,8 +643,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
@@ -676,8 +674,8 @@ public sealed class DiscordApplicationCommandsRestResource
 			? new RestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-				Url = new($"{AppId}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
-				Method = HttpMethodEnum.Post,
+				Url = $"{AppId}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
+				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				Context = new()
 				{
@@ -690,12 +688,12 @@ public sealed class DiscordApplicationCommandsRestResource
 			: new MultipartRestRequest
 			{
 				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-				Url = new($"{Interactions}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
+				Url = $"{Interactions}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
 				Payload = new()
 				{
 					["payload_json"] = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 				},
-				Method = HttpMethodEnum.Post,
+				Method = HttpMethod.Post,
 				Files = payload.Files.ToList(),
 				Context = new()
 				{
@@ -723,8 +721,8 @@ public sealed class DiscordApplicationCommandsRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
-			Url = new($"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",

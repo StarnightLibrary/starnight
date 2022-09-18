@@ -8,7 +8,7 @@ internal class QueryBuilder
 {
 	private readonly List<KeyValuePair<String, String>> __parameters = new();
 
-	public Uri RootUri { get; set; }
+	public String RootUri { get; set; }
 
 	public QueryBuilder(String root)
 		=> this.RootUri = new(root);
@@ -29,12 +29,6 @@ internal class QueryBuilder
 		return this;
 	}
 
-	public Uri Build()
-	{
-		return new UriBuilder(this.RootUri)
-		{
-			Query = String.Join("&", this.__parameters.Select(e => Uri.EscapeDataString(e.Key) + '=' + Uri.EscapeDataString(e.Value)))
-		}
-		.Uri;
-	}
+	public String Build()
+		=> this.RootUri + String.Join("&", this.__parameters.Select(e => Uri.EscapeDataString(e.Key) + '=' + Uri.EscapeDataString(e.Value)));
 }

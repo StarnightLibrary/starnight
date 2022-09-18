@@ -13,8 +13,6 @@ using Starnight.Internal.Rest.Payloads.ScheduledEvents;
 
 using static DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordScheduledEventRestResource"/>
 public sealed class DiscordScheduledEventRestResource
 	: AbstractRestResource, IDiscordScheduledEventRestResource
@@ -45,7 +43,7 @@ public sealed class DiscordScheduledEventRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}",
@@ -72,8 +70,8 @@ public sealed class DiscordScheduledEventRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}",
-			Url = new($"/{Guilds}/{guildId}/{ScheduledEvents}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"/{Guilds}/{guildId}/{ScheduledEvents}",
+			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -110,7 +108,7 @@ public sealed class DiscordScheduledEventRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
@@ -138,9 +136,9 @@ public sealed class DiscordScheduledEventRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
-			Url = new($"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
+			Url = $"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -171,8 +169,8 @@ public sealed class DiscordScheduledEventRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
-			Url = new($"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}",
@@ -209,7 +207,7 @@ public sealed class DiscordScheduledEventRestResource
 		{
 			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}/{Users}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Guilds}/{guildId}/{ScheduledEvents}/{ScheduledEventId}/{Users}",

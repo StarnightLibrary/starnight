@@ -18,8 +18,6 @@ using Starnight.Internal.Rest.Payloads.Channels;
 
 using static Starnight.Internal.DiscordApiConstants;
 
-using HttpMethodEnum = HttpMethod;
-
 /// <inheritdoc cref="IDiscordChannelRestResource"/>
 public sealed class DiscordChannelRestResource
 	: AbstractRestResource, IDiscordChannelRestResource
@@ -44,8 +42,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}",
-			Url = new($"{Channels}/{channelId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{channelId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}",
@@ -71,9 +69,9 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}",
-			Url = new($"{Channels}/{channelId}"),
+			Url = $"{Channels}/{channelId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}",
@@ -100,9 +98,9 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}",
-			Url = new($"{Channels}/{channelId}"),
+			Url = $"{Channels}/{channelId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -134,9 +132,9 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}",
-			Url = new($"{Channels}/{channelId}"),
+			Url = $"{Channels}/{channelId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Patch,
+			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -167,8 +165,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}",
-			Url = new($"{Channels}/{channelId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{channelId}",
+			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -210,7 +208,7 @@ public sealed class DiscordChannelRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
@@ -236,8 +234,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
@@ -269,9 +267,9 @@ public sealed class DiscordChannelRestResource
 				new RestRequest
 				{
 					Path = $"/{Channels}/{channelId}/{Messages}",
-					Url = new($"{Channels}/{channelId}/{Messages}"),
+					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = payloadBody,
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Context = new()
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
@@ -284,14 +282,14 @@ public sealed class DiscordChannelRestResource
 				new MultipartRestRequest
 				{
 					Path = $"/{Channels}/{channelId}/{Messages}",
-					Url = new($"{Channels}/{channelId}/{Messages}"),
+					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = String.IsNullOrWhiteSpace(payloadBody)
 						? new()
 						: new()
 						{
 							["payload_json"] = payloadBody
 						},
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Files = payload.Files.ToList(),
 					Context = new()
 					{
@@ -318,8 +316,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Crosspost}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}/{Crosspost}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Crosspost}",
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Crosspost}",
@@ -346,8 +344,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}"),
-			Method = HttpMethodEnum.Put,
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}",
+			Method = HttpMethod.Put,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
@@ -373,8 +371,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
@@ -401,8 +399,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{UserId}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{userId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{userId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{UserId}",
@@ -436,7 +434,7 @@ public sealed class DiscordChannelRestResource
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
@@ -462,8 +460,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}",
@@ -487,8 +485,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
@@ -518,9 +516,9 @@ public sealed class DiscordChannelRestResource
 				new RestRequest
 				{
 					Path = $"/{Channels}/{channelId}/{Messages}",
-					Url = new($"{Channels}/{channelId}/{Messages}"),
+					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = payloadBody,
-					Method = HttpMethodEnum.Patch,
+					Method = HttpMethod.Patch,
 					Context = new()
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{Messages}",
@@ -533,14 +531,14 @@ public sealed class DiscordChannelRestResource
 				new MultipartRestRequest
 				{
 					Path = $"/{Channels}/{channelId}/{Messages}",
-					Url = new($"{Channels}/{channelId}/{Messages}"),
+					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = String.IsNullOrWhiteSpace(payloadBody)
 						? new()
 						: new()
 						{
 							["payload_json"] = payloadBody
 						},
-					Method = HttpMethodEnum.Patch,
+					Method = HttpMethod.Patch,
 					Files = payload.Files.ToList(),
 					Context = new()
 					{
@@ -568,13 +566,13 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}"),
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}",
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Delete,
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
@@ -600,14 +598,14 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{BulkDelete}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{BulkDelete}"),
+			Url = $"{Channels}/{channelId}/{Messages}/{BulkDelete}",
 			Payload = JsonSerializer.Serialize(messageIds, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Delete,
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{BulkDelete}",
@@ -634,14 +632,14 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
-			Url = new($"{Channels}/{channelId}/{Permissions}/{overwriteId}"),
+			Url = $"{Channels}/{channelId}/{Permissions}/{overwriteId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Put,
+			Method = HttpMethod.Put,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
@@ -665,8 +663,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Invites}",
-			Url = new($"{Channels}/{channelId}/{Invites}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{channelId}/{Invites}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Invites}",
@@ -699,8 +697,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Invites}",
-			Url = new($"{Channels}/{channelId}/{Invites}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"{Channels}/{channelId}/{Invites}",
+			Method = HttpMethod.Post,
 			Payload = serializedPayload,
 			Context = new()
 			{
@@ -728,13 +726,13 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
-			Url = new($"{Channels}/{channelId}/{Permissions}/{overwriteId}"),
+			Url = $"{Channels}/{channelId}/{Permissions}/{overwriteId}",
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Delete,
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
@@ -759,12 +757,12 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Followers}",
-			Url = new($"{Channels}/{channelId}/{Followers}"),
+			Url = $"{Channels}/{channelId}/{Followers}",
 			Payload =
 			$$"""
 			{ "webhook_channel_id": "{{targetChannelId}}" }
 			""",
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Followers}",
@@ -789,8 +787,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Typing}",
-			Url = new($"{Channels}/{channelId}/{Typing}"),
-			Method = HttpMethodEnum.Post,
+			Url = $"{Channels}/{channelId}/{Typing}",
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Typing}",
@@ -812,8 +810,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Pins}",
-			Url = new($"{Channels}/{channelId}/{Pins}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{channelId}/{Pins}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Pins}",
@@ -840,13 +838,13 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
-			Url = new($"{Channels}/{channelId}/{Pins}/{messageId}"),
+			Url = $"{Channels}/{channelId}/{Pins}/{messageId}",
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
@@ -872,13 +870,13 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
-			Url = new($"{Channels}/{channelId}/{Pins}/{messageId}"),
+			Url = $"{Channels}/{channelId}/{Pins}/{messageId}",
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Delete,
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
@@ -904,9 +902,9 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
-			Url = new($"{Channels}/{channelId}/{Recipients}/{userId}"),
+			Url = $"{Channels}/{channelId}/{Recipients}/{userId}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
-			Method = HttpMethodEnum.Put,
+			Method = HttpMethod.Put,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
@@ -929,8 +927,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
-			Url = new($"{Channels}/{channelId}/{Recipients}/{userId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{channelId}/{Recipients}/{userId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
@@ -955,14 +953,14 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
-			Url = new($"{Channels}/{channelId}/{Messages}/{messageId}/{Threads}"),
+			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Threads}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
@@ -989,14 +987,14 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Threads}",
-			Url = new($"{Channels}/{channelId}/{Threads}"),
+			Url = $"{Channels}/{channelId}/{Threads}",
 			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
 			}
 			: new(),
-			Method = HttpMethodEnum.Post,
+			Method = HttpMethod.Post,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
@@ -1029,9 +1027,9 @@ public sealed class DiscordChannelRestResource
 				new RestRequest
 				{
 					Path = $"/{Channels}/{channelId}/{Threads}",
-					Url = new($"{Channels}/{channelId}/{Threads}"),
+					Url = $"{Channels}/{channelId}/{Threads}",
 					Payload = payloadBody,
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Context = new()
 					{
 						["endpoint"] = $"/{Channels}/{channelId}/{Threads}",
@@ -1044,14 +1042,14 @@ public sealed class DiscordChannelRestResource
 				new MultipartRestRequest
 				{
 					Path = $"/{Channels}/{channelId}/{Threads}",
-					Url = new($"{Channels}/{channelId}/{Threads}"),
+					Url = $"{Channels}/{channelId}/{Threads}",
 					Payload = String.IsNullOrWhiteSpace(payloadBody)
 						? new()
 						: new()
 						{
 							["payload_json"] = payloadBody
 						},
-					Method = HttpMethodEnum.Post,
+					Method = HttpMethod.Post,
 					Files = payload.Files.ToList(),
 					Context = new()
 					{
@@ -1077,8 +1075,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{Me}",
-			Url = new($"{Channels}/{threadId}/{ThreadMembers}/{Me}"),
-			Method = HttpMethodEnum.Put,
+			Url = $"{Channels}/{threadId}/{ThreadMembers}/{Me}",
+			Method = HttpMethod.Put,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{Me}",
@@ -1103,8 +1101,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{UserId}",
-			Url = new($"{Channels}/{threadId}/{ThreadMembers}/{userId}"),
-			Method = HttpMethodEnum.Put,
+			Url = $"{Channels}/{threadId}/{ThreadMembers}/{userId}",
+			Method = HttpMethod.Put,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{UserId}",
@@ -1128,8 +1126,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{Me}",
-			Url = new($"{Channels}/{threadId}/{ThreadMembers}/{Me}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{threadId}/{ThreadMembers}/{Me}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{Me}",
@@ -1154,8 +1152,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{UserId}",
-			Url = new($"{Channels}/{threadId}/{ThreadMembers}/{userId}"),
-			Method = HttpMethodEnum.Delete,
+			Url = $"{Channels}/{threadId}/{ThreadMembers}/{userId}",
+			Method = HttpMethod.Delete,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{UserId}",
@@ -1180,8 +1178,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{UserId}",
-			Url = new($"{Channels}/{threadId}/{ThreadMembers}/{userId}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{threadId}/{ThreadMembers}/{userId}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}/{UserId}",
@@ -1206,8 +1204,8 @@ public sealed class DiscordChannelRestResource
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}",
-			Url = new($"{Channels}/{threadId}/{ThreadMembers}"),
-			Method = HttpMethodEnum.Get,
+			Url = $"{Channels}/{threadId}/{ThreadMembers}",
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{threadId}/{ThreadMembers}",
@@ -1240,7 +1238,7 @@ public sealed class DiscordChannelRestResource
 		{
 			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Public}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Threads}/{Archived}/{Public}",
@@ -1273,7 +1271,7 @@ public sealed class DiscordChannelRestResource
 		{
 			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Private}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Threads}/{Archived}/{Private}",
@@ -1306,7 +1304,7 @@ public sealed class DiscordChannelRestResource
 		{
 			Path = $"/{Channels}/{ChannelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
 			Url = builder.Build(),
-			Method = HttpMethodEnum.Get,
+			Method = HttpMethod.Get,
 			Context = new()
 			{
 				["endpoint"] = $"/{Channels}/{channelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",

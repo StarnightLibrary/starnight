@@ -15,7 +15,7 @@ public interface IRestRequest
 
 	public String Path { get; }
 
-	public Uri Url { get; }
+	public String Url { get; }
 
 	public Dictionary<String, String> Headers { get; }
 
