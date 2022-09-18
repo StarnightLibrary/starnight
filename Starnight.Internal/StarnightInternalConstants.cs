@@ -16,7 +16,7 @@ public static class StarnightInternalConstants
 		.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
 		.InformationalVersion ?? "0.1.0";
 
-	public static String UserAgentHeader => "Starnight Library";
+	public static String UserAgentHeader => $"Starnight";
 
 	public static String LibraryName => "Starnight";
 
