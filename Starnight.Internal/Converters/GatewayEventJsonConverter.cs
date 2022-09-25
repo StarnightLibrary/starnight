@@ -31,22 +31,22 @@ public class GatewayEventJsonConverter : JsonConverter<IDiscordGatewayEvent>
 			),
 			DiscordGatewayOpcode.Reconnect => JsonSerializer.Deserialize<DiscordReconnectEvent>
 			(
-				ref reader,
+				gatewayEvent,
 				options
 			),
 			DiscordGatewayOpcode.InvalidSession => JsonSerializer.Deserialize<DiscordInvalidSessionEvent>
 			(
-				ref reader,
+				gatewayEvent,
 				options
 			),
 			DiscordGatewayOpcode.Hello => JsonSerializer.Deserialize<DiscordHelloEvent>
 			(
-				ref reader,
+				gatewayEvent,
 				options
 			),
 			DiscordGatewayOpcode.HeartbeatAck => JsonSerializer.Deserialize<DiscordInboundHeartbeatEvent>
 			(
-				ref reader,
+				gatewayEvent,
 				options
 			),
 			_ => new DiscordUnknownInboundEvent()

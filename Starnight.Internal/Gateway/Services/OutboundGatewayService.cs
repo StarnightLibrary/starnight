@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway.Services;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Polly;
@@ -67,9 +68,10 @@ public class OutboundGatewayService : IOutboundGatewayService
 	{
 		await this.__policy.Execute
 		(
-			async () => await this.__transport_service.Outbound.WriteAsync
+			async () => await this.__transport_service.WriteAsync
 			(
-				@event
+				@event,
+				CancellationToken.None
 			)
 		);
 	}

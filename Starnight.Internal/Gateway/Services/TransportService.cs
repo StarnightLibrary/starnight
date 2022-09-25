@@ -6,7 +6,6 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -22,18 +21,14 @@ public class TransportService : IAsyncDisposable
 	private readonly ILogger<TransportService> __logger;
 	private readonly ClientWebSocket __socket;
 	private readonly DiscordGatewayRestResource __gateway_resource;
-	private readonly Channel<IDiscordGatewayEvent> __inbound_channel;
-	private readonly Channel<IDiscordGatewayEvent> __outbound_channel;
 
 	private readonly MemoryStream __reading_stream;
 	private readonly Byte[] __reading_raw_buffer;
 	private readonly Memory<Byte> __reading_buffer;
 
-	private readonly MemoryStream __writing_stream;
 	private readonly Byte[] __writing_raw_buffer;
 	private readonly ReadOnlyMemory<Byte> __writing_buffer;
 
-	private CancellationToken __ct;
 	private Boolean __is_connected = false;
 	private Boolean __is_disposed = false;
 
@@ -54,34 +49,18 @@ public class TransportService : IAsyncDisposable
 	{
 		this.__logger = logger;
 		this.__socket = new();
+		this.__socket.Options.KeepAliveInterval = TimeSpan.Zero;
 		this.__gateway_resource = gatewayResource;
-
-		this.__inbound_channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
-		this.__outbound_channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
-
-		this.Inbound = this.__inbound_channel.Reader;
-		this.Outbound = this.__outbound_channel.Writer;
 
 		this.__reading_stream = new();
 
 		this.__reading_raw_buffer = new Byte[4096];
 		this.__reading_buffer = new(this.__reading_raw_buffer);
 
-		this.__writing_stream = new();
 		this.__writing_raw_buffer = new Byte[4096];
 
 		this.__writing_buffer = new(this.__writing_raw_buffer);
 	}
-
-	/// <summary>
-	/// Represents the inbound side of the gateway connection.
-	/// </summary>
-	public ChannelReader<IDiscordGatewayEvent> Inbound { get; private set; }
-
-	/// <summary>
-	/// Represents the outbound side of the gateway connection.
-	/// </summary>
-	public ChannelWriter<IDiscordGatewayEvent> Outbound { get; private set; }
 
 	/// <summary>
 	/// Connects to the Discord websocket.
@@ -101,8 +80,6 @@ public class TransportService : IAsyncDisposable
 
 			return;
 		}
-
-		this.__ct = ct;
 
 		if(this.ResumeUrl is null)
 		{
@@ -141,7 +118,7 @@ public class TransportService : IAsyncDisposable
 			await this.__socket.ConnectAsync
 			(
 				new($"{connectionObject.Url}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
-				this.__ct
+				ct
 			);
 		}
 		else
@@ -156,7 +133,7 @@ public class TransportService : IAsyncDisposable
 			await this.__socket.ConnectAsync
 			(
 				new($"{this.ResumeUrl}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
-				this.__ct
+				ct
 			);
 		}
 
@@ -167,143 +144,99 @@ public class TransportService : IAsyncDisposable
 			"Connected to the Discord websocket."
 		);
 
-		_ = Task.Factory.StartNew(async () => await this.readAsync());
-		_ = Task.Factory.StartNew(async () => await this.writeAsync());
 	}
 
 	/// <summary>
 	/// Reads all payloads and enqueues them into the channel.
 	/// </summary>
-	private async ValueTask readAsync()
+	internal async ValueTask<IDiscordGatewayEvent> ReadAsync(CancellationToken ct)
 	{
-		if(!this.__is_connected)
-		{
-			this.__logger.LogWarning
-			(
-				"Attempting to read from the Discord gateway, but there was no open connection. Ignoring."
-			);
-		}
+		ValueWebSocketReceiveResult receiveResult;
 
-		if(this.__socket.State != WebSocketState.Open)
+		try
 		{
-			this.__logger.LogWarning
-			(
-				"Attempting to read from the Discord gateway, but the socket was not open. " +
-				"Current socket state: {state}",
-				this.__socket.State.ToString()
-			);
-		}
-
-		while(!this.__ct.IsCancellationRequested)
-		{
-			ValueWebSocketReceiveResult receiveResult;
-
-			try
+			do
 			{
-				do
-				{
-					receiveResult = await this.__socket.ReceiveAsync(this.__reading_buffer, this.__ct);
+				receiveResult = await this.__socket.ReceiveAsync(this.__reading_buffer, ct);
 
-					this.__reading_stream.Write(this.__reading_raw_buffer, 0, receiveResult.Count);
+				this.__reading_stream.Write(this.__reading_raw_buffer, 0, receiveResult.Count);
 
-				} while(!receiveResult.EndOfMessage);
-			}
-			catch(OperationCanceledException) { }
+			} while(!receiveResult.EndOfMessage);
+		}
+		catch(OperationCanceledException) { }
 
-			_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
+		_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
 
-			IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
-			(
-				this.__reading_stream,
-				StarnightInternalConstants.DefaultSerializerOptions
-			)!;
+		IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
+		(
+			this.__reading_stream,
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 
-			this.__logger.LogTrace
-			(
-				"Inbound gateway event received:\n{event}",
-				@event.ToString()
-			);
+
+		this.__logger.LogTrace
+		(
+			"Inbound gateway event received:\n{event}",
+			@event.ToString()
+		);
 
 #if DEBUG
-			_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
+		_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
 
-			this.__logger.LogTrace
-			(
-				"Decompressed payload for the last inbound gateway event:\n{event}",
-				Encoding.UTF8.GetString(this.__reading_stream.ToArray())
-			);
+		this.__logger.LogTrace
+		(
+			"Payload for the last inbound gateway event:\n{event}",
+			Encoding.UTF8.GetString(this.__reading_stream.ToArray())
+		);
 #endif
 
-			await this.__inbound_channel.Writer.WriteAsync(@event, this.__ct);
-
-		}
+		return @event;
 	}
 
 	/// <summary>
 	/// Writes all payloads passed through the channel.
 	/// </summary>
-	private async ValueTask writeAsync()
+	internal async ValueTask WriteAsync(IDiscordGatewayEvent @event, CancellationToken ct)
 	{
-		if(!this.__is_connected)
+		this.__logger.LogTrace
+		(
+			"Sending outbound gateway event:\n{event}",
+			@event.ToString()
+		);
+
+		MemoryStream writingStream = new();
+
+		JsonSerializer.Serialize(writingStream, @event, StarnightInternalConstants.DefaultSerializerOptions);
+
+		_ = writingStream.Seek(0, SeekOrigin.Begin);
+
+		if(writingStream.Length > 4096)
 		{
-			this.__logger.LogWarning
+			throw new StarnightInvalidOutboundEventException
 			(
-				"Attempting to read from the Discord gateway, but there was no open connection. Ignoring."
+				"The outbound event exceeded 4096 bytes after serialization",
+				@event
 			);
 		}
 
-		if(this.__socket.State != WebSocketState.Open)
-		{
-			this.__logger.LogWarning
-			(
-				"Attempting to read from the Discord gateway, but the socket was not open. " +
-				"Current socket state: {state}",
-				this.__socket.State.ToString()
-			);
-		}
-
-		while(!this.__ct.IsCancellationRequested)
-		{
-			IDiscordGatewayEvent @event = await this.__outbound_channel.Reader.ReadAsync();
-
-			this.__logger.LogTrace
-			(
-				"Sending outbound gateway event:\n{event}",
-				@event.ToString()
-			);
-
-			JsonSerializer.Serialize(this.__writing_stream, @event, StarnightInternalConstants.DefaultSerializerOptions);
-
-			_ = this.__writing_stream.Seek(0, SeekOrigin.Begin);
-
-			if(this.__writing_stream.Length > 4096)
-			{
-				throw new StarnightInvalidOutboundEventException
-				(
-					"The outbound event exceeded 4096 bytes after serialization",
-					@event
-				);
-			}
-
-			this.__writing_stream.Read(this.__writing_raw_buffer, 0, 4096);
+		writingStream.Read(this.__writing_raw_buffer, 0, 4096);
 
 #if DEBUG
 
-			this.__logger.LogTrace
-			(
-				"Serialized payload for the last outbound event:\n{event}",
-				Encoding.UTF8.GetString(this.__writing_raw_buffer)
-			);
+		this.__logger.LogTrace
+		(
+			"Serialized payload for the last outbound event:\n{event}",
+			Encoding.UTF8.GetString(writingStream.ToArray())
+		);
 #endif
 
-			await this.__socket.SendAsync
-			(
-				this.__writing_buffer[..(Int32)this.__writing_stream.Length],
-				WebSocketMessageType.Text,
-				true,
-				this.__ct
-			);
-		}
+		await this.__socket.SendAsync
+		(
+			this.__writing_buffer[..(Int32)writingStream.Length],
+			WebSocketMessageType.Text,
+			true,
+			ct
+		);
 	}
 
 	/// <summary>
@@ -356,7 +289,7 @@ public class TransportService : IAsyncDisposable
 					(
 						reconnect ? (WebSocketCloseStatus)1012 : closeStatus,
 						"Disconnecting.",
-						this.__ct
+						CancellationToken.None
 					);
 				}
 				catch(WebSocketException) { }

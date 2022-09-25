@@ -120,10 +120,11 @@ public class DiscordGatewayClient : IHostedService
 			);
 		}
 
-		await this.__inbound_gateway_service.StartAsync(cancellationToken);
 		await this.__transport_service.ConnectAsync(cancellationToken);
 
 		await this.identifyAsync(cancellationToken);
+
+		await this.__inbound_gateway_service.StartAsync(cancellationToken);
 
 		_ = Task.Factory.StartNew(async () => await this.handleControlEventsAsync(cancellationToken));
 	}
@@ -171,7 +172,7 @@ public class DiscordGatewayClient : IHostedService
 	{
 		ArgumentNullException.ThrowIfNull(this.__options.Token);
 
-		IDiscordGatewayEvent @event = await this.__inbound_gateway_service.ControlEvents.ReadAsync(ct);
+		IDiscordGatewayEvent @event = await this.__transport_service.ReadAsync(ct);
 
 		if(@event is not DiscordHelloEvent helloEvent)
 		{
@@ -215,28 +216,10 @@ public class DiscordGatewayClient : IHostedService
 
 		await this.__outbound_gateway_service.IdentifyAsync(identify);
 
-		this.__logger.LogDebug
-		(
-			"Identified, awaiting Connected event..."
-		);
-
-		@event = await this.__inbound_gateway_service.ControlEvents.ReadAsync(ct);
-
-		if(@event is not DiscordConnectedEvent connectedEvent)
-		{
-			throw new StarnightGatewayConnectionRefusedException
-			(
-				$"Expected connected event, got {@event}"
-			);
-		}
-
 		this.__logger.LogInformation
 		(
 			"Connected to the Discord gateway."
 		);
-
-		this.__transport_service.ResumeUrl = connectedEvent.Data.ResumeGatewayUrl;
-		this.__session_id = connectedEvent.Data.SessionId;
 	}
 
 	private async ValueTask heartbeatAsync(CancellationToken ct)
@@ -279,6 +262,13 @@ public class DiscordGatewayClient : IHostedService
 
 			switch(@event)
 			{
+				case DiscordConnectedEvent connectedEvent:
+
+					this.__transport_service.ResumeUrl = connectedEvent.Data.ResumeGatewayUrl;
+					this.__session_id = connectedEvent.Data.SessionId;
+
+					break;
+
 				case DiscordInboundHeartbeatEvent:
 
 					this.ResponselessHeartbeats = 0;

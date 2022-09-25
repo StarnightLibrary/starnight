@@ -77,16 +77,14 @@ public class InboundGatewayService : IInboundGatewayService
 			"Initialized responder handling."
 		);
 
-		_ = Task.Factory.StartNew(async () => await this.handleEventsAsync(ct));
-
 		return ValueTask.CompletedTask;
 	}
 
-	private async ValueTask handleEventsAsync(CancellationToken ct)
+	internal async ValueTask HandleEventsAsync(CancellationToken ct)
 	{
 		while(!ct.IsCancellationRequested)
 		{
-			IDiscordGatewayEvent @event = await this.__transport_service.Inbound.ReadAsync(ct);
+			IDiscordGatewayEvent @event = await this.__transport_service.ReadAsync(ct);
 
 			_ = Task.Run
 			(
