@@ -71,5 +71,5 @@ public struct Optional<T> : IOptional
 		=> this.Value?.GetHashCode() ?? 0;
 
 	public override String ToString()
-		=> this.HasValue ? $"Optional/{this.Value}" : $"Optional/no value";
+		=> this.HasValue ? this.Value?.ToString() ?? "null" : "Optional/no value";
 }

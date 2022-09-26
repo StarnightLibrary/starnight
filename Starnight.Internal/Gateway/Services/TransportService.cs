@@ -22,7 +22,6 @@ public class TransportService : IAsyncDisposable
 	private readonly ClientWebSocket __socket;
 	private readonly DiscordGatewayRestResource __gateway_resource;
 
-	private readonly MemoryStream __reading_stream;
 	private readonly Byte[] __reading_raw_buffer;
 	private readonly Memory<Byte> __reading_buffer;
 
@@ -51,8 +50,6 @@ public class TransportService : IAsyncDisposable
 		this.__socket = new();
 		this.__socket.Options.KeepAliveInterval = TimeSpan.Zero;
 		this.__gateway_resource = gatewayResource;
-
-		this.__reading_stream = new();
 
 		this.__reading_raw_buffer = new Byte[4096];
 		this.__reading_buffer = new(this.__reading_raw_buffer);
@@ -153,23 +150,35 @@ public class TransportService : IAsyncDisposable
 	{
 		ValueWebSocketReceiveResult receiveResult;
 
+		MemoryStream readingStream = new();
+
 		try
 		{
 			do
 			{
 				receiveResult = await this.__socket.ReceiveAsync(this.__reading_buffer, ct);
 
-				this.__reading_stream.Write(this.__reading_raw_buffer, 0, receiveResult.Count);
+				readingStream.Write(this.__reading_raw_buffer, 0, receiveResult.Count);
 
 			} while(!receiveResult.EndOfMessage);
 		}
 		catch(OperationCanceledException) { }
 
-		_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
+#if DEBUG
+		readingStream.Position = 0;
+
+		this.__logger.LogTrace
+		(
+			"Payload for the last inbound gateway event:\n{event}",
+			Encoding.UTF8.GetString(readingStream.ToArray())
+		);
+#endif
+
+		readingStream.Position = 0;
 
 		IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
 		(
-			this.__reading_stream,
+			readingStream,
 			StarnightInternalConstants.DefaultSerializerOptions
 		)!;
 
@@ -178,16 +187,6 @@ public class TransportService : IAsyncDisposable
 			"Inbound gateway event received:\n{event}",
 			@event.ToString()
 		);
-
-#if DEBUG
-		_ = this.__reading_stream.Seek(0, SeekOrigin.Begin);
-
-		this.__logger.LogTrace
-		(
-			"Payload for the last inbound gateway event:\n{event}",
-			Encoding.UTF8.GetString(this.__reading_stream.ToArray())
-		);
-#endif
 
 		return @event;
 	}
@@ -207,7 +206,7 @@ public class TransportService : IAsyncDisposable
 
 		JsonSerializer.Serialize(writingStream, @event, StarnightInternalConstants.DefaultSerializerOptions);
 
-		_ = writingStream.Seek(0, SeekOrigin.Begin);
+		writingStream.Position = 0;
 
 		if(writingStream.Length > 4096)
 		{

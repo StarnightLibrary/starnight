@@ -2,6 +2,7 @@ namespace Starnight.Internal.Gateway.Responders;
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Channels;
@@ -106,7 +107,7 @@ public class ResponderService
 			dispatchDelegate = Unsafe.As<DispatchDelegate>
 			(
 				typeof(ResponderService)
-					.GetMethod(nameof(dispatchEventAsync))!
+					.GetMethod(nameof(dispatchEventAsync), BindingFlags.NonPublic | BindingFlags.Instance)!
 					.MakeGenericMethod(@event.GetType())
 					.CreateDelegate(delegateType, this)
 			);
