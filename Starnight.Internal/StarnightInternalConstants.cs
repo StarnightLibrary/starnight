@@ -31,5 +31,6 @@ public static class StarnightInternalConstants
 	{
 		DefaultSerializerOptions.Converters.Add(new OptionalParameterJsonConverterFactory());
 		DefaultSerializerOptions.Converters.Add(new GatewayEventJsonConverter());
+		DefaultSerializerOptions.Converters.Add(new DiscordPermissionJsonConverter());
 	}
 }
