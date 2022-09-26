@@ -117,10 +117,11 @@ public class MemoryCacheService : ICacheService
 			? value
 			: this.__options.DefaultSlidingExpiration;
 
-		_ = this.__backing.CreateEntry(key)
+		this.__backing.CreateEntry(key)
 			.SetAbsoluteExpiration(absolute)
 			.SetSlidingExpiration(sliding)
-			.SetValue(item!);
+			.SetValue(item!)
+			.Dispose();
 	}
 
 	/// <summary>
@@ -145,10 +146,11 @@ public class MemoryCacheService : ICacheService
 			? value
 			: this.__options.DefaultSlidingExpiration;
 
-		_ = this.__backing.CreateEntry(key)
+		this.__backing.CreateEntry(key)
 			.SetAbsoluteExpiration(absolute)
 			.SetSlidingExpiration(sliding)
-			.SetValue(item!);
+			.SetValue(item!)
+			.Dispose();
 	}
 
 	/// <inheritdoc/>
@@ -185,7 +187,7 @@ public class MemoryCacheService : ICacheService
 				? value
 				: this.__options.DefaultSlidingExpiration);
 
-		ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
+		using ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
 			.SetValue(memoryEntry.Value)
 			.SetAbsoluteExpiration(absolute)
 			.SetSlidingExpiration(sliding);
@@ -202,7 +204,7 @@ public class MemoryCacheService : ICacheService
 		AbstractCacheEntry entry
 	)
 	{
-		ICacheEntry cacheEntry = this.__backing.CreateEntry(entry.Key)
+		using ICacheEntry cacheEntry = this.__backing.CreateEntry(entry.Key)
 			.SetValue(entry.Value);
 
 		if(entry is not MemoryCacheEntry memoryEntry)
@@ -265,10 +267,11 @@ public class MemoryCacheService : ICacheService
 			? value
 			: this.__options.DefaultSlidingExpiration;
 
-		_ = this.__backing.CreateEntry(key)
+		this.__backing.CreateEntry(key)
 			.SetAbsoluteExpiration(absolute)
 			.SetSlidingExpiration(sliding)
-			.SetValue(item!);
+			.SetValue(item!)
+			.Dispose();
 
 		return ValueTask.CompletedTask;
 	}
@@ -289,10 +292,11 @@ public class MemoryCacheService : ICacheService
 			? value
 			: this.__options.DefaultSlidingExpiration;
 
-		_ = this.__backing.CreateEntry(key)
+		this.__backing.CreateEntry(key)
 			.SetAbsoluteExpiration(absolute)
 			.SetSlidingExpiration(sliding)
-			.SetValue(item!);
+			.SetValue(item!)
+			.Dispose();
 
 		return ValueTask.CompletedTask;
 	}
@@ -327,7 +331,7 @@ public class MemoryCacheService : ICacheService
 				? value
 				: this.__options.DefaultSlidingExpiration);
 
-		ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
+		using ICacheEntry finalEntry = this.__backing.CreateEntry(memoryEntry.Key)
 			.SetValue(memoryEntry.Value)
 			.SetAbsoluteExpiration(absolute)
 			.SetSlidingExpiration(sliding);
@@ -346,7 +350,7 @@ public class MemoryCacheService : ICacheService
 		AbstractCacheEntry entry
 	)
 	{
-		ICacheEntry cacheEntry = this.__backing.CreateEntry(entry.Key)
+		using ICacheEntry cacheEntry = this.__backing.CreateEntry(entry.Key)
 			.SetValue(entry.Value);
 
 		if(entry is not MemoryCacheEntry memoryEntry)
