@@ -173,7 +173,6 @@ public class TransportService : IAsyncDisposable
 			StarnightInternalConstants.DefaultSerializerOptions
 		)!;
 
-
 		this.__logger.LogTrace
 		(
 			"Inbound gateway event received:\n{event}",

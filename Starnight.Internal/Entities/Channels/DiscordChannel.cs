@@ -164,7 +164,6 @@ public sealed record DiscordChannel : DiscordSnowflakeObject
 	/// Permissions for this bot in this channel, including overwrites. This is only sent as part of the <c>resolved</c>
 	/// data received on an application command interaction.
 	/// </summary>
-	[JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
 	[JsonPropertyName("permissions")]
 	public Optional<Int64> Permissions { get; init; }
 

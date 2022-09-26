@@ -77,6 +77,8 @@ public class InboundGatewayService : IInboundGatewayService
 			"Initialized responder handling."
 		);
 
+		_ = Task.Factory.StartNew(async () => await this.HandleEventsAsync(ct));
+
 		return ValueTask.CompletedTask;
 	}
 
@@ -84,7 +86,22 @@ public class InboundGatewayService : IInboundGatewayService
 	{
 		while(!ct.IsCancellationRequested)
 		{
-			IDiscordGatewayEvent @event = await this.__transport_service.ReadAsync(ct);
+			IDiscordGatewayEvent @event = null!;
+
+			try
+			{
+				@event = await this.__transport_service.ReadAsync(ct);
+			}
+			catch(Exception ex)
+			{
+				this.__logger.LogError
+				(
+					ex,
+					"Failed to deserialize inbound gateway event."
+				);
+
+				continue;
+			}
 
 			_ = Task.Run
 			(

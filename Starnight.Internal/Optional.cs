@@ -69,4 +69,7 @@ public struct Optional<T> : IOptional
 
 	public override Int32 GetHashCode()
 		=> this.Value?.GetHashCode() ?? 0;
+
+	public override String ToString()
+		=> this.HasValue ? $"Optional/{this.Value}" : $"Optional/no value";
 }

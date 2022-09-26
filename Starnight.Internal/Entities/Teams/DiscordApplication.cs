@@ -15,7 +15,7 @@ public sealed record DiscordApplication : DiscordSnowflakeObject
 	/// The name of this application.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public required String Name { get; init; }
+	public Optional<String> Name { get; init; }
 
 	/// <summary>
 	/// The icon hash for this application.
@@ -27,7 +27,7 @@ public sealed record DiscordApplication : DiscordSnowflakeObject
 	/// The description for this application.
 	/// </summary>
 	[JsonPropertyName("description")]
-	public required String Description { get; init; }
+	public Optional<String> Description { get; init; }
 
 	/// <summary>
 	/// An array of RPC origin URLs, if RPC is enabled.
@@ -39,13 +39,13 @@ public sealed record DiscordApplication : DiscordSnowflakeObject
 	/// Whether the application's bot is public.
 	/// </summary>
 	[JsonPropertyName("bot_public")]
-	public required Boolean HasPublicBot { get; init; }
+	public Optional<Boolean> HasPublicBot { get; init; }
 
 	/// <summary>
 	/// Whether the application's bot requires the full oauth2 code grant.
 	/// </summary>
 	[JsonPropertyName("bot_require_code_grant")]
-	public required Boolean BotRequiresCodeGrant { get; init; }
+	public Optional<Boolean> BotRequiresCodeGrant { get; init; }
 
 	/// <summary>
 	/// The URL pointing to this application's Terms of Service.
@@ -69,7 +69,7 @@ public sealed record DiscordApplication : DiscordSnowflakeObject
 	/// The hex-encoded verification key for interactions and the GameSDK.
 	/// </summary>
 	[JsonPropertyName("verify_key")]
-	public required String VerificationKey { get; init; }
+	public Optional<String> VerificationKey { get; init; }
 
 	/// <summary>
 	/// Team object associated with this application.
