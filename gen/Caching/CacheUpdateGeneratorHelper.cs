@@ -43,7 +43,7 @@ internal class CacheUpdateGeneratorHelper
 
 			SemanticModel model = compilation.GetSemanticModel(methodDeclaration.SyntaxTree);
 
-			if(model is not IMethodSymbol method)
+			if(model.GetDeclaredSymbol(methodDeclaration) is not IMethodSymbol method)
 			{
 				continue;
 			}
@@ -58,14 +58,15 @@ internal class CacheUpdateGeneratorHelper
 				continue;
 			}
 
-			if(method.Parameters.First().Type.Equals(method.Parameters.Last().Type, SymbolEqualityComparer.Default))
+			if(!method.Parameters.First().Type.Equals(method.Parameters.Last().Type, SymbolEqualityComparer.Default))
 			{
 				continue;
 			}
 
 			CacheUpdateMethodMetadata current = new()
 			{
-				ContainingTypeName = method.ContainingType.GetFullyQualifiedName(),
+				ContainingTypeName = method.ContainingType.Name,
+				ContainingNamespaceName = method.ContainingNamespace.GetFullNamespace(),
 				MethodName = method.Name,
 				CachedType = method.Parameters.First().Type,
 				Parameter1 = method.Parameters.First().Name,

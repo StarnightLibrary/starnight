@@ -3,6 +3,7 @@ namespace Starnight.SourceGenerators.Caching;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -69,6 +70,11 @@ public class CacheUpdateGenerator : IIncrementalGenerator
 
 	private void execute(Compilation compilation, ImmutableArray<MethodDeclarationSyntax> methods, SourceProductionContext ctx)
 	{
+		if(!Debugger.IsAttached)
+		{
+			// _ = Debugger.Launch();
+		}
+		 
 		try
 		{
 			if(methods.IsDefaultOrEmpty)
@@ -77,6 +83,12 @@ public class CacheUpdateGenerator : IIncrementalGenerator
 			}
 
 			IEnumerable<CacheUpdateMethodMetadata> metadata = CacheUpdateGeneratorHelper.GetCacheMetadata(compilation, methods, ctx);
+
+			foreach(CacheUpdateMethodMetadata m in metadata)
+			{
+				String result = CacheUpdateEmitter.Emit(m);
+				ctx.AddSource($"Deserialize_{m.ContainingTypeName}_{m.MethodName}.generated.cs", result);
+			}
 		}
 		catch(Exception e)
 		{

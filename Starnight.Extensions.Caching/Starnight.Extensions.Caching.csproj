@@ -7,6 +7,8 @@
 
   <ItemGroup>
 	<None Include="../img/starnight.png" Pack="true" PackagePath="/" />
+
+	<ProjectReference Include="../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup Condition="$(ReleaseBuild) == 'true'">
