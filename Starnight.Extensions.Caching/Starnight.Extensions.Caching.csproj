@@ -3,7 +3,6 @@
   <PropertyGroup>
 	<Description>Caching library for Starnight</Description>
 	<VersionPrefix>0.1.0</VersionPrefix>
-	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
