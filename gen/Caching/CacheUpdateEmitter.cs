@@ -52,12 +52,7 @@ partial class {{metadata.ContainingTypeName}}
 		(
 			value.{{symbol.Name}}.HasValue &&
 			{{metadata.Parameter2}}.{{symbol.Name}}.HasValue &&
-			!global::System.Collections.Generic.EqualityComparer<{{metadata.CachedType.GetFullyQualifiedName()}}>
-				.Equals
-				(
-					value.{{symbol.Name}}.Value,
-					{{metadata.Parameter2}}.{{symbol.Name}}.Value
-				)
+			value.{{symbol.Name}} != {{metadata.Parameter2}}.{{symbol.Name}}
 		)
 		{
 			value = value with { {{symbol.Name}} = {{metadata.Parameter2}}.{{symbol.Name}} };
@@ -68,15 +63,7 @@ partial class {{metadata.ContainingTypeName}}
 			else
 			{
 				_ = codeBuilder.Append($$"""
-		if
-		(
-			!global::System.Collections.Generic.EqualityComparer<{{metadata.CachedType.GetFullyQualifiedName()}}>
-				.Equals
-				(
-					value.{{symbol.Name}},
-					{{metadata.Parameter2}}.{{symbol.Name}}
-				)
-		)
+		if(value.{{symbol.Name}} != {{metadata.Parameter2}}.{{symbol.Name}})
 		{
 			value = value with { {{symbol.Name}} = {{metadata.Parameter2}}.{{symbol.Name}} };
 		}
