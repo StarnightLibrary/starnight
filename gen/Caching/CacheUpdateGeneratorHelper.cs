@@ -53,16 +53,23 @@ internal class CacheUpdateGeneratorHelper
 				continue;
 			}
 
-			if(method.Parameters.Length != 1)
+			if(method.Parameters.Length != 2)
+			{
+				continue;
+			}
+
+			if(method.Parameters.First().Type.Equals(method.Parameters.Last().Type, SymbolEqualityComparer.Default))
 			{
 				continue;
 			}
 
 			CacheUpdateMethodMetadata current = new()
 			{
-				ContainingTypeName = $"global::{method.ContainingNamespace.GetFullNamespace()}.{method.ContainingType.Name}",
+				ContainingTypeName = method.ContainingType.GetFullyQualifiedName(),
 				MethodName = method.Name,
-				CachedType = method.Parameters.First().Type
+				CachedType = method.Parameters.First().Type,
+				Parameter1 = method.Parameters.First().Name,
+				Parameter2 = method.Parameters.Last().Name
 			};
 
 			metadata.Add(current);

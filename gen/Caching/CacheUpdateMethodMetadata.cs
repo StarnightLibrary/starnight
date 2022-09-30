@@ -11,4 +11,8 @@ internal struct CacheUpdateMethodMetadata
 	public String MethodName { get; set; }
 
 	public ITypeSymbol CachedType { get; set; }
+
+	public String Parameter1 { get; set; }
+
+	public String Parameter2 { get; set; }
 }
