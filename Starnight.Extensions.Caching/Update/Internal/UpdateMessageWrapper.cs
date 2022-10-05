@@ -6,7 +6,7 @@ using Starnight.SourceGenerators.Caching;
 internal partial class UpdateMessageWrapper
 {
 	[CacheUpdateMethod]
-	public partial DiscordMessage UpdateDiscordMessage
+	public static partial DiscordMessage UpdateDiscordMessage
 	(
 		DiscordMessage current,
 		DiscordMessage update

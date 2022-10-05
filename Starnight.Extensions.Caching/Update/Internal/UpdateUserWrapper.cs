@@ -6,7 +6,7 @@ using Starnight.SourceGenerators.Caching;
 internal partial class UpdateUserWrapper
 {
 	[CacheUpdateMethod]
-	public partial DiscordUser UpdateDiscordUser
+	public static partial DiscordUser UpdateDiscordUser
 	(
 		DiscordUser current,
 		DiscordUser update

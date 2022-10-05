@@ -6,7 +6,7 @@ using Starnight.SourceGenerators.Caching;
 internal partial class UpdateStickerWrapper
 {
 	[CacheUpdateMethod]
-	public partial DiscordSticker UpdateDiscordSticker
+	public static partial DiscordSticker UpdateDiscordSticker
 	(
 		DiscordSticker current,
 		DiscordSticker update

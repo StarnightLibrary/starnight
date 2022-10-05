@@ -6,14 +6,14 @@ using Starnight.SourceGenerators.Caching;
 internal partial class UpdateApplicationCommandWrapper
 {
 	[CacheUpdateMethod]
-	public partial DiscordApplicationCommand UpdateDiscordApplicationCommand
+	public static partial DiscordApplicationCommand UpdateDiscordApplicationCommand
 	(
 		DiscordApplicationCommand current,
 		DiscordApplicationCommand update
 	);
 
 	[CacheUpdateMethod]
-	public partial DiscordApplicationCommandOption UpdateDiscordApplicationCommandOption
+	public static partial DiscordApplicationCommandOption UpdateDiscordApplicationCommandOption
 	(
 		DiscordApplicationCommandOption current,
 		DiscordApplicationCommandOption update
