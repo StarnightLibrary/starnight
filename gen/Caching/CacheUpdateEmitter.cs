@@ -19,7 +19,7 @@ namespace {{metadata.ContainingNamespaceName}};
 partial class {{metadata.ContainingTypeName}}
 {
 	[global::System.CodeDom.Compiler.GeneratedCode("starnight-cache-update-generator", "0.1.0")]
-	public partial {{metadata.CachedType.GetFullyQualifiedName()}} {{metadata.MethodName}}
+	public static partial {{metadata.CachedType.GetFullyQualifiedName()}} {{metadata.MethodName}}
 	(
 		{{metadata.CachedType.GetFullyQualifiedName()}} {{metadata.Parameter1}},
 		{{metadata.CachedType.GetFullyQualifiedName()}} {{metadata.Parameter2}}

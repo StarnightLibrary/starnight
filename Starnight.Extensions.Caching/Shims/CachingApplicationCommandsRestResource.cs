@@ -30,7 +30,7 @@ public class CachingApplicationCommandsRestResource : IDiscordApplicationCommand
 		this.__cache = cache;
 	}
 
-	/// <inheritdoc/>
+	/// <inheritdoc/> 
 	public async ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
