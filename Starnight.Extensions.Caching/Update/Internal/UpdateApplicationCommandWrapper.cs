@@ -11,11 +11,4 @@ internal partial class UpdateApplicationCommandWrapper
 		DiscordApplicationCommand current,
 		DiscordApplicationCommand update
 	);
-
-	[CacheUpdateMethod]
-	public static partial DiscordApplicationCommandOption UpdateDiscordApplicationCommandOption
-	(
-		DiscordApplicationCommandOption current,
-		DiscordApplicationCommandOption update
-	);
 }

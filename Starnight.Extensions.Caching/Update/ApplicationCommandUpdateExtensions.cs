@@ -1,5 +1,6 @@
 namespace Starnight.Extensions.Caching.Update;
 
+using System;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -14,17 +15,19 @@ internal static class ApplicationCommandUpdateExtensions
 		DiscordApplicationCommand command
 	)
 	{
-		DiscordApplicationCommand? old = await cache.GetAsync<DiscordApplicationCommand>(command.GenerateCacheKey());
+		String key = command.GenerateCacheKey();
+
+		DiscordApplicationCommand? old = await cache.GetAsync<DiscordApplicationCommand>(key);
 
 		if(old is null)
 		{
-			await cache.SetAsync(command.GenerateCacheKey(), command);
+			await cache.SetAsync(key, command);
 		}
 		else
 		{
 			command = UpdateApplicationCommandWrapper.UpdateDiscordApplicationCommand(old, command);
 
-			await cache.SetAsync(command.GenerateCacheKey(), command);
+			await cache.SetAsync(key, command);
 		}
 
 		return command;
