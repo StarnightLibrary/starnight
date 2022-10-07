@@ -82,7 +82,26 @@ public class CachingApplicationCommandsRestResource : IDiscordApplicationCommand
 		return corroboratedCommands;
 	}
 
-	public ValueTask<DiscordMessage> CreateFollowupMessageAsync(System.Int64 applicationId, System.String interactionToken, CreateFollowupMessageRequestPayload payload) => throw new System.NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> CreateFollowupMessageAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		CreateFollowupMessageRequestPayload payload
+	)
+	{
+		DiscordMessage message = await this.__underlying.CreateFollowupMessageAsync
+		(
+			applicationId,
+			interactionToken,
+			payload
+		);
+
+		message = await this.__cache.CacheMessageAsync(message);
+
+		return message;
+	}
+
 	public ValueTask<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync(System.Int64 applicationId, CreateApplicationCommandRequestPayload payload) => throw new System.NotImplementedException();
 	public ValueTask<DiscordApplicationCommand> CreateGuildApplicationCommandAsync(System.Int64 applicationId, System.Int64 guildId, CreateApplicationCommandRequestPayload payload) => throw new System.NotImplementedException();
 	public ValueTask<System.Boolean> CreateInteractionResponseAsync(System.Int64 interactionId, System.String interactionToken, CreateInteractionCallbackRequestPayload payload) => throw new System.NotImplementedException();

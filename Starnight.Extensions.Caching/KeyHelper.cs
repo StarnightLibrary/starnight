@@ -3,6 +3,7 @@ namespace Starnight.Extensions.Caching;
 using System;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
+using Starnight.Internal.Entities.Messages;
 
 public static class KeyHelper
 {
@@ -11,4 +12,10 @@ public static class KeyHelper
 		this DiscordApplicationCommand command
 	)
 		=> $"StarnightLibraryCache.ApplicationCommand.{command.Id}";
+
+	public static String GenerateCacheKey
+	(
+		this DiscordMessage message
+	)
+		=> $"StarnightLibraryCache.Channel.{message.ChannelId}.Message.{message.Id}";
 }
