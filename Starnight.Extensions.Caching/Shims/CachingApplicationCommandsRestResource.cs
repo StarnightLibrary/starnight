@@ -216,7 +216,28 @@ public class CachingApplicationCommandsRestResource : IDiscordApplicationCommand
 		);
 	}
 
-	public ValueTask<DiscordMessage> EditFollowupMessageAsync(Int64 applicationId, Int64 interactionToken, Int64 messageId, EditFollowupMessageRequestPayload payload) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> EditFollowupMessageAsync
+	(
+		Int64 applicationId,
+		Int64 interactionToken,
+		Int64 messageId,
+		EditFollowupMessageRequestPayload payload
+	)
+	{
+		DiscordMessage editedFollowup = await this.__underlying.EditFollowupMessageAsync
+		(
+			applicationId,
+			interactionToken,
+			messageId,
+			payload
+		);
+
+		editedFollowup = await this.__cache.CacheMessageAsync(editedFollowup);
+
+		return editedFollowup;
+	}
+
 	public ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new NotImplementedException();
 	public ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new NotImplementedException();
 	public ValueTask<DiscordMessage> EditOriginalResponseAsync(Int64 applicationId, Int64 interactionToken, EditOriginalResponseRequestPayload payload) => throw new NotImplementedException();
