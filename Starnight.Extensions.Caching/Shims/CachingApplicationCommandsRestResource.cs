@@ -140,21 +140,92 @@ public class CachingApplicationCommandsRestResource : IDiscordApplicationCommand
 		return command;
 	}
 
-	public ValueTask<System.Boolean> CreateInteractionResponseAsync(System.Int64 interactionId, System.String interactionToken, CreateInteractionCallbackRequestPayload payload) => throw new System.NotImplementedException();
-	public ValueTask<System.Boolean> DeleteFollowupMessageAsync(System.Int64 applicationId, System.String interactionToken, System.Int64 messageId) => throw new System.NotImplementedException();
-	public ValueTask<System.Boolean> DeleteGlobalApplicationCommandAsync(System.Int64 applicationId, System.Int64 commandId) => throw new System.NotImplementedException();
-	public ValueTask<System.Boolean> DeleteGuildApplicationCommandAsync(System.Int64 applicationId, System.Int64 guildId, System.Int64 commandId) => throw new System.NotImplementedException();
-	public ValueTask<System.Boolean> DeleteOriginalInteractionResponseAsync(System.Int64 applicationId, System.String interactionToken) => throw new System.NotImplementedException();
-	public ValueTask<DiscordMessage> EditFollowupMessageAsync(System.Int64 applicationId, System.Int64 interactionToken, System.Int64 messageId, EditFollowupMessageRequestPayload payload) => throw new System.NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync(System.Int64 applicationId, System.Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new System.NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync(System.Int64 applicationId, System.Int64 guildId, System.Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new System.NotImplementedException();
-	public ValueTask<DiscordMessage> EditOriginalResponseAsync(System.Int64 applicationId, System.Int64 interactionToken, EditOriginalResponseRequestPayload payload) => throw new System.NotImplementedException();
-	public ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync(System.Int64 applicationId, System.Int64 guildId, System.Int64 commandId) => throw new System.NotImplementedException();
-	public ValueTask<DiscordMessage> GetFollowupMessageAsync(System.Int64 applicationId, System.String interactionToken, System.Int64 messageId) => throw new System.NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync(System.Int64 applicationId, System.Int64 commandId) => throw new System.NotImplementedException();
-	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync(System.Int64 applicationId, System.Boolean? withLocalizations, System.String? locale) => throw new System.NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> GetGuildApplicationCommandAsync(System.Int64 applicationId, System.Int64 guildId, System.Int64 commandId) => throw new System.NotImplementedException();
-	public ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync(System.Int64 applicationId, System.Int64 guildId) => throw new System.NotImplementedException();
-	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync(System.Int64 applicationId, System.Int64 guildId, System.Boolean? withLocalizations) => throw new System.NotImplementedException();
-	public ValueTask<DiscordMessage> GetOriginalResponseAsync(System.Int64 applicationId, System.String interactionToken) => throw new System.NotImplementedException();
+	/// <inheritdoc/>
+	public ValueTask<Boolean> CreateInteractionResponseAsync
+	(
+		Int64 interactionId,
+		String interactionToken,
+		CreateInteractionCallbackRequestPayload payload
+	)
+	{
+		return this.__underlying.CreateInteractionResponseAsync
+		(
+			interactionId,
+			interactionToken,
+			payload
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> DeleteFollowupMessageAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		Int64 messageId
+	)
+	{
+		return this.__underlying.DeleteFollowupMessageAsync
+		(
+			applicationId,
+			interactionToken,
+			messageId
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> DeleteGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 commandId
+	)
+	{
+		return this.__underlying.DeleteGlobalApplicationCommandAsync
+		(
+			applicationId,
+			commandId
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> DeleteGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId
+	)
+	{
+		return this.__underlying.DeleteGuildApplicationCommandAsync
+		(
+			applicationId,
+			guildId,
+			commandId
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> DeleteOriginalInteractionResponseAsync
+	(
+		Int64 applicationId,
+		String interactionToken
+	)
+	{
+		return this.__underlying.DeleteOriginalInteractionResponseAsync
+		(
+			applicationId,
+			interactionToken
+		);
+	}
+
+	public ValueTask<DiscordMessage> EditFollowupMessageAsync(Int64 applicationId, Int64 interactionToken, Int64 messageId, EditFollowupMessageRequestPayload payload) => throw new NotImplementedException();
+	public ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new NotImplementedException();
+	public ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new NotImplementedException();
+	public ValueTask<DiscordMessage> EditOriginalResponseAsync(Int64 applicationId, Int64 interactionToken, EditOriginalResponseRequestPayload payload) => throw new NotImplementedException();
+	public ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync(Int64 applicationId, Int64 guildId, Int64 commandId) => throw new NotImplementedException();
+	public ValueTask<DiscordMessage> GetFollowupMessageAsync(Int64 applicationId, String interactionToken, Int64 messageId) => throw new NotImplementedException();
+	public ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId) => throw new NotImplementedException();
+	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync(Int64 applicationId, Boolean? withLocalizations, String? locale) => throw new NotImplementedException();
+	public ValueTask<DiscordApplicationCommand> GetGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId) => throw new NotImplementedException();
+	public ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync(Int64 applicationId, Int64 guildId) => throw new NotImplementedException();
+	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync(Int64 applicationId, Int64 guildId, Boolean? withLocalizations) => throw new NotImplementedException();
+	public ValueTask<DiscordMessage> GetOriginalResponseAsync(Int64 applicationId, String interactionToken) => throw new NotImplementedException();
 }
