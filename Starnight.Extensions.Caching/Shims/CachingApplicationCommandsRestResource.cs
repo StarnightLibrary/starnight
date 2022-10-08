@@ -102,8 +102,44 @@ public class CachingApplicationCommandsRestResource : IDiscordApplicationCommand
 		return message;
 	}
 
-	public ValueTask<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync(System.Int64 applicationId, CreateApplicationCommandRequestPayload payload) => throw new System.NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> CreateGuildApplicationCommandAsync(System.Int64 applicationId, System.Int64 guildId, CreateApplicationCommandRequestPayload payload) => throw new System.NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		CreateApplicationCommandRequestPayload payload
+	)
+	{
+		DiscordApplicationCommand command = await this.__underlying.CreateGlobalApplicationCommandAsync
+		(
+			applicationId,
+			payload
+		);
+
+		command = await this.__cache.CacheApplicationCommandAsync(command);
+
+		return command;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordApplicationCommand> CreateGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		CreateApplicationCommandRequestPayload payload
+	)
+	{
+		DiscordApplicationCommand command = await this.__underlying.CreateGuildApplicationCommandAsync
+		(
+			applicationId,
+			guildId,
+			payload
+		);
+
+		command = await this.__cache.CacheApplicationCommandAsync(command);
+
+		return command;
+	}
+
 	public ValueTask<System.Boolean> CreateInteractionResponseAsync(System.Int64 interactionId, System.String interactionToken, CreateInteractionCallbackRequestPayload payload) => throw new System.NotImplementedException();
 	public ValueTask<System.Boolean> DeleteFollowupMessageAsync(System.Int64 applicationId, System.String interactionToken, System.Int64 messageId) => throw new System.NotImplementedException();
 	public ValueTask<System.Boolean> DeleteGlobalApplicationCommandAsync(System.Int64 applicationId, System.Int64 commandId) => throw new System.NotImplementedException();
