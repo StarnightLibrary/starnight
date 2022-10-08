@@ -238,8 +238,48 @@ public class CachingApplicationCommandsRestResource : IDiscordApplicationCommand
 		return editedFollowup;
 	}
 
-	public ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId, EditApplicationCommandRequestPayload payload) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 commandId,
+		EditApplicationCommandRequestPayload payload
+	)
+	{
+		DiscordApplicationCommand command = await this.__underlying.EditGlobalApplicationCommandAsync
+		(
+			applicationId,
+			commandId,
+			payload
+		);
+
+		command = await this.__cache.CacheApplicationCommandAsync(command);
+
+		return command;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId,
+		EditApplicationCommandRequestPayload payload
+	)
+	{
+		DiscordApplicationCommand command = await this.__underlying.EditGuildApplicationCommandAsync
+		(
+			applicationId,
+			guildId,
+			commandId,
+			payload
+		);
+
+		command = await this.__cache.CacheApplicationCommandAsync(command);
+
+		return command;
+	}
+
 	public ValueTask<DiscordMessage> EditOriginalResponseAsync(Int64 applicationId, Int64 interactionToken, EditOriginalResponseRequestPayload payload) => throw new NotImplementedException();
 	public ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync(Int64 applicationId, Int64 guildId, Int64 commandId) => throw new NotImplementedException();
 	public ValueTask<DiscordMessage> GetFollowupMessageAsync(Int64 applicationId, String interactionToken, Int64 messageId) => throw new NotImplementedException();
