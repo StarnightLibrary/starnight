@@ -32,4 +32,28 @@ internal static class ApplicationCommandUpdateExtensions
 
 		return command;
 	}
+
+	public static async ValueTask<DiscordApplicationCommandPermissions> CacheApplicationCommandPermissionsAsync
+	(
+		this ICacheService cache,
+		DiscordApplicationCommandPermissions permissions
+	)
+	{
+		String key = permissions.GenerateCacheKey();
+
+		DiscordApplicationCommandPermissions? old = await cache.GetAsync<DiscordApplicationCommandPermissions>(key);
+
+		if(old is null)
+		{
+			await cache.SetAsync(key, permissions);
+		}
+		else
+		{
+			permissions = UpdateApplicationCommandWrapper.UpdateDiscordApplicationCommandPermissions(old, permissions);
+
+			await cache.SetAsync(key, permissions);
+		}
+
+		return permissions;
+	}
 }

@@ -280,8 +280,46 @@ public class CachingApplicationCommandsRestResource : IDiscordApplicationCommand
 		return command;
 	}
 
-	public ValueTask<DiscordMessage> EditOriginalResponseAsync(Int64 applicationId, Int64 interactionToken, EditOriginalResponseRequestPayload payload) => throw new NotImplementedException();
-	public ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync(Int64 applicationId, Int64 guildId, Int64 commandId) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> EditOriginalResponseAsync
+	(
+		Int64 applicationId,
+		Int64 interactionToken,
+		EditOriginalResponseRequestPayload payload
+	)
+	{
+		DiscordMessage message = await this.__underlying.EditOriginalResponseAsync
+		(
+			applicationId,
+			interactionToken,
+			payload
+		);
+
+		message = await this.__cache.CacheMessageAsync(message);
+
+		return message;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId
+	)
+	{
+		DiscordApplicationCommandPermissions permissions = await this.__underlying.GetApplicationCommandPermissionsAsync
+		(
+			applicationId,
+			guildId,
+			commandId
+		);
+
+		permissions = await this.__cache.CacheApplicationCommandPermissionsAsync(permissions);
+
+		return permissions;
+	}
+
 	public ValueTask<DiscordMessage> GetFollowupMessageAsync(Int64 applicationId, String interactionToken, Int64 messageId) => throw new NotImplementedException();
 	public ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId) => throw new NotImplementedException();
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync(Int64 applicationId, Boolean? withLocalizations, String? locale) => throw new NotImplementedException();

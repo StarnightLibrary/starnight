@@ -11,4 +11,11 @@ internal partial class UpdateApplicationCommandWrapper
 		DiscordApplicationCommand current,
 		DiscordApplicationCommand update
 	);
+
+	[CacheUpdateMethod]
+	public static partial DiscordApplicationCommandPermissions UpdateDiscordApplicationCommandPermissions
+	(
+		DiscordApplicationCommandPermissions current,
+		DiscordApplicationCommandPermissions update
+	);
 }

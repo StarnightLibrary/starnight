@@ -18,4 +18,10 @@ public static class KeyHelper
 		this DiscordMessage message
 	)
 		=> $"StarnightLibraryCache.Channel.{message.ChannelId}.Message.{message.Id}";
+
+	public static String GenerateCacheKey
+	(
+		this DiscordApplicationCommandPermissions permissions
+	)
+		=> $"StarnightLibraryCache.ApplicationCommand.{permissions.ApplicationId}.Permissions.Guild.{permissions.GuildId}";
 }
