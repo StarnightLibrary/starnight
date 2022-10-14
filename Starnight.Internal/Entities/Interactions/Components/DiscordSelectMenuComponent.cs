@@ -4,16 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Entities.Channels;
+
 /// <summary>
 /// Represents a select menu component.
 /// </summary>
 public sealed record DiscordSelectMenuComponent : AbstractInteractiveDiscordMessageComponent
 {
 	/// <summary>
-	/// Up to 25 choices for this select menu.
+	/// Up to 25 choices for this select menu. Only valid on text selects.
 	/// </summary>
 	[JsonPropertyName("options")]
-	public required IEnumerable<DiscordSelectMenuOption> Options { get; init; }
+	public Optional<IEnumerable<DiscordSelectMenuOption>> Options { get; init; }
 
 	/// <summary>
 	/// Custom placeholder text while nothing is selected, max. 150 characters.
@@ -38,4 +40,10 @@ public sealed record DiscordSelectMenuComponent : AbstractInteractiveDiscordMess
 	/// </summary>
 	[JsonPropertyName("disabled")]
 	public Optional<Boolean> Disabled { get; init; }
+
+	/// <summary>
+	/// The channel types to include in this select menu. Only valid for channel selects.
+	/// </summary>
+	[JsonPropertyName("channel_types")]
+	public Optional<IEnumerable<DiscordChannelType>> ChannelTypes { get; init; }
 }

@@ -16,12 +16,32 @@ public enum DiscordMessageComponentType
 	Button,
 
 	/// <summary>
-	/// A dropdown menu for picking from predefined choices.
+	/// A dropdown menu for picking from predefined string choices.
 	/// </summary>
-	SelectMenu,
+	TextSelect,
 
 	/// <summary>
 	/// A text field in a modal.
 	/// </summary>
-	TextInput
+	TextInput,
+
+	/// <summary>
+	/// A dropdown menu for picking from user choices.
+	/// </summary>
+	UserSelect,
+
+	/// <summary>
+	/// A dropdown menu for picking from role choices.
+	/// </summary>
+	RoleSelect,
+
+	/// <summary>
+	/// A dropdown menu for picking from user or role choices.
+	/// </summary>
+	MentionableSelect,
+
+	/// <summary>
+	/// A dropdown menu for picking from channel choices.
+	/// </summary>
+	ChannelSelect
 }
