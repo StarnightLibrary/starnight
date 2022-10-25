@@ -18,5 +18,10 @@ public enum DiscordPremiumType
 	/// <summary>
 	/// Full Nitro subscription.
 	/// </summary>
-	Nitro
+	Nitro,
+
+	/// <summary>
+	/// Nitro Basic subscription.
+	/// </summary>
+	Basic
 }
