@@ -164,4 +164,80 @@ public partial class CachingApplicationCommandsRestResource
 			commandId
 		);
 	}
+
+	///<inheritdoc/>
+	public ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 commandId
+	)
+	{
+		return this.__underlying.GetGlobalApplicationCommandAsync
+		(
+			applicationId,
+			commandId
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
+	(
+		Int64 applicationId,
+		Boolean? withLocalizations,
+		String? locale
+	)
+	{
+		return this.__underlying.GetGlobalApplicationCommandsAsync
+		(
+			applicationId,
+			withLocalizations,
+			locale
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<DiscordApplicationCommand> GetGuildApplicationCommandAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Int64 commandId
+	)
+	{
+		return this.__underlying.GetGuildApplicationCommandAsync
+		(
+			applicationId,
+			guildId,
+			commandId
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync
+	(
+		Int64 applicationId,
+		Int64 guildId
+	)
+	{
+		return this.__underlying.GetGuildApplicationCommandPermissionsAsync
+		(
+			applicationId,
+			guildId
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync
+	(
+		Int64 applicationId,
+		Int64 guildId,
+		Boolean? withLocalizations
+	)
+	{
+		return this.__underlying.GetGuildApplicationCommandsAsync
+		(
+			applicationId,
+			guildId,
+			withLocalizations
+		);
+	}
 }

@@ -1,12 +1,10 @@
 namespace Starnight.Extensions.Caching.Shims;
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
 using Starnight.Extensions.Caching.Update;
-using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 using Starnight.Internal.Rest.Resources;
@@ -121,11 +119,16 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		return message;
 	}
 
-	public ValueTask<DiscordMessage> GetFollowupMessageAsync(Int64 applicationId, String interactionToken, Int64 messageId) => throw new NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync(Int64 applicationId, Int64 commandId) => throw new NotImplementedException();
-	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync(Int64 applicationId, Boolean? withLocalizations, String? locale) => throw new NotImplementedException();
-	public ValueTask<DiscordApplicationCommand> GetGuildApplicationCommandAsync(Int64 applicationId, Int64 guildId, Int64 commandId) => throw new NotImplementedException();
-	public ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync(Int64 applicationId, Int64 guildId) => throw new NotImplementedException();
-	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync(Int64 applicationId, Int64 guildId, Boolean? withLocalizations) => throw new NotImplementedException();
-	public ValueTask<DiscordMessage> GetOriginalResponseAsync(Int64 applicationId, String interactionToken) => throw new NotImplementedException();
+	public ValueTask<DiscordMessage> GetFollowupMessageAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		Int64 messageId
+	) => throw new NotImplementedException();
+
+	public ValueTask<DiscordMessage> GetOriginalResponseAsync
+	(
+		Int64 applicationId,
+		String interactionToken
+	) => throw new NotImplementedException();
 }
