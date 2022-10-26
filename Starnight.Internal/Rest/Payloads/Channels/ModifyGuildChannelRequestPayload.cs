@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
+using Starnight.Internal.Entities.Channels.Threads;
 
 /// <summary>
 /// Represents a payload to PATCH /channels/:channel_id, where the channel ID points to a guild channel.
@@ -89,4 +90,34 @@ public sealed record ModifyGuildChannelRequestPayload
 	/// </summary>
 	[JsonPropertyName("default_auto_archive_duration")]
 	public Optional<Int32?> DefaultAutoArchiveDuration { get; init; }
+
+	/// <summary>
+	/// New channel flags. Currently only <see cref="DiscordChannelFlags.RequireTag"/> is supported.
+	/// </summary>
+	[JsonPropertyName("flags")]
+	public Optional<DiscordChannelFlags> Flags { get; init; }
+
+	/// <summary>
+	/// The set of tags that can be used in this channel.
+	/// </summary>
+	[JsonPropertyName("available_tags")]
+	public Optional<IEnumerable<DiscordForumTag>> AvailableTags { get; init; }
+
+	/// <summary>
+	/// The default emoji to react with.
+	/// </summary>
+	[JsonPropertyName("default_reaction_emoji")]
+	public Optional<DiscordDefaultForumReaction?> DefaultReactionEmoji { get; init; }
+
+	/// <summary>
+	/// The default slowmode in threads created from this channel.
+	/// </summary>
+	[JsonPropertyName("default_thread_rate_limit_per_user")]
+	public Optional<Int32> DefaultThreadSlowmode { get; init; }
+
+	/// <summary>
+	/// The default sort order used to order posts in this channel.
+	/// </summary>
+	[JsonPropertyName("default_sort_order")]
+	public Optional<DiscordDefaultThreadSortOrder?> DefaultSortOrder { get; init; }
 }

@@ -1,7 +1,10 @@
 namespace Starnight.Internal.Rest.Payloads.Channels;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
+
+using Starnight.Internal.Entities.Channels;
 
 /// <summary>
 /// Represents a payload to PATCH /channels/:channel_id, where the channel ID points to a thread channel.
@@ -43,4 +46,16 @@ public sealed record ModifyThreadChannelRequestPayload
 	/// </summary>
 	[JsonPropertyName("rate_limit_per_user")]
 	public Optional<Int32?> Slowmode { get; init; }
+
+	/// <summary>
+	/// Flags for this thread.
+	/// </summary>
+	[JsonPropertyName("flags")]
+	public Optional<DiscordChannelFlags> Flags { get; init; }
+
+	/// <summary>
+	/// The snowflake IDs of the tags that have been applied to this thread.
+	/// </summary>
+	[JsonPropertyName("applied_tags")]
+	public Optional<IEnumerable<Int64>> AppliedTags { get; init; }
 }
