@@ -186,4 +186,34 @@ public sealed record DiscordChannel : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("newly_created")]
 	public Optional<Boolean> NewlyCreated { get; init; }
+
+	/// <summary>
+	/// The set of tags that can be used in a forum channel.
+	/// </summary>
+	[JsonPropertyName("available_tags")]
+	public Optional<IEnumerable<DiscordForumTag>> AvailableTags { get; init; }
+
+	/// <summary>
+	/// The list of tags applied to a thread in a forum channel.
+	/// </summary>
+	[JsonPropertyName("applied_tags")]
+	public Optional<IEnumerable<Int64>> AppliedTags { get; init; }
+
+	/// <summary>
+	/// The default reaction emoji for this forum channel.
+	/// </summary>
+	[JsonPropertyName("default_reaction_emoji")]
+	public Optional<DiscordDefaultForumReaction> DefaultForumReaction { get; init; }
+
+	/// <summary>
+	/// The initial slowmode to set on newly created threads in this channel.
+	/// </summary>
+	[JsonPropertyName("default_thread_rate_limit_per_user")]
+	public Optional<Int32> DefaultThreadSlowmode { get; init; }
+
+	/// <summary>
+	/// The default sort order for a forum channel. Defaults to <c>null</c>.
+	/// </summary>
+	[JsonPropertyName("default_sort_order")]
+	public Optional<DiscordDefaultThreadSortOrder?> DefaultSortOrder { get; init; }
 }
