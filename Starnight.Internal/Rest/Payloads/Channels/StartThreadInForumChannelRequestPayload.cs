@@ -38,4 +38,10 @@ public sealed record StartThreadInForumChannelRequestPayload
 	/// </summary>
 	[JsonIgnore]
 	public IEnumerable<DiscordAttachmentFile>? Files { get; init; }
+
+	/// <summary>
+	/// Tags applied to this message.
+	/// </summary>
+	[JsonPropertyName("applied_tags")]
+	public Optional<IEnumerable<Int64>> AppliedTags { get; init; }
 }
