@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
+using Starnight.Internal.Entities.Channels.Threads;
 
 /// <summary>
 /// Represents the REST payload for POST /guilds/:guild_id/channels
@@ -70,4 +71,40 @@ public sealed record CreateGuildChannelRequestPayload
 	/// </summary>
 	[JsonPropertyName("nsfw")]
 	public Optional<Boolean?> Nsfw { get; init; }
+
+	/// <summary>
+	/// Channel voice region ID for this voice/stage channel.
+	/// </summary>
+	[JsonPropertyName("trc_region")]
+	public Optional<String?> RtcRegion { get; init; }
+
+	/// <summary>
+	/// Indicates the camera video quality mode of this channel.
+	/// </summary>
+	[JsonPropertyName("video_quality_mode")]
+	public Optional<DiscordVideoQualityMode?> VideoQualityMode { get; init; }
+
+	/// <summary>
+	/// The default auto archive duration clients use for newly created threads in this channel.
+	/// </summary>
+	[JsonPropertyName("default_auto_archive_duration")]
+	public Optional<Int32?> DefaultAutoArchiveDuration { get; init; }
+
+	/// <summary>
+	/// Default reaction for threads in this forum channel.
+	/// </summary>
+	[JsonPropertyName("default_reaction_emoji")]
+	public Optional<DiscordDefaultForumReaction?> DefaultReactionEmoji { get; init; }
+
+	/// <summary>
+	/// The set of tags that can be used in this forum channel.
+	/// </summary>
+	[JsonPropertyName("available_tags")]
+	public Optional<IEnumerable<DiscordForumTag>?> AvailableTags { get; init; }
+
+	/// <summary>
+	/// The default sort order for this forum channel.
+	/// </summary>
+	[JsonPropertyName("default_sort_order")]
+	public Optional<DiscordDefaultThreadSortOrder?> DefaultSortOrder { get; init; }
 }
