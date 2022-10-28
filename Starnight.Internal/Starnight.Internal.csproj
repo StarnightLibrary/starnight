@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>Lightweight and fast Discord API wrapper</Description>
-    <VersionPrefix>0.3.1</VersionPrefix>
+    <VersionPrefix>0.4.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
