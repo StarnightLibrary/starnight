@@ -45,6 +45,43 @@ public sealed partial class RestClient
 		this.__token = options.Value.Token;
 	}
 
+	/// <summary>
+	/// Sends a request to the Discord API.
+	/// </summary>
+	/// <param name="request">The request in question.</param>
+	/// <param name="ct">A cancellation token for this operation.</param>
+	/// <returns>The received <seealso cref="HttpResponseMessage"/>.</returns>
+	/// <exception cref="StarnightRequestRejectedException">
+	/// Thrown if the request route is considered to be invalid. This is a very simple check, and request routes
+	/// may be invalid even if this exception is not thrown.
+	/// </exception>
+	/// <exception cref="StarnightSharedRatelimitHitException">
+	/// Thrown if the shared ratelimit for a resource was hit. This means the request will never complete, and will
+	/// usually not be able to complete for a comparatively long time, but it doesn't indicate programmer or user
+	/// error and should be relatively rare.
+	/// </exception>
+	/// <exception cref="DiscordInvalidRequestException">
+	/// Thrown if Discord considers the request to be invalid.
+	/// </exception>
+	/// <exception cref="DiscordMissingOrInvalidTokenException">
+	/// Thrown if the authentication token is either invalid or missing.
+	/// </exception>
+	/// <exception cref="DiscordUnauthorizedException">
+	/// Thrown if the current identity is not authorized to perform the action it attempted to perform.
+	/// </exception>
+	/// <exception cref="DiscordNotFoundException">
+	/// Thrown if Discord could not find the requested resource.
+	/// </exception>
+	/// <exception cref="DiscordOversizedPayloadException">
+	/// Thrown if the request payload exceeded 8MB.
+	/// </exception>
+	/// <exception cref="DiscordRatelimitHitException">
+	/// Thrown if a Discord ratelimit was hit. If this happens repeatedly, this should be reported to the
+	/// library developers.
+	/// </exception>
+	/// <exception cref="DiscordServerErrorException">
+	/// Thrown if Discord could not process the request. This should be reported to Discord.
+	/// </exception>
 	public async ValueTask<HttpResponseMessage> MakeRequestAsync
 	(
 		IRestRequest request,
