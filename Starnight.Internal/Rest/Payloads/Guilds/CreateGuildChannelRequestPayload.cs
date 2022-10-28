@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
+using Starnight.Internal.Rest.Payloads.Channels;
 
 /// <summary>
 /// Represents the REST payload for POST /guilds/:guild_id/channels
@@ -100,7 +101,7 @@ public sealed record CreateGuildChannelRequestPayload
 	/// The set of tags that can be used in this forum channel.
 	/// </summary>
 	[JsonPropertyName("available_tags")]
-	public Optional<IEnumerable<DiscordForumTag>?> AvailableTags { get; init; }
+	public Optional<IEnumerable<ForumTagPayload>?> AvailableTags { get; init; }
 
 	/// <summary>
 	/// The default sort order for this forum channel.

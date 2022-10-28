@@ -101,7 +101,7 @@ public sealed record ModifyGuildChannelRequestPayload
 	/// The set of tags that can be used in this channel.
 	/// </summary>
 	[JsonPropertyName("available_tags")]
-	public Optional<IEnumerable<DiscordForumTag>> AvailableTags { get; init; }
+	public Optional<IEnumerable<ForumTagPayload>> AvailableTags { get; init; }
 
 	/// <summary>
 	/// The default emoji to react with.
