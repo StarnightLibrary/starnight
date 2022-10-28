@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -46,7 +47,8 @@ public sealed partial class RestClient
 
 	public async ValueTask<HttpResponseMessage> MakeRequestAsync
 	(
-		IRestRequest request
+		IRestRequest request,
+		CancellationToken ct = default
 	)
 	{
 		if(!routeRegex().IsMatch(request.Path))
@@ -78,7 +80,7 @@ public sealed partial class RestClient
 		this.__logger?.LogTrace(LoggingEvents.RestClientOutgoing,
 			"Outgoing HTTP payload:\n{Payload}", message.ToString());
 
-		HttpResponseMessage response = await this.__http_client.SendAsync(message);
+		HttpResponseMessage response = await this.__http_client.SendAsync(message, ct);
 
 		this.__logger?.LogTrace(LoggingEvents.RestClientIncoming,
 			"Incoming HTTP payload:\n{Payload}", response.ToString());
