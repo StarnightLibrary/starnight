@@ -44,3 +44,9 @@ Where `Discord`-API should (almost) solely match the Discord API specification, 
 Use namespaces where deemed appropriate. Creating a namespace just for two classes is probably not worth it. Put only one type into each file. Also avoid nested types - where they make sense, split the containing type up into a partial class and use a separate file for the nested type.
 
 Avoid overly long lines. Newlines are easy to use in this language, let's take advantage of that!
+
+#### Brace Style ####
+
+Starnight employs allman-style braces; that is, each opening brace goes on a new line, indenting everything after it, and each closing brace goes on a new line. This style must be rigorously followed, unless there is no code between the braces, in which case they may be put on the same line, even on the same line as preceding code if applicable.
+
+If you spot any case where this is not followed, feel free to open a pull request annotated with `[ci skip]`.

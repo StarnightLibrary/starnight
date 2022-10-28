@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
@@ -20,11 +21,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="withLocalizations">Specifies whether the response should include the full localizations
 	/// (see also: <seealso cref="DiscordApplicationCommand.NameLocalizations"/> and related fields).</param>
 	/// <param name="locale">If <paramref name="withLocalizations"/> is false, specifies a locale to include localizations for</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
 		Boolean? withLocalizations,
-		String? locale
+		String? locale,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -32,11 +35,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="payload">Command creation payload.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly created application command.</returns>
 	public ValueTask<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync
 	(
 		Int64 applicationId,
-		CreateApplicationCommandRequestPayload payload
+		CreateApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -44,10 +49,12 @@ public interface IDiscordApplicationCommandsRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifier of the command's owning application.</param>
 	/// <param name="commandId">Snowflake identifier of the command itself.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync
 	(
 		Int64 applicationId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -56,12 +63,14 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="commandId">Snowflake identifier of the command you want to overwrite.</param>
 	/// <param name="payload">Edit payload.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The new application command object.</returns>
 	public ValueTask<DiscordApplicationCommand> EditGlobalApplicationCommandAsync
 	(
 		Int64 applicationId,
 		Int64 commandId,
-		EditApplicationCommandRequestPayload payload
+		EditApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -69,11 +78,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="commandId">Snowflake identifier of the command to be deleted.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>Whether the deletion was successful.</returns>
 	public ValueTask<Boolean> DeleteGlobalApplicationCommandAsync
 	(
 		Int64 applicationId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -84,11 +95,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// </remarks>
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="payload">List of create payloads.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The new loadout of application commands.</returns>
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
-		IEnumerable<CreateApplicationCommandRequestPayload> payload
+		IEnumerable<CreateApplicationCommandRequestPayload> payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -97,11 +110,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="withLocalizations">Whether the returned objects should include localizations.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGuildApplicationCommandsAsync
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Boolean? withLocalizations
+		Boolean? withLocalizations,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -110,12 +125,14 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="payload">Creation payload.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly created application command.</returns>
 	public ValueTask<DiscordApplicationCommand> CreateGuildApplicationCommandAsync
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		CreateApplicationCommandRequestPayload payload
+		CreateApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -124,11 +141,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordApplicationCommand> GetGuildApplicationCommandAsync
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -138,13 +157,15 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
 	/// <param name="payload">Edit payload.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The new application command object.</returns>
 	public ValueTask<DiscordApplicationCommand> EditGuildApplicationCommandAsync
 	(
 		Int64 applicationId,
 		Int64 guildId,
 		Int64 commandId,
-		EditApplicationCommandRequestPayload payload
+		EditApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -153,12 +174,14 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>Whether the deletion was successful.</returns>
 	public ValueTask<Boolean> DeleteGuildApplicationCommandAsync
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -167,12 +190,14 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="payload">New commands for this guild.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly created application commands.</returns>
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGuildApplicationCommandsAsync
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		IEnumerable<CreateApplicationCommandRequestPayload> payload
+		IEnumerable<CreateApplicationCommandRequestPayload> payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -180,11 +205,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifier of the application in question.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>An array of permissiono objects, one for each command.</returns>
 	public ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync
 	(
 		Int64 applicationId,
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -193,11 +220,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="commandId">Snowflake identifier of the command in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordApplicationCommandPermissions> GetApplicationCommandPermissionsAsync
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -206,12 +235,14 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="interactionId">Snowflake identifier of the interaction.</param>
 	/// <param name="interactionToken">Response token of the interaction.</param>
 	/// <param name="payload">Payload data.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>Whether the request succeeded.</returns>
 	public ValueTask<Boolean> CreateInteractionResponseAsync
 	(
 		Int64 interactionId,
 		String interactionToken,
-		CreateInteractionCallbackRequestPayload payload
+		CreateInteractionCallbackRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -219,10 +250,12 @@ public interface IDiscordApplicationCommandsRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifer of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordMessage> GetOriginalResponseAsync
 	(
 		Int64 applicationId,
-		String interactionToken
+		String interactionToken,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -231,12 +264,14 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="payload">Editing payload.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly edited message.</returns>
 	public ValueTask<DiscordMessage> EditOriginalResponseAsync
 	(
 		Int64 applicationId,
 		Int64 interactionToken,
-		EditOriginalResponseRequestPayload payload
+		EditOriginalResponseRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -244,11 +279,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// </summary>
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>Whether the deletion was successful.</returns>
 	public ValueTask<Boolean> DeleteOriginalInteractionResponseAsync
 	(
 		Int64 applicationId,
-		String interactionToken
+		String interactionToken,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -257,12 +294,14 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="payload">Message creation payload.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly created message.</returns>
 	public ValueTask<DiscordMessage> CreateFollowupMessageAsync
 	(
 		Int64 applicationId,
 		String interactionToken,
-		CreateFollowupMessageRequestPayload payload
+		CreateFollowupMessageRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -271,11 +310,13 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="messageId">Snowflake identifier of this message.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordMessage> GetFollowupMessageAsync
 	(
 		Int64 applicationId,
 		String interactionToken,
-		Int64 messageId
+		Int64 messageId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -285,13 +326,15 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="messageId">Snowflake identifier of the followup message to be edited.</param>
 	/// <param name="payload">Editing payload.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly edited message.</returns>
 	public ValueTask<DiscordMessage> EditFollowupMessageAsync
 	(
 		Int64 applicationId,
 		Int64 interactionToken,
 		Int64 messageId,
-		EditFollowupMessageRequestPayload payload
+		EditFollowupMessageRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -300,10 +343,12 @@ public interface IDiscordApplicationCommandsRestResource
 	/// <param name="applicationId">Snowflake identifier of your application.</param>
 	/// <param name="interactionToken">Interaction token for this interaction.</param>
 	/// <param name="messageId">Snowflake identifier of this message.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<Boolean> DeleteFollowupMessageAsync
 	(
 		Int64 applicationId,
 		String interactionToken,
-		Int64 messageId
+		Int64 messageId,
+		CancellationToken ct = default
 	);
 }
