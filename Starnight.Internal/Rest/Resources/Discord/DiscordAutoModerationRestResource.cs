@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -31,7 +32,8 @@ public sealed class DiscordAutoModerationRestResource
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordAutoModerationRule>> ListAutoModerationRulesAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -48,17 +50,28 @@ public sealed class DiscordAutoModerationRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordAutoModerationRule>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordAutoModerationRule> GetAutoModerationRuleAsync
 	(
 		Int64 guildId,
-		Int64 ruleId
+		Int64 ruleId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -75,10 +88,20 @@ public sealed class DiscordAutoModerationRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordAutoModerationRule>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -86,7 +109,8 @@ public sealed class DiscordAutoModerationRestResource
 	(
 		Int64 guildId,
 		CreateAutoModerationRuleRequestPayload payload,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -94,7 +118,11 @@ public sealed class DiscordAutoModerationRestResource
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Method = HttpMethod.Post,
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -109,10 +137,20 @@ public sealed class DiscordAutoModerationRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordAutoModerationRule>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -121,7 +159,8 @@ public sealed class DiscordAutoModerationRestResource
 		Int64 guildId,
 		Int64 ruleId,
 		ModifyAutoModerationRuleRequestPayload payload,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -129,7 +168,11 @@ public sealed class DiscordAutoModerationRestResource
 			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
 			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}",
 			Method = HttpMethod.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -144,10 +187,20 @@ public sealed class DiscordAutoModerationRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordAutoModerationRule>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -155,7 +208,8 @@ public sealed class DiscordAutoModerationRestResource
 	(
 		Int64 guildId,
 		Int64 ruleId,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -177,7 +231,11 @@ public sealed class DiscordAutoModerationRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}

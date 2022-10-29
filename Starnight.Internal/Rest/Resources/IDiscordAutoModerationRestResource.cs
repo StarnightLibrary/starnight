@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Guilds.AutoModeration;
@@ -16,9 +17,11 @@ public interface IDiscordAutoModerationRestResource
 	/// Returns a list of all auto moderation rules currently configured for the guild.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<IEnumerable<DiscordAutoModerationRule>> ListAutoModerationRulesAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -26,10 +29,12 @@ public interface IDiscordAutoModerationRestResource
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild this rule is a part of.</param>
 	/// <param name="ruleId">Snowflake identifier of the rule in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordAutoModerationRule> GetAutoModerationRuleAsync
 	(
 		Int64 guildId,
-		Int64 ruleId
+		Int64 ruleId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -38,12 +43,14 @@ public interface IDiscordAutoModerationRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="payload">Request payload.</param>
 	/// <param name="reason">Optional audit log reason.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly created audit log rule.</returns>
 	public ValueTask<DiscordAutoModerationRule> CreateAutoModerationRuleAsync
 	(
 		Int64 guildId,
 		CreateAutoModerationRuleRequestPayload payload,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -53,13 +60,15 @@ public interface IDiscordAutoModerationRestResource
 	/// <param name="ruleId">Snowflake identifier of the rule in question.</param>
 	/// <param name="payload">Request payload.</param>
 	/// <param name="reason">Optional audit log reason.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly modified auto moderation rule.</returns>
 	public ValueTask<DiscordAutoModerationRule> ModifyAutoModerationRuleAsync
 	(
 		Int64 guildId,
 		Int64 ruleId,
 		ModifyAutoModerationRuleRequestPayload payload,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -68,11 +77,13 @@ public interface IDiscordAutoModerationRestResource
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="ruleId">Snowflake identifier of the rule in question.</param>
 	/// <param name="reason">Optional audit log reason.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>Whether deletion was successful</returns>
 	public ValueTask<Boolean> DeleteAutoModerationRuleAsync
 	(
 		Int64 guildId,
 		Int64 ruleId,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	);
 }
