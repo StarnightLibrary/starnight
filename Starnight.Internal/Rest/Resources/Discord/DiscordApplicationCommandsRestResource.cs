@@ -98,7 +98,11 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Commands}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Post,
 			Context = new()
 			{
@@ -176,7 +180,11 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Commands}/{commandId}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Patch,
 			Context = new()
 			{
@@ -246,7 +254,11 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Commands}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Put,
 			Context = new()
 			{
@@ -336,7 +348,11 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Post,
 			Context = new()
 			{
@@ -416,7 +432,11 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Patch,
 			Context = new()
 			{
@@ -488,7 +508,11 @@ public sealed class DiscordApplicationCommandsRestResource
 		{
 			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Patch,
 			Context = new()
 			{
