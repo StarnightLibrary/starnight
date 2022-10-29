@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -31,7 +32,8 @@ public sealed class DiscordEmojiRestResource
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordEmoji>> ListGuildEmojisAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -48,17 +50,28 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordEmoji>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordEmoji> GetGuildEmojiAsync
 	(
 		Int64 guildId,
-		Int64 emojiId
+		Int64 emojiId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -75,10 +88,20 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordEmoji>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -86,14 +109,19 @@ public sealed class DiscordEmojiRestResource
 	(
 		Int64 guildId,
 		CreateGuildEmojiRequestPayload payload,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}",
 			Url = $"{Guilds}/{guildId}/{Emojis}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
@@ -109,10 +137,20 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordEmoji>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	///<inheritdoc/>
@@ -121,14 +159,19 @@ public sealed class DiscordEmojiRestResource
 		Int64 guildId,
 		Int64 emojiId,
 		ModifyGuildEmojiRequestPayload payload,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
 			Url = $"{Guilds}/{guildId}/{Emojis}/{emojiId}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -144,10 +187,20 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordEmoji>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -155,7 +208,8 @@ public sealed class DiscordEmojiRestResource
 	(
 		Int64 guildId,
 		Int64 emojiId,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -177,7 +231,11 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
