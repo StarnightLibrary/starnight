@@ -50,3 +50,5 @@ Avoid overly long lines. Newlines are easy to use in this language, let's take a
 Starnight employs allman-style braces; that is, each opening brace goes on a new line, indenting everything after it, and each closing brace goes on a new line. This style must be rigorously followed, unless there is no code between the braces, in which case they may be put on the same line, even on the same line as preceding code if applicable.
 
 If you spot any case where this is not followed, feel free to open a pull request annotated with `[ci skip]`.
+
+An exception to this rule is posed by `if` statements and loop heads, which may contain short function calls in one line.
