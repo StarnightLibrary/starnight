@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Guilds.Audit;
@@ -18,12 +19,14 @@ public interface IDiscordAuditLogRestResource
 	/// <param name="actionType">Action type to obtain entries for.</param>
 	/// <param name="before">Snowflake identifier all returned entries will precede.</param>
 	/// <param name="limit">Maximum number of entries to return, defaults to 50.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordAuditLogObject> GetGuildAuditLogAsync
 	(
 		Int64 guildId,
 		Int64? userId,
 		DiscordAuditLogEvent? actionType,
 		Int64? before,
-		Int32? limit
+		Int32? limit,
+		CancellationToken ct = default
 	);
 }

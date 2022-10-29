@@ -3,6 +3,7 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 using System;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -32,15 +33,35 @@ public sealed class DiscordAuditLogRestResource
 		Int64? userId = null,
 		DiscordAuditLogEvent? actionType = null,
 		Int64? before = null,
-		Int32? limit = null
+		Int32? limit = null,
+		CancellationToken ct = default
 	)
 	{
-		QueryBuilder builder = new($"{Guilds}/{guildId}/{AuditLogs}");
+		QueryBuilder builder = new
+		(
+			$"{Guilds}/{guildId}/{AuditLogs}"
+		);
 
-		_ = builder.AddParameter("user_id", userId.ToString())
-			.AddParameter("action_type", ((Int32?)actionType).ToString())
-			.AddParameter("before", before.ToString())
-			.AddParameter("limit", limit.ToString());
+		_ = builder.AddParameter
+			(
+				"user_id",
+				userId.ToString()
+			)
+			.AddParameter
+			(
+				"action_type",
+				((Int32?)actionType).ToString()
+			)
+			.AddParameter
+			(
+				"before",
+				before.ToString()
+			)
+			.AddParameter
+			(
+				"limit",
+				limit.ToString()
+			);
 
 		IRestRequest request = new RestRequest
 		{
@@ -56,9 +77,19 @@ public sealed class DiscordAuditLogRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordAuditLogObject>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 }
