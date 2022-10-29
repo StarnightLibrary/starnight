@@ -27,7 +27,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Boolean? withLocalizations,
 		String? locale,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -41,7 +41,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		CreateApplicationCommandRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -54,7 +54,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 commandId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -70,7 +70,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 commandId,
 		EditApplicationCommandRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -84,7 +84,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 commandId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -101,7 +101,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		IEnumerable<CreateApplicationCommandRequestPayload> payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -116,7 +116,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 guildId,
 		Boolean? withLocalizations,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -132,7 +132,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 guildId,
 		CreateApplicationCommandRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -147,7 +147,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 guildId,
 		Int64 commandId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -165,7 +165,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 guildId,
 		Int64 commandId,
 		EditApplicationCommandRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -181,7 +181,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 guildId,
 		Int64 commandId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -197,7 +197,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 guildId,
 		IEnumerable<CreateApplicationCommandRequestPayload> payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -211,7 +211,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -226,7 +226,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 guildId,
 		Int64 commandId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -242,7 +242,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 interactionId,
 		String interactionToken,
 		CreateInteractionCallbackRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -255,7 +255,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		String interactionToken,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -271,7 +271,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 interactionToken,
 		EditOriginalResponseRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -285,7 +285,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		String interactionToken,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -301,7 +301,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		String interactionToken,
 		CreateFollowupMessageRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -316,7 +316,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		String interactionToken,
 		Int64 messageId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -334,7 +334,7 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 interactionToken,
 		Int64 messageId,
 		EditFollowupMessageRequestPayload payload,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -349,6 +349,6 @@ public interface IDiscordApplicationCommandsRestResource
 		Int64 applicationId,
 		String interactionToken,
 		Int64 messageId,
-		CancellationToken ct  
+		CancellationToken ct = default
 	);
 }
