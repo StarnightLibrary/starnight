@@ -21,7 +21,7 @@ public interface IDiscordAutoModerationRestResource
 	public ValueTask<IEnumerable<DiscordAutoModerationRule>> ListAutoModerationRulesAsync
 	(
 		Int64 guildId,
-		CancellationToken ct = default
+		CancellationToken ct  
 	);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IDiscordAutoModerationRestResource
 	(
 		Int64 guildId,
 		Int64 ruleId,
-		CancellationToken ct = default
+		CancellationToken ct  
 	);
 
 	/// <summary>
@@ -50,7 +50,7 @@ public interface IDiscordAutoModerationRestResource
 		Int64 guildId,
 		CreateAutoModerationRuleRequestPayload payload,
 		String? reason,
-		CancellationToken ct = default
+		CancellationToken ct  
 	);
 
 	/// <summary>
@@ -68,7 +68,7 @@ public interface IDiscordAutoModerationRestResource
 		Int64 ruleId,
 		ModifyAutoModerationRuleRequestPayload payload,
 		String? reason,
-		CancellationToken ct = default
+		CancellationToken ct  
 	);
 
 	/// <summary>
@@ -84,6 +84,6 @@ public interface IDiscordAutoModerationRestResource
 		Int64 guildId,
 		Int64 ruleId,
 		String? reason,
-		CancellationToken ct = default
+		CancellationToken ct  
 	);
 }

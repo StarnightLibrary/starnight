@@ -27,6 +27,6 @@ public interface IDiscordAuditLogRestResource
 		DiscordAuditLogEvent? actionType,
 		Int64? before,
 		Int32? limit,
-		CancellationToken ct = default
+		CancellationToken ct  
 	);
 }
