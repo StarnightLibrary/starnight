@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Rest.Resources;
 
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Voice;
@@ -13,5 +14,9 @@ public interface IDiscordVoiceRestResource
 	/// <summary>
 	/// Returns an array of voice region objects.
 	/// </summary>
-	public ValueTask<IEnumerable<DiscordVoiceRegion>> ListVoiceRegionsAsync();
+	/// <param name="ct">Cancellation token for this request.</param>
+	public ValueTask<IEnumerable<DiscordVoiceRegion>> ListVoiceRegionsAsync
+	(
+		CancellationToken ct = default
+	);
 }

@@ -3,6 +3,7 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -25,7 +26,10 @@ public sealed class DiscordVoiceRestResource
 		=> this.__rest_client = client;
 
 	/// <inheritdoc/>
-	public async ValueTask<IEnumerable<DiscordVoiceRegion>> ListVoiceRegionsAsync()
+	public async ValueTask<IEnumerable<DiscordVoiceRegion>> ListVoiceRegionsAsync
+	(
+		CancellationToken ct = default
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -41,9 +45,19 @@ public sealed class DiscordVoiceRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordVoiceRegion>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 }
