@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -30,14 +31,19 @@ public sealed class DiscordStageInstanceRestResource
 	public async ValueTask<DiscordStageInstance> CreateStageInstanceAsync
 	(
 		CreateStageInstanceRequestPayload payload,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}",
 			Url = $"{StageInstances}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
@@ -53,16 +59,27 @@ public sealed class DiscordStageInstanceRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordStageInstance?> GetStageInstanceAsync
 	(
-		Int64 channelId
+		Int64 channelId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -79,10 +96,20 @@ public sealed class DiscordStageInstanceRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions);
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		);
 	}
 
 	/// <inheritdoc/>
@@ -90,14 +117,19 @@ public sealed class DiscordStageInstanceRestResource
 	(
 		Int64 channelId,
 		ModifyStageInstanceRequestPayload payload,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{StageInstances}/{ChannelId}",
 			Url = $"{StageInstances}/{channelId}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -113,17 +145,28 @@ public sealed class DiscordStageInstanceRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordStageInstance>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteStageInstanceAsync
 	(
 		Int64 channelId,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -145,7 +188,11 @@ public sealed class DiscordStageInstanceRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
