@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -34,14 +35,19 @@ public sealed class DiscordWebhookRestResource
 	(
 		Int64 channelId,
 		CreateWebhookRequestPayload payload,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Channels}/{channelId}/{Webhooks}",
 			Url = $"{Channels}/{channelId}/{Webhooks}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
 			{
@@ -57,16 +63,27 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordWebhook>> GetChannelWebhooksAsync
 	(
-		Int64 channelId
+		Int64 channelId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -83,16 +100,27 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordWebhook>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordWebhook>> GetGuildWebhooksAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -109,16 +137,27 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordWebhook>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordWebhook> GetWebhookAsync
 	(
-		Int64 webhookId
+		Int64 webhookId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -135,17 +174,28 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordWebhook> GetWebhookWithTokenAsync
 	(
 		Int64 webhookId,
-		String webhookToken
+		String webhookToken,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -162,10 +212,20 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -173,7 +233,8 @@ public sealed class DiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		ModifyWebhookRequestPayload payload,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -181,7 +242,11 @@ public sealed class DiscordWebhookRestResource
 			Path = $"/{Webhooks}/{webhookId}",
 			Url = $"{Webhooks}/{webhookId}",
 			Method = HttpMethod.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -196,10 +261,20 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -208,7 +283,8 @@ public sealed class DiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		ModifyWebhookWithTokenRequestPayload payload,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -216,7 +292,11 @@ public sealed class DiscordWebhookRestResource
 			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 			Url = $"{Webhooks}/{webhookId}/{webhookToken}",
 			Method = HttpMethod.Patch,
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Headers = reason is not null ? new()
 			{
 				["X-Audit-Log-Reason"] = reason
@@ -231,17 +311,28 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordWebhook>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteWebhookAsync
 	(
 		Int64 webhookId,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -263,7 +354,11 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -273,7 +368,8 @@ public sealed class DiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		String webhookToken,
-		String? reason
+		String? reason,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -295,7 +391,11 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -307,15 +407,31 @@ public sealed class DiscordWebhookRestResource
 		String webhookToken,
 		Boolean? wait,
 		Int64? threadId,
-		ExecuteWebhookRequestPayload payload
+		ExecuteWebhookRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
-		String payloadBody = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions);
+		String payloadBody = JsonSerializer.Serialize
+		(
+			payload,
+			StarnightInternalConstants.DefaultSerializerOptions
+		);
 
-		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}");
+		QueryBuilder builder = new
+		(
+			$"{Webhooks}/{webhookId}/{webhookToken}"
+		);
 
-		_ = builder.AddParameter("wait", wait?.ToString())
-			.AddParameter("thread_id", threadId?.ToString());
+		_ = builder.AddParameter
+			(
+				"wait",
+				wait?.ToString()
+			)
+			.AddParameter
+			(
+				"thread_id",
+				threadId?.ToString()
+			);
 
 		IRestRequest request =
 
@@ -340,7 +456,10 @@ public sealed class DiscordWebhookRestResource
 				{
 					Path = $"/{Webhooks}/{webhookId}/{webhookToken}",
 					Url = builder.Build(),
-					Payload = String.IsNullOrWhiteSpace(payloadBody)
+					Payload = String.IsNullOrWhiteSpace
+					(
+						payloadBody
+					)
 						? new()
 						: new()
 						{
@@ -357,11 +476,21 @@ public sealed class DiscordWebhookRestResource
 					}
 				};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return wait ?? false
 			? JsonSerializer.Deserialize<DiscordMessage>
-				(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!
+			  (
+				  await response.Content.ReadAsStringAsync
+				  (
+					  ct
+				  ),
+				  StarnightInternalConstants.DefaultSerializerOptions
+			  )!
 			: null;
 	}
 
@@ -371,12 +500,20 @@ public sealed class DiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId
+		Int64? threadId,
+		CancellationToken ct = default
 	)
 	{
-		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}/{Messages}/{messageId}");
+		QueryBuilder builder = new
+		(
+			$"{Webhooks}/{webhookId}/{webhookToken}/{Messages}/{messageId}"
+		);
 
-		_ = builder.AddParameter("thread_id", threadId?.ToString());
+		_ = builder.AddParameter
+		(
+			"thread_id",
+			threadId?.ToString()
+		);
 
 		IRestRequest request = new RestRequest
 		{
@@ -392,10 +529,20 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -405,14 +552,26 @@ public sealed class DiscordWebhookRestResource
 		String webhookToken,
 		Int64 messageId,
 		Int64? threadId,
-		EditWebhookMessageRequestPayload payload
+		EditWebhookMessageRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
-		String payloadBody = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions);
+		String payloadBody = JsonSerializer.Serialize
+		(
+			payload,
+			StarnightInternalConstants.DefaultSerializerOptions
+		);
 
-		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}");
+		QueryBuilder builder = new
+		(
+			$"{Webhooks}/{webhookId}/{webhookToken}"
+		);
 
-		_ = builder.AddParameter("thread_id", threadId?.ToString());
+		_ = builder.AddParameter
+		(
+			"thread_id",
+			threadId?.ToString()
+		);
 
 		IRestRequest request =
 
@@ -437,7 +596,10 @@ public sealed class DiscordWebhookRestResource
 				{
 					Path = $"/{Webhooks}/{webhookId}/{webhookToken}",
 					Url = builder.Build(),
-					Payload = String.IsNullOrWhiteSpace(payloadBody)
+					Payload = String.IsNullOrWhiteSpace
+					(
+						payloadBody
+					)
 						? new()
 						: new()
 						{
@@ -454,10 +616,20 @@ public sealed class DiscordWebhookRestResource
 					}
 				};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordMessage>
-				(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -466,12 +638,20 @@ public sealed class DiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId
+		Int64? threadId,
+		CancellationToken ct = default
 	)
 	{
-		QueryBuilder builder = new($"{Webhooks}/{webhookId}/{webhookToken}/{Messages}/{messageId}");
+		QueryBuilder builder = new
+		(
+			$"{Webhooks}/{webhookId}/{webhookToken}/{Messages}/{messageId}"
+		);
 
-		_ = builder.AddParameter("thread_id", threadId?.ToString());
+		_ = builder.AddParameter
+		(
+			"thread_id",
+			threadId?.ToString()
+		);
 
 		IRestRequest request = new RestRequest
 		{
@@ -487,7 +667,11 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
