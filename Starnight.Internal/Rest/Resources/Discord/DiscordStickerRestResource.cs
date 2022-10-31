@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -33,7 +34,8 @@ public sealed class DiscordStickerRestResource
 	/// <inheritdoc/>
 	public async ValueTask<DiscordSticker> GetStickerAsync
 	(
-		Int64 stickerId
+		Int64 stickerId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -50,14 +52,27 @@ public sealed class DiscordStickerRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordSticker>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<ListNitroStickerPacksResponsePayload> ListNitroStickerPacksAsync()
+	public async ValueTask<ListNitroStickerPacksResponsePayload> ListNitroStickerPacksAsync
+	(
+		CancellationToken ct = default
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -73,16 +88,27 @@ public sealed class DiscordStickerRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<ListNitroStickerPacksResponsePayload>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordSticker>> ListGuildStickersAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -99,17 +125,28 @@ public sealed class DiscordStickerRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordSticker>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordSticker> GetGuildStickerAsync
 	(
 		Int64 guildId,
-		Int64 stickerId
+		Int64 stickerId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -126,10 +163,20 @@ public sealed class DiscordStickerRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordSticker>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -137,16 +184,35 @@ public sealed class DiscordStickerRestResource
 	(
 		Int64 guildId,
 		CreateGuildStickerRequestPayload payload,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
-		Memory<Byte> fileContent = new Byte[Base64.GetMaxEncodedToUtf8Length(payload.File.Length)];
+		Memory<Byte> fileContent = new Byte
+		[
+			Base64.GetMaxEncodedToUtf8Length
+			(
+				payload.File.Length
+			)
+		];
 
-		OperationStatus encodingStatus = Base64.EncodeToUtf8(payload.File.Span, fileContent.Span, out Int32 _, out Int32 _);
+		OperationStatus encodingStatus = Base64.EncodeToUtf8
+		(
+			payload.File.Span,
+			fileContent.Span,
+			out Int32 _,
+			out Int32 _
+		);
 
-		if(encodingStatus != OperationStatus.Done)
 #pragma warning disable CA2208 // we do in fact want to pass payload.File, not a method parameter
-			throw new ArgumentException($"Could not encode sticker to base64: {encodingStatus}", nameof(payload.File));
+		if(encodingStatus != OperationStatus.Done)
+		{
+			throw new ArgumentException
+			(
+				$"Could not encode sticker to base64: {encodingStatus}",
+				nameof(payload.File)
+			);
+		}
 #pragma warning restore CA2208
 
 		IRestRequest request = new MultipartRestRequest
@@ -164,7 +230,10 @@ public sealed class DiscordStickerRestResource
 				["name"] = payload.Name,
 				["description"] = payload.Description,
 				["tags"] = payload.Tags,
-				["file"] = Encoding.UTF8.GetString(fileContent.Span)
+				["file"] = Encoding.UTF8.GetString
+				(
+					fileContent.Span
+				)
 			},
 			Context = new()
 			{
@@ -175,10 +244,20 @@ public sealed class DiscordStickerRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordSticker>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -187,14 +266,19 @@ public sealed class DiscordStickerRestResource
 		Int64 guildId,
 		Int64 stickerId,
 		ModifyGuildStickerRequestPayload payload,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
 			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
 			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Method = HttpMethod.Patch,
 			Headers = reason is not null ? new()
 			{
@@ -210,10 +294,20 @@ public sealed class DiscordStickerRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordSticker>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -221,7 +315,8 @@ public sealed class DiscordStickerRestResource
 	(
 		Int64 guildId,
 		Int64 stickerId,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -243,7 +338,11 @@ public sealed class DiscordStickerRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
