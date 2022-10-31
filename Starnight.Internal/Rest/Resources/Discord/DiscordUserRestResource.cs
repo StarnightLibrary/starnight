@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -31,7 +32,10 @@ public sealed class DiscordUserRestResource
 		=> this.__rest_client = client;
 
 	/// <inheritdoc/>
-	public async ValueTask<DiscordUser> GetCurrentUserAsync()
+	public async ValueTask<DiscordUser> GetCurrentUserAsync
+	(
+		CancellationToken ct = default
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -47,16 +51,27 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordUser>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordUser> GetUserAsync
 	(
-		Int64 userId
+		Int64 userId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -73,16 +88,27 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordUser>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordUser> ModifyCurrentUserAsync
 	(
-		ModifyCurrentUserRequestPayload payload
+		ModifyCurrentUserRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -90,7 +116,11 @@ public sealed class DiscordUserRestResource
 			Path = $"/{Users}/{Me}",
 			Url = $"{Users}/{Me}",
 			Method = HttpMethod.Get,
-			Payload = JsonSerializer.Serialize(payload, StarnightInternalConstants.DefaultSerializerOptions),
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
 			Context = new()
 			{
 				["endpoint"] = $"/{Users}/{Me}",
@@ -100,10 +130,20 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordUser>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
@@ -111,14 +151,30 @@ public sealed class DiscordUserRestResource
 	(
 		Int64? before = null,
 		Int64? after = null,
-		Int32? limit = null
+		Int32? limit = null,
+		CancellationToken ct = default
 	)
 	{
-		QueryBuilder builder = new($"{Users}/{Me}/{Guilds}");
+		QueryBuilder builder = new
+		(
+			$"{Users}/{Me}/{Guilds}"
+		);
 
-		_ = builder.AddParameter("before", before?.ToString())
-			.AddParameter("after", after?.ToString())
-			.AddParameter("limit", limit?.ToString());
+		_ = builder.AddParameter
+			(
+				"before",
+				before?.ToString()
+			)
+			.AddParameter
+			(
+				"after",
+				after?.ToString()
+			)
+			.AddParameter
+			(
+				"limit",
+				limit?.ToString()
+			);
 
 		IRestRequest request = new RestRequest
 		{
@@ -134,16 +190,27 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordGuild>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordGuildMember> GetCurrentUserGuildMemberAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -160,16 +227,27 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordGuildMember>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<Boolean> LeaveGuildAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -186,7 +264,11 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return response.StatusCode == HttpStatusCode.NoContent;
 	}
@@ -194,7 +276,8 @@ public sealed class DiscordUserRestResource
 	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> CreateDMAsync
 	(
-		Int64 recipientId
+		Int64 recipientId,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -215,14 +298,27 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordChannel>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<IEnumerable<DiscordUserConnection>> GetUserConnectionsAsync()
+	public async ValueTask<IEnumerable<DiscordUserConnection>> GetUserConnectionsAsync
+	(
+		CancellationToken ct = default
+	)
 	{
 		IRestRequest request = new RestRequest
 		{
@@ -238,9 +334,19 @@ public sealed class DiscordUserRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<IEnumerable<DiscordUserConnection>>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 }

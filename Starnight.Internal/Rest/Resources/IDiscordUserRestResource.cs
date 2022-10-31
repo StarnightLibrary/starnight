@@ -2,6 +2,7 @@ namespace Starnight.Internal.Rest.Resources;
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Channels;
@@ -21,25 +22,33 @@ public interface IDiscordUserRestResource
 	/// For OAuth2, this requires the <c>identify</c> scope, which will return the object without an email,
 	/// and optionally the <c>email</c> scope, which will return the object with an email.
 	/// </remarks>
-	public ValueTask<DiscordUser> GetCurrentUserAsync();
+	/// <param name="ct">Cancellation token for this request.</param>
+	public ValueTask<DiscordUser> GetCurrentUserAsync
+	(
+		CancellationToken ct = default
+	);
 
 	/// <summary>
 	/// Returns the requested user.
 	/// </summary>
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordUser> GetUserAsync
 	(
-		Int64 userId
+		Int64 userId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
 	/// Modifies the current user.
 	/// </summary>
 	/// <param name="payload">Payload to modify the current user by.</param>
-	/// <returns>The newlly modified current user.</returns>
+	/// <param name="ct">Cancellation token for this request.</param>
+	/// <returns>The newly modified current user.</returns>
 	public ValueTask<DiscordUser> ModifyCurrentUserAsync
 	(
-		ModifyCurrentUserRequestPayload payload
+		ModifyCurrentUserRequestPayload payload,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
@@ -52,43 +61,56 @@ public interface IDiscordUserRestResource
 	/// <param name="before">Specifies an upper bound of snowflakes to be returned.</param>
 	/// <param name="after">Specifies a lower bound of snowflakes to be returned.</param>
 	/// <param name="limit">Maximum number of guilds to return, ranging from 1 to 200.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<IEnumerable<DiscordGuild>> GetCurrentUserGuildsAsync
 	(
 		Int64? before,
 		Int64? after,
-		Int32? limit
+		Int32? limit,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
 	/// Returns a guild member object for the current user for the given guild.
 	/// </summary>
+	/// <param name="guildId">The snowflake ID of the guild in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordGuildMember> GetCurrentUserGuildMemberAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
 	/// Leaves a guild.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild to be left.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>Whether the operation was successful.</returns>
 	public ValueTask<Boolean> LeaveGuildAsync
 	(
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
 	/// Creates a new DM channel with a user.
 	/// </summary>
 	/// <param name="recipientId">Snowflake identifier of the user to create a DM channel with.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly created channel object.</returns>
 	public ValueTask<DiscordChannel> CreateDMAsync
 	(
-		Int64 recipientId
+		Int64 recipientId,
+		CancellationToken ct = default
 	);
 
 	/// <summary>
 	/// Returns a list of connection objects for the current user.
 	/// </summary>
-	public ValueTask<IEnumerable<DiscordUserConnection>> GetUserConnectionsAsync();
+	/// <param name="ct">Cancellation token for this request.</param>
+	public ValueTask<IEnumerable<DiscordUserConnection>> GetUserConnectionsAsync
+	(
+		CancellationToken ct = default
+	);
 }
