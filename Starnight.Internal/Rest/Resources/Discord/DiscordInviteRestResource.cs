@@ -3,6 +3,7 @@ namespace Starnight.Internal.Rest.Resources.Discord;
 using System;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -30,14 +31,30 @@ public sealed class DiscordInviteRestResource
 		String inviteCode,
 		Boolean? withCounts = null,
 		Boolean? withExpiration = null,
-		Int64? scheduledEventId = null
+		Int64? scheduledEventId = null,
+		CancellationToken ct = default
 	)
 	{
-		QueryBuilder builder = new($"{Templates}/{inviteCode}");
+		QueryBuilder builder = new
+		(
+			$"{Templates}/{inviteCode}"
+		);
 
-		_ = builder.AddParameter("with_counts", withCounts.ToString())
-			.AddParameter("with_expiration", withExpiration.ToString())
-			.AddParameter("guild_scheduled_event_id", scheduledEventId.ToString());
+		_ = builder.AddParameter
+			(
+				"with_counts",
+				withCounts.ToString()
+			)
+			.AddParameter
+			(
+				"with_expiration",
+				withExpiration.ToString()
+			)
+			.AddParameter
+			(
+				"guild_scheduled_event_id",
+				scheduledEventId.ToString()
+			);
 
 		IRestRequest request = new RestRequest
 		{
@@ -53,17 +70,28 @@ public sealed class DiscordInviteRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordInvite>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordInvite> DeleteInviteAsync
 	(
 		String inviteCode,
-		String? reason = null
+		String? reason = null,
+		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
@@ -85,9 +113,19 @@ public sealed class DiscordInviteRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
 
 		return JsonSerializer.Deserialize<DiscordInvite>
-			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 }
