@@ -37,7 +37,6 @@ public sealed class DiscordGuildTemplateRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{Templates}/{TemplateCode}",
 			Url = $"{Guilds}/{Templates}/{templateCode}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -75,7 +74,6 @@ public sealed class DiscordGuildTemplateRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{Templates}/{TemplateCode}",
 			Url = $"{Guilds}/{Templates}/{templateCode}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -117,7 +115,6 @@ public sealed class DiscordGuildTemplateRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Templates}",
 			Url = $"{Guilds}/{guildId}/{Templates}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -155,7 +152,6 @@ public sealed class DiscordGuildTemplateRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Templates}",
 			Url = $"{Guilds}/{guildId}/{Templates}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -198,7 +194,6 @@ public sealed class DiscordGuildTemplateRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
 			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
 			Method = HttpMethod.Put,
 			Context = new()
@@ -237,7 +232,6 @@ public sealed class DiscordGuildTemplateRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
 			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -280,7 +274,6 @@ public sealed class DiscordGuildTemplateRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Templates}/{TemplateCode}",
 			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
 			Method = HttpMethod.Delete,
 			Context = new()

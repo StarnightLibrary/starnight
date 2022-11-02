@@ -40,7 +40,6 @@ public sealed class DiscordStickerRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Stickers}/{StickerId}",
 			Url = $"{Stickers}/{stickerId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -76,7 +75,6 @@ public sealed class DiscordStickerRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{StickerPacks}",
 			Url = $"{StickerPacks}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -113,7 +111,6 @@ public sealed class DiscordStickerRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Stickers}",
 			Url = $"{Guilds}/{guildId}/{Stickers}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -151,7 +148,6 @@ public sealed class DiscordStickerRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
 			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -217,7 +213,6 @@ public sealed class DiscordStickerRestResource
 
 		IRestRequest request = new MultipartRestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Stickers}",
 			Url = $"{Guilds}/{guildId}/{Stickers}",
 			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
@@ -272,7 +267,6 @@ public sealed class DiscordStickerRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
 			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -321,7 +315,6 @@ public sealed class DiscordStickerRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Stickers}/{StickerId}",
 			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()

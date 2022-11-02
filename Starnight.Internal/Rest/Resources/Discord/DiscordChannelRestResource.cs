@@ -43,7 +43,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}",
 			Url = $"{Channels}/{channelId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -81,7 +80,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}",
 			Url = $"{Channels}/{channelId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -125,7 +123,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}",
 			Url = $"{Channels}/{channelId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -174,7 +171,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}",
 			Url = $"{Channels}/{channelId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -222,7 +218,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}",
 			Url = $"{Channels}/{channelId}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
@@ -294,7 +289,6 @@ public sealed class DiscordChannelRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -332,7 +326,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -380,7 +373,6 @@ public sealed class DiscordChannelRestResource
 
 				new RestRequest
 				{
-					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = payloadBody,
 					Method = HttpMethod.Post,
@@ -395,7 +387,6 @@ public sealed class DiscordChannelRestResource
 
 				new MultipartRestRequest
 				{
-					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = String.IsNullOrWhiteSpace(payloadBody)
 						? new()
@@ -440,7 +431,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Crosspost}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Crosspost}",
 			Method = HttpMethod.Post,
 			Context = new()
@@ -479,7 +469,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}",
 			Method = HttpMethod.Put,
 			Context = new()
@@ -511,7 +500,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{Me}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{Me}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -544,7 +532,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}/{UserId}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}/{userId}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -594,7 +581,6 @@ public sealed class DiscordChannelRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -632,7 +618,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -662,7 +647,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Reactions}/{Emoji}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Reactions}/{emoji}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -702,7 +686,6 @@ public sealed class DiscordChannelRestResource
 
 				new RestRequest
 				{
-					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = payloadBody,
 					Method = HttpMethod.Patch,
@@ -717,7 +700,6 @@ public sealed class DiscordChannelRestResource
 
 				new MultipartRestRequest
 				{
-					Path = $"/{Channels}/{channelId}/{Messages}",
 					Url = $"{Channels}/{channelId}/{Messages}",
 					Payload = String.IsNullOrWhiteSpace
 					(
@@ -766,7 +748,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}",
 			Headers = reason is not null ? new()
 			{
@@ -803,7 +784,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{BulkDelete}",
 			Url = $"{Channels}/{channelId}/{Messages}/{BulkDelete}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -846,7 +826,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
 			Url = $"{Channels}/{channelId}/{Permissions}/{overwriteId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -886,7 +865,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Invites}",
 			Url = $"{Channels}/{channelId}/{Invites}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -937,7 +915,6 @@ public sealed class DiscordChannelRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Invites}",
 			Url = $"{Channels}/{channelId}/{Invites}",
 			Method = HttpMethod.Post,
 			Payload = serializedPayload,
@@ -977,7 +954,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Permissions}/{OverwriteId}",
 			Url = $"{Channels}/{channelId}/{Permissions}/{overwriteId}",
 			Headers = reason is not null ? new()
 			{
@@ -1013,7 +989,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Followers}",
 			Url = $"{Channels}/{channelId}/{Followers}",
 			Payload =
 			$$"""
@@ -1054,7 +1029,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Typing}",
 			Url = $"{Channels}/{channelId}/{Typing}",
 			Method = HttpMethod.Post,
 			Context = new()
@@ -1082,7 +1056,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Pins}",
 			Url = $"{Channels}/{channelId}/{Pins}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -1121,7 +1094,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
 			Url = $"{Channels}/{channelId}/{Pins}/{messageId}",
 			Headers = reason is not null ? new()
 			{
@@ -1158,7 +1130,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Pins}/{MessageId}",
 			Url = $"{Channels}/{channelId}/{Pins}/{messageId}",
 			Headers = reason is not null ? new()
 			{
@@ -1195,7 +1166,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
 			Url = $"{Channels}/{channelId}/{Recipients}/{userId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -1229,7 +1199,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Recipients}/{UserId}",
 			Url = $"{Channels}/{channelId}/{Recipients}/{userId}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -1260,7 +1229,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Messages}/{MessageId}/{Threads}",
 			Url = $"{Channels}/{channelId}/{Messages}/{messageId}/{Threads}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -1309,7 +1277,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Threads}",
 			Url = $"{Channels}/{channelId}/{Threads}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -1368,7 +1335,6 @@ public sealed class DiscordChannelRestResource
 
 				new RestRequest
 				{
-					Path = $"/{Channels}/{channelId}/{Threads}",
 					Url = $"{Channels}/{channelId}/{Threads}",
 					Payload = payloadBody,
 					Method = HttpMethod.Post,
@@ -1383,7 +1349,6 @@ public sealed class DiscordChannelRestResource
 
 				new MultipartRestRequest
 				{
-					Path = $"/{Channels}/{channelId}/{Threads}",
 					Url = $"{Channels}/{channelId}/{Threads}",
 					Payload = String.IsNullOrWhiteSpace
 					(
@@ -1430,7 +1395,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{Me}",
 			Url = $"{Channels}/{threadId}/{ThreadMembers}/{Me}",
 			Method = HttpMethod.Put,
 			Context = new()
@@ -1461,7 +1425,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{UserId}",
 			Url = $"{Channels}/{threadId}/{ThreadMembers}/{userId}",
 			Method = HttpMethod.Put,
 			Context = new()
@@ -1491,7 +1454,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{Me}",
 			Url = $"{Channels}/{threadId}/{ThreadMembers}/{Me}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -1522,7 +1484,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{UserId}",
 			Url = $"{Channels}/{threadId}/{ThreadMembers}/{userId}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -1553,7 +1514,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}/{UserId}",
 			Url = $"{Channels}/{threadId}/{ThreadMembers}/{userId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -1590,7 +1550,6 @@ public sealed class DiscordChannelRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{ThreadMembers}",
 			Url = $"{Channels}/{threadId}/{ThreadMembers}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -1645,7 +1604,6 @@ public sealed class DiscordChannelRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Public}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -1700,7 +1658,6 @@ public sealed class DiscordChannelRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{Threads}/{Archived}/{Private}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -1755,7 +1712,6 @@ public sealed class DiscordChannelRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{ChannelId}/{Users}/{Me}/{Threads}/{Archived}/{Private}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()

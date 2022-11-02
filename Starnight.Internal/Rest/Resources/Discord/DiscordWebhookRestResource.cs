@@ -41,7 +41,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Webhooks}",
 			Url = $"{Channels}/{channelId}/{Webhooks}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -88,7 +87,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Channels}/{channelId}/{Webhooks}",
 			Url = $"{Channels}/{channelId}/{Webhooks}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -125,7 +123,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{guildId}/{Webhooks}",
 			Url = $"{Guilds}/{guildId}/{Webhooks}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -162,7 +159,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}",
 			Url = $"{Webhooks}/{webhookId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -200,7 +196,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 			Url = $"{Webhooks}/{webhookId}/{webhookToken}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -239,7 +234,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}",
 			Url = $"{Webhooks}/{webhookId}",
 			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize
@@ -289,7 +283,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 			Url = $"{Webhooks}/{webhookId}/{webhookToken}",
 			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize
@@ -337,7 +330,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}",
 			Url = $"{Webhooks}/{webhookId}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
@@ -374,7 +366,6 @@ public sealed class DiscordWebhookRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 			Url = $"{Webhooks}/{webhookId}/{webhookToken}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
@@ -439,7 +430,6 @@ public sealed class DiscordWebhookRestResource
 
 				new RestRequest
 				{
-					Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 					Url = builder.Build(),
 					Payload = payloadBody,
 					Method = HttpMethod.Post,
@@ -454,7 +444,6 @@ public sealed class DiscordWebhookRestResource
 
 				new MultipartRestRequest
 				{
-					Path = $"/{Webhooks}/{webhookId}/{webhookToken}",
 					Url = builder.Build(),
 					Payload = String.IsNullOrWhiteSpace
 					(
@@ -517,7 +506,6 @@ public sealed class DiscordWebhookRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{MessageId}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -579,7 +567,6 @@ public sealed class DiscordWebhookRestResource
 
 				new RestRequest
 				{
-					Path = $"/{Webhooks}/{webhookId}/{WebhookToken}",
 					Url = builder.Build(),
 					Payload = payloadBody,
 					Method = HttpMethod.Post,
@@ -594,7 +581,6 @@ public sealed class DiscordWebhookRestResource
 
 				new MultipartRestRequest
 				{
-					Path = $"/{Webhooks}/{webhookId}/{webhookToken}",
 					Url = builder.Build(),
 					Payload = String.IsNullOrWhiteSpace
 					(
@@ -655,7 +641,6 @@ public sealed class DiscordWebhookRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{webhookId}/{WebhookToken}/{Messages}/{MessageId}",
 			Url = builder.Build(),
 			Method = HttpMethod.Delete,
 			Context = new()

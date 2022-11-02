@@ -39,7 +39,6 @@ public sealed class DiscordUserRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{Me}",
 			Url = $"{Users}/{Me}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -76,7 +75,6 @@ public sealed class DiscordUserRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{UserId}",
 			Url = $"{Users}/{userId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -113,7 +111,6 @@ public sealed class DiscordUserRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{Me}",
 			Url = $"{Users}/{Me}",
 			Method = HttpMethod.Get,
 			Payload = JsonSerializer.Serialize
@@ -178,7 +175,6 @@ public sealed class DiscordUserRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{Me}/{Guilds}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -215,7 +211,6 @@ public sealed class DiscordUserRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}/{Member}",
 			Url = $"{Users}/{Me}/{Guilds}/{guildId}/{Member}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -252,7 +247,6 @@ public sealed class DiscordUserRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{Me}/{Guilds}/{GuildId}",
 			Url = $"{Users}/{Me}/{Guilds}/{guildId}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -282,7 +276,6 @@ public sealed class DiscordUserRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{Me}/{Channels}",
 			Url = $"{Users}/{Me}/{Channels}",
 			Method = HttpMethod.Post,
 			Payload =
@@ -322,7 +315,6 @@ public sealed class DiscordUserRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Users}/{Me}/{Connections}",
 			Url = $"{Users}/{Me}/{Connections}",
 			Method = HttpMethod.Get,
 			Context = new()

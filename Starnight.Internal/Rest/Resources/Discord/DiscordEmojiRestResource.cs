@@ -38,7 +38,6 @@ public sealed class DiscordEmojiRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Emojis}",
 			Url = $"{Guilds}/{guildId}/{Emojis}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -76,7 +75,6 @@ public sealed class DiscordEmojiRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
 			Url = $"{Guilds}/{guildId}/{Emojis}/{emojiId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -115,7 +113,6 @@ public sealed class DiscordEmojiRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Emojis}",
 			Url = $"{Guilds}/{guildId}/{Emojis}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -165,7 +162,6 @@ public sealed class DiscordEmojiRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
 			Url = $"{Guilds}/{guildId}/{Emojis}/{emojiId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -214,7 +210,6 @@ public sealed class DiscordEmojiRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{Emojis}/{EmojiId}",
 			Url = $"{Guilds}/{guildId}/{Emojis}/{emojiId}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()

@@ -88,7 +88,7 @@ public sealed partial class RestClient
 		CancellationToken ct = default
 	)
 	{
-		if(!routeRegex().IsMatch(request.Path))
+		if(!routeRegex().IsMatch(request.Url))
 		{
 			this.__logger?.LogError
 			(

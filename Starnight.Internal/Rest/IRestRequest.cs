@@ -13,8 +13,6 @@ public interface IRestRequest
 {
 	public HttpMethod Method { get; }
 
-	public String Path { get; }
-
 	public String Url { get; }
 
 	public Dictionary<String, String> Headers { get; }

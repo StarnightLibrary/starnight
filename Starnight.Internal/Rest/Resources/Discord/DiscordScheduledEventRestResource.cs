@@ -50,7 +50,6 @@ public sealed class DiscordScheduledEventRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -89,7 +88,6 @@ public sealed class DiscordScheduledEventRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}",
 			Url = $"/{Guilds}/{guildId}/{ScheduledEvents}",
 			Method = HttpMethod.Post,
 			Headers = reason is not null ? new()
@@ -144,7 +142,6 @@ public sealed class DiscordScheduledEventRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -184,7 +181,6 @@ public sealed class DiscordScheduledEventRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
 			Url = $"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -232,7 +228,6 @@ public sealed class DiscordScheduledEventRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}",
 			Url = $"{Guilds}/{guildId}/{ScheduledEvents}/{eventId}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -293,7 +288,6 @@ public sealed class DiscordScheduledEventRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{ScheduledEvents}/{ScheduledEventId}/{Users}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()

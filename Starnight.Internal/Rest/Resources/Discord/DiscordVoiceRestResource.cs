@@ -33,7 +33,6 @@ public sealed class DiscordVoiceRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Voice}/{Regions}",
 			Url = $"{Voice}/{Regions}",
 			Method = HttpMethod.Get,
 			Context = new()

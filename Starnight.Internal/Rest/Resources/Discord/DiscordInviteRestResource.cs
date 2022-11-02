@@ -58,7 +58,6 @@ public sealed class DiscordInviteRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Invites}/{InviteCode}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -96,7 +95,6 @@ public sealed class DiscordInviteRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Invites}/{InviteCode}",
 			Url = $"{Invites}/{inviteCode}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()

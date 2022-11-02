@@ -53,7 +53,6 @@ public sealed class DiscordApplicationCommandsRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Commands}",
 			Url = builder.Build(),
 			Headers = locale is not null ? new()
 			{
@@ -96,7 +95,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Commands}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -139,7 +137,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Commands}/{commandId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -178,7 +175,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Commands}/{commandId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -221,7 +217,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Commands}/{commandId}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -252,7 +247,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Commands}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -307,7 +301,6 @@ public sealed class DiscordApplicationCommandsRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
@@ -346,7 +339,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -390,7 +382,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -430,7 +421,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -474,7 +464,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -506,7 +495,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -549,7 +537,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{Permissions}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{Permissions}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -588,7 +575,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Applications}/{AppId}/{Guilds}/{GuildId}/{Commands}/{CommandId}/{Permissions}",
 			Url = $"{Channels}/{applicationId}/{Guilds}/{guildId}/{Commands}/{commandId}/{Permissions}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -629,7 +615,6 @@ public sealed class DiscordApplicationCommandsRestResource
 
 			? new RestRequest
 			{
-				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
 				Url = $"{Interactions}/{interactionId}/{interactionToken}/{Callback}",
 				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize
@@ -647,7 +632,6 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 			: new MultipartRestRequest
 			{
-				Path = $"/{Interactions}/{InteractionId}/{InteractionToken}/{Callback}",
 				Url = $"{Interactions}/{interactionId}/{interactionToken}/{Callback}",
 				Payload = new()
 				{
@@ -687,7 +671,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -728,7 +711,6 @@ public sealed class DiscordApplicationCommandsRestResource
 
 			? new RestRequest
 			{
-				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 				Url = $"{AppId}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
 				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize
@@ -746,7 +728,6 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 			: new MultipartRestRequest
 			{
-				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 				Url = $"{Interactions}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
 				Payload = new()
 				{
@@ -793,7 +774,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/@{Original}",
 			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/@{Original}",
 			Method = HttpMethod.Delete,
 			Context = new()
@@ -827,7 +807,6 @@ public sealed class DiscordApplicationCommandsRestResource
 
 			? new RestRequest
 			{
-				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
 				Url = $"{AppId}/{applicationId}/{interactionToken}",
 				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize
@@ -845,7 +824,6 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 			: new MultipartRestRequest
 			{
-				Path = $"/{Interactions}/{AppId}/{InteractionToken}",
 				Url = $"{Interactions}/{applicationId}/{interactionToken}",
 				Payload = new()
 				{
@@ -893,7 +871,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -935,7 +912,6 @@ public sealed class DiscordApplicationCommandsRestResource
 
 			? new RestRequest
 			{
-				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 				Url = $"{AppId}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
 				Method = HttpMethod.Post,
 				Payload = JsonSerializer.Serialize
@@ -953,7 +929,6 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 			: new MultipartRestRequest
 			{
-				Path = $"/{Interactions}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 				Url = $"{Interactions}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
 				Payload = new()
 				{
@@ -1001,7 +976,6 @@ public sealed class DiscordApplicationCommandsRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Webhooks}/{AppId}/{InteractionToken}/{Messages}/{MessageId}",
 			Url = $"{Webhooks}/{applicationId}/{interactionToken}/{Messages}/{messageId}",
 			Method = HttpMethod.Delete,
 			Context = new()

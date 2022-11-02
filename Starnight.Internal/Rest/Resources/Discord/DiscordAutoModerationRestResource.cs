@@ -38,7 +38,6 @@ public sealed class DiscordAutoModerationRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -76,7 +75,6 @@ public sealed class DiscordAutoModerationRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
 			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -115,7 +113,6 @@ public sealed class DiscordAutoModerationRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}",
 			Method = HttpMethod.Post,
 			Payload = JsonSerializer.Serialize
@@ -165,7 +162,6 @@ public sealed class DiscordAutoModerationRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
 			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}",
 			Method = HttpMethod.Patch,
 			Payload = JsonSerializer.Serialize
@@ -214,7 +210,6 @@ public sealed class DiscordAutoModerationRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{guildId}/{AutoModeration}/{Rules}/{AutoModerationRuleId}",
 			Url = $"{Guilds}/{guildId}/{AutoModeration}/{Rules}/{ruleId}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()

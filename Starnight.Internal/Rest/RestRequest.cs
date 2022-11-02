@@ -9,14 +9,12 @@ using Polly;
 /// <summary>
 /// Represents a single-part REST request.
 /// </summary>
-public struct RestRequest : IRestRequest
+public readonly struct RestRequest : IRestRequest
 {
 	public RestRequest()
 	{ }
 
 	public HttpMethod Method { get; init; } = HttpMethod.Get;
-
-	public required String Path { get; init; } 
 
 	public required String Url { get; init; } 
 

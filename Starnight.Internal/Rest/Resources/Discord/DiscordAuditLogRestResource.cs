@@ -65,7 +65,6 @@ public sealed class DiscordAuditLogRestResource
 
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Guilds}/{GuildId}/{AuditLogs}",
 			Url = builder.Build(),
 			Method = HttpMethod.Get,
 			Context = new()

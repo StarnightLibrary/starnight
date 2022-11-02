@@ -37,7 +37,6 @@ public sealed class DiscordStageInstanceRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{StageInstances}",
 			Url = $"{StageInstances}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -84,7 +83,6 @@ public sealed class DiscordStageInstanceRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{StageInstances}/{ChannelId}",
 			Url = $"{StageInstances}/{channelId}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -123,7 +121,6 @@ public sealed class DiscordStageInstanceRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{StageInstances}/{ChannelId}",
 			Url = $"{StageInstances}/{channelId}",
 			Payload = JsonSerializer.Serialize
 			(
@@ -171,7 +168,6 @@ public sealed class DiscordStageInstanceRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{StageInstances}/{ChannelId}",
 			Url = $"{StageInstances}/{channelId}",
 			Method = HttpMethod.Delete,
 			Headers = reason is not null ? new()
