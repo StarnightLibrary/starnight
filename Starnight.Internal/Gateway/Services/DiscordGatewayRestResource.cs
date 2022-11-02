@@ -29,7 +29,6 @@ public sealed class DiscordGatewayRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Gateway}/{Bot}",
 			Url = $"{Gateway}/{Bot}",
 			Method = HttpMethod.Get,
 			Context = new()
@@ -51,7 +50,6 @@ public sealed class DiscordGatewayRestResource
 	{
 		IRestRequest request = new RestRequest
 		{
-			Path = $"/{Gateway}",
 			Url = $"{Gateway}",
 			Method = HttpMethod.Get,
 			Context = new()
