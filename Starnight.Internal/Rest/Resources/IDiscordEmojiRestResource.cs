@@ -49,7 +49,7 @@ public interface IDiscordEmojiRestResource
 	(
 		Int64 guildId,
 		CreateGuildEmojiRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -67,7 +67,7 @@ public interface IDiscordEmojiRestResource
 		Int64 guildId,
 		Int64 emojiId,
 		ModifyGuildEmojiRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -83,7 +83,7 @@ public interface IDiscordEmojiRestResource
 	(
 		Int64 guildId,
 		Int64 emojiId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 }
