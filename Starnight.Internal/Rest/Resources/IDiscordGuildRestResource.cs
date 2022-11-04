@@ -28,7 +28,7 @@ public interface IDiscordGuildRestResource
 	public ValueTask<DiscordGuild> GetGuildAsync
 	(
 		Int64 guildId,
-		Boolean? withCounts,
+		Boolean? withCounts = null,
 		CancellationToken ct = default
 	);
 
@@ -56,7 +56,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		ModifyGuildRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -95,7 +95,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		CreateGuildChannelRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -153,8 +153,8 @@ public interface IDiscordGuildRestResource
 	public ValueTask<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync
 	(
 		Int64 guildId,
-		Int32? limit,
-		Int64? afterUserId,
+		Int32? limit = null,
+		Int64? afterUserId = null,
 		CancellationToken ct = default
 	);
 
@@ -169,7 +169,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		String query,
-		Int32? limit,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 
@@ -203,7 +203,7 @@ public interface IDiscordGuildRestResource
 		Int64 guildId,
 		Int64 userId,
 		ModifyGuildMemberRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -219,7 +219,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		String nickname,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -237,7 +237,7 @@ public interface IDiscordGuildRestResource
 		Int64 guildId,
 		Int64 userId,
 		Int64 roleId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -255,7 +255,7 @@ public interface IDiscordGuildRestResource
 		Int64 guildId,
 		Int64 userId,
 		Int64 roleId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -271,7 +271,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		Int64 userId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -315,7 +315,7 @@ public interface IDiscordGuildRestResource
 		Int64 guildId,
 		Int64 userId,
 		Int32 deleteMessageDays,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -331,7 +331,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		Int64 userId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -358,7 +358,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		CreateGuildRoleRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -374,7 +374,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		IEnumerable<ModifyRolePositionRequestPayload> payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -392,7 +392,7 @@ public interface IDiscordGuildRestResource
 		Int64 guildId,
 		Int64 roleId,
 		ModifyGuildRoleRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default	
 	);
 
@@ -408,7 +408,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		DiscordGuildMultiFactorAuthLevel level,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -443,8 +443,8 @@ public interface IDiscordGuildRestResource
 	public ValueTask<Int32> GetGuildPruneCountAsync
 	(
 		Int64 guildId,
-		Int32? days,
-		String? roles,
+		Int32? days = null,
+		String? roles = null,
 		CancellationToken ct = default
 	);
 
@@ -466,10 +466,10 @@ public interface IDiscordGuildRestResource
 	public ValueTask<Int32?> BeginGuildPruneAsync
 	(
 		Int64 guildId,
-		Int32? days,
-		String? roles,
-		Boolean? computeCount,
-		String? reason,
+		Int32? days = null,
+		String? roles = null,
+		Boolean? computeCount = null,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -518,7 +518,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		Int64 integrationId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -545,7 +545,7 @@ public interface IDiscordGuildRestResource
 	(
 		Int64 guildId,
 		DiscordGuildWidgetSettings settings,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -580,7 +580,7 @@ public interface IDiscordGuildRestResource
 	public ValueTask<Stream> GetGuildWidgetImageAsync
 	(
 		Int64 guildId,
-		String? style,
+		String? style = null,
 		CancellationToken ct = default
 	);
 
