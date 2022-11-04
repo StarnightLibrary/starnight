@@ -23,10 +23,10 @@ public interface IDiscordAuditLogRestResource
 	public ValueTask<DiscordAuditLogObject> GetGuildAuditLogAsync
 	(
 		Int64 guildId,
-		Int64? userId,
-		DiscordAuditLogEvent? actionType,
-		Int64? before,
-		Int32? limit,
+		Int64? userId = null,
+		DiscordAuditLogEvent? actionType = null,
+		Int64? before = null,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 }
