@@ -22,7 +22,7 @@ public interface IDiscordScheduledEventRestResource
 	public ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync
 	(
 		Int64 guildId,
-		Boolean? withUserCount,
+		Boolean? withUserCount = null,
 		CancellationToken ct = default
 	);
 
@@ -38,7 +38,7 @@ public interface IDiscordScheduledEventRestResource
 	(
 		Int64 guildId,
 		CreateScheduledEventRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -55,7 +55,7 @@ public interface IDiscordScheduledEventRestResource
 	(
 		Int64 guildId,
 		Int64 eventId,
-		Boolean? withUserCount,
+		Boolean? withUserCount = null,
 		CancellationToken ct = default
 	);
 
@@ -73,7 +73,7 @@ public interface IDiscordScheduledEventRestResource
 		Int64 guildId,
 		Int64 eventId,
 		ModifyScheduledEventRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -105,10 +105,10 @@ public interface IDiscordScheduledEventRestResource
 	(
 		Int64 guildId,
 		Int64 eventId,
-		Int32? limit,
-		Boolean? withMemberObject,
-		Int64? before,
-		Int64? after,
+		Int32? limit = null,
+		Boolean? withMemberObject = null,
+		Int64? before = null,
+		Int64? after = null,
 		CancellationToken ct = default
 	);
 }
