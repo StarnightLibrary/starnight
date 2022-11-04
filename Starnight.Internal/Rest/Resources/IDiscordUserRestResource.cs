@@ -64,9 +64,9 @@ public interface IDiscordUserRestResource
 	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<IEnumerable<DiscordGuild>> GetCurrentUserGuildsAsync
 	(
-		Int64? before,
-		Int64? after,
-		Int32? limit,
+		Int64? before = null,
+		Int64? after = null,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 
