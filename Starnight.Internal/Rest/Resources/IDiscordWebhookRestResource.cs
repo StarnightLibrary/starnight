@@ -26,7 +26,7 @@ public interface IDiscordWebhookRestResource
 	(
 		Int64 channelId,
 		CreateWebhookRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -91,7 +91,7 @@ public interface IDiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		ModifyWebhookRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -112,7 +112,7 @@ public interface IDiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		ModifyWebhookWithTokenRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -126,7 +126,7 @@ public interface IDiscordWebhookRestResource
 	public ValueTask<Boolean> DeleteWebhookAsync
 	(
 		Int64 webhookId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -145,7 +145,7 @@ public interface IDiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		String webhookToken,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -154,6 +154,7 @@ public interface IDiscordWebhookRestResource
 	/// </summary>
 	/// <param name="webhookId">Snowflake identifier of the webhook to delete.</param>
 	/// <param name="webhookToken">Webhook token of the webhook to delete.</param>
+	/// <param name="payload">Request payload.</param>
 	/// <param name="wait">
 	///	Specifies whether to wait for server confirmation. If this is set to true, a <see cref="DiscordMessage"/>
 	///	object will be returned, if not, <see langword="null"/> will be returned on success instead. Defaults to
@@ -164,7 +165,6 @@ public interface IDiscordWebhookRestResource
 	///	archived, this will automatically unarchive it. Only threads with the same parent channel as the webhook
 	///	can be passed.
 	/// </param>
-	/// <param name="payload">Request payload.</param>
 	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>
 	/// If <paramref name="wait"/> was set to <see langword="true"/>, a <see cref="DiscordMessage"/> object.<br/>
@@ -174,9 +174,9 @@ public interface IDiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		String webhookToken,
-		Boolean? wait,
-		Int64? threadId,
 		ExecuteWebhookRequestPayload payload,
+		Boolean? wait = null,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	);
 
@@ -198,7 +198,7 @@ public interface IDiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	);
 
@@ -210,11 +210,11 @@ public interface IDiscordWebhookRestResource
 	/// Webhook token for your webhook. This must match the token of the original author.
 	/// </param>
 	/// <param name="messageId">Snowflake identifier of the message in question.</param>
+	/// <param name="payload">Request payload.</param>
 	/// <param name="threadId">
 	///	Specifies the thread to search in rather than the parent channel. Only threads with the same parent channel
 	///	as the webhook can be passed.
 	/// </param>
-	/// <param name="payload">Request payload.</param>
 	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The newly edited message.</returns>
 	public ValueTask<DiscordMessage> EditWebhookMessageAsync
@@ -222,8 +222,8 @@ public interface IDiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId,
 		EditWebhookMessageRequestPayload payload,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	);
 
@@ -246,7 +246,7 @@ public interface IDiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	);
 }

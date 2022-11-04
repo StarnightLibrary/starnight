@@ -35,7 +35,7 @@ public sealed class DiscordWebhookRestResource
 	(
 		Int64 channelId,
 		CreateWebhookRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	)
 	{
@@ -228,7 +228,7 @@ public sealed class DiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		ModifyWebhookRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	)
 	{
@@ -277,7 +277,7 @@ public sealed class DiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		ModifyWebhookWithTokenRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	)
 	{
@@ -324,7 +324,7 @@ public sealed class DiscordWebhookRestResource
 	public async ValueTask<Boolean> DeleteWebhookAsync
 	(
 		Int64 webhookId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	)
 	{
@@ -360,7 +360,7 @@ public sealed class DiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		String webhookToken,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	)
 	{
@@ -396,9 +396,9 @@ public sealed class DiscordWebhookRestResource
 	(
 		Int64 webhookId,
 		String webhookToken,
-		Boolean? wait,
-		Int64? threadId,
 		ExecuteWebhookRequestPayload payload,
+		Boolean? wait = null,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	)
 	{
@@ -489,7 +489,7 @@ public sealed class DiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	)
 	{
@@ -539,8 +539,8 @@ public sealed class DiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId,
 		EditWebhookMessageRequestPayload payload,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	)
 	{
@@ -624,7 +624,7 @@ public sealed class DiscordWebhookRestResource
 		Int64 webhookId,
 		String webhookToken,
 		Int64 messageId,
-		Int64? threadId,
+		Int64? threadId = null,
 		CancellationToken ct = default
 	)
 	{
