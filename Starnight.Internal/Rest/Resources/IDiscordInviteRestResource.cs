@@ -22,9 +22,9 @@ public interface IDiscordInviteRestResource
 	public ValueTask<DiscordInvite> GetInviteAsync
 	(
 		String inviteCode,
-		Boolean? withCounts,
-		Boolean? withExpiration,
-		Int64? scheduledEventId,
+		Boolean? withCounts = null,
+		Boolean? withExpiration = null,
+		Int64? scheduledEventId = null,
 		CancellationToken ct = default
 	);
 
@@ -38,7 +38,7 @@ public interface IDiscordInviteRestResource
 	public ValueTask<DiscordInvite> DeleteInviteAsync
 	(
 		String inviteCode,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 }
