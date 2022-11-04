@@ -25,8 +25,8 @@ public interface IDiscordApplicationCommandsRestResource
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
-		Boolean? withLocalizations,
-		String? locale,
+		Boolean? withLocalizations = null,
+		String? locale = null,
 		CancellationToken ct = default
 	);
 
@@ -115,7 +115,7 @@ public interface IDiscordApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Boolean? withLocalizations,
+		Boolean? withLocalizations = null,
 		CancellationToken ct = default
 	);
 
