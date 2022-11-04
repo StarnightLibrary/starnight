@@ -55,7 +55,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		ModifyGuildChannelRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -71,7 +71,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		ModifyThreadChannelRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -86,7 +86,7 @@ public interface IDiscordChannelRestResource
 	public ValueTask<DiscordChannel> DeleteChannelAsync
 	(
 		Int64 channelId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -107,9 +107,9 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		Int32 count,
-		Int64? around,
-		Int64? before,
-		Int64? after,
+		Int64? around = null,
+		Int64? before = null,
+		Int64? after = null,
 		CancellationToken ct = default
 	);
 
@@ -217,8 +217,8 @@ public interface IDiscordChannelRestResource
 		Int64 channelId,
 		Int64 messageId,
 		String emoji,
-		Int64? after,
-		Int32? limit,
+		Int64? after = null,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 
@@ -277,7 +277,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		Int64 messageId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -296,7 +296,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		IEnumerable<Int64> messageIds,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -314,7 +314,7 @@ public interface IDiscordChannelRestResource
 		Int64 channelId,
 		Int64 overwriteId,
 		EditChannelPermissionsRequestPayload payload,
-		String? reason,
+		String? reason = null	,
 		CancellationToken ct = default
 	);
 
@@ -341,7 +341,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		CreateChannelInviteRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -357,7 +357,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		Int64 overwriteId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -411,7 +411,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		Int64 messageId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -427,7 +427,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		Int64 messageId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -473,7 +473,7 @@ public interface IDiscordChannelRestResource
 		Int64 channelId,
 		Int64 messageId,
 		StartThreadFromMessageRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -489,7 +489,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		StartThreadWithoutMessageRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -508,7 +508,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		StartThreadInForumChannelRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -601,7 +601,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		DateTimeOffset? before,
-		Int32? limit,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 
@@ -618,7 +618,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		DateTimeOffset? before,
-		Int32? limit,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 
@@ -633,7 +633,7 @@ public interface IDiscordChannelRestResource
 	(
 		Int64 channelId,
 		DateTimeOffset? before,
-		Int32? limit,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 }
