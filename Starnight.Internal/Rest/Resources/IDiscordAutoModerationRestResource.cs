@@ -49,7 +49,7 @@ public interface IDiscordAutoModerationRestResource
 	(
 		Int64 guildId,
 		CreateAutoModerationRuleRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -67,7 +67,7 @@ public interface IDiscordAutoModerationRestResource
 		Int64 guildId,
 		Int64 ruleId,
 		ModifyAutoModerationRuleRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -83,7 +83,7 @@ public interface IDiscordAutoModerationRestResource
 	(
 		Int64 guildId,
 		Int64 ruleId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 }
