@@ -23,7 +23,7 @@ public interface IDiscordStageInstanceRestResource
 	public ValueTask<DiscordStageInstance> CreateStageInstanceAsync
 	(
 		CreateStageInstanceRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -50,7 +50,7 @@ public interface IDiscordStageInstanceRestResource
 	(
 		Int64 channelId,
 		ModifyStageInstanceRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -64,7 +64,7 @@ public interface IDiscordStageInstanceRestResource
 	public ValueTask<Boolean> DeleteStageInstanceAsync
 	(
 		Int64 channelId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 }
