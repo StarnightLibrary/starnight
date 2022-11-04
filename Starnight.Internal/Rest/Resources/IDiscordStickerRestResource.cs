@@ -70,7 +70,7 @@ public interface IDiscordStickerRestResource
 	(
 		Int64 guildId,
 		CreateGuildStickerRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -88,7 +88,7 @@ public interface IDiscordStickerRestResource
 		Int64 guildId,
 		Int64 stickerId,
 		ModifyGuildStickerRequestPayload payload,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 
@@ -104,7 +104,7 @@ public interface IDiscordStickerRestResource
 	(
 		Int64 guildId,
 		Int64 stickerId,
-		String? reason,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 }
