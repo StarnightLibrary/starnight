@@ -122,8 +122,6 @@ public class DiscordGatewayClient : IHostedService
 		CancellationToken cancellationToken
 	)
 	{
-		Console.Write("started gateway client");
-
 		if(this.__options.ShardInformation is not null && this.__options.ShardInformation.Length != 2)
 		{
 			throw new StarnightInvalidConnectionException
