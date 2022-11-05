@@ -370,8 +370,8 @@ public class DiscordGatewayClient : IHostedService
 
 					this.__logger.LogTrace
 					(
-						"Heartbeat received, with {delay} latency.",
-						this.Latency
+						"Heartbeat received, with {delay}ms latency.",
+						this.Latency.Milliseconds
 					);
 
 					break;

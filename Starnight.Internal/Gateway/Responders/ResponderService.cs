@@ -94,11 +94,11 @@ public class ResponderService
 
 		DispatchDelegate dispatchDelegate;
 
-		if(!this.__cached_delegates.TryGetValue(@event.GetType(), out dispatchDelegate!))
+		if(!this.__cached_delegates.TryGetValue(eventType, out dispatchDelegate!))
 		{
 			Type delegateType = typeof(Func<,,,>).MakeGenericType
 			(
-				typeof(IDiscordGatewayEvent),
+				eventType,
 				typeof(IEnumerable<IEnumerable<Type>>),
 				typeof(IServiceScope),
 				typeof(ValueTask)
@@ -107,9 +107,20 @@ public class ResponderService
 			dispatchDelegate = Unsafe.As<DispatchDelegate>
 			(
 				typeof(ResponderService)
-					.GetMethod(nameof(dispatchEventAsync), BindingFlags.NonPublic | BindingFlags.Instance)!
-					.MakeGenericMethod(@event.GetType())
-					.CreateDelegate(delegateType, this)
+					.GetMethod
+					(
+						nameof(invokeRespondersAsync),
+						BindingFlags.NonPublic | BindingFlags.Instance
+					)!
+					.MakeGenericMethod
+					(
+						@event.GetType()
+					)
+					.CreateDelegate
+					(
+						delegateType,
+						this
+					)
 			);
 
 			this.__cached_delegates.Add(@event.GetType(), dispatchDelegate);
@@ -118,7 +129,7 @@ public class ResponderService
 		await dispatchDelegate(@event, responders, scope);
 	}
 
-	private async ValueTask dispatchEventAsync<TEvent>
+	private async ValueTask invokeRespondersAsync<TEvent>
 	(
 		TEvent @event,
 		IEnumerable<IEnumerable<Type>> responders,

@@ -1,8 +1,6 @@
 namespace Starnight.Internal.Gateway.Responders;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,21 +35,16 @@ public static class ServiceCollectionExtensions
 			);
 		}
 
-		IEnumerable<Type> responderInterfaces = responder.GetInterfaces()
-			.Where(xm => xm.IsGenericType && xm.GetGenericTypeDefinition() == typeof(IResponder<>))
-			.Select(xm => xm.GetGenericArguments().First());
-
-		foreach(Type responderInterface in responderInterfaces)
-		{
-			_ = services.AddScoped(responderInterface, responder);
-		}
-
 		_ = services.AddScoped(responder);
 
-		_ = services.Configure<ResponderCollection>
-		(
-			xm => xm.RegisterResponder(responder, phase)
-		);
+		services
+			.BuildServiceProvider()
+			.GetRequiredService<ResponderCollection>()
+			.RegisterResponder
+			(
+				responder,
+				phase
+			);
 
 		return services;
 	}

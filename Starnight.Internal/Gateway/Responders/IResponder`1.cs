@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 /// Represents a base interface for all responders.
 /// </summary>
 /// <typeparam name="TEvent">The event type this responder handles.</typeparam>
-public interface IResponder<TEvent>
+public interface IResponder<TEvent> : IResponder
 	where TEvent : IDiscordGatewayEvent
 {
 	/// <summary>

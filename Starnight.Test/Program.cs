@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Starnight.Caching;
 using Starnight.Internal;
 using Starnight.Internal.Gateway;
+using Starnight.Internal.Gateway.Responders;
 using Starnight.Internal.Rest;
 
 public class Program
@@ -19,6 +20,8 @@ public class Program
 		IHostBuilder hostBuilder = Host
 			.CreateDefaultBuilder(args)
 			.UseConsoleLifetime();
+
+		_ = hostBuilder.AddStarnightGateway();
 
 		_ = hostBuilder.ConfigureServices(services =>
 		{
@@ -42,9 +45,12 @@ public class Program
 			(
 				xm => xm.Intents = DiscordGatewayIntents.Guilds
 			);
-		});
 
-		_ = hostBuilder.AddStarnightGateway();
+			_ = services.AddResponder
+			(
+				typeof(TestResponder)
+			);
+		});
 
 		IHost host = hostBuilder.Build();
 

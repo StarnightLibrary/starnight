@@ -1,7 +1,6 @@
 namespace Starnight.Internal.Gateway.Responders;
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,11 +11,11 @@ using Starnight.Exceptions;
 /// </summary>
 public class ResponderCollection
 {
-	private readonly ConcurrentDictionary<Type, List<Type>> __pre_event_responders;
-	private readonly ConcurrentDictionary<Type, List<Type>> __early_responders;
-	private readonly ConcurrentDictionary<Type, List<Type>> __responders;
-	private readonly ConcurrentDictionary<Type, List<Type>> __late_responders;
-	private readonly ConcurrentDictionary<Type, List<Type>> __post_event_responders;
+	private readonly Dictionary<Type, List<Type>> __pre_event_responders;
+	private readonly Dictionary<Type, List<Type>> __early_responders;
+	private readonly Dictionary<Type, List<Type>> __responders;
+	private readonly Dictionary<Type, List<Type>> __late_responders;
+	private readonly Dictionary<Type, List<Type>> __post_event_responders;
 
 	public ResponderCollection()
 	{
@@ -51,7 +50,7 @@ public class ResponderCollection
 
 		foreach(Type responderInterface in responderInterfaces)
 		{
-			ConcurrentDictionary<Type, List<Type>> dictionary = phase switch
+			Dictionary<Type, List<Type>> dictionary = phase switch
 			{
 				ResponderPhase.PreEvent => this.__pre_event_responders,
 				ResponderPhase.Early => this.__early_responders,
@@ -61,18 +60,24 @@ public class ResponderCollection
 				_ => throw new InvalidOperationException("Invalid enum type.")
 			};
 
-			_ = dictionary.AddOrUpdate
+			if(!dictionary.TryGetValue(responderInterface, out List<Type>? value))
+			{
+				value = new();
+				dictionary.Add
+				(
+					responderInterface,
+					value
+				);
+			}
+
+			if(value.Contains(responder))
+			{
+				continue;
+			}
+
+			value.Add
 			(
-				key: responderInterface,
-				addValue: new()
-				{
-					responder
-				},
-				updateValueFactory: (_, current) =>
-				{
-					current.Add(responder);
-					return current;
-				}
+				responder
 			);
 		}
 	}
@@ -89,7 +94,7 @@ public class ResponderCollection
 		ResponderPhase phase
 	)
 	{
-		ConcurrentDictionary<Type, List<Type>> dictionary = phase switch
+		Dictionary<Type, List<Type>> dictionary = phase switch
 		{
 			ResponderPhase.PreEvent => this.__pre_event_responders,
 			ResponderPhase.Early => this.__early_responders,
