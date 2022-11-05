@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 using Starnight.Internal.Gateway.Responders;
 using Starnight.Internal.Gateway.Services;
@@ -27,5 +28,29 @@ public static class GatewayRegistration
 			.AddSingleton<DiscordGatewayClient>();
 
 		return services;
+	}
+
+	/// <summary>
+	/// Registers the Starnight gateway client.
+	/// </summary>
+	/// <param name="host">The host builder to register this client into.</param>
+	/// <returns>The host builder, for chaining.</returns>
+	public static IHostBuilder AddStarnightGateway(this IHostBuilder host)
+	{
+		return host.ConfigureServices
+		(
+			(context, services) =>
+			{
+				_ = services.AddSingleton<DiscordGatewayRestResource>();
+
+				_ = services.AddSingleton<ResponderCollection>();
+
+				_ = services.AddSingleton<TransportService>()
+					.AddSingleton<IOutboundGatewayService, OutboundGatewayService>()
+					.AddSingleton<IInboundGatewayService, InboundGatewayService>();
+
+				_ = services.AddHostedService<DiscordGatewayClient>();
+			}
+		);
 	}
 }

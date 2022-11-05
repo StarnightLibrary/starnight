@@ -70,7 +70,10 @@ public class DiscordGatewayClient : IHostedService
 					value
 				);
 
-				this.ZombiedEvent(this);
+				this.ZombiedEvent
+				(
+					this
+				);
 			}
 		}
 	}
@@ -110,8 +113,13 @@ public class DiscordGatewayClient : IHostedService
 		this.Latency = TimeSpan.Zero;
 	}
 
-	public async Task StartAsync(CancellationToken cancellationToken)
+	public async Task StartAsync
+	(
+		CancellationToken cancellationToken
+	)
 	{
+		Console.Write("started gateway client");
+
 		if(this.__options.ShardInformation is not null && this.__options.ShardInformation.Length != 2)
 		{
 			throw new StarnightInvalidConnectionException
@@ -120,17 +128,41 @@ public class DiscordGatewayClient : IHostedService
 			);
 		}
 
-		await this.__transport_service.ConnectAsync(cancellationToken);
+		await this.__transport_service.ConnectAsync
+		(
+			cancellationToken
+		);
 
-		await this.identifyAsync(cancellationToken);
+		await this.identifyAsync
+		(
+			cancellationToken
+		);
 
-		await this.__inbound_gateway_service.StartAsync(cancellationToken);
+		await this.__inbound_gateway_service.StartAsync
+		(
+			cancellationToken
+		);
 
-		_ = Task.Factory.StartNew(async () => await this.handleControlEventsAsync(cancellationToken));
+		_ = Task.Factory.StartNew
+		(
+			async () => await this.handleControlEventsAsync
+			(
+				cancellationToken
+			)
+		);
 	}
 
-	public async Task StopAsync(CancellationToken cancellationToken)
-		=> await this.__transport_service.DisconnectAsync(false, WebSocketCloseStatus.NormalClosure);
+	public async Task StopAsync
+	(
+		CancellationToken cancellationToken
+	)
+	{
+		await this.__transport_service.DisconnectAsync
+		(
+			false,
+			WebSocketCloseStatus.NormalClosure
+		);
+}
 
 	/// <summary>
 	/// Reconnects to the discord gateway.
@@ -140,9 +172,15 @@ public class DiscordGatewayClient : IHostedService
 	{
 		this.__transport_service.ResumeUrl = null;
 
-		await this.__transport_service.ConnectAsync(ct);
+		await this.__transport_service.ConnectAsync
+		(
+			ct
+		);
 
-		await this.identifyAsync(ct);
+		await this.identifyAsync
+		(
+			ct
+		);
 	}
 
 	/// <summary>
@@ -150,13 +188,19 @@ public class DiscordGatewayClient : IHostedService
 	/// </summary>
 	/// <param name="event">The event to be sent off to the gateway</param>
 	/// <exception cref="StarnightInvalidOutboundEventException">Thrown if the event used an opcode reserved for inbound events.</exception>
-	public async ValueTask SendOutboundEventAsync(IDiscordGatewayEvent @event)
+	public async ValueTask SendOutboundEventAsync
+	(
+		IDiscordGatewayEvent @event
+	)
 	{
-		if(@event.Opcode is DiscordGatewayOpcode.Dispatch
-			or DiscordGatewayOpcode.Reconnect
-			or DiscordGatewayOpcode.InvalidSession
-			or DiscordGatewayOpcode.Hello
-			or DiscordGatewayOpcode.HeartbeatAck)
+		if
+		(
+			@event.Opcode is DiscordGatewayOpcode.Dispatch
+				or DiscordGatewayOpcode.Reconnect
+				or DiscordGatewayOpcode.InvalidSession
+				or DiscordGatewayOpcode.Hello
+				or DiscordGatewayOpcode.HeartbeatAck
+		)
 		{
 			throw new StarnightInvalidOutboundEventException
 			(
@@ -165,14 +209,26 @@ public class DiscordGatewayClient : IHostedService
 			);
 		}
 
-		await this.__outbound_gateway_service.SendEventAsync(@event);
+		await this.__outbound_gateway_service.SendEventAsync
+		(
+			@event
+		);
 	}
 
-	private async ValueTask identifyAsync(CancellationToken ct)
+	private async ValueTask identifyAsync
+	(
+		CancellationToken ct
+	)
 	{
-		ArgumentNullException.ThrowIfNull(this.__options.Token);
+		ArgumentNullException.ThrowIfNull
+		(
+			this.__options.Token
+		);
 
-		IDiscordGatewayEvent @event = await this.__transport_service.ReadAsync(ct);
+		IDiscordGatewayEvent @event = await this.__transport_service.ReadAsync
+		(
+			ct
+		);
 
 		if(@event is not DiscordHelloEvent helloEvent)
 		{
@@ -185,11 +241,20 @@ public class DiscordGatewayClient : IHostedService
 		this.__logger.LogDebug
 		(
 			"Received hello event, starting heartbeating with an interval of {interval} and identifying.",
-			TimeSpan.FromMilliseconds(helloEvent.Data.HeartbeatInterval)
+			TimeSpan.FromMilliseconds
+			(
+				helloEvent.Data.HeartbeatInterval
+			)
 		);
 
 		this.__heartbeat_interval = helloEvent.Data.HeartbeatInterval;
-		_ = Task.Factory.StartNew(async () => await this.heartbeatAsync(ct));
+		_ = Task.Factory.StartNew
+		(
+			async () => await this.heartbeatAsync
+			(
+				ct
+			)
+		);
 
 		IdentifyPayload identify = new()
 		{
@@ -214,7 +279,10 @@ public class DiscordGatewayClient : IHostedService
 			Intents = (Int32)this.__options.Intents
 		};
 
-		await this.__outbound_gateway_service.IdentifyAsync(identify);
+		await this.__outbound_gateway_service.IdentifyAsync
+		(
+			identify
+		);
 
 		this.__logger.LogInformation
 		(
@@ -222,13 +290,23 @@ public class DiscordGatewayClient : IHostedService
 		);
 	}
 
-	private async ValueTask heartbeatAsync(CancellationToken ct)
+	private async ValueTask heartbeatAsync
+	(
+		CancellationToken ct
+	)
 	{
 		Double jitter = Random.Shared.NextDouble();
 
-		await Task.Delay((Int32)(this.__heartbeat_interval * jitter), ct);
+		await Task.Delay
+		(
+			(Int32)(this.__heartbeat_interval * jitter),
+			ct
+		);
 
-		await this.__outbound_gateway_service.SendHeartbeatAsync(this.LastReceivedSequence);
+		await this.__outbound_gateway_service.SendHeartbeatAsync
+		(
+			this.LastReceivedSequence
+		);
 
 		this.ResponselessHeartbeats++;
 		this.LastHeartbeatSent = DateTimeOffset.UtcNow;
@@ -240,9 +318,16 @@ public class DiscordGatewayClient : IHostedService
 
 		while(!ct.IsCancellationRequested)
 		{
-			await Task.Delay(this.__heartbeat_interval, ct);
+			await Task.Delay
+			(
+				this.__heartbeat_interval,
+				ct
+			);
 
-			await this.__outbound_gateway_service.SendHeartbeatAsync(this.LastReceivedSequence);
+			await this.__outbound_gateway_service.SendHeartbeatAsync
+			(
+				this.LastReceivedSequence
+			);
 
 			this.ResponselessHeartbeats++;
 			this.LastHeartbeatSent = DateTimeOffset.UtcNow;
@@ -254,11 +339,17 @@ public class DiscordGatewayClient : IHostedService
 		}
 	}
 
-	private async ValueTask handleControlEventsAsync(CancellationToken ct)
+	private async ValueTask handleControlEventsAsync
+	(
+		CancellationToken ct
+	)
 	{
 		while(!ct.IsCancellationRequested)
 		{
-			IDiscordGatewayEvent @event = await this.__inbound_gateway_service.ControlEvents.ReadAsync(ct);
+			IDiscordGatewayEvent @event = await this.__inbound_gateway_service.ControlEvents.ReadAsync
+			(
+				ct
+			);
 
 			switch(@event)
 			{
@@ -316,7 +407,10 @@ public class DiscordGatewayClient : IHostedService
 
 					_ = Task.Run
 					(
-						async () => await this.ReconnectAsync(ct),
+						async () => await this.ReconnectAsync
+						(
+							ct
+						),
 						ct
 					);
 
@@ -327,7 +421,11 @@ public class DiscordGatewayClient : IHostedService
 
 	private async ValueTask resume()
 	{
-		ArgumentNullException.ThrowIfNull(this.__options.Token);
+		ArgumentNullException.ThrowIfNull
+		(
+			this.__options.Token
+		);
+
 		await this.__transport_service.ConnectAsync();
 
 		ResumePayload resume = new()
@@ -337,6 +435,9 @@ public class DiscordGatewayClient : IHostedService
 			SessionId = this.__session_id
 		};
 
-		await this.__outbound_gateway_service.ResumeAsync(resume);
+		await this.__outbound_gateway_service.ResumeAsync
+		(
+			resume
+		);
 	}
 }

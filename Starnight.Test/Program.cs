@@ -38,15 +38,13 @@ public class Program
 				xm.Token = " ";
 				xm.Intents = DiscordGatewayIntents.Guilds;
 			});
-
-			_ = services.AddStarnightGateway();
 		});
+
+		_ = hostBuilder.AddStarnightGateway();
 
 		IHost host = hostBuilder.Build();
 
 		await host.StartAsync();
-
-		await host.Services.GetRequiredService<DiscordGatewayClient>().StartAsync(default);
 
 		await host.WaitForShutdownAsync();
 
