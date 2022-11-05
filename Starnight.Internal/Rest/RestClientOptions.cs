@@ -21,9 +21,4 @@ public class RestClientOptions
 	/// Amount of retries before a 429 request is dropped entirely.
 	/// </summary>
 	public Int32 RatelimitedRetryCount { get; set; }
-
-	/// <summary>
-	/// Authentication token used for all requests to Discord's API.
-	/// </summary>
-	public String Token { get; set; } = null!;
 }

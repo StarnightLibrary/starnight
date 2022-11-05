@@ -14,11 +14,6 @@ public class DiscordGatewayClientOptions : IOptions<DiscordGatewayClientOptions>
 	public DiscordGatewayClientOptions Value => this;
 
 	/// <summary>
-	/// The authentication token for this connection.
-	/// </summary>
-	public String? Token { get; set; }
-
-	/// <summary>
 	/// The intents to pass along with this connection.
 	/// </summary>
 	public DiscordGatewayIntents Intents { get; set; }

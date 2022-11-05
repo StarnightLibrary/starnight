@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Starnight.Caching;
+using Starnight.Internal;
 using Starnight.Internal.Gateway;
 using Starnight.Internal.Rest;
 
@@ -25,19 +26,22 @@ public class Program
 
 			_ = services.AddStarnightMemoryCache();
 
+			_ = services.Configure<TokenContainer>
+			(
+				xm => xm.Token = " "
+			);
+
 			_ = services.AddStarnightRestClient(new RestClientOptions()
 			{
 				MedianFirstRequestRetryDelay = TimeSpan.FromSeconds(2),
 				RatelimitedRetryCount = 2,
-				RetryCount = 0,
-				Token = " "
+				RetryCount = 0
 			});
 
-			_ = services.Configure<DiscordGatewayClientOptions>(xm =>
-			{
-				xm.Token = " ";
-				xm.Intents = DiscordGatewayIntents.Guilds;
-			});
+			_ = services.Configure<DiscordGatewayClientOptions>
+			(
+				xm => xm.Intents = DiscordGatewayIntents.Guilds
+			);
 		});
 
 		_ = hostBuilder.AddStarnightGateway();

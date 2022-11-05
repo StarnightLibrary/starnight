@@ -37,12 +37,13 @@ public sealed partial class RestClient
 	(
 		HttpClient client,
 		ILogger<RestClient> logger,
-		IOptions<RestClientOptions> options
+		IOptions<RestClientOptions> options,
+		IOptions<TokenContainer> container
 	)
 	{
 		this.__http_client = client;
 		this.__logger = logger;
-		this.__token = options.Value.Token;
+		this.__token = container.Value.Token;
 	}
 
 	/// <summary>

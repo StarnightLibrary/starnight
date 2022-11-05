@@ -26,6 +26,7 @@ public class DiscordGatewayClient : IHostedService
 {
 	private readonly ILogger<DiscordGatewayClient> __logger;
 	private readonly DiscordGatewayClientOptions __options;
+	private readonly String __token;
 	private readonly TransportService __transport_service;
 	private readonly IInboundGatewayService __inbound_gateway_service;
 	private readonly IOutboundGatewayService __outbound_gateway_service;
@@ -97,6 +98,7 @@ public class DiscordGatewayClient : IHostedService
 	(
 		ILogger<DiscordGatewayClient> logger,
 		IOptions<DiscordGatewayClientOptions> options,
+		IOptions<TokenContainer> container,
 		TransportService transportService,
 		IInboundGatewayService inboundService,
 		IOutboundGatewayService outboundService
@@ -107,6 +109,8 @@ public class DiscordGatewayClient : IHostedService
 		this.__transport_service = transportService;
 		this.__inbound_gateway_service = inboundService;
 		this.__outbound_gateway_service = outboundService;
+
+		this.__token = container.Value.Token;
 
 		this.LastHeartbeatSent = DateTimeOffset.MinValue;
 		this.LastHeartbeatReceived = DateTimeOffset.MinValue;
@@ -222,7 +226,7 @@ public class DiscordGatewayClient : IHostedService
 	{
 		ArgumentNullException.ThrowIfNull
 		(
-			this.__options.Token
+			this.__token
 		);
 
 		IDiscordGatewayEvent @event = await this.__transport_service.ReadAsync
@@ -258,7 +262,7 @@ public class DiscordGatewayClient : IHostedService
 
 		IdentifyPayload identify = new()
 		{
-			Token = this.__options.Token,
+			Token = this.__token,
 			ConnectionProperties = new()
 			{
 				Browser = StarnightInternalConstants.LibraryName,
@@ -423,7 +427,7 @@ public class DiscordGatewayClient : IHostedService
 	{
 		ArgumentNullException.ThrowIfNull
 		(
-			this.__options.Token
+			this.__token
 		);
 
 		await this.__transport_service.ConnectAsync();
@@ -431,7 +435,7 @@ public class DiscordGatewayClient : IHostedService
 		ResumePayload resume = new()
 		{
 			Sequence = this.LastReceivedSequence,
-			Token = this.__options.Token,
+			Token = this.__token,
 			SessionId = this.__session_id
 		};
 
