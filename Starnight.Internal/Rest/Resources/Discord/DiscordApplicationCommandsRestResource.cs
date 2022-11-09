@@ -702,7 +702,7 @@ public sealed class DiscordApplicationCommandsRestResource
 	public async ValueTask<DiscordMessage> EditOriginalResponseAsync
 	(
 		Int64 applicationId,
-		Int64 interactionToken,
+		String interactionToken,
 		EditOriginalResponseRequestPayload payload,
 		CancellationToken ct = default
 	)
@@ -902,7 +902,7 @@ public sealed class DiscordApplicationCommandsRestResource
 	public async ValueTask<DiscordMessage> EditFollowupMessageAsync
 	(
 		Int64 applicationId,
-		Int64 interactionToken,
+		String interactionToken,
 		Int64 messageId,
 		EditFollowupMessageRequestPayload payload,
 		CancellationToken ct = default

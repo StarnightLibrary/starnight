@@ -269,7 +269,7 @@ public interface IDiscordApplicationCommandsRestResource
 	public ValueTask<DiscordMessage> EditOriginalResponseAsync
 	(
 		Int64 applicationId,
-		Int64 interactionToken,
+		String interactionToken,
 		EditOriginalResponseRequestPayload payload,
 		CancellationToken ct = default
 	);
@@ -331,7 +331,7 @@ public interface IDiscordApplicationCommandsRestResource
 	public ValueTask<DiscordMessage> EditFollowupMessageAsync
 	(
 		Int64 applicationId,
-		Int64 interactionToken,
+		String interactionToken,
 		Int64 messageId,
 		EditFollowupMessageRequestPayload payload,
 		CancellationToken ct = default
