@@ -11,14 +11,9 @@
 	<ProjectReference Include="../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(ReleaseBuild) == 'true'">
+  <ItemGroup>
 	<ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj" />
 	<ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(ReleaseBuild) != 'true'">
-	<PackageReference Include="Starnight.Caching" Version="0.2.0-*" />
-	<PackageReference Include="Starnight.Internal" Version="0.1.0-*" />
   </ItemGroup>
 
 </Project>
