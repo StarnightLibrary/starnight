@@ -34,12 +34,8 @@
     <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(ReleaseBuild) == 'true'">
+  <ItemGroup>
     <ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj"/>
-  </ItemGroup>
-
-  <ItemGroup Condition="$(ReleaseBuild) != 'true'">
-    <PackageReference Include="Starnight.Caching" Version="0.2.0-*" />
   </ItemGroup>
 
 </Project>
