@@ -3,23 +3,26 @@ namespace Starnight.Extensions.Caching.Shims;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 
 public partial class CachingApplicationCommandsRestResource
 {
-	/// <inheritdoc/> 
+	/// <inheritdoc/>
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> BulkOverwriteGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
-		IEnumerable<CreateApplicationCommandRequestPayload> payload
+		IEnumerable<CreateApplicationCommandRequestPayload> payload,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.BulkOverwriteGlobalApplicationCommandsAsync
 		(
 			applicationId,
-			payload
+			payload,
+			ct
 		);
 	}
 
@@ -28,14 +31,16 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		IEnumerable<CreateApplicationCommandRequestPayload> payload
+		IEnumerable<CreateApplicationCommandRequestPayload> payload,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.BulkOverwriteGuildApplicationCommandsAsync
 		(
 			applicationId,
 			guildId,
-			payload
+			payload,
+			ct
 		);
 	}
 
@@ -43,13 +48,15 @@ public partial class CachingApplicationCommandsRestResource
 	public ValueTask<DiscordApplicationCommand> CreateGlobalApplicationCommandAsync
 	(
 		Int64 applicationId,
-		CreateApplicationCommandRequestPayload payload
+		CreateApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.CreateGlobalApplicationCommandAsync
 		(
 			applicationId,
-			payload
+			payload,
+			ct
 		);
 	}
 
@@ -58,14 +65,16 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		CreateApplicationCommandRequestPayload payload
+		CreateApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.CreateGuildApplicationCommandAsync
 		(
 			applicationId,
 			guildId,
-			payload
+			payload,
+			ct
 		);
 	}
 
@@ -74,14 +83,16 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 interactionId,
 		String interactionToken,
-		CreateInteractionCallbackRequestPayload payload
+		CreateInteractionCallbackRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.CreateInteractionResponseAsync
 		(
 			interactionId,
 			interactionToken,
-			payload
+			payload,
+			ct
 		);
 	}
 
@@ -89,13 +100,15 @@ public partial class CachingApplicationCommandsRestResource
 	public ValueTask<Boolean> DeleteGlobalApplicationCommandAsync
 	(
 		Int64 applicationId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.DeleteGlobalApplicationCommandAsync
 		(
 			applicationId,
-			commandId
+			commandId,
+			ct
 		);
 	}
 
@@ -104,14 +117,16 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.DeleteGuildApplicationCommandAsync
 		(
 			applicationId,
 			guildId,
-			commandId
+			commandId,
+			ct
 		);
 	}
 
@@ -120,14 +135,16 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 commandId,
-		EditApplicationCommandRequestPayload payload
+		EditApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.EditGlobalApplicationCommandAsync
 		(
 			applicationId,
 			commandId,
-			payload
+			payload,
+			ct
 		);
 	}
 
@@ -137,7 +154,8 @@ public partial class CachingApplicationCommandsRestResource
 		Int64 applicationId,
 		Int64 guildId,
 		Int64 commandId,
-		EditApplicationCommandRequestPayload payload
+		EditApplicationCommandRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.EditGuildApplicationCommandAsync
@@ -145,7 +163,8 @@ public partial class CachingApplicationCommandsRestResource
 			applicationId,
 			guildId,
 			commandId,
-			payload
+			payload,
+			ct
 		);
 	}
 
@@ -154,28 +173,32 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.GetApplicationCommandPermissionsAsync
 		(
 			applicationId,
 			guildId,
-			commandId
+			commandId,
+			ct
 		);
 	}
 
-	///<inheritdoc/>
+	/// <inheritdoc/>
 	public ValueTask<DiscordApplicationCommand> GetGlobalApplicationCommandAsync
 	(
 		Int64 applicationId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.GetGlobalApplicationCommandAsync
 		(
 			applicationId,
-			commandId
+			commandId,
+			ct
 		);
 	}
 
@@ -183,15 +206,17 @@ public partial class CachingApplicationCommandsRestResource
 	public ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
 	(
 		Int64 applicationId,
-		Boolean? withLocalizations,
-		String? locale
+		Boolean? withLocalizations = null,
+		String? locale = null,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.GetGlobalApplicationCommandsAsync
 		(
 			applicationId,
 			withLocalizations,
-			locale
+			locale,
+			ct
 		);
 	}
 
@@ -200,14 +225,16 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Int64 commandId
+		Int64 commandId,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.GetGuildApplicationCommandAsync
 		(
 			applicationId,
 			guildId,
-			commandId
+			commandId,
+			ct
 		);
 	}
 
@@ -215,13 +242,15 @@ public partial class CachingApplicationCommandsRestResource
 	public ValueTask<IEnumerable<DiscordApplicationCommandPermissions>> GetGuildApplicationCommandPermissionsAsync
 	(
 		Int64 applicationId,
-		Int64 guildId
+		Int64 guildId,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.GetGuildApplicationCommandPermissionsAsync
 		(
 			applicationId,
-			guildId
+			guildId,
+			ct
 		);
 	}
 
@@ -230,14 +259,16 @@ public partial class CachingApplicationCommandsRestResource
 	(
 		Int64 applicationId,
 		Int64 guildId,
-		Boolean? withLocalizations
+		Boolean? withLocalizations = null,
+		CancellationToken ct = default
 	)
 	{
 		return this.__underlying.GetGuildApplicationCommandsAsync
 		(
 			applicationId,
 			guildId,
-			withLocalizations
+			withLocalizations,
+			ct
 		);
 	}
 }

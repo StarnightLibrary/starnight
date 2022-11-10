@@ -15,19 +15,37 @@ internal static class MessageUpdateExtensions
 		DiscordMessage message
 	)
 	{
-		String key = message.GenerateCacheKey();
+		String key = KeyHelper.GetMessageKey
+		(
+			message.Id
+		);
 
-		DiscordMessage? old = await cache.GetAsync<DiscordMessage>(key);
+		DiscordMessage? old = await cache.GetAsync<DiscordMessage>
+		(
+			key
+		);
 
 		if(old is null)
 		{
-			await cache.SetAsync(key, message);
+			await cache.SetAsync
+			(
+				key,
+				message
+			);
 		}
 		else
 		{
-			message = UpdateMessageWrapper.UpdateDiscordMessage(old, message);
+			message = UpdateMessageWrapper.UpdateDiscordMessage
+			(
+				old,
+				message
+			);
 
-			await cache.SetAsync(key, message);
+			await cache.SetAsync
+			(
+				key,
+				message
+			);
 		}
 
 		return message;

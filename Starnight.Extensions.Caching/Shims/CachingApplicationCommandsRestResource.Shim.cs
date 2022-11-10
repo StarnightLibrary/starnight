@@ -1,6 +1,7 @@
 namespace Starnight.Extensions.Caching.Shims;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
@@ -10,7 +11,8 @@ using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 using Starnight.Internal.Rest.Resources;
 
 /// <summary>
-/// Represents a shim over discords application commands rest resource which caches return values.
+/// Represents a shim over the present application commands rest resource caching and corroborating from cache return
+/// values where applicable.
 /// </summary>
 public partial class CachingApplicationCommandsRestResource : IDiscordApplicationCommandsRestResource
 {
@@ -32,103 +34,98 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 	(
 		Int64 applicationId,
 		String interactionToken,
-		CreateFollowupMessageRequestPayload payload
+		CreateFollowupMessageRequestPayload payload,
+		CancellationToken ct = default
 	)
 	{
 		DiscordMessage message = await this.__underlying.CreateFollowupMessageAsync
 		(
 			applicationId,
 			interactionToken,
-			payload
+			payload,
+			ct
 		);
 
-		message = await this.__cache.CacheMessageAsync(message);
-
-		return message;
+		return await this.__cache.CacheMessageAsync
+		(
+			message
+		);
 	}
 
 	/// <inheritdoc/>
-	public ValueTask<Boolean> DeleteFollowupMessageAsync
+	public async ValueTask<Boolean> DeleteFollowupMessageAsync
 	(
 		Int64 applicationId,
 		String interactionToken,
-		Int64 messageId
-	)
-	{
-		return this.__underlying.DeleteFollowupMessageAsync
-		(
-			applicationId,
-			interactionToken,
-			messageId
-		);
-	}
-
-	/// <inheritdoc/>
-	public ValueTask<Boolean> DeleteOriginalInteractionResponseAsync
-	(
-		Int64 applicationId,
-		String interactionToken
-	)
-	{
-		return this.__underlying.DeleteOriginalInteractionResponseAsync
-		(
-			applicationId,
-			interactionToken
-		);
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordMessage> EditFollowupMessageAsync
-	(
-		Int64 applicationId,
-		Int64 interactionToken,
 		Int64 messageId,
-		EditFollowupMessageRequestPayload payload
+		CancellationToken ct = default
 	)
 	{
-		DiscordMessage editedFollowup = await this.__underlying.EditFollowupMessageAsync
+		_ = await this.__cache.RemoveAsync<DiscordMessage>
+		(
+			KeyHelper.GetMessageKey
+			(
+				messageId
+			)
+		);
+
+		return await this.__underlying.DeleteFollowupMessageAsync
 		(
 			applicationId,
 			interactionToken,
 			messageId,
-			payload
+			ct
 		);
-
-		editedFollowup = await this.__cache.CacheMessageAsync(editedFollowup);
-
-		return editedFollowup;
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<DiscordMessage> EditOriginalResponseAsync
-	(
-		Int64 applicationId,
-		Int64 interactionToken,
-		EditOriginalResponseRequestPayload payload
-	)
-	{
-		DiscordMessage message = await this.__underlying.EditOriginalResponseAsync
-		(
-			applicationId,
-			interactionToken,
-			payload
-		);
-
-		message = await this.__cache.CacheMessageAsync(message);
-
-		return message;
-	}
-
-	public ValueTask<DiscordMessage> GetFollowupMessageAsync
+	public async ValueTask<Boolean> DeleteOriginalInteractionResponseAsync
 	(
 		Int64 applicationId,
 		String interactionToken,
-		Int64 messageId
-	) => throw new NotImplementedException();
+		CancellationToken ct = default
+	)
+	{
+		Int64? messageId = await this.__cache.RemoveAsync<Int64?>
+		(
+			KeyHelper.GetOriginalInteractionResponseKey
+			(
+				interactionToken
+			)
+		);
 
-	public ValueTask<DiscordMessage> GetOriginalResponseAsync
+		if(messageId is not null)
+		{
+			_ = await this.__cache.RemoveAsync<DiscordMessage>
+			(
+				KeyHelper.GetMessageKey
+				(
+					(Int64)messageId
+				)
+			);
+		}
+
+		return await this.__underlying.DeleteOriginalInteractionResponseAsync
+		(
+			applicationId,
+			interactionToken,
+			ct
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<DiscordMessage> EditFollowupMessageAsync
 	(
 		Int64 applicationId,
-		String interactionToken
-	) => throw new NotImplementedException();
+		String interactionToken,
+		Int64 messageId,
+		EditFollowupMessageRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		throw new NotImplementedException();
+	}
+	public ValueTask<DiscordMessage> EditOriginalResponseAsync(System.Int64 applicationId, System.String interactionToken, EditOriginalResponseRequestPayload payload, CancellationToken ct = default) => throw new System.NotImplementedException();
+	public ValueTask<DiscordMessage> GetFollowupMessageAsync(System.Int64 applicationId, System.String interactionToken, System.Int64 messageId, CancellationToken ct = default) => throw new System.NotImplementedException();
+	public ValueTask<DiscordMessage> GetOriginalResponseAsync(System.Int64 applicationId, System.String interactionToken, CancellationToken ct = default) => throw new System.NotImplementedException();
 }
