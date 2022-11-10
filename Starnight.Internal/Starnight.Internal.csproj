@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj" PackageVersion="0.2.0"/>
+    <ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj" PackageVersion="(0.2.0-dev.0,0.2.0]"/>
   </ItemGroup>
 
 </Project>
