@@ -21,7 +21,8 @@ public static class RestRegistrationExtensions
 		this IServiceCollection services
 	)
 	{
-		_ = services.Decorate<IDiscordApplicationCommandsRestResource, CachingApplicationCommandsRestResource>();
+		_ = services.Decorate<IDiscordApplicationCommandsRestResource, CachingApplicationCommandsRestResource>()
+			.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>();
 
 		return services;
 	}
