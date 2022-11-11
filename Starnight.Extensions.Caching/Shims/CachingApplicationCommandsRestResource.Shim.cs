@@ -138,7 +138,94 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		);
 	}
 
-	public ValueTask<DiscordMessage> EditOriginalResponseAsync(System.Int64 applicationId, System.String interactionToken, EditOriginalResponseRequestPayload payload, CancellationToken ct = default) => throw new System.NotImplementedException();
-	public ValueTask<DiscordMessage> GetFollowupMessageAsync(System.Int64 applicationId, System.String interactionToken, System.Int64 messageId, CancellationToken ct = default) => throw new System.NotImplementedException();
-	public ValueTask<DiscordMessage> GetOriginalResponseAsync(System.Int64 applicationId, System.String interactionToken, CancellationToken ct = default) => throw new System.NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> EditOriginalResponseAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		EditOriginalResponseRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		DiscordMessage message = await this.__underlying.EditOriginalResponseAsync
+		(
+			applicationId,
+			interactionToken,
+			payload,
+			ct
+		);
+
+		this.__cache.Set
+		(
+			KeyHelper.GetOriginalInteractionResponseKey
+			(
+				interactionToken
+			),
+			message.Id
+		);
+
+		return await this.__cache.CacheMessageAsync
+		(
+			message
+		);
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> GetFollowupMessageAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		Int64 messageId,
+		CancellationToken ct = default
+	)
+	{
+		DiscordMessage message = await this.__underlying.GetFollowupMessageAsync
+		(
+			applicationId,
+			interactionToken,
+			messageId,
+			ct
+		);
+
+		this.__cache.Set
+		(
+			KeyHelper.GetMessageKey
+			(
+				messageId
+			),
+			message
+		);
+
+		return message;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> GetOriginalResponseAsync
+	(
+		Int64 applicationId,
+		String interactionToken,
+		CancellationToken ct = default
+	)
+	{
+		DiscordMessage message = await this.__underlying.GetOriginalResponseAsync
+		(
+			applicationId,
+			interactionToken,
+			ct
+		);
+
+		this.__cache.Set
+		(
+			KeyHelper.GetOriginalInteractionResponseKey
+			(
+				interactionToken
+			),
+			message.Id
+		);
+
+		return await this.__cache.CacheMessageAsync
+		(
+			message
+		);
+	}
 }
