@@ -114,7 +114,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 	}
 
 	/// <inheritdoc/>
-	public ValueTask<DiscordMessage> EditFollowupMessageAsync
+	public async ValueTask<DiscordMessage> EditFollowupMessageAsync
 	(
 		Int64 applicationId,
 		String interactionToken,
@@ -123,8 +123,21 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		throw new NotImplementedException();
+		DiscordMessage message = await this.__underlying.EditFollowupMessageAsync
+		(
+			applicationId,
+			interactionToken,
+			messageId,
+			payload,
+			ct
+		);
+
+		return await this.__cache.CacheMessageAsync
+		(
+			message
+		);
 	}
+
 	public ValueTask<DiscordMessage> EditOriginalResponseAsync(System.Int64 applicationId, System.String interactionToken, EditOriginalResponseRequestPayload payload, CancellationToken ct = default) => throw new System.NotImplementedException();
 	public ValueTask<DiscordMessage> GetFollowupMessageAsync(System.Int64 applicationId, System.String interactionToken, System.Int64 messageId, CancellationToken ct = default) => throw new System.NotImplementedException();
 	public ValueTask<DiscordMessage> GetOriginalResponseAsync(System.Int64 applicationId, System.String interactionToken, CancellationToken ct = default) => throw new System.NotImplementedException();
