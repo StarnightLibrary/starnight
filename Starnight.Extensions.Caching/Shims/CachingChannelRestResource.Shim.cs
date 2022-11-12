@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
+using Starnight.Extensions.Caching.Update;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Guilds.Invites;
@@ -33,11 +34,113 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		this.__cache = cache;
 	}
 
-	public ValueTask<Boolean> BulkDeleteMessagesAsync(Int64 channelId, IEnumerable<Int64> messageIds, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordInvite> CreateChannelInviteAsync(Int64 channelId, CreateChannelInviteRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordMessage> CreateMessageAsync(Int64 channelId, CreateMessageRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordMessage> CrosspostMessageAsync(Int64 channelId, Int64 messageId, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordChannel> DeleteChannelAsync(Int64 channelId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> BulkDeleteMessagesAsync
+	(
+		Int64 channelId,
+		IEnumerable<Int64> messageIds,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		Boolean value = await this.__underlying.BulkDeleteMessagesAsync
+		(
+			channelId,
+			messageIds,
+			reason,
+			ct
+		);
+
+		foreach(Int64 id in messageIds)
+		{
+			_ = this.__cache.Remove<Int64>
+			(
+				KeyHelper.GetMessageKey
+				(
+					id
+				)
+			);
+		}
+
+		return value;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordInvite> CreateChannelInviteAsync
+	(
+		Int64 channelId,
+		CreateChannelInviteRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordInvite invite = await this.__underlying.CreateChannelInviteAsync
+		(
+			channelId,
+			payload,
+			reason,
+			ct
+		);
+
+		return await this.__cache.CacheInviteAsync
+		(
+			invite
+		);
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> CreateMessageAsync
+	(
+		Int64 channelId,
+		CreateMessageRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		DiscordMessage message = await this.__underlying.CreateMessageAsync
+		(
+			channelId,
+			payload,
+			ct
+		);
+
+		return await this.__cache.CacheMessageAsync
+		(
+			message
+		);
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> CrosspostMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		CancellationToken ct = default
+	)
+	{
+		DiscordMessage message = await this.__underlying.CrosspostMessageAsync
+		(
+			channelId,
+			messageId,
+			ct
+		);
+
+		return await this.__cache.CacheMessageAsync
+		(
+			message
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<DiscordChannel> DeleteChannelAsync
+	(
+		Int64 channelId,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		throw new NotImplementedException();
+	}
+
 	public ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync(Int64 channelId, Int64 overwriteId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask DeleteEmojiReactionsAsync(Int64 channelId, Int64 messageId, String emoji, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> DeleteMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();

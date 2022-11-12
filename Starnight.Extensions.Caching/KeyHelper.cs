@@ -15,4 +15,10 @@ public static class KeyHelper
 		String interactionToken
 	)
 		=> $"StarnightLibraryCache.OriginalResponse.{interactionToken}";
+
+	public static String GetInviteKey
+	(
+		String inviteCode
+	)
+		=> $"StarnightLibraryCache.Invite.{inviteCode}";
 }
