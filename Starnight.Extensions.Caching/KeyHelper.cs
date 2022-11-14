@@ -21,4 +21,23 @@ public static class KeyHelper
 		String inviteCode
 	)
 		=> $"StarnightLibraryCache.Invite.{inviteCode}";
+
+	public static String GetChannelKey
+	(
+		Int64 channelId
+	)
+		=> $"StarnightLibraryCache.Channel.{channelId}";
+
+	public static String GetPermissionOverwriteKey
+	(
+		Int64 channelId,
+		Int64 overwriteId
+	)
+		=> $"StarnightLibraryCache.Channel.{channelId}.Overwrite.{overwriteId}";
+
+	public static String GetPermissionOverwriteListKey
+	(
+		Int64 channelId
+	)
+		=> $"StarnightLibraryCache.Channel.{channelId}.Overwrites";
 }
