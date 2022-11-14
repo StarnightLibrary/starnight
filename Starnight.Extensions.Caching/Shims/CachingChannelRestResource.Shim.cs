@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
-using Starnight.Extensions.Caching.Update;
+using Starnight.Extensions.Caching.Extensions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Guilds.Invites;
@@ -82,10 +82,16 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 			ct
 		);
 
-		return await this.__cache.CacheInviteAsync
+		await this.__cache.CacheObjectAsync
 		(
-			invite
+			invite,
+			invite => KeyHelper.GetInviteKey
+			(
+				invite.Code
+			)
 		);
+
+		return invite;
 	}
 
 	/// <inheritdoc/>
@@ -103,10 +109,16 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 			ct
 		);
 
-		return await this.__cache.CacheMessageAsync
+		await this.__cache.CacheObjectAsync
 		(
-			message
+			message,
+			message => KeyHelper.GetMessageKey
+			(
+				message.Id
+			)
 		);
+
+		return message;
 	}
 
 	/// <inheritdoc/>
@@ -124,10 +136,16 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 			ct
 		);
 
-		return await this.__cache.CacheMessageAsync
+		await this.__cache.CacheObjectAsync
 		(
-			message
+			message,
+			message => KeyHelper.GetMessageKey
+			(
+				message.Id
+			)
 		);
+
+		return message;
 	}
 
 	/// <inheritdoc/>

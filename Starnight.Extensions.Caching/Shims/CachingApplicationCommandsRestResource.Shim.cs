@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Abstractions;
-using Starnight.Extensions.Caching.Update;
+using Starnight.Extensions.Caching.Extensions;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 using Starnight.Internal.Rest.Resources;
@@ -46,10 +46,16 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		return await this.__cache.CacheMessageAsync
+		await this.__cache.CacheObjectAsync
 		(
-			message
+			message,
+			message => KeyHelper.GetMessageKey
+			(
+				message.Id
+			)
 		);
+
+		return message;
 	}
 
 	/// <inheritdoc/>
@@ -132,10 +138,16 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		return await this.__cache.CacheMessageAsync
+		await this.__cache.CacheObjectAsync
 		(
-			message
+			message,
+			message => KeyHelper.GetMessageKey
+			(
+				message.Id
+			)
 		);
+
+		return message;
 	}
 
 	/// <inheritdoc/>
@@ -164,10 +176,16 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			message.Id
 		);
 
-		return await this.__cache.CacheMessageAsync
+		await this.__cache.CacheObjectAsync
 		(
-			message
+			message,
+			message => KeyHelper.GetMessageKey
+			(
+				message.Id
+			)
 		);
+
+		return message;
 	}
 
 	/// <inheritdoc/>
@@ -223,9 +241,15 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			message.Id
 		);
 
-		return await this.__cache.CacheMessageAsync
+		await this.__cache.CacheObjectAsync
 		(
-			message
+			message,
+			message => KeyHelper.GetMessageKey
+			(
+				message.Id
+			)
 		);
+
+		return message;
 	}
 }
