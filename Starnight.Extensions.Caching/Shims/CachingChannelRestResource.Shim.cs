@@ -149,14 +149,40 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 	}
 
 	/// <inheritdoc/>
-	public ValueTask<DiscordChannel> DeleteChannelAsync
+	public async ValueTask<DiscordChannel> DeleteChannelAsync
 	(
 		Int64 channelId,
 		String? reason = null,
 		CancellationToken ct = default
 	)
 	{
-		throw new NotImplementedException();
+		await this.__cache.DeleteListAsync<DiscordChannelOverwrite, Int64>
+		(
+			KeyHelper.GetPermissionOverwriteListKey
+			(
+				channelId
+			),
+			id => KeyHelper.GetPermissionOverwriteKey
+			(
+				channelId,
+				id
+			)
+		);
+
+		_ = await this.__cache.RemoveAsync<DiscordChannel>
+		(
+			KeyHelper.GetChannelKey
+			(
+				channelId
+			)
+		);
+
+		return await this.__underlying.DeleteChannelAsync
+		(
+			channelId,
+			reason,
+			ct
+		);
 	}
 
 	public ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync(Int64 channelId, Int64 overwriteId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
