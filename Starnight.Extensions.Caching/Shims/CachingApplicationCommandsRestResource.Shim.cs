@@ -49,7 +49,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		await this.__cache.CacheObjectAsync
 		(
 			message,
-			message => KeyHelper.GetMessageKey
+			KeyHelper.GetMessageKey
 			(
 				message.Id
 			)
@@ -141,7 +141,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		await this.__cache.CacheObjectAsync
 		(
 			message,
-			message => KeyHelper.GetMessageKey
+			KeyHelper.GetMessageKey
 			(
 				message.Id
 			)
@@ -179,7 +179,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		await this.__cache.CacheObjectAsync
 		(
 			message,
-			message => KeyHelper.GetMessageKey
+			KeyHelper.GetMessageKey
 			(
 				message.Id
 			)
@@ -205,13 +205,13 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		this.__cache.Set
+		await this.__cache.CacheObjectAsync
 		(
+			message,
 			KeyHelper.GetMessageKey
 			(
-				messageId
-			),
-			message
+				message.Id
+			)
 		);
 
 		return message;
@@ -244,7 +244,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		await this.__cache.CacheObjectAsync
 		(
 			message,
-			message => KeyHelper.GetMessageKey
+			KeyHelper.GetMessageKey
 			(
 				message.Id
 			)

@@ -85,7 +85,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await this.__cache.CacheObjectAsync
 		(
 			invite,
-			invite => KeyHelper.GetInviteKey
+			KeyHelper.GetInviteKey
 			(
 				invite.Code
 			)
@@ -112,7 +112,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await this.__cache.CacheObjectAsync
 		(
 			message,
-			message => KeyHelper.GetMessageKey
+			KeyHelper.GetMessageKey
 			(
 				message.Id
 			)
@@ -139,7 +139,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await this.__cache.CacheObjectAsync
 		(
 			message,
-			message => KeyHelper.GetMessageKey
+			KeyHelper.GetMessageKey
 			(
 				message.Id
 			)
