@@ -13,10 +13,10 @@ internal static class CacheServiceExtensions
 	(
 		this ICacheService cache,
 		T @object,
-		Func<T, String> cacheKeyFunction
+		String cacheKey
 	)
 	{
-		String key = cacheKeyFunction(@object);
+		String key = cacheKey;
 
 		await cache.SetAsync
 		(
@@ -29,14 +29,11 @@ internal static class CacheServiceExtensions
 	(
 		this ICacheService cache,
 		IEnumerable<T> list,
-		TParent parent,
-		Func<TParent, IEnumerable<T>, String> listKeyFunction,
-		Func<TParent, T, String> itemKeyFunction,
+		String listKey,
+		Func<T, String> itemKeyFunction,
 		Func<T, TId> idFunction
 	)
 	{
-		String listKey = listKeyFunction(parent, list);
-
 		List<TId> ids = new
 		(
 			list.Select
@@ -53,7 +50,7 @@ internal static class CacheServiceExtensions
 
 		foreach(T item in list)
 		{
-			String itemKey = itemKeyFunction(parent, item);
+			String itemKey = itemKeyFunction(item);
 
 			await cache.SetAsync
 			(
@@ -67,13 +64,13 @@ internal static class CacheServiceExtensions
 	(
 		this ICacheService cache,
 		TId id,
-		Func<String> listKeyFunction,
-		Func<String> itemKeyFunction
+		String listKey,
+		String itemKey
 	)
 	{
 		List<TId>? ids = await cache.GetAsync<List<TId>>
 		(
-			listKeyFunction()
+			listKey
 		);
 
 		if(ids is null)
@@ -85,7 +82,7 @@ internal static class CacheServiceExtensions
 		{
 			_ = await cache.RemoveAsync<T>
 			(
-				itemKeyFunction()
+				itemKey
 			);
 		}
 	}
@@ -94,14 +91,14 @@ internal static class CacheServiceExtensions
 	(
 		this ICacheService cache,
 		T item,
-		Func<String> listKeyFunction,
+		String listKey,
 		Func<T, String> itemKeyFunction,
 		Func<T, TId> idFunction
 	)
 	{
 		List<TId>? ids = await cache.GetAsync<List<TId>>
 		(
-			listKeyFunction()
+			listKey
 		);
 
 		if(ids is null)
@@ -113,7 +110,7 @@ internal static class CacheServiceExtensions
 
 			await cache.SetAsync
 			(
-				listKeyFunction(),
+				listKey,
 				list
 			);
 		}
@@ -133,5 +130,31 @@ internal static class CacheServiceExtensions
 			itemKeyFunction(item),
 			item
 		);
+	}
+
+	public static async ValueTask DeleteListAsync<T, TId>
+	(
+		this ICacheService cache,
+		String listKey,
+		Func<TId, String> itemKeyFunction
+	)
+	{
+		List<TId>? list = await cache.RemoveAsync<List<TId>>
+		(
+			listKey
+		);
+
+		if(list is null)
+		{
+			return;
+		}
+
+		foreach(TId id in list)
+		{
+			_ = await cache.RemoveAsync<T>
+			(
+				itemKeyFunction(id)
+			);
+		}
 	}
 }
