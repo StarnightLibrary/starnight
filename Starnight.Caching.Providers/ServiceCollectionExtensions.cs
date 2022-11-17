@@ -1,9 +1,9 @@
-namespace Starnight.Caching;
+namespace Starnight.Caching.Providers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Starnight.Caching.Abstractions;
-using Starnight.Caching.Memory;
+using Starnight.Caching.Providers.Abstractions;
+using Starnight.Caching.Providers.Memory;
 
 /// <summary>
 /// Provides extension methods to <see cref="IServiceCollection"/> for starnight's caching.

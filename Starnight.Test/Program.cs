@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Starnight.Caching;
+using Starnight.Caching.Providers;
 using Starnight.Internal;
 using Starnight.Internal.Gateway;
 using Starnight.Internal.Gateway.Responders;

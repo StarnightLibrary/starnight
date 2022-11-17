@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 
 internal static class CacheServiceExtensions
 {

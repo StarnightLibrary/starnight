@@ -28,14 +28,12 @@
     <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="runtime" />
 
     <ProjectReference Include="../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+
+    <ProjectReference Include="..\Starnight.Caching.Providers\Starnight.Caching.Providers.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj" PackageVersion="(0.2.0-dev.0,0.2.0]"/>
   </ItemGroup>
 
 </Project>

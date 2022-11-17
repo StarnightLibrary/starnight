@@ -1,6 +1,6 @@
 namespace Starnight.Internal.Rest.Resources.Discord;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 
 /// <summary>
 /// An abstract base class for all rest resources.

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 using Polly;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 
 public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 using Starnight.Extensions.Caching.Extensions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;

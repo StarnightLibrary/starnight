@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 using Starnight.Internal.Gateway.Payloads;
 using Starnight.Internal.Rest;
 using Starnight.Internal.Rest.Resources.Discord;

@@ -1,10 +1,10 @@
-namespace Starnight.Caching.Memory;
+namespace Starnight.Caching.Providers.Memory;
 
 using System;
 
 using Microsoft.Extensions.Caching.Memory;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 
 /// <summary>
 /// Represents an entry in a <see cref="MemoryCacheProvider"/>

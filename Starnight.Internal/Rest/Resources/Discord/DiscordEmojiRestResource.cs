@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Rest.Payloads.Emojis;
 

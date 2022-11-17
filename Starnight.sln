@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Internal", "Starnight.Internal\Starnight.Internal.csproj", "{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Caching", "Starnight.Caching\Starnight.Caching.csproj", "{C3802109-7D82-44BD-A735-F9F0534271DF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight", "Starnight\Starnight.csproj", "{A7FB5ADB-7DCC-4A03-A927-26BF5CB31382}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Test", "Starnight.Test\Starnight.Test.csproj", "{A8DDC1A9-39E6-4254-9E4B-6D57A25BD500}"
@@ -18,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.SourceGenerators", "gen\Starnight.SourceGenerators.csproj", "{AF523164-8CC1-4936-8F4F-8F850BE2EE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starnight.Extensions.Caching", "Starnight.Extensions.Caching\Starnight.Extensions.Caching.csproj", "{46125B5E-825F-4798-99E2-DC51344C405B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Extensions.Caching", "Starnight.Extensions.Caching\Starnight.Extensions.Caching.csproj", "{46125B5E-825F-4798-99E2-DC51344C405B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Caching.Providers", "Starnight.Caching.Providers\Starnight.Caching.Providers.csproj", "{92BC5277-8AF2-47E5-A12A-197A76D60151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +30,6 @@ Global
 		{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3802109-7D82-44BD-A735-F9F0534271DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3802109-7D82-44BD-A735-F9F0534271DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3802109-7D82-44BD-A735-F9F0534271DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3802109-7D82-44BD-A735-F9F0534271DF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7FB5ADB-7DCC-4A03-A927-26BF5CB31382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7FB5ADB-7DCC-4A03-A927-26BF5CB31382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7FB5ADB-7DCC-4A03-A927-26BF5CB31382}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,6 +46,10 @@ Global
 		{46125B5E-825F-4798-99E2-DC51344C405B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46125B5E-825F-4798-99E2-DC51344C405B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46125B5E-825F-4798-99E2-DC51344C405B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92BC5277-8AF2-47E5-A12A-197A76D60151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92BC5277-8AF2-47E5-A12A-197A76D60151}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92BC5277-8AF2-47E5-A12A-197A76D60151}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92BC5277-8AF2-47E5-A12A-197A76D60151}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

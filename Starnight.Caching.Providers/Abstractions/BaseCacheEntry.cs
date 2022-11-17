@@ -1,4 +1,4 @@
-namespace Starnight.Caching.Abstractions;
+namespace Starnight.Caching.Providers.Abstractions;
 
 using System;
 

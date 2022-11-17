@@ -1,4 +1,4 @@
-namespace Starnight.Caching.Memory;
+namespace Starnight.Caching.Providers.Memory;
 
 using System;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
-using Starnight.Caching.Abstractions;
+using Starnight.Caching.Providers.Abstractions;
 
 /// <summary>
 /// An implementation of <see cref="ICacheProvider"/> relying on a memory cache.
@@ -138,15 +138,12 @@ public class MemoryCacheProvider : ICacheProvider
 
 
 			if(memoryEntry.PostEvictionCallback is not null)
-			{
 				_ = finalEntry.RegisterPostEvictionCallback
 				(
 					memoryEntry.PostEvictionCallback
 				);
-			}
 		}
 		else
-		{
 			_ = finalEntry.SetValue
 				(
 					entry.Value
@@ -159,7 +156,6 @@ public class MemoryCacheProvider : ICacheProvider
 				(
 					this.__options.GetSlidingExpiration<Object>()
 				);
-		}
 
 		return ValueTask.CompletedTask;
 	}

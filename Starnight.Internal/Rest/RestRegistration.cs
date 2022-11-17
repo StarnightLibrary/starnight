@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 
-using Starnight.Caching.Memory;
+using Starnight.Caching.Providers.Memory;
 using Starnight.Exceptions;
 using Starnight.Internal;
 using Starnight.Internal.Rest.Resources;
