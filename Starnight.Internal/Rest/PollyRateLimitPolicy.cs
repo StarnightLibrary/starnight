@@ -39,7 +39,7 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			throw new InvalidOperationException("No endpoint passed.");
 		}
 
-		if(!context.TryGetValue("cache", out Object cacheRaw) || cacheRaw is not ICacheService cache)
+		if(!context.TryGetValue("cache", out Object cacheRaw) || cacheRaw is not ICacheProvider cache)
 		{
 			throw new InvalidOperationException("No cache passed.");
 		}

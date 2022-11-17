@@ -29,7 +29,7 @@ public sealed class DiscordChannelRestResource
 	public DiscordChannelRestResource
 	(
 		RestClient client,
-		ICacheService cache
+		ICacheProvider cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

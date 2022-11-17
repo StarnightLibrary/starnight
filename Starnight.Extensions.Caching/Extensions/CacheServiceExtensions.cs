@@ -18,14 +18,14 @@ internal static class CacheServiceExtensions
 	/// <param name="cacheKey">The key to cache the object with.</param>
 	public static async ValueTask CacheObjectAsync<T>
 	(
-		this ICacheService cache,
+		this ICacheProvider cache,
 		T @object,
 		String cacheKey
 	)
 	{
 		String key = cacheKey;
 
-		await cache.SetAsync
+		await cache.CacheAsync
 		(
 			key,
 			@object
@@ -44,7 +44,7 @@ internal static class CacheServiceExtensions
 	/// <param name="idFunction">A function to get the ID of a list item.</param>
 	public static async ValueTask CacheListAsync<T, TId>
 	(
-		this ICacheService cache,
+		this ICacheProvider cache,
 		IEnumerable<T> list,
 		String listKey,
 		Func<T, String> itemKeyFunction,
@@ -59,7 +59,7 @@ internal static class CacheServiceExtensions
 			)
 		);
 
-		await cache.SetAsync
+		await cache.CacheAsync
 		(
 			listKey,
 			ids
@@ -69,7 +69,7 @@ internal static class CacheServiceExtensions
 		{
 			String itemKey = itemKeyFunction(item);
 
-			await cache.SetAsync
+			await cache.CacheAsync
 			(
 				itemKey,
 				item
@@ -88,7 +88,7 @@ internal static class CacheServiceExtensions
 	/// <param name="itemKey">The cache key for the item.</param>
 	public static async ValueTask RemoveListItemAsync<T, TId>
 	(
-		this ICacheService cache,
+		this ICacheProvider cache,
 		TId id,
 		String listKey,
 		String itemKey
@@ -125,7 +125,7 @@ internal static class CacheServiceExtensions
 	/// <param name="idFunction">A function to get the ID of an item from the item.</param>
 	public static async ValueTask AddListItemAsync<T, TId>
 	(
-		this ICacheService cache,
+		this ICacheProvider cache,
 		T item,
 		String listKey,
 		String itemKey,
@@ -144,7 +144,7 @@ internal static class CacheServiceExtensions
 				idFunction(item)
 			};
 
-			await cache.SetAsync
+			await cache.CacheAsync
 			(
 				listKey,
 				list
@@ -161,7 +161,7 @@ internal static class CacheServiceExtensions
 			);
 		}
 
-		await cache.SetAsync
+		await cache.CacheAsync
 		(
 			itemKey,
 			item
@@ -178,7 +178,7 @@ internal static class CacheServiceExtensions
 	/// <param name="itemKeyFunction">A function to get an item key from an item ID.</param>
 	public static async ValueTask DeleteListAsync<T, TId>
 	(
-		this ICacheService cache,
+		this ICacheProvider cache,
 		String listKey,
 		Func<TId, String> itemKeyFunction
 	)

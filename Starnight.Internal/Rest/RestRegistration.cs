@@ -130,7 +130,7 @@ public static class RestRegistration
 			.AddSingleton<IDiscordVoiceRestResource, DiscordVoiceRestResource>()
 			.AddSingleton<IDiscordWebhookRestResource, DiscordWebhookRestResource>();
 
-		_ = collection.Configure<MemoryCacheOptions>
+		_ = collection.Configure<MemoryCacheProviderOptions>
 		(
 			xm =>
 			{

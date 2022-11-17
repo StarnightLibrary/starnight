@@ -23,7 +23,7 @@ public sealed class DiscordGuildTemplateRestResource
 	public DiscordGuildTemplateRestResource
 	(
 		RestClient client,
-		ICacheService cache
+		ICacheProvider cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

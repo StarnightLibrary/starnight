@@ -26,7 +26,7 @@ public sealed class DiscordStickerRestResource
 	public DiscordStickerRestResource
 	(
 		RestClient client,
-		ICacheService cache
+		ICacheProvider cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

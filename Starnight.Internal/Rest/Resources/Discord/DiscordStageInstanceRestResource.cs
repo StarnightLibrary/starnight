@@ -22,7 +22,7 @@ public sealed class DiscordStageInstanceRestResource
 	public DiscordStageInstanceRestResource
 	(
 		RestClient client,
-		ICacheService cache
+		ICacheProvider cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

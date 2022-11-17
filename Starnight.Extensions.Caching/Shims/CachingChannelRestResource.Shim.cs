@@ -22,12 +22,12 @@ using Starnight.Internal.Rest.Resources;
 public partial class CachingChannelRestResource : IDiscordChannelRestResource
 {
 	public readonly IDiscordChannelRestResource __underlying;
-	public readonly ICacheService __cache;
+	public readonly ICacheProvider __cache;
 
 	public CachingChannelRestResource
 	(
 		IDiscordChannelRestResource underlying,
-		ICacheService cache
+		ICacheProvider cache
 	)
 	{
 		this.__underlying = underlying;
@@ -53,7 +53,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		foreach(Int64 id in messageIds)
 		{
-			_ = this.__cache.Remove<Int64>
+			_ = await this.__cache.RemoveAsync<DiscordMessage>
 			(
 				KeyHelper.GetMessageKey
 				(

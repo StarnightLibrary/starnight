@@ -17,12 +17,12 @@ using Starnight.Internal.Rest.Resources;
 public partial class CachingApplicationCommandsRestResource : IDiscordApplicationCommandsRestResource
 {
 	private readonly IDiscordApplicationCommandsRestResource __underlying;
-	private readonly ICacheService __cache;
+	private readonly ICacheProvider __cache;
 
 	public CachingApplicationCommandsRestResource
 	(
 		IDiscordApplicationCommandsRestResource underlying,
-		ICacheService cache
+		ICacheProvider cache
 	)
 	{
 		this.__underlying = underlying;
@@ -167,7 +167,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		this.__cache.Set
+		await this.__cache.CacheAsync
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(
@@ -232,7 +232,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		this.__cache.Set
+		await this.__cache.CacheAsync
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(

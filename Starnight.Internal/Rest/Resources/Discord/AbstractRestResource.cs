@@ -10,12 +10,12 @@ public abstract class AbstractRestResource
 	/// <summary>
 	/// MemoryCache holding all ratelimit buckets currently in use.
 	/// </summary>
-	public ICacheService RatelimitBucketCache { get; internal set; }
+	public ICacheProvider RatelimitBucketCache { get; internal set; }
 
 	/// <inheritdoc/>
 	public AbstractRestResource
 	(
-		ICacheService ratelimitBucketCache
+		ICacheProvider ratelimitBucketCache
 	)
 		=> this.RatelimitBucketCache = ratelimitBucketCache;
 }

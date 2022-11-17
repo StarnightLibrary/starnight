@@ -26,7 +26,7 @@ public sealed class DiscordApplicationCommandsRestResource
 	public DiscordApplicationCommandsRestResource
 	(
 		RestClient client,
-		ICacheService cache
+		ICacheProvider cache
 	)
 		: base(cache)
 		=> this.__rest_client = client;

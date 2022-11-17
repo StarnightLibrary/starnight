@@ -14,5 +14,5 @@ public static class ServiceCollectionExtensions
 	/// Adds starnight's memory caching to the service collection.
 	/// </summary>
 	public static IServiceCollection AddStarnightMemoryCache(this IServiceCollection services)
-		=> services.AddSingleton<ICacheService, MemoryCacheService>();
+		=> services.AddSingleton<ICacheProvider, MemoryCacheProvider>();
 }

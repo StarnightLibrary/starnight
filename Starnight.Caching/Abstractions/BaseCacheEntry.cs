@@ -3,14 +3,14 @@ namespace Starnight.Caching.Abstractions;
 using System;
 
 /// <summary>
-/// Represents an extendable class for more complex cache entries supported by <see cref="ICacheService"/>.
+/// Represents an extendable class for more complex cache entries supported by <see cref="ICacheProvider"/>.
 /// </summary>
-public abstract record AbstractCacheEntry
+public record BaseCacheEntry
 {
 	/// <summary>
 	/// The key used to store this object into cache.
 	/// </summary>
-	public Object Key { get; set; } = null!;
+	public String Key { get; set; } = null!;
 
 	/// <summary>
 	/// The value of this cache entry.

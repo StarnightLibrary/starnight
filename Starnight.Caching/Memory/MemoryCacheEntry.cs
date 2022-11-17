@@ -7,9 +7,9 @@ using Microsoft.Extensions.Caching.Memory;
 using Starnight.Caching.Abstractions;
 
 /// <summary>
-/// Represents an entry in a <see cref="MemoryCacheService"/>
+/// Represents an entry in a <see cref="MemoryCacheProvider"/>
 /// </summary>
-public record MemoryCacheEntry : AbstractCacheEntry
+public record MemoryCacheEntry : BaseCacheEntry
 {
 	/// <summary>
 	/// Overrides the absolute expiration for this entry.
