@@ -1,12 +1,13 @@
-namespace Starnight.Extensions.Caching.Shims;
+namespace Starnight.Caching.Shims;
 
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Starnight.Caching;
+using Starnight.Caching.Extensions;
 using Starnight.Caching.Providers.Abstractions;
-using Starnight.Extensions.Caching.Extensions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Guilds.Invites;

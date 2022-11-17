@@ -1,4 +1,4 @@
-namespace Starnight.Extensions.Caching.Extensions;
+namespace Starnight.Caching.Extensions;
 
 using System;
 using System.Collections.Generic;
@@ -100,17 +100,13 @@ internal static class CacheServiceExtensions
 		);
 
 		if(ids is null)
-		{
 			return;
-		}
 
 		if(ids.Remove(id))
-		{
 			_ = await cache.RemoveAsync<T>
 			(
 				itemKey
 			);
-		}
 	}
 
 	/// <summary>
@@ -151,7 +147,6 @@ internal static class CacheServiceExtensions
 			);
 		}
 		else
-		{
 			ids.Add
 			(
 				idFunction
@@ -159,7 +154,6 @@ internal static class CacheServiceExtensions
 					item
 				)
 			);
-		}
 
 		await cache.CacheAsync
 		(
@@ -189,16 +183,12 @@ internal static class CacheServiceExtensions
 		);
 
 		if(list is null)
-		{
 			return;
-		}
 
 		foreach(TId id in list)
-		{
 			_ = await cache.RemoveAsync<T>
 			(
 				itemKeyFunction(id)
 			);
-		}
 	}
 }

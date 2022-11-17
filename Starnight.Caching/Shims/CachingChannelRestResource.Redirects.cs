@@ -1,4 +1,4 @@
-namespace Starnight.Extensions.Caching.Shims;
+namespace Starnight.Caching.Shims;
 
 using System;
 using System.Threading;

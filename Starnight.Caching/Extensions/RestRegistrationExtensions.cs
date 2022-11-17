@@ -1,8 +1,8 @@
-namespace Starnight.Extensions.Caching.Extensions;
+namespace Starnight.Caching.Extensions;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Starnight.Extensions.Caching.Shims;
+using Starnight.Caching.Shims;
 using Starnight.Internal.Rest.Resources;
 using Starnight.Internal.Utils;
 

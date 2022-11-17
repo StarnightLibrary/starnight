@@ -1,4 +1,4 @@
-name: Build caching
+name: Build cache providers
 
 on:
   push:

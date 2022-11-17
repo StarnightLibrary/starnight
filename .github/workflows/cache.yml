@@ -1,11 +1,11 @@
-name: Build Starnight.Extensions.Caching
+name: Build Starnight.Caching
 
 on:
   push:
     branches:
       - main
     paths:
-      - Starnight.Extensions.Caching/**
+      - Starnight.Caching/**
 
 jobs:
   build:
@@ -21,10 +21,10 @@ jobs:
         dotnet-version: 7.0.x
 
     - name: restore
-      run: dotnet restore Starnight.Extensions.Caching
+      run: dotnet restore Starnight.Caching
 
     - name: pack packages
-      run: "mkdir build && dotnet pack Starnight.Extensions.Caching --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
+      run: "mkdir build && dotnet pack Starnight.Caching --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
     
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3
@@ -36,7 +36,7 @@ jobs:
       uses: tsickert/discord-webhook@v4.0.0
       with:
         webhook-url: ${{ secrets.BUILD_WEBHOOK }}
-        embed-title: New Starnight.Extensions.Caching build available!
+        embed-title: New Starnight.Caching build available!
         embed-description: |
           Commit author: [${{ github.actor }}](https://github.com/${{ github.actor }})
           Commit hash: [`${{ github.sha }}`](https://github.com/${{github.repository}}/commit/${{github.sha}})

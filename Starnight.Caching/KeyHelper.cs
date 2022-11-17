@@ -1,4 +1,4 @@
-namespace Starnight.Extensions.Caching;
+namespace Starnight.Caching;
 
 using System;
 
