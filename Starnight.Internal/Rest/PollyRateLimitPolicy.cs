@@ -76,7 +76,7 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			? bucketHashNullable
 			: endpoint;
 
-		RatelimitBucket? bucket = cache.Get<RatelimitBucket>(bucketHash);
+		RatelimitBucket? bucket = await cache.GetAsync<RatelimitBucket>(bucketHash);
 
 		if(bucket is not null)
 		{
@@ -103,17 +103,17 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			_ = this.__endpoint_buckets.TryRemove(endpoint, out _);
 
 			// expire a second later, to pre-act a server/local time desync
-			cache.Set(endpoint, extractedBucket);
+			await cache.CacheAsync(endpoint, extractedBucket);
 
 			return message;
 		}
 
 		_ = this.__endpoint_buckets.AddOrUpdate(endpoint, extractedBucket.Hash, (_, _) => extractedBucket.Hash);
-		cache.Set(endpoint, extractedBucket);
+		await cache.CacheAsync(endpoint, extractedBucket);
 
 		if(extractedBucket.Hash != bucketHash)
 		{
-			_ = cache.Remove<RatelimitBucket>(bucketHash);
+			_ = await cache.RemoveAsync<RatelimitBucket>(bucketHash);
 		}
 
 		return message;
