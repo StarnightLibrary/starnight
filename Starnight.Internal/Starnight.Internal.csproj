@@ -29,7 +29,7 @@
 
     <ProjectReference Include="../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 
-    <ProjectReference Include="..\Starnight.Caching.Providers\Starnight.Caching.Providers.csproj" />
+    <ProjectReference Include="..\Starnight.Caching.Providers\Starnight.Caching.Providers.csproj" PackageVersion="(0.3.0-dev.0,0.3.0]"/>
   </ItemGroup>
 
   <ItemGroup>
