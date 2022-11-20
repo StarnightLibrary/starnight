@@ -1,7 +1,6 @@
 namespace Starnight.Caching.Services;
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -29,75 +28,34 @@ public interface IStarnightCacheService
 	);
 
 	/// <summary>
-	/// Caches a list of objects, special-casing as needed.
+	/// Caches a Discord-specific object, special-casing to individual handling.
 	/// </summary>
-	/// <typeparam name="TItem">The underlying list type.</typeparam>
-	/// <typeparam name="TId">The ID type to this item type.</typeparam>
-	/// <param name="listKey">The key to cache the list with.</param>
-	/// <param name="list">The list to cache.</param>
-	/// <param name="itemIdFunction">A function to get the ID of an item from the item.</param>
-	/// <param name="itemKeyFunction">
-	/// A function to get the individual cache key of an item from its ID.
-	/// </param>
-	public ValueTask CacheListAsync<TItem, TId>
+	/// <typeparam name="TItem">
+	/// The type of the object in question. If this type does not represent a special-cased discord entity,
+	/// implementation behaviour is <b>undefined.</b>
+	/// </typeparam>
+	/// <param name="object">The object to cache.</param>
+	public ValueTask CacheObjectAsync<TItem>
 	(
-		String listKey,
-		IEnumerable<TItem> list,
-		Func<TItem, TId> itemIdFunction,
-		Func<TId, String> itemKeyFunction
-	);
-
-	/// <summary>
-	/// Deletes a list and all its sub-items.
-	/// </summary>
-	/// <typeparam name="TId">The type used for IDs within this list.</typeparam>
-	/// <param name="listKey">The cache key used for this list.</param>
-	/// <param name="itemKeyFunction">
-	/// A function to get the individual cache key of an item from its ID.
-	/// </param>
-	public ValueTask DeleteListAsync<TId>
-	(
-		String listKey,
-		Func<TId, String> itemKeyFunction
-	);
-
-	/// <summary>
-	/// Adds a single item to a list. If the list does not yet exist, a new list is created.
-	/// </summary>
-	/// <typeparam name="TItem">The type of the item.</typeparam>
-	/// <typeparam name="TId">The type used for IDs for this item.</typeparam>
-	/// <param name="listKey">The cache key used for this list.</param>
-	/// <param name="item">The item to be added.</param>
-	/// <param name="itemId">The ID of this item.</param>
-	/// <param name="itemKey">The individual cache key for this item.</param>
-	public ValueTask AddToListAsync<TItem, TId>
-	(
-		String listKey,
-		TItem item,
-		TId itemId,
-		String itemKey
-	);
-
-	/// <summary>
-	/// Removes a single item from a list.
-	/// </summary>
-	/// <typeparam name="TId">The type used for IDs for this item.</typeparam>
-	/// <param name="listKey">The cache key used for this list.</param>
-	/// <param name="itemId">The ID of this item.</param>
-	/// <param name="itemKey">The cache key for this item.</param>
-	/// <returns></returns>
-	public ValueTask RemoveFromListAsync<TId>
-	(
-		String listKey,
-		TId itemId,
-		String itemKey
+		TItem @object
 	);
 
 	/// <summary>
 	/// Deletes an object by its cache key.
 	/// </summary>
 	/// <typeparam name="TItem">The type of the object to delete.</typeparam>
-	public ValueTask DeleteObjectAsync<TItem>
+	/// <returns>The evicted object.</returns>
+	public ValueTask<TItem> EvictObjectAsync<TItem>
+	(
+		String cacheKey
+	);
+
+	/// <summary>
+	/// Retrieves an object if possible, and returns <see langword="default"/> if none was to be found.
+	/// </summary>
+	/// <typeparam name="TItem">The type of the object to retrieve.</typeparam>
+	/// <param name="cacheKey">The key by which to retrieve this object.</param>
+	public ValueTask<TItem?> RetrieveObjectAsync<TItem>
 	(
 		String cacheKey
 	);
