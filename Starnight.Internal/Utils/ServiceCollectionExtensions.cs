@@ -24,11 +24,17 @@ public static class ServiceCollectionExtensions
 		where TInterface : class
 		where TDecorator : class, TInterface
 	{
-		ServiceDescriptor? previousRegistration = services.LastOrDefault(xm => xm.ServiceType == typeof(TInterface));
+		ServiceDescriptor? previousRegistration = services.LastOrDefault
+		(
+			xm => xm.ServiceType == typeof(TInterface)
+		);
 
 		if(previousRegistration is null)
 		{
-			throw new InvalidOperationException($"Tried to register a decorator for {typeof(TInterface).Name}, but there was no underlying service to decorate.");
+			throw new InvalidOperationException
+			(
+				$"Tried to register a decorator for {typeof(TInterface).Name}, but there was no underlying service to decorate."
+			);
 		}
 
 		Func<IServiceProvider, Object>? previousFactory = previousRegistration.ImplementationFactory;
@@ -39,23 +45,52 @@ public static class ServiceCollectionExtensions
 		}
 		else if(previousFactory is null && previousRegistration.ImplementationType is not null)
 		{
-			previousFactory = provider => ActivatorUtilities.CreateInstance(
+			previousFactory = provider => ActivatorUtilities.CreateInstance
+			(
 				provider,
-				previousRegistration.ImplementationType);
+				previousRegistration.ImplementationType
+			);
 		}
 
-		services.Add(new ServiceDescriptor(
-			typeof(TInterface),
-			CreateDecorator,
-			previousRegistration.Lifetime));
+		services.Add
+		(
+			new ServiceDescriptor
+			(
+				typeof(TInterface),
+				CreateDecorator,
+				previousRegistration.Lifetime
+			)
+		);
 
 		return services;
 
-		TDecorator CreateDecorator(IServiceProvider provider)
+		TDecorator CreateDecorator
+		(
+			IServiceProvider provider
+		)
 		{
-			TInterface previousInstance = (TInterface)previousFactory!(provider);
-			TDecorator decorator = (TDecorator)ActivatorUtilities.CreateFactory(typeof(TDecorator), new[] { typeof(TInterface) })
-				.Invoke(provider, new[] { previousInstance });
+			TInterface previousInstance = (TInterface)previousFactory!
+			(
+				provider
+
+				);
+			TDecorator decorator = (TDecorator)ActivatorUtilities.CreateFactory
+			(
+				typeof(TDecorator),
+				new[]
+				{
+					typeof(TInterface)
+				}
+			)
+			.Invoke
+			(
+				provider,
+				new[]
+				{
+					previousInstance
+				}
+			);
+
 			return decorator;
 		}
 	}
