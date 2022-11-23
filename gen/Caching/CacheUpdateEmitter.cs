@@ -141,14 +141,7 @@ partial class {{metadata.ContainingTypeName}}
 			IPropertySymbol symbol in metadata.FirstParameterType.GetPublicProperties()
 			.Intersect
 			(
-				metadata.SecondParameterType.GetMembers()
-				.Where
-				(
-					xm => xm is IPropertySymbol
-					{
-						DeclaredAccessibility: Accessibility.Public
-					}
-				),
+				metadata.SecondParameterType.GetPublicProperties(),
 				SymbolEqualityComparer.Default
 			)
 			.Cast<IPropertySymbol>()
