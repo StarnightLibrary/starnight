@@ -28,16 +28,52 @@ public static class KeyHelper
 	)
 		=> $"StarnightLibraryCache.Channel.{channelId}";
 
-	public static String GetPermissionOverwriteKey
+	public static String GetUserKey
 	(
-		Int64 channelId,
-		Int64 overwriteId
+		Int64 userId
 	)
-		=> $"StarnightLibraryCache.Channel.{channelId}.Overwrite.{overwriteId}";
+		=> $"StarnightLibraryCache.User.{userId}";
 
-	public static String GetPermissionOverwriteListKey
+	public static String GetStickerKey
 	(
-		Int64 channelId
+		Int64 stickerId
 	)
-		=> $"StarnightLibraryCache.Channel.{channelId}.Overwrites";
+		=> $"StarnightLibraryCache.Sticker.{stickerId}";
+
+	public static String GetGuildMemberKey
+	(
+		Int64 guildId,
+		Int64 userId
+	)
+		=> $"StarnightLibraryCache.Guild.{guildId}.Member.{userId}";
+
+	public static String GetStageInstanceKey
+	(
+		Int64 stageId
+	)
+		=> $"StarnightLibraryCache.StageInstance.{stageId}";
+
+	public static String GetScheduledEventKey
+	(
+		Int64 eventId
+	)
+		=> $"StarnightLibraryCache.ScheduledEvent.{eventId}";
+
+	public static String GetGuildTemplateKey
+	(
+		Int64 templateId
+	)
+		=> $"StarnightLibraryCache.Template.{templateId}";
+
+	public static String GetGuildPreviewKey
+	(
+		Int64 previewId
+	)
+		=> $"StarnightLibraryCache.GuildPreview.{previewId}";
+
+	public static String GetEmojiKey
+	(
+		Int64 emojiId
+	)
+		=> $"StarnightLibraryCache.Emoji.{emojiId}";
 }

@@ -28,24 +28,11 @@ public interface IStarnightCacheService
 	);
 
 	/// <summary>
-	/// Caches a Discord-specific object, special-casing to individual handling.
-	/// </summary>
-	/// <typeparam name="TItem">
-	/// The type of the object in question. If this type does not represent a special-cased discord entity,
-	/// implementation behaviour is <b>undefined.</b>
-	/// </typeparam>
-	/// <param name="object">The object to cache.</param>
-	public ValueTask CacheObjectAsync<TItem>
-	(
-		TItem @object
-	);
-
-	/// <summary>
 	/// Deletes an object by its cache key.
 	/// </summary>
 	/// <typeparam name="TItem">The type of the object to delete.</typeparam>
 	/// <returns>The evicted object.</returns>
-	public ValueTask<TItem> EvictObjectAsync<TItem>
+	public ValueTask<TItem?> EvictObjectAsync<TItem>
 	(
 		String cacheKey
 	);
