@@ -3,12 +3,9 @@ namespace Starnight.Caching.Services;
 using System;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Logging;
-
 using Starnight.Caching.Providers.Abstractions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
-using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Stickers;
 using Starnight.Internal.Entities.Users;
@@ -20,18 +17,13 @@ using Starnight.SourceGenerators.Caching;
 /// </summary>
 public partial class StarnightCacheService : IStarnightCacheService
 {
-	private readonly ILogger<StarnightCacheService> __logger;
 	private readonly ICacheProvider __provider;
 
 	public StarnightCacheService
 	(
-		ILogger<StarnightCacheService> logger,
 		ICacheProvider cacheProvider
 	)
-	{
-		this.__logger = logger;
-		this.__provider = cacheProvider;
-	}
+		=> this.__provider = cacheProvider;
 
 	/// <inheritdoc/>
 	public async ValueTask CacheObjectAsync<TItem>
