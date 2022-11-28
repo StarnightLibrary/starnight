@@ -2,6 +2,7 @@ namespace Starnight.Caching.Extensions;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Starnight.Caching.Services;
 using Starnight.Caching.Shims;
 using Starnight.Internal.Rest.Resources;
 using Starnight.Internal.Utils;
@@ -21,6 +22,8 @@ public static class RestRegistrationExtensions
 		this IServiceCollection services
 	)
 	{
+		_ = services.AddSingleton<IStarnightCacheService, StarnightCacheService>();
+
 		_ = services.Decorate<IDiscordApplicationCommandsRestResource, CachingApplicationCommandsRestResource>()
 			.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>();
 

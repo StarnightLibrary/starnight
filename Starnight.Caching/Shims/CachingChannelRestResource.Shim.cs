@@ -6,8 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching;
-using Starnight.Caching.Extensions;
-using Starnight.Caching.Providers.Abstractions;
+using Starnight.Caching.Services;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Entities.Guilds.Invites;
@@ -23,12 +22,12 @@ using Starnight.Internal.Rest.Resources;
 public partial class CachingChannelRestResource : IDiscordChannelRestResource
 {
 	public readonly IDiscordChannelRestResource __underlying;
-	public readonly ICacheProvider __cache;
+	public readonly IStarnightCacheService __cache;
 
 	public CachingChannelRestResource
 	(
 		IDiscordChannelRestResource underlying,
-		ICacheProvider cache
+		IStarnightCacheService cache
 	)
 	{
 		this.__underlying = underlying;
@@ -54,7 +53,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		foreach(Int64 id in messageIds)
 		{
-			_ = await this.__cache.RemoveAsync<DiscordMessage>
+			_ = await this.__cache.EvictObjectAsync<DiscordMessage>
 			(
 				KeyHelper.GetMessageKey
 				(
@@ -85,11 +84,11 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		await this.__cache.CacheObjectAsync
 		(
-			invite,
 			KeyHelper.GetInviteKey
 			(
 				invite.Code
-			)
+			),
+			invite
 		);
 
 		return invite;
@@ -112,11 +111,11 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		await this.__cache.CacheObjectAsync
 		(
-			message,
 			KeyHelper.GetMessageKey
 			(
 				message.Id
-			)
+			),
+			message
 		);
 
 		return message;
@@ -139,11 +138,11 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		await this.__cache.CacheObjectAsync
 		(
-			message,
 			KeyHelper.GetMessageKey
 			(
 				message.Id
-			)
+			),
+			message
 		);
 
 		return message;
@@ -157,20 +156,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		await this.__cache.DeleteListAsync<DiscordChannelOverwrite, Int64>
-		(
-			KeyHelper.GetPermissionOverwriteListKey
-			(
-				channelId
-			),
-			id => KeyHelper.GetPermissionOverwriteKey
-			(
-				channelId,
-				id
-			)
-		);
-
-		_ = await this.__cache.RemoveAsync<DiscordChannel>
+		_ = await this.__cache.EvictObjectAsync<DiscordChannel>
 		(
 			KeyHelper.GetChannelKey
 			(
