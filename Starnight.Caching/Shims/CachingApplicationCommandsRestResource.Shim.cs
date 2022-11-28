@@ -5,8 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching;
-using Starnight.Caching.Extensions;
-using Starnight.Caching.Providers.Abstractions;
+using Starnight.Caching.Services;
 using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
 using Starnight.Internal.Rest.Resources;
@@ -18,12 +17,12 @@ using Starnight.Internal.Rest.Resources;
 public partial class CachingApplicationCommandsRestResource : IDiscordApplicationCommandsRestResource
 {
 	private readonly IDiscordApplicationCommandsRestResource __underlying;
-	private readonly ICacheProvider __cache;
+	private readonly IStarnightCacheService __cache;
 
 	public CachingApplicationCommandsRestResource
 	(
 		IDiscordApplicationCommandsRestResource underlying,
-		ICacheProvider cache
+		IStarnightCacheService cache
 	)
 	{
 		this.__underlying = underlying;
@@ -49,11 +48,11 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 
 		await this.__cache.CacheObjectAsync
 		(
-			message,
 			KeyHelper.GetMessageKey
 			(
 				message.Id
-			)
+			),
+			message
 		);
 
 		return message;
@@ -68,7 +67,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		_ = await this.__cache.RemoveAsync<DiscordMessage>
+		_ = await this.__cache.EvictObjectAsync<DiscordMessage>
 		(
 			KeyHelper.GetMessageKey
 			(
@@ -93,7 +92,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		Int64? messageId = await this.__cache.RemoveAsync<Int64?>
+		Int64? messageId = await this.__cache.EvictObjectAsync<Int64?>
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(
@@ -103,7 +102,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 
 		if(messageId is not null)
 		{
-			_ = await this.__cache.RemoveAsync<DiscordMessage>
+			_ = await this.__cache.EvictObjectAsync<DiscordMessage>
 			(
 				KeyHelper.GetMessageKey
 				(
@@ -141,11 +140,11 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 
 		await this.__cache.CacheObjectAsync
 		(
-			message,
 			KeyHelper.GetMessageKey
 			(
 				message.Id
-			)
+			),
+			message
 		);
 
 		return message;
@@ -168,7 +167,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		await this.__cache.CacheAsync
+		await this.__cache.CacheObjectAsync
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(
@@ -179,11 +178,11 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 
 		await this.__cache.CacheObjectAsync
 		(
-			message,
 			KeyHelper.GetMessageKey
 			(
 				message.Id
-			)
+			),
+			message
 		);
 
 		return message;
@@ -208,11 +207,11 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 
 		await this.__cache.CacheObjectAsync
 		(
-			message,
 			KeyHelper.GetMessageKey
 			(
 				message.Id
-			)
+			),
+			message
 		);
 
 		return message;
@@ -233,7 +232,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		await this.__cache.CacheAsync
+		await this.__cache.CacheObjectAsync
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(
@@ -244,11 +243,11 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 
 		await this.__cache.CacheObjectAsync
 		(
-			message,
 			KeyHelper.GetMessageKey
 			(
 				message.Id
-			)
+			),
+			message
 		);
 
 		return message;
