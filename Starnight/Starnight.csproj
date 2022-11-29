@@ -10,15 +10,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(ReleaseBuild) == 'true'">
-    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(ReleaseBuild) != 'true'">
-    <PackageReference Include="Starnight.Internal" Version="0.2.0-*" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.Github" PrivateAssets="All" />
+    
+    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PackageVersion="(0.6.0-dev.0,0.6.0]" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,7 @@
         <NoWarn>CS1591</NoWarn>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
 
         <!-- SourceLink -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
