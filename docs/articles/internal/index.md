@@ -28,7 +28,7 @@ On the other hand, Starnight.Internal returns exactly what Discord returns witho
 
 Starnight.Internal contains @Starnight.Internal.Gateway.DiscordGatewayClient to deal with events, as well as @Starnight.Internal.Rest.RestClient to send requests to the API. Furthermore, there are multiple classes for dealing with rest requests, ensuring correct payloads etc, known as *rest resources*. 
 
-Starnight.Internal operates upon dependency injection and has working integration for the .NET generic host. More information can be found at the (getting started article)[getting-started.md] - for this overview, let it suffice to say that it is very difficult, albeit not impossible, to operate Starnight.Internal without dependency injection. Extension methods are provided for registering the rest and gateway clients, optionally enabling generic host integration for the gateway.
+Starnight.Internal operates upon dependency injection and has working integration for the .NET generic host. More information can be found at the [getting started article](./getting-started.md) - for this overview, let it suffice to say that it is very difficult, albeit not impossible, to operate Starnight.Internal without dependency injection. Extension methods are provided for registering the rest and gateway clients, optionally enabling generic host integration for the gateway.
 
 ## Concepts
 
@@ -36,7 +36,7 @@ Starnight.Internal operates upon dependency injection and has working integratio
 
 Responders are types implementing <xref href="Starnight.Internal.Gateway.Responders.IResponder`1"> and registered using the `AddResponder` extension method. One responder type can implement however many responder interfaces it likes.
 
-Whenever the @Starnight.Internal.Gateway.DiscordGatewayClient receives an event, a new service scope is created. Then, responders are invoked within that scope by the order of <xref href="Starnight.Internal.Gateway.Responders.ResponderPhase?text=phases">, where the specific order of responders is undefined behaviour. More information can be found at the dedicated (article)[responders.md].
+Whenever the @Starnight.Internal.Gateway.DiscordGatewayClient receives an event, a new service scope is created. Then, responders are invoked within that scope by the order of <xref href="Starnight.Internal.Gateway.Responders.ResponderPhase?text=phases">, where the specific order of responders is undefined behaviour. More information can be found at the dedicated [article](./responders.md).
 
 > [!INFO]
 > A responder type can only be registered to phases as a whole. If you need to fine-grain control of responder phases, you will need to register multiple different responder types.
@@ -50,4 +50,4 @@ Rest resources are provided twofold: as interfaces, in `Starnight.Internal.Rest.
 
 Payload types are unvalidated types that contain the payloads, both request and response payloads, to any given request. It is highly advised to read the Discord documentation in addition to any documentation on the payload types, because Discord treats some payloads rather strangely.
 
-More information can be found at the dedicated (article)[rest.md]
+More information can be found at the dedicated [article](./rest.md)

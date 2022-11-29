@@ -5,7 +5,7 @@ title: Responders
 
 # Responders
 
-Responders are a more powerful implementation of event handlers. A responder is a type implementing <xref href="Starnight.Internal.Gateway.Responders.IResponder`1">, the generic type being the @Starnight.Internal.Gateway.Events.IDiscordGatewayEvent the responder handles. Responders are registered using the `IServiceCollection.AddResponder` extension method, where they are given a (service lifetime)[https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicelifetime] and a <xref href="Starnight.Internal.Gateway.Responders.ResponderPhase?text=phase">.
+Responders are a more powerful implementation of event handlers. A responder is a type implementing <xref href="Starnight.Internal.Gateway.Responders.IResponder`1">, the generic type being the @Starnight.Internal.Gateway.Events.IDiscordGatewayEvent the responder handles. Responders are registered using the `IServiceCollection.AddResponder` extension method, where they are given a [service lifetime](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicelifetime) and a <xref href="Starnight.Internal.Gateway.Responders.ResponderPhase?text=phase">.
 
 Registered into the containing dependency injection container, the responder will obey its service lifetime and be able to request services from DI - Starnight only controls execution of the responder logic itself.
 
