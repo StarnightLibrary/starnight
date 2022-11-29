@@ -16,7 +16,7 @@ using Starnight.Caching.Providers.Memory;
 using Starnight.Exceptions;
 using Starnight.Internal;
 using Starnight.Internal.Rest.Resources;
-using Starnight.Internal.Rest.Resources.Discord;
+using Starnight.Internal.Rest.Resources.Implementation;
 
 /// <summary>
 /// Contains an extension method on IServiceCollection to register Starnight's rest client

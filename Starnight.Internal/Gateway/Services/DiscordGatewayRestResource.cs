@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Starnight.Caching.Providers.Abstractions;
 using Starnight.Internal.Gateway.Payloads;
 using Starnight.Internal.Rest;
-using Starnight.Internal.Rest.Resources.Discord;
+using Starnight.Internal.Rest.Resources.Implementation;
 
 using static DiscordApiConstants;
 

@@ -1,29 +1,26 @@
-namespace Starnight.Internal.Rest.Resources.Discord;
+namespace Starnight.Internal.Rest.Resources.Implementation;
 
 using System;
-using System.Buffers;
-using System.Buffers.Text;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Providers.Abstractions;
-using Starnight.Internal.Entities.Stickers;
-using Starnight.Internal.Rest.Payloads.Stickers;
+using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Rest.Payloads.GuildTemplates;
 
 using static DiscordApiConstants;
 
-/// <inheritdoc cref="IDiscordStickerRestResource"/>
-public sealed class DiscordStickerRestResource
-	: AbstractRestResource, IDiscordStickerRestResource
+/// <inheritdoc cref="IDiscordGuildTemplateRestResource"/>
+public sealed class DiscordGuildTemplateRestResource
+	: AbstractRestResource, IDiscordGuildTemplateRestResource
 {
 	private readonly RestClient __rest_client;
 
-	public DiscordStickerRestResource
+	/// <inheritdoc/>
+	public DiscordGuildTemplateRestResource
 	(
 		RestClient client,
 		ICacheProvider cache
@@ -32,19 +29,19 @@ public sealed class DiscordStickerRestResource
 		=> this.__rest_client = client;
 
 	/// <inheritdoc/>
-	public async ValueTask<DiscordSticker> GetStickerAsync
+	public async ValueTask<DiscordGuildTemplate> GetGuildTemplateAsync
 	(
-		Int64 stickerId,
+		String templateCode,
 		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Url = $"{Stickers}/{stickerId}",
+			Url = $"{Guilds}/{Templates}/{templateCode}",
 			Method = HttpMethod.Get,
 			Context = new()
 			{
-				["endpoint"] = $"/{Stickers}/{StickerId}",
+				["endpoint"] = $"/{Guilds}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false,
 				["is-webhook-request"] = false
@@ -57,7 +54,7 @@ public sealed class DiscordStickerRestResource
 			ct
 		);
 
-		return JsonSerializer.Deserialize<DiscordSticker>
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
 		(
 			await response.Content.ReadAsStringAsync
 			(
@@ -68,171 +65,25 @@ public sealed class DiscordStickerRestResource
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<ListNitroStickerPacksResponsePayload> ListNitroStickerPacksAsync
+	public async ValueTask<DiscordGuild> CreateGuildFromTemplateAsync
 	(
+		String templateCode,
+		CreateGuildFromTemplateRequestPayload payload,
 		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Url = $"{StickerPacks}",
-			Method = HttpMethod.Get,
-			Context = new()
-			{
-				["endpoint"] = $"/{StickerPacks}",
-				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false,
-				["is-webhook-request"] = false
-			}
-		};
-
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
-		(
-			request,
-			ct
-		);
-
-		return JsonSerializer.Deserialize<ListNitroStickerPacksResponsePayload>
-		(
-			await response.Content.ReadAsStringAsync
+			Url = $"{Guilds}/{Templates}/{templateCode}",
+			Payload = JsonSerializer.Serialize
 			(
-				ct
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
 			),
-			StarnightInternalConstants.DefaultSerializerOptions
-		)!;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<IEnumerable<DiscordSticker>> ListGuildStickersAsync
-	(
-		Int64 guildId,
-		CancellationToken ct = default
-	)
-	{
-		IRestRequest request = new RestRequest
-		{
-			Url = $"{Guilds}/{guildId}/{Stickers}",
-			Method = HttpMethod.Get,
-			Context = new()
-			{
-				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}",
-				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false,
-				["is-webhook-request"] = false
-			}
-		};
-
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
-		(
-			request,
-			ct
-		);
-
-		return JsonSerializer.Deserialize<IEnumerable<DiscordSticker>>
-		(
-			await response.Content.ReadAsStringAsync
-			(
-				ct
-			),
-			StarnightInternalConstants.DefaultSerializerOptions
-		)!;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordSticker> GetGuildStickerAsync
-	(
-		Int64 guildId,
-		Int64 stickerId,
-		CancellationToken ct = default
-	)
-	{
-		IRestRequest request = new RestRequest
-		{
-			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
-			Method = HttpMethod.Get,
-			Context = new()
-			{
-				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
-				["cache"] = this.RatelimitBucketCache,
-				["exempt-from-global-limit"] = false,
-				["is-webhook-request"] = false
-			}
-		};
-
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
-		(
-			request,
-			ct
-		);
-
-		return JsonSerializer.Deserialize<DiscordSticker>
-		(
-			await response.Content.ReadAsStringAsync
-			(
-				ct
-			),
-			StarnightInternalConstants.DefaultSerializerOptions
-		)!;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordSticker> CreateGuildStickerAsync
-	(
-		Int64 guildId,
-		CreateGuildStickerRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		Memory<Byte> fileContent = new Byte
-		[
-			Base64.GetMaxEncodedToUtf8Length
-			(
-				payload.File.Length
-			)
-		];
-
-		OperationStatus encodingStatus = Base64.EncodeToUtf8
-		(
-			payload.File.Span,
-			fileContent.Span,
-			out Int32 _,
-			out Int32 _
-		);
-
-#pragma warning disable CA2208 // we do in fact want to pass payload.File, not a method parameter
-		if(encodingStatus != OperationStatus.Done)
-		{
-			throw new ArgumentException
-			(
-				$"Could not encode sticker to base64: {encodingStatus}",
-				nameof(payload.File)
-			);
-		}
-#pragma warning restore CA2208
-
-		IRestRequest request = new MultipartRestRequest
-		{
-			Url = $"{Guilds}/{guildId}/{Stickers}",
 			Method = HttpMethod.Post,
-			Headers = reason is not null ? new()
-			{
-				["X-Audit-Log-Reason"] = reason
-			}
-			: new(),
-			Payload = new()
-			{
-				["name"] = payload.Name,
-				["description"] = payload.Description,
-				["tags"] = payload.Tags,
-				["file"] = Encoding.UTF8.GetString
-				(
-					fileContent.Span
-				)
-			},
 			Context = new()
 			{
-				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}",
+				["endpoint"] = $"/{Guilds}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false,
 				["is-webhook-request"] = false
@@ -245,7 +96,7 @@ public sealed class DiscordStickerRestResource
 			ct
 		);
 
-		return JsonSerializer.Deserialize<DiscordSticker>
+		return JsonSerializer.Deserialize<DiscordGuild>
 		(
 			await response.Content.ReadAsStringAsync
 			(
@@ -256,32 +107,141 @@ public sealed class DiscordStickerRestResource
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<DiscordSticker> ModifyGuildStickerAsync
+	public async ValueTask<IEnumerable<DiscordGuildTemplate>> GetGuildTemplatesAsync
 	(
 		Int64 guildId,
-		Int64 stickerId,
-		ModifyGuildStickerRequestPayload payload,
-		String? reason = null,
 		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
+			Url = $"{Guilds}/{guildId}/{Templates}",
+			Method = HttpMethod.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
+
+		return JsonSerializer.Deserialize<IEnumerable<DiscordGuildTemplate>>
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildTemplate> CreateGuildTemplateAsync
+	(
+		Int64 guildId,
+		CreateGuildTemplateRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Url = $"{Guilds}/{guildId}/{Templates}",
+			Payload = JsonSerializer.Serialize
+			(
+				payload,
+				StarnightInternalConstants.DefaultSerializerOptions
+			),
+			Method = HttpMethod.Post,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
+
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildTemplate> SyncGuildTemplateAsync
+	(
+		Int64 guildId,
+		String templateCode,
+		CancellationToken ct = default
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
+			Method = HttpMethod.Put,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		(
+			request,
+			ct
+		);
+
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildTemplate> ModifyGuildTemplateAsync
+	(
+		Int64 guildId,
+		String templateCode,
+		ModifyGuildTemplateRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
 			Payload = JsonSerializer.Serialize
 			(
 				payload,
 				StarnightInternalConstants.DefaultSerializerOptions
 			),
 			Method = HttpMethod.Patch,
-			Headers = reason is not null ? new()
-			{
-				["X-Audit-Log-Reason"] = reason
-			}
-			: new(),
 			Context = new()
 			{
-				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false,
 				["is-webhook-request"] = false
@@ -294,7 +254,7 @@ public sealed class DiscordStickerRestResource
 			ct
 		);
 
-		return JsonSerializer.Deserialize<DiscordSticker>
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
 		(
 			await response.Content.ReadAsStringAsync
 			(
@@ -305,26 +265,20 @@ public sealed class DiscordStickerRestResource
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<Boolean> DeleteGuildStickerAsync
+	public async ValueTask<DiscordGuildTemplate> DeleteGuildTemplateAsync
 	(
 		Int64 guildId,
-		Int64 stickerId,
-		String? reason = null,
+		String templateCode,
 		CancellationToken ct = default
 	)
 	{
 		IRestRequest request = new RestRequest
 		{
-			Url = $"{Guilds}/{guildId}/{Stickers}/{stickerId}",
+			Url = $"{Guilds}/{guildId}/{Templates}/{templateCode}",
 			Method = HttpMethod.Delete,
-			Headers = reason is not null ? new()
-			{
-				["X-Audit-Log-Reason"] = reason
-			}
-			: new(),
 			Context = new()
 			{
-				["endpoint"] = $"/{Guilds}/{guildId}/{Stickers}/{StickerId}",
+				["endpoint"] = $"/{Guilds}/{guildId}/{Templates}/{TemplateCode}",
 				["cache"] = this.RatelimitBucketCache,
 				["exempt-from-global-limit"] = false,
 				["is-webhook-request"] = false
@@ -337,6 +291,13 @@ public sealed class DiscordStickerRestResource
 			ct
 		);
 
-		return response.StatusCode == HttpStatusCode.NoContent;
+		return JsonSerializer.Deserialize<DiscordGuildTemplate>
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
 	}
 }

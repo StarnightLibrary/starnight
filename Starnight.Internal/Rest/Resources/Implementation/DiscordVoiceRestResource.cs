@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Resources.Discord;
+namespace Starnight.Internal.Rest.Resources.Implementation;
 
 using System.Collections.Generic;
 using System.Net.Http;
