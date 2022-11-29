@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<Description>Caching library for Starnight</Description>
-	<VersionPrefix>0.3.0</VersionPrefix>
+	  <Description>Caching library for Starnight</Description>
+	  <VersionPrefix>0.3.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
-	<None Include="../img/starnight.png" Pack="true" PackagePath="/" />
+	  <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
 
-	<ProjectReference Include="../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	  <ProjectReference Include="../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PackageVersion="(0.6.0-dev.0,0.6.0]" />
+	  <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PackageVersion="(0.6.0-dev.0,0.6.0]" />
   </ItemGroup>
 
 </Project>
