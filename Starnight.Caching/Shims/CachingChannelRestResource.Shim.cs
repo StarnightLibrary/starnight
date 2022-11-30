@@ -2,7 +2,6 @@ namespace Starnight.Caching.Shims;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -174,63 +173,6 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync
-	(
-		Int64 channelId,
-		Int64 overwriteId,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		Boolean value = await this.__underlying.DeleteChannelPermissionOverwriteAsync
-		(
-			channelId,
-			overwriteId,
-			reason,
-			ct
-		);
-
-		if(!value)
-		{
-			return value;
-		}
-
-		String key = KeyHelper.GetChannelKey
-		(
-			channelId
-		);
-
-		DiscordChannel? parent = await this.__cache.RetrieveObjectAsync<DiscordChannel>
-		(
-			key
-		);
-
-		if(parent is null || !parent.Overwrites.IsDefined)
-		{
-			return value;
-		}
-
-		parent = parent with
-		{
-			Overwrites = new
-			(
-				parent.Overwrites.Value.Where
-				(
-					xm => xm.Id != overwriteId
-				)
-			)
-		};
-
-		await this.__cache.CacheObjectAsync
-		(
-			key,
-			parent!
-		);
-
-		return value;
-	}
-
-	/// <inheritdoc/>
 	public async ValueTask<Boolean> DeleteMessageAsync
 	(
 		Int64 channelId,
@@ -263,7 +205,6 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		return value;
 	}
 
-	public ValueTask<Boolean> EditChannelPermissionsAsync(Int64 channelId, Int64 overwriteId, EditChannelPermissionsRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordMessage> EditMessageAsync(Int64 channelId, Int64 messageId, EditMessageRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync(Int64 channelId, Int64 targetChannelId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> GetChannelAsync(Int64 channelId, CancellationToken ct = default) => throw new NotImplementedException();

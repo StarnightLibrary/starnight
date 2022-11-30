@@ -189,4 +189,42 @@ public partial class CachingChannelRestResource
 			ct
 		);
 	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> EditChannelPermissionsAsync
+	(
+		Int64 channelId,
+		Int64 overwriteId,
+		EditChannelPermissionsRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		return this.__underlying.EditChannelPermissionsAsync
+		(
+			channelId,
+			overwriteId,
+			payload,
+			reason,
+			ct
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync
+	(
+		Int64 channelId,
+		Int64 overwriteId,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		return this.__underlying.DeleteChannelPermissionOverwriteAsync
+		(
+			channelId,
+			overwriteId,
+			reason,
+			ct
+		);
+	}
 }
