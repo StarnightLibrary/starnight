@@ -230,8 +230,39 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		return value;
 	}
 
-	
-	public ValueTask<Boolean> DeleteMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> DeleteMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		Boolean value = await this.__underlying.DeleteMessageAsync
+		(
+			channelId,
+			messageId,
+			reason,
+			ct
+		);
+
+		if(!value)
+		{
+			return value;
+		}
+
+		_ = await this.__cache.EvictObjectAsync<DiscordMessage>
+		(
+			KeyHelper.GetMessageKey
+			(
+				messageId
+			)
+		);
+
+		return value;
+	}
+
 	public ValueTask<Boolean> EditChannelPermissionsAsync(Int64 channelId, Int64 overwriteId, EditChannelPermissionsRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordMessage> EditMessageAsync(Int64 channelId, Int64 messageId, EditMessageRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync(Int64 channelId, Int64 targetChannelId, CancellationToken ct = default) => throw new NotImplementedException();
