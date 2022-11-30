@@ -2,6 +2,7 @@ namespace Starnight.Caching.Shims;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -172,7 +173,63 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		);
 	}
 
-	public ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync(Int64 channelId, Int64 overwriteId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync
+	(
+		Int64 channelId,
+		Int64 overwriteId,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		Boolean value = await this.__underlying.DeleteChannelPermissionOverwriteAsync
+		(
+			channelId,
+			overwriteId,
+			reason,
+			ct
+		);
+
+		if(!value)
+		{
+			return value;
+		}
+
+		String key = KeyHelper.GetChannelKey
+		(
+			channelId
+		);
+
+		DiscordChannel? parent = await this.__cache.RetrieveObjectAsync<DiscordChannel>
+		(
+			key
+		);
+
+		if(parent is null || !parent.Overwrites.IsDefined)
+		{
+			return value;
+		}
+
+		parent = parent with
+		{
+			Overwrites = new
+			(
+				parent.Overwrites.Value.Where
+				(
+					xm => xm.Id != overwriteId
+				)
+			)
+		};
+
+		await this.__cache.CacheObjectAsync
+		(
+			key,
+			parent!
+		);
+
+		return value;
+	}
+
 	public ValueTask DeleteEmojiReactionsAsync(Int64 channelId, Int64 messageId, String emoji, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> DeleteMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> EditChannelPermissionsAsync(Int64 channelId, Int64 overwriteId, EditChannelPermissionsRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
