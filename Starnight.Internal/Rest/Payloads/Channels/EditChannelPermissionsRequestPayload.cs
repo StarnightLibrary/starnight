@@ -1,6 +1,5 @@
 namespace Starnight.Internal.Rest.Payloads.Channels;
 
-using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities;
@@ -18,14 +17,14 @@ public sealed record EditChannelPermissionsRequestPayload
 	public required DiscordChannelOverwriteType Type { get; init; }
 
 	/// <summary>
-	/// Granted permissions, by overwrite, see <see cref="DiscordPermissions"/>
+	/// Granted permissions, by overwrite.
 	/// </summary>
 	[JsonPropertyName("allow")]
-	public Optional<Int64?> Allow { get; init; }
+	public Optional<DiscordPermissions?> Allow { get; init; }
 
 	/// <summary>
-	/// Denied permissions, by overwrite, see <see cref="DiscordPermissions"/>
+	/// Denied permissions, by overwrite.
 	/// </summary>
 	[JsonPropertyName("deny")]
-	public Optional<Int64?> Deny { get; init; }
+	public Optional<DiscordPermissions?> Deny { get; init; }
 }

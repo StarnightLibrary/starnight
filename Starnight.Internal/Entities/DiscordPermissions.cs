@@ -9,6 +9,11 @@ using System;
 public enum DiscordPermissions : Int64
 {
 	/// <summary>
+	/// No permissions.
+	/// </summary>
+	None = 0,
+
+	/// <summary>
 	/// Allows members to create invites.
 	/// </summary>
 	CreateInvite = 1 << 0,

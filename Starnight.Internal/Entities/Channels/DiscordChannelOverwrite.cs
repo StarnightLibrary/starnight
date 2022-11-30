@@ -1,6 +1,5 @@
 namespace Starnight.Internal.Entities.Channels;
 
-using System;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -15,14 +14,14 @@ public sealed record DiscordChannelOverwrite : DiscordSnowflakeObject
 	public required DiscordChannelOverwriteType Type { get; init; }
 
 	/// <summary>
-	/// Granted permissions, by overwrite, see <see cref="DiscordPermissions"/>
+	/// Granted permissions, by overwrite.
 	/// </summary>
 	[JsonPropertyName("allow")]
-	public required Int64 Allow { get; init; }
+	public required DiscordPermissions Allow { get; init; }
 
 	/// <summary>
-	/// Denied permissions, by overwrite, see <see cref="DiscordPermissions"/>
+	/// Denied permissions, by overwrite.
 	/// </summary>
 	[JsonPropertyName("deny")]
-	public required Int64 Deny { get; init; }
+	public required DiscordPermissions Deny { get; init; }
 }
