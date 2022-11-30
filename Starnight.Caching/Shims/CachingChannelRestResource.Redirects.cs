@@ -171,4 +171,22 @@ public partial class CachingChannelRestResource
 			ct
 		);
 	}
+
+	/// <inheritdoc/>
+	public ValueTask DeleteEmojiReactionsAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String emoji,
+		CancellationToken ct = default
+	)
+	{
+		return this.__underlying.DeleteEmojiReactionsAsync
+		(
+			channelId,
+			messageId,
+			emoji,
+			ct
+		);
+	}
 }
