@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Rest.Payloads.Channels;
 
 public partial class CachingChannelRestResource
@@ -224,6 +225,22 @@ public partial class CachingChannelRestResource
 			channelId,
 			overwriteId,
 			reason,
+			ct
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync
+	(
+		Int64 channelId,
+		Int64 targetChannelId,
+		CancellationToken ct = default
+	)
+	{
+		return this.__underlying.FollowNewsChannelAsync
+		(
+			channelId,
+			targetChannelId,
 			ct
 		);
 	}
