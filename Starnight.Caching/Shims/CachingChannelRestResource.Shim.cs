@@ -205,7 +205,34 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		return value;
 	}
 
-	public ValueTask<DiscordMessage> EditMessageAsync(Int64 channelId, Int64 messageId, EditMessageRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordMessage> EditMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		EditMessageRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		DiscordMessage message = await this.__underlying.EditMessageAsync
+		(
+			channelId,
+			messageId,
+			payload,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetMessageKey
+			(
+				messageId
+			),
+			message
+		);
+
+		return message;
+	}
 	public ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync(Int64 channelId, Int64 targetChannelId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> GetChannelAsync(Int64 channelId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<IEnumerable<DiscordInvite>> GetChannelInvitesAsync(Int64 channelId, CancellationToken ct = default) => throw new NotImplementedException();
