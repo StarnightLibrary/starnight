@@ -25,4 +25,46 @@ public partial class CachingGuildRestResource
 			ct
 		);
 	}
+
+	/// <inheritdoc/>
+	public ValueTask BanMemberAsync
+	(
+		Int64 guildId,
+		Int64 userId,
+		Int32 deleteMessageDays,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		return this.underlying.BanMemberAsync
+		(
+			guildId,
+			userId,
+			deleteMessageDays,
+			reason,
+			ct
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<Int32?> BeginGuildPruneAsync
+	(
+		Int64 guildId,
+		Int32? days = null,
+		String? roles = null,
+		Boolean? computeCount = null,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		return this.underlying.BeginGuildPruneAsync
+		(
+			guildId,
+			days,
+			roles,
+			computeCount,
+			reason,
+			ct
+		);
+	}
 }

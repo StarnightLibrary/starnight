@@ -65,8 +65,6 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 
 		return member;
 	}
-	public ValueTask BanMemberAsync(Int64 guildId, Int64 userId, Int32 deleteMessageDays, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<Int32?> BeginGuildPruneAsync(Int64 guildId, Int32? days = null, String? roles = null, Boolean? computeCount = null, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> CreateGuildChannelAsync(Int64 guildId, CreateGuildChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordRole> CreateRoleAsync(Int64 guildId, CreateGuildRoleRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> DeleteGuildAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
