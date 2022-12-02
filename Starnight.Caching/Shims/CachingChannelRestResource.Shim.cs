@@ -446,9 +446,146 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		return threadMember;
 	}
 
-	public ValueTask<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync(Int64 channelId, DateTimeOffset? before, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync(Int64 channelId, DateTimeOffset? before, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync(Int64 channelId, DateTimeOffset? before, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync
+	(
+		Int64 channelId,
+		DateTimeOffset? before,
+		Int32? limit = null,
+		CancellationToken ct = default
+	)
+	{
+		ListArchivedThreadsResponsePayload response = await this.__underlying.ListJoinedPrivateArchivedThreadsAsync
+		(
+			channelId,
+			before,
+			limit,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.Threads,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetChannelKey
+				(
+					xm.Id
+				),
+				xm
+			)
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.ThreadMembers,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetThreadMemberKey
+				(
+					xm.ThreadId,
+					xm.UserId
+				),
+				xm
+			)
+		);
+
+		return response;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync
+	(
+		Int64 channelId,
+		DateTimeOffset? before,
+		Int32? limit = null,
+		CancellationToken ct = default
+	)
+	{
+		ListArchivedThreadsResponsePayload response = await this.__underlying.ListPrivateArchivedThreadsAsync
+		(
+			channelId,
+			before,
+			null,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.Threads,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetChannelKey
+				(
+					xm.Id
+				),
+				xm
+			)
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.ThreadMembers,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetThreadMemberKey
+				(
+					xm.ThreadId,
+					xm.UserId
+				),
+				xm
+			)
+		);
+
+		return response;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync
+	(
+		Int64 channelId,
+		DateTimeOffset? before,
+		Int32? limit = null,
+		CancellationToken ct = default
+	)
+	{
+		ListArchivedThreadsResponsePayload response = await this.__underlying.ListPublicArchivedThreadsAsync
+		(
+			channelId,
+			before,
+			limit,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.Threads,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetChannelKey
+				(
+					xm.Id
+				),
+				xm
+			)
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.ThreadMembers,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetThreadMemberKey
+				(
+					xm.ThreadId,
+					xm.UserId
+				),
+				xm
+			)
+		);
+
+		return response;
+	}
 	public ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync(Int64 threadId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGroupDMRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGuildChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
