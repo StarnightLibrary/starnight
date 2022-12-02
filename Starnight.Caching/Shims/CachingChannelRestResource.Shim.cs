@@ -701,8 +701,94 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		return channel;
 	}
-	public ValueTask<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId, StartThreadFromMessageRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordChannel> StartThreadInForumChannelAsync(Int64 channelId, StartThreadInForumChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordChannel> StartThreadWithoutMessageAsync(Int64 channelId, StartThreadWithoutMessageRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordChannel> StartThreadFromMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		StartThreadFromMessageRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordChannel channel = await this.__underlying.StartThreadFromMessageAsync
+		(
+			channelId,
+			messageId,
+			payload,
+			reason,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetChannelKey
+			(
+				channel.Id
+			),
+			channel
+		);
+
+		return channel;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordChannel> StartThreadInForumChannelAsync
+	(
+		Int64 channelId,
+		StartThreadInForumChannelRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordChannel channel = await this.__underlying.StartThreadInForumChannelAsync
+		(
+			channelId,
+			payload,
+			reason,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetChannelKey
+			(
+				channel.Id
+			),
+			channel
+		);
+
+		return channel;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordChannel> StartThreadWithoutMessageAsync
+	(
+		Int64 channelId,
+		StartThreadWithoutMessageRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordChannel channel = await this.__underlying.StartThreadWithoutMessageAsync
+		(
+			channelId,
+			payload,
+			reason,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetChannelKey
+			(
+				channel.Id
+			),
+			channel
+		);
+
+		return channel;
+	}
 	public ValueTask<Boolean> UnpinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 }
