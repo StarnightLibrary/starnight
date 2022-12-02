@@ -278,4 +278,21 @@ public partial class CachingChannelRestResource
 			ct
 		);
 	}
+
+	public ValueTask<Boolean> UnpinMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		return this.__underlying.UnpinMessageAsync
+		(
+			channelId,
+			messageId,
+			reason,
+			ct
+		);
+	}
 }

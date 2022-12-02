@@ -790,5 +790,4 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		return channel;
 	}
-	public ValueTask<Boolean> UnpinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 }
