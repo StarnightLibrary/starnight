@@ -144,5 +144,35 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 
 		return emojis;
 	}
-	public ValueTask<DiscordEmoji> ModifyGuildEmojiAsync(Int64 guildId, Int64 emojiId, ModifyGuildEmojiRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordEmoji> ModifyGuildEmojiAsync
+	(
+		Int64 guildId,
+		Int64 emojiId,
+		ModifyGuildEmojiRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordEmoji emoji = await this.__underlying.ModifyGuildEmojiAsync
+		(
+			guildId,
+			emojiId,
+			payload,
+			reason,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetEmojiKey
+			(
+				emojiId
+			),
+			emoji
+		);
+
+		return emoji;
+	}
 }
