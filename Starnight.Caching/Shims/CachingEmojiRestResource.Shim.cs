@@ -57,7 +57,37 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 
 		return emoji;
 	}
-	public ValueTask<Boolean> DeleteGuildEmojiAsync(Int64 guildId, Int64 emojiId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<Boolean> DeleteGuildEmojiAsync
+	(
+		Int64 guildId,
+		Int64 emojiId,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		Boolean result = await this.__underlying.DeleteGuildEmojiAsync
+		(
+			guildId,
+			emojiId,
+			reason,
+			ct
+		);
+
+		if(result)
+		{
+			_ = await this.__cache.EvictObjectAsync<DiscordEmoji>
+			(
+				KeyHelper.GetEmojiKey
+				(
+					emojiId
+				)
+			);
+		}
+
+		return result;
+	}
 	public ValueTask<DiscordEmoji> GetGuildEmojiAsync(Int64 guildId, Int64 emojiId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<IEnumerable<DiscordEmoji>> ListGuildEmojisAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordEmoji> ModifyGuildEmojiAsync(Int64 guildId, Int64 emojiId, ModifyGuildEmojiRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
