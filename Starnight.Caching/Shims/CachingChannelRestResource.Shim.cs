@@ -16,7 +16,7 @@ using Starnight.Internal.Rest.Payloads.Channels;
 using Starnight.Internal.Rest.Resources;
 
 /// <summary>
-/// Represents a shim over the present application commands rest resource, updating and corroborating from
+/// Represents a shim over the present channel commands rest resource, updating and corroborating from
 /// cache where possible.
 /// </summary>
 public partial class CachingChannelRestResource : IDiscordChannelRestResource

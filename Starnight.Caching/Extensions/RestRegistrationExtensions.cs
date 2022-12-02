@@ -25,7 +25,8 @@ public static class RestRegistrationExtensions
 		_ = services.AddSingleton<IStarnightCacheService, StarnightCacheService>();
 
 		_ = services.Decorate<IDiscordApplicationCommandsRestResource, CachingApplicationCommandsRestResource>()
-			.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>();
+			.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>()
+			.Decorate<IDiscordEmojiRestResource, CachingEmojiRestResource>();
 
 		return services;
 	}
