@@ -315,7 +315,43 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		return message;
 	}
 
-	public ValueTask<IEnumerable<DiscordMessage>> GetChannelMessagesAsync(Int64 channelId, Int32 count, Int64? around = null, Int64? before = null, Int64? after = null, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordMessage>> GetChannelMessagesAsync
+	(
+		Int64 channelId,
+		Int32 count,
+		Int64? around = null,
+		Int64? before = null,
+		Int64? after = null,
+		CancellationToken ct = default
+	)
+	{
+		IEnumerable<DiscordMessage> messages = await this.__underlying.GetChannelMessagesAsync
+		(
+			channelId,
+			count,
+			around,
+			before,
+			after,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			messages,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetMessageKey
+				(
+					xm.Id
+				),
+				xm
+			)
+		);
+
+		return messages;
+	}
+
 	public ValueTask<IEnumerable<DiscordMessage>> GetPinnedMessagesAsync(Int64 channelId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync(Int64 channelId, Int64 messageId, String emoji, Int64? after = null, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordThreadMember> GetThreadMemberAsync(Int64 threadId, Int64 userId, CancellationToken ct = default) => throw new NotImplementedException();
