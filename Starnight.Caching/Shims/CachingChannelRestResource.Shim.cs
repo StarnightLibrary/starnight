@@ -586,7 +586,36 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		return response;
 	}
-	public ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync(Int64 threadId, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync
+	(
+		Int64 threadId,
+		CancellationToken ct = default
+	)
+	{
+		IEnumerable<DiscordThreadMember> members = await this.__underlying.ListThreadMembersAsync
+		(
+			threadId,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			members,
+			async (xm, _) => await this.__cache.CacheObjectAsync
+			(
+				KeyHelper.GetThreadMemberKey
+				(
+					xm.ThreadId,
+					xm.UserId
+				),
+				xm
+			)
+		);
+
+		return members;
+	}
 	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGroupDMRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGuildChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyThreadChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
