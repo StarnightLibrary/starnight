@@ -417,7 +417,35 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		return users;
 	}
-	public ValueTask<DiscordThreadMember> GetThreadMemberAsync(Int64 threadId, Int64 userId, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordThreadMember> GetThreadMemberAsync
+	(
+		Int64 threadId,
+		Int64 userId,
+		CancellationToken ct = default
+	)
+	{
+		DiscordThreadMember threadMember = await this.__underlying.GetThreadMemberAsync
+		(
+			threadId,
+			userId,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetThreadMemberKey
+			(
+				threadId,
+				userId
+			),
+			threadMember
+		);
+
+		return threadMember;
+	}
+
 	public ValueTask<ListArchivedThreadsResponsePayload> ListJoinedPrivateArchivedThreadsAsync(Int64 channelId, DateTimeOffset? before, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<ListArchivedThreadsResponsePayload> ListPrivateArchivedThreadsAsync(Int64 channelId, DateTimeOffset? before, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<ListArchivedThreadsResponsePayload> ListPublicArchivedThreadsAsync(Int64 channelId, DateTimeOffset? before, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();

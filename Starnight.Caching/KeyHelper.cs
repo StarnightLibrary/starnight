@@ -76,4 +76,11 @@ public static class KeyHelper
 		Int64 emojiId
 	)
 		=> $"StarnightLibraryCache.Emoji.{emojiId}";
+
+	public static String GetThreadMemberKey
+	(
+		Int64 threadId,
+		Int64 userId
+	)
+		=> $"StarnightLibraryCache.Channel.{threadId}.ThreadMember.{userId}";
 }
