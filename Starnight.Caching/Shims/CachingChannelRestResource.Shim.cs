@@ -701,8 +701,6 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		return channel;
 	}
-	public ValueTask<Boolean> PinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<Boolean> RemoveFromThreadAsync(Int64 threadId, Int64 userId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId, StartThreadFromMessageRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> StartThreadInForumChannelAsync(Int64 channelId, StartThreadInForumChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> StartThreadWithoutMessageAsync(Int64 channelId, StartThreadWithoutMessageRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();

@@ -244,4 +244,38 @@ public partial class CachingChannelRestResource
 			ct
 		);
 	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> PinMessageAsync
+	(
+		Int64 channelId,
+		Int64 messageId,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		return this.__underlying.PinMessageAsync
+		(
+			channelId,
+			messageId,
+			reason,
+			ct
+		);
+	}
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> RemoveFromThreadAsync
+	(
+		Int64 threadId,
+		Int64 userId,
+		CancellationToken ct = default
+	)
+	{
+		return this.__underlying.RemoveFromThreadAsync
+		(
+			threadId,
+			userId,
+			ct
+		);
+	}
 }
