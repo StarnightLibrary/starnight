@@ -26,7 +26,8 @@ public static class RestRegistrationExtensions
 
 		_ = services.Decorate<IDiscordApplicationCommandsRestResource, CachingApplicationCommandsRestResource>()
 			.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>()
-			.Decorate<IDiscordEmojiRestResource, CachingEmojiRestResource>();
+			.Decorate<IDiscordEmojiRestResource, CachingEmojiRestResource>()
+			.Decorate<IDiscordGuildRestResource, CachingGuildRestResource>();
 
 		return services;
 	}
