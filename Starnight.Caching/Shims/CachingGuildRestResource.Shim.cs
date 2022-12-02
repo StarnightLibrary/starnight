@@ -94,7 +94,35 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 
 		return channel;
 	}
-	public ValueTask<DiscordRole> CreateRoleAsync(Int64 guildId, CreateGuildRoleRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordRole> CreateRoleAsync
+	(
+		Int64 guildId,
+		CreateGuildRoleRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordRole role = await this.underlying.CreateRoleAsync
+		(
+			guildId,
+			payload,
+			reason,
+			ct
+		);
+
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetRoleKey
+			(
+				role.Id
+			),
+			role
+		);
+
+		return role;
+	}
 	public ValueTask<Boolean> DeleteGuildAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> DeleteGuildIntegrationAsync(Int64 guildId, Int64 integrationId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> DeleteRoleAsync(Int64 guildId, Int64 roleId, String? reason, CancellationToken ct = default) => throw new NotImplementedException();

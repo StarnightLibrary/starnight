@@ -83,4 +83,10 @@ public static class KeyHelper
 		Int64 userId
 	)
 		=> $"StarnightLibraryCache.Channel.{threadId}.ThreadMember.{userId}";
+
+	public static String GetRoleKey
+	(
+		Int64 roleId
+	)
+		=> $"StarnightLibraryCache.Role.{roleId}";
 }
