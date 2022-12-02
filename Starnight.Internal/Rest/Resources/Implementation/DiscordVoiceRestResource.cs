@@ -15,7 +15,7 @@ using static DiscordApiConstants;
 public sealed class DiscordVoiceRestResource
 	: AbstractRestResource, IDiscordVoiceRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	public DiscordVoiceRestResource
 	(
@@ -23,7 +23,7 @@ public sealed class DiscordVoiceRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordVoiceRegion>> ListVoiceRegionsAsync
@@ -44,7 +44,7 @@ public sealed class DiscordVoiceRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct

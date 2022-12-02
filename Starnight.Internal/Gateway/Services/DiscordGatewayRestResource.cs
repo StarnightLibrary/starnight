@@ -15,7 +15,7 @@ using static DiscordApiConstants;
 public sealed class DiscordGatewayRestResource
 	: AbstractRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	public DiscordGatewayRestResource
 	(
@@ -23,7 +23,7 @@ public sealed class DiscordGatewayRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	public async ValueTask<GetGatewayBotResponsePayload> GetBotGatewayInfoAsync()
 	{
@@ -40,7 +40,7 @@ public sealed class DiscordGatewayRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync(request);
 
 		return JsonSerializer.Deserialize<GetGatewayBotResponsePayload>
 			(await response.Content.ReadAsStringAsync(), StarnightInternalConstants.DefaultSerializerOptions)!;
@@ -61,7 +61,7 @@ public sealed class DiscordGatewayRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync(request);
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync(request);
 
 		// if any of these are ever null, we should yell at Discord.
 		return JsonDocument.Parse(await response.Content.ReadAsStringAsync()).RootElement.GetProperty("url")!.GetString()!;

@@ -20,7 +20,7 @@ using static Starnight.Internal.DiscordApiConstants;
 public sealed class DiscordApplicationCommandsRestResource
 	: AbstractRestResource, IDiscordApplicationCommandsRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	/// <inheritdoc/>
 	public DiscordApplicationCommandsRestResource
@@ -29,7 +29,7 @@ public sealed class DiscordApplicationCommandsRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordApplicationCommand>> GetGlobalApplicationCommandsAsync
@@ -69,7 +69,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -111,7 +111,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -148,7 +148,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -191,7 +191,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -228,7 +228,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -263,7 +263,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -312,7 +312,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -355,7 +355,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -393,7 +393,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -437,7 +437,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -475,7 +475,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -511,7 +511,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -548,7 +548,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -586,7 +586,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -652,7 +652,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				}
 			};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -682,7 +682,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -748,7 +748,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				}
 			};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -785,7 +785,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -844,7 +844,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				}
 			};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -882,7 +882,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -949,7 +949,7 @@ public sealed class DiscordApplicationCommandsRestResource
 				}
 			};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -987,7 +987,7 @@ public sealed class DiscordApplicationCommandsRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct

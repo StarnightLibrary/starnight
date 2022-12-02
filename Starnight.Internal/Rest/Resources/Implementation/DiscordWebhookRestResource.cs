@@ -20,7 +20,7 @@ using static DiscordApiConstants;
 public sealed class DiscordWebhookRestResource
 	: AbstractRestResource, IDiscordWebhookRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	public DiscordWebhookRestResource
 	(
@@ -28,7 +28,7 @@ public sealed class DiscordWebhookRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordWebhook> CreateWebhookAsync
@@ -62,7 +62,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -98,7 +98,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -134,7 +134,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -170,7 +170,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -207,7 +207,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -255,7 +255,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -304,7 +304,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -346,7 +346,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -382,7 +382,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -465,7 +465,7 @@ public sealed class DiscordWebhookRestResource
 					}
 				};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -517,7 +517,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -602,7 +602,7 @@ public sealed class DiscordWebhookRestResource
 					}
 				};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -652,7 +652,7 @@ public sealed class DiscordWebhookRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct

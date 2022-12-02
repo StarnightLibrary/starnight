@@ -16,8 +16,8 @@ using Starnight.Internal.Rest.Resources;
 /// </summary>
 public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 {
-	private readonly IDiscordEmojiRestResource __underlying;
-	private readonly IStarnightCacheService __cache;
+	private readonly IDiscordEmojiRestResource underlying;
+	private readonly IStarnightCacheService cache;
 
 	public CachingEmojiRestResource
 	(
@@ -25,8 +25,8 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		IStarnightCacheService cache
 	)
 	{
-		this.__underlying = underlying;
-		this.__cache = cache;
+		this.underlying = underlying;
+		this.cache = cache;
 	}
 
 	/// <inheritdoc/>
@@ -38,7 +38,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		CancellationToken ct = default
 	)
 	{
-		DiscordEmoji emoji = await this.__underlying.CreateGuildEmojiAsync
+		DiscordEmoji emoji = await this.underlying.CreateGuildEmojiAsync
 		(
 			guildId,
 			payload,
@@ -46,7 +46,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetEmojiKey
 			(
@@ -67,7 +67,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		CancellationToken ct = default
 	)
 	{
-		Boolean result = await this.__underlying.DeleteGuildEmojiAsync
+		Boolean result = await this.underlying.DeleteGuildEmojiAsync
 		(
 			guildId,
 			emojiId,
@@ -77,7 +77,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 
 		if(result)
 		{
-			_ = await this.__cache.EvictObjectAsync<DiscordEmoji>
+			_ = await this.cache.EvictObjectAsync<DiscordEmoji>
 			(
 				KeyHelper.GetEmojiKey
 				(
@@ -97,14 +97,14 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		CancellationToken ct = default
 	)
 	{
-		DiscordEmoji emoji = await this.__underlying.GetGuildEmojiAsync
+		DiscordEmoji emoji = await this.underlying.GetGuildEmojiAsync
 		(
 			guildId,
 			emojiId,
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetEmojiKey
 			(
@@ -123,7 +123,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		CancellationToken ct = default
 	)
 	{
-		IEnumerable<DiscordEmoji> emojis = await this.__underlying.ListGuildEmojisAsync
+		IEnumerable<DiscordEmoji> emojis = await this.underlying.ListGuildEmojisAsync
 		(
 			guildId,
 			ct
@@ -132,7 +132,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		await Parallel.ForEachAsync
 		(
 			emojis,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetEmojiKey
 				(
@@ -155,7 +155,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		CancellationToken ct = default
 	)
 	{
-		DiscordEmoji emoji = await this.__underlying.ModifyGuildEmojiAsync
+		DiscordEmoji emoji = await this.underlying.ModifyGuildEmojiAsync
 		(
 			guildId,
 			emojiId,
@@ -164,7 +164,7 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetEmojiKey
 			(

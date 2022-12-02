@@ -16,17 +16,17 @@ using Starnight.Internal.Gateway.Responders;
 /// </summary>
 public class InboundGatewayService : IInboundGatewayService
 {
-	private readonly ILogger<InboundGatewayService> __logger;
-	private readonly TransportService __transport_service;
-	private readonly Channel<IDiscordGatewayEvent> __control_channel;
-	private readonly Channel<IDiscordGatewayEvent> __responder_channel;
-	private ResponderService __responder_service;
+	private readonly ILogger<InboundGatewayService> logger;
+	private readonly TransportService transportService;
+	private readonly Channel<IDiscordGatewayEvent> controlChannel;
+	private readonly Channel<IDiscordGatewayEvent> responderChannel;
+	private ResponderService responderService;
 
-	private readonly Dictionary<Type, Boolean> __control_events;
+	private readonly Dictionary<Type, Boolean> controlEvents;
 
-	private readonly ILogger<ResponderService> __responder_logger;
-	private readonly IServiceProvider __service_provider;
-	private readonly ResponderCollection __responders;
+	private readonly ILogger<ResponderService> responderLogger;
+	private readonly IServiceProvider serviceProvider;
+	private readonly ResponderCollection responders;
 
 	public Int32 LastReceivedSequence { get; private set; }
 
@@ -42,37 +42,37 @@ public class InboundGatewayService : IInboundGatewayService
 		ResponderCollection responders
 	)
 	{
-		this.__logger = logger;
-		this.__transport_service = transportService;
-		this.__control_events = new();
+		this.logger = logger;
+		this.transportService = transportService;
+		this.controlEvents = new();
 
-		this.__responder_logger = responderLogger;
-		this.__service_provider = services;
-		this.__responders = responders;
+		this.responderLogger = responderLogger;
+		this.serviceProvider = services;
+		this.responders = responders;
 
-		this.__control_channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
-		this.__responder_channel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
+		this.controlChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
+		this.responderChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
 
-		this.ControlEvents = this.__control_channel.Reader;
+		this.ControlEvents = this.controlChannel.Reader;
 		this.LastReceivedSequence = 0;
 
 		// we'll assign this in StartAsync
-		this.__responder_service = null!;
+		this.responderService = null!;
 	}
 
 	/// <inheritdoc/>
 	public ValueTask StartAsync(CancellationToken ct)
 	{
-		this.__responder_service = new
+		this.responderService = new
 		(
-			this.__responder_logger,
-			this.__service_provider,
-			this.__responders,
-			this.__responder_channel.Reader,
+			this.responderLogger,
+			this.serviceProvider,
+			this.responders,
+			this.responderChannel.Reader,
 			ct
 		);
 
-		this.__logger.LogDebug
+		this.logger.LogDebug
 		(
 			"Initialized responder handling."
 		);
@@ -90,11 +90,11 @@ public class InboundGatewayService : IInboundGatewayService
 
 			try
 			{
-				@event = await this.__transport_service.ReadAsync(ct);
+				@event = await this.transportService.ReadAsync(ct);
 			}
 			catch(Exception ex)
 			{
-				this.__logger.LogError
+				this.logger.LogError
 				(
 					ex,
 					"Failed to deserialize inbound gateway event."
@@ -107,30 +107,30 @@ public class InboundGatewayService : IInboundGatewayService
 			(
 				async () =>
 				{
-					await this.__responder_channel.Writer.WriteAsync(@event);
+					await this.responderChannel.Writer.WriteAsync(@event);
 
 
-					if(!this.__control_events.TryGetValue(@event.GetType(), out Boolean isControlEvent))
+					if(!this.controlEvents.TryGetValue(@event.GetType(), out Boolean isControlEvent))
 					{
-						isControlEvent = @event.Opcode is 
+						isControlEvent = @event.Opcode is
 							DiscordGatewayOpcode.Hello or
 							DiscordGatewayOpcode.Reconnect or
 							DiscordGatewayOpcode.InvalidSession or
 							DiscordGatewayOpcode.HeartbeatAck
 							|| @event.GetType() == typeof(DiscordConnectedEvent);
 
-						this.__control_events.Add(@event.GetType(), isControlEvent);
+						this.controlEvents.Add(@event.GetType(), isControlEvent);
 					}
 
 					if(isControlEvent)
 					{
-						await this.__control_channel.Writer.WriteAsync(@event);
+						await this.controlChannel.Writer.WriteAsync(@event);
 					}
 				},
 				ct
 			);
 		}
 
-		GC.KeepAlive(this.__responder_service);
+		GC.KeepAlive(this.responderService);
 	}
 }

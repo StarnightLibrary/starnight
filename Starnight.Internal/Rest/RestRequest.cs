@@ -16,7 +16,7 @@ public readonly struct RestRequest : IRestRequest
 
 	public HttpMethod Method { get; init; } = HttpMethod.Get;
 
-	public required String Url { get; init; } 
+	public required String Url { get; init; }
 
 	public Dictionary<String, String> Headers { get; init; } = new();
 

@@ -23,7 +23,7 @@ using static Starnight.Internal.DiscordApiConstants;
 public sealed class DiscordChannelRestResource
 	: AbstractRestResource, IDiscordChannelRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	/// <inheritdoc/>
 	public DiscordChannelRestResource
@@ -32,7 +32,7 @@ public sealed class DiscordChannelRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> GetChannelAsync
@@ -54,7 +54,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -96,7 +96,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -144,7 +144,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -192,7 +192,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -234,7 +234,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -300,7 +300,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -337,7 +337,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -405,7 +405,7 @@ public sealed class DiscordChannelRestResource
 					}
 				};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -442,7 +442,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -480,7 +480,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -511,7 +511,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -543,7 +543,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -592,7 +592,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -629,7 +629,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		_ = await this.__rest_client.MakeRequestAsync
+		_ = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -658,7 +658,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		_ = await this.__rest_client.MakeRequestAsync
+		_ = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -721,7 +721,7 @@ public sealed class DiscordChannelRestResource
 					}
 				};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -764,7 +764,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -805,7 +805,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -847,7 +847,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -876,7 +876,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -927,7 +927,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -970,7 +970,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1004,7 +1004,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1040,7 +1040,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		_ = await this.__rest_client.MakeRequestAsync
+		_ = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1067,7 +1067,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1110,7 +1110,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1146,7 +1146,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1182,7 +1182,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		_ = await this.__rest_client.MakeRequestAsync
+		_ = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1210,7 +1210,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		_ = await this.__rest_client.MakeRequestAsync
+		_ = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1250,7 +1250,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1298,7 +1298,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1370,7 +1370,7 @@ public sealed class DiscordChannelRestResource
 					}
 				};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1406,7 +1406,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1436,7 +1436,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1465,7 +1465,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1495,7 +1495,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1525,7 +1525,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1561,7 +1561,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1615,7 +1615,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1669,7 +1669,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -1723,7 +1723,7 @@ public sealed class DiscordChannelRestResource
 			}
 		};
 
-		HttpResponseMessage message = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage message = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct

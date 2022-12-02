@@ -314,7 +314,7 @@ public interface IDiscordChannelRestResource
 		Int64 channelId,
 		Int64 overwriteId,
 		EditChannelPermissionsRequestPayload payload,
-		String? reason = null	,
+		String? reason = null,
 		CancellationToken ct = default
 	);
 

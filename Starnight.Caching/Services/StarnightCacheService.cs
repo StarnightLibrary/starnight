@@ -17,13 +17,13 @@ using Starnight.SourceGenerators.Caching;
 /// </summary>
 public partial class StarnightCacheService : IStarnightCacheService
 {
-	private readonly ICacheProvider __provider;
+	private readonly ICacheProvider provider;
 
 	public StarnightCacheService
 	(
 		ICacheProvider cacheProvider
 	)
-		=> this.__provider = cacheProvider;
+		=> this.provider = cacheProvider;
 
 	/// <inheritdoc/>
 	public async ValueTask CacheObjectAsync<TItem>
@@ -64,7 +64,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 				cacheKey,
 				message
 			),
-			_ => this.__provider.CacheAsync
+			_ => this.provider.CacheAsync
 			(
 				cacheKey,
 				@object
@@ -77,7 +77,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		String cacheKey
 	)
 	{
-		return await this.__provider.RemoveAsync<TItem>
+		return await this.provider.RemoveAsync<TItem>
 		(
 			cacheKey
 		);
@@ -88,7 +88,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		String cacheKey
 	)
 	{
-		return await this.__provider.GetAsync<TItem>
+		return await this.provider.GetAsync<TItem>
 		(
 			cacheKey
 		);
@@ -100,14 +100,14 @@ public partial class StarnightCacheService : IStarnightCacheService
 		DiscordChannel channel
 	)
 	{
-		DiscordChannel? old = await this.__provider.GetAsync<DiscordChannel>
+		DiscordChannel? old = await this.provider.GetAsync<DiscordChannel>
 		(
 			key
 		);
 
 		if(old is null)
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				channel
@@ -115,7 +115,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		}
 		else
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				this.channelUpdater
@@ -150,14 +150,14 @@ public partial class StarnightCacheService : IStarnightCacheService
 		DiscordEmoji emoji
 	)
 	{
-		DiscordEmoji? old = await this.__provider.GetAsync<DiscordEmoji>
+		DiscordEmoji? old = await this.provider.GetAsync<DiscordEmoji>
 		(
 			key
 		);
 
 		if(old is null)
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				emoji
@@ -165,7 +165,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		}
 		else
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				this.emojiUpdater
@@ -197,14 +197,14 @@ public partial class StarnightCacheService : IStarnightCacheService
 		DiscordGuild guild
 	)
 	{
-		DiscordGuild? old = await this.__provider.GetAsync<DiscordGuild>
+		DiscordGuild? old = await this.provider.GetAsync<DiscordGuild>
 		(
 			key
 		);
 
 		if(old is null)
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				guild
@@ -212,7 +212,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		}
 		else
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				this.guildUpdater
@@ -277,7 +277,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 						member
 					);
 				}
-			}		
+			}
 		}
 
 		if(guild.VoiceStates.IsDefined)
@@ -342,14 +342,14 @@ public partial class StarnightCacheService : IStarnightCacheService
 		DiscordGuildMember member
 	)
 	{
-		DiscordGuildMember? old = await this.__provider.GetAsync<DiscordGuildMember>
+		DiscordGuildMember? old = await this.provider.GetAsync<DiscordGuildMember>
 		(
 			key
 		);
 
 		if(old is null)
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				member
@@ -357,7 +357,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		}
 		else
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				this.guildMemberUpdater
@@ -389,14 +389,14 @@ public partial class StarnightCacheService : IStarnightCacheService
 		DiscordGuildPreview preview
 	)
 	{
-		DiscordGuildPreview? old = await this.__provider.GetAsync<DiscordGuildPreview>
+		DiscordGuildPreview? old = await this.provider.GetAsync<DiscordGuildPreview>
 		(
 			key
 		);
 
 		if(old is null)
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				preview
@@ -404,7 +404,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		}
 		else
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				this.guildPreviewUpdater
@@ -455,14 +455,14 @@ public partial class StarnightCacheService : IStarnightCacheService
 		DiscordMessage message
 	)
 	{
-		DiscordMessage? old = await this.__provider.GetAsync<DiscordMessage>
+		DiscordMessage? old = await this.provider.GetAsync<DiscordMessage>
 		(
 			key
 		);
 
 		if(old is null)
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				message
@@ -470,7 +470,7 @@ public partial class StarnightCacheService : IStarnightCacheService
 		}
 		else
 		{
-			await this.__provider.CacheAsync
+			await this.provider.CacheAsync
 			(
 				key,
 				this.messageUpdater

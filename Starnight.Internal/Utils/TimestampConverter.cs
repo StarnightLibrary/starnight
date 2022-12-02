@@ -9,7 +9,7 @@ using Starnight.Internal.Entities;
 /// </summary>
 public static class SnowflakeConverter
 {
-	private static readonly DateTimeOffset __discordepoch = new(2015, 1, 1, 0, 0, 0, TimeSpan.Zero);
+	private static readonly DateTimeOffset discordEpoch = new(2015, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
 	/// <summary>
 	/// Extracts the Creation timestamp from a raw snowflake ID.
@@ -17,7 +17,7 @@ public static class SnowflakeConverter
 	/// <param name="snowflake">A raw snowflake ID as <see cref="Int64"/>.</param>
 	/// <returns>A <see cref="DateTimeOffset"/> holding the requested timestamp.</returns>
 	public static DateTimeOffset GetSnowflakeTime(this Int64 snowflake)
-		=> __discordepoch.AddMilliseconds(snowflake >> 22);
+		=> discordEpoch.AddMilliseconds(snowflake >> 22);
 
 	/// <summary>
 	/// Extracts the Creation timestamp from a wrapped snowflake.
@@ -25,7 +25,7 @@ public static class SnowflakeConverter
 	/// <param name="snowflake">A wrapped snowflake as <see cref="DiscordSnowflakeObject"/>.</param>
 	/// <returns>A <see cref="DateTimeOffset"/> holding the requested timestamp.</returns>
 	public static DateTimeOffset GetSnowflakeTime(this DiscordSnowflakeObject snowflake)
-		=> __discordepoch.AddMilliseconds(snowflake.Id >> 22);
+		=> discordEpoch.AddMilliseconds(snowflake.Id >> 22);
 
 	/// <summary>
 	/// Extracts the internal worker ID from a raw snowflake ID.

@@ -15,17 +15,17 @@ public struct Optional<T> : IOptional
 	/// </summary>
 	public static Optional<T> Empty { get; } = default;
 
-	private T __value = default!;
+	private T value = default!;
 
 	/// <summary>
 	/// Gets or sets the underlying value of this instance.
 	/// </summary>
 	public T Value
 	{
-		get => this.HasValue ? this.__value : throw new InvalidOperationException("This Optional instance has no value.");
+		get => this.HasValue ? this.value : throw new InvalidOperationException("This Optional instance has no value.");
 		set
 		{
-			this.__value = value;
+			this.value = value;
 			this.HasValue = true;
 		}
 	}
@@ -38,7 +38,7 @@ public struct Optional<T> : IOptional
 	/// <summary>
 	/// Specifies whether this instance represents a value that is not null.
 	/// </summary>
-	public Boolean IsDefined => this.HasValue && this.__value is not null;
+	public Boolean IsDefined => this.HasValue && this.value is not null;
 
 	public static implicit operator T(Optional<T> parameter)
 		=> parameter.Value;

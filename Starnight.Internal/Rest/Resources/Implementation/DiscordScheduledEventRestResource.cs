@@ -18,7 +18,7 @@ using static DiscordApiConstants;
 public sealed class DiscordScheduledEventRestResource
 	: AbstractRestResource, IDiscordScheduledEventRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	/// <inheritdoc/>
 	public DiscordScheduledEventRestResource
@@ -27,7 +27,7 @@ public sealed class DiscordScheduledEventRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync
@@ -61,7 +61,7 @@ public sealed class DiscordScheduledEventRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -104,7 +104,7 @@ public sealed class DiscordScheduledEventRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -153,7 +153,7 @@ public sealed class DiscordScheduledEventRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -202,7 +202,7 @@ public sealed class DiscordScheduledEventRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -239,7 +239,7 @@ public sealed class DiscordScheduledEventRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -299,7 +299,7 @@ public sealed class DiscordScheduledEventRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct

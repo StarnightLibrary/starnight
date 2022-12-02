@@ -16,8 +16,8 @@ using Starnight.Internal.Rest.Resources;
 /// </summary>
 public partial class CachingApplicationCommandsRestResource : IDiscordApplicationCommandsRestResource
 {
-	private readonly IDiscordApplicationCommandsRestResource __underlying;
-	private readonly IStarnightCacheService __cache;
+	private readonly IDiscordApplicationCommandsRestResource underlying;
+	private readonly IStarnightCacheService cache;
 
 	public CachingApplicationCommandsRestResource
 	(
@@ -25,8 +25,8 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		IStarnightCacheService cache
 	)
 	{
-		this.__underlying = underlying;
-		this.__cache = cache;
+		this.underlying = underlying;
+		this.cache = cache;
 	}
 
 	/// <inheritdoc/>
@@ -38,7 +38,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		DiscordMessage message = await this.__underlying.CreateFollowupMessageAsync
+		DiscordMessage message = await this.underlying.CreateFollowupMessageAsync
 		(
 			applicationId,
 			interactionToken,
@@ -46,7 +46,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetMessageKey
 			(
@@ -67,7 +67,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		_ = await this.__cache.EvictObjectAsync<DiscordMessage>
+		_ = await this.cache.EvictObjectAsync<DiscordMessage>
 		(
 			KeyHelper.GetMessageKey
 			(
@@ -75,7 +75,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			)
 		);
 
-		return await this.__underlying.DeleteFollowupMessageAsync
+		return await this.underlying.DeleteFollowupMessageAsync
 		(
 			applicationId,
 			interactionToken,
@@ -92,7 +92,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		Int64? messageId = await this.__cache.EvictObjectAsync<Int64?>
+		Int64? messageId = await this.cache.EvictObjectAsync<Int64?>
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(
@@ -102,7 +102,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 
 		if(messageId is not null)
 		{
-			_ = await this.__cache.EvictObjectAsync<DiscordMessage>
+			_ = await this.cache.EvictObjectAsync<DiscordMessage>
 			(
 				KeyHelper.GetMessageKey
 				(
@@ -111,7 +111,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			);
 		}
 
-		return await this.__underlying.DeleteOriginalInteractionResponseAsync
+		return await this.underlying.DeleteOriginalInteractionResponseAsync
 		(
 			applicationId,
 			interactionToken,
@@ -129,7 +129,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		DiscordMessage message = await this.__underlying.EditFollowupMessageAsync
+		DiscordMessage message = await this.underlying.EditFollowupMessageAsync
 		(
 			applicationId,
 			interactionToken,
@@ -138,7 +138,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetMessageKey
 			(
@@ -159,7 +159,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		DiscordMessage message = await this.__underlying.EditOriginalResponseAsync
+		DiscordMessage message = await this.underlying.EditOriginalResponseAsync
 		(
 			applicationId,
 			interactionToken,
@@ -167,7 +167,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(
@@ -176,7 +176,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			message.Id
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetMessageKey
 			(
@@ -197,7 +197,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		DiscordMessage message = await this.__underlying.GetFollowupMessageAsync
+		DiscordMessage message = await this.underlying.GetFollowupMessageAsync
 		(
 			applicationId,
 			interactionToken,
@@ -205,7 +205,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetMessageKey
 			(
@@ -225,14 +225,14 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 		CancellationToken ct = default
 	)
 	{
-		DiscordMessage message = await this.__underlying.GetOriginalResponseAsync
+		DiscordMessage message = await this.underlying.GetOriginalResponseAsync
 		(
 			applicationId,
 			interactionToken,
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetOriginalInteractionResponseKey
 			(
@@ -241,7 +241,7 @@ public partial class CachingApplicationCommandsRestResource : IDiscordApplicatio
 			message.Id
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetMessageKey
 			(

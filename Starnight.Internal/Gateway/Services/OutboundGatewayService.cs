@@ -15,18 +15,18 @@ using Starnight.Internal.Gateway.Payloads.Outbound;
 /// </summary>
 public class OutboundGatewayService : IOutboundGatewayService
 {
-	private readonly TransportService __transport_service;
+	private readonly TransportService transportService;
 
-	private readonly RateLimitPolicy __policy;
+	private readonly RateLimitPolicy policy;
 
 	public OutboundGatewayService
 	(
 		TransportService transportService
 	)
 	{
-		this.__transport_service = transportService;
+		this.transportService = transportService;
 
-		this.__policy = Policy.RateLimit(120, TimeSpan.FromMinutes(1));
+		this.policy = Policy.RateLimit(120, TimeSpan.FromMinutes(1));
 	}
 
 	/// <inheritdoc/>
@@ -66,9 +66,9 @@ public class OutboundGatewayService : IOutboundGatewayService
 	/// <inheritdoc/>
 	public async ValueTask SendEventAsync(IDiscordGatewayEvent @event)
 	{
-		await this.__policy.Execute
+		await this.policy.Execute
 		(
-			async () => await this.__transport_service.WriteAsync
+			async () => await this.transportService.WriteAsync
 			(
 				@event,
 				CancellationToken.None

@@ -20,8 +20,8 @@ using Starnight.Internal.Rest.Resources;
 /// </summary>
 public partial class CachingGuildRestResource : IDiscordGuildRestResource
 {
-	private readonly IDiscordGuildRestResource __underlying;
-	private readonly IStarnightCacheService __cache;
+	private readonly IDiscordGuildRestResource underlying;
+	private readonly IStarnightCacheService cache;
 
 	public CachingGuildRestResource
 	(
@@ -29,8 +29,8 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 		IStarnightCacheService cache
 	)
 	{
-		this.__underlying = underlying;
-		this.__cache = cache;
+		this.underlying = underlying;
+		this.cache = cache;
 	}
 
 	public ValueTask<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();

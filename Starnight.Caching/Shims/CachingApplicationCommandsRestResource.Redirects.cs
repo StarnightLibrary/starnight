@@ -2,8 +2,8 @@ namespace Starnight.Caching.Shims;
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using Starnight.Internal.Rest.Payloads.ApplicationCommands;
@@ -18,7 +18,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.BulkOverwriteGlobalApplicationCommandsAsync
+		return this.underlying.BulkOverwriteGlobalApplicationCommandsAsync
 		(
 			applicationId,
 			payload,
@@ -35,7 +35,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.BulkOverwriteGuildApplicationCommandsAsync
+		return this.underlying.BulkOverwriteGuildApplicationCommandsAsync
 		(
 			applicationId,
 			guildId,
@@ -52,7 +52,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.CreateGlobalApplicationCommandAsync
+		return this.underlying.CreateGlobalApplicationCommandAsync
 		(
 			applicationId,
 			payload,
@@ -69,7 +69,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.CreateGuildApplicationCommandAsync
+		return this.underlying.CreateGuildApplicationCommandAsync
 		(
 			applicationId,
 			guildId,
@@ -87,7 +87,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.CreateInteractionResponseAsync
+		return this.underlying.CreateInteractionResponseAsync
 		(
 			interactionId,
 			interactionToken,
@@ -104,7 +104,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.DeleteGlobalApplicationCommandAsync
+		return this.underlying.DeleteGlobalApplicationCommandAsync
 		(
 			applicationId,
 			commandId,
@@ -121,7 +121,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.DeleteGuildApplicationCommandAsync
+		return this.underlying.DeleteGuildApplicationCommandAsync
 		(
 			applicationId,
 			guildId,
@@ -139,7 +139,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.EditGlobalApplicationCommandAsync
+		return this.underlying.EditGlobalApplicationCommandAsync
 		(
 			applicationId,
 			commandId,
@@ -158,7 +158,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.EditGuildApplicationCommandAsync
+		return this.underlying.EditGuildApplicationCommandAsync
 		(
 			applicationId,
 			guildId,
@@ -177,7 +177,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.GetApplicationCommandPermissionsAsync
+		return this.underlying.GetApplicationCommandPermissionsAsync
 		(
 			applicationId,
 			guildId,
@@ -194,7 +194,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.GetGlobalApplicationCommandAsync
+		return this.underlying.GetGlobalApplicationCommandAsync
 		(
 			applicationId,
 			commandId,
@@ -211,7 +211,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.GetGlobalApplicationCommandsAsync
+		return this.underlying.GetGlobalApplicationCommandsAsync
 		(
 			applicationId,
 			withLocalizations,
@@ -229,7 +229,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.GetGuildApplicationCommandAsync
+		return this.underlying.GetGuildApplicationCommandAsync
 		(
 			applicationId,
 			guildId,
@@ -246,7 +246,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.GetGuildApplicationCommandPermissionsAsync
+		return this.underlying.GetGuildApplicationCommandPermissionsAsync
 		(
 			applicationId,
 			guildId,
@@ -263,7 +263,7 @@ public partial class CachingApplicationCommandsRestResource
 		CancellationToken ct = default
 	)
 	{
-		return this.__underlying.GetGuildApplicationCommandsAsync
+		return this.underlying.GetGuildApplicationCommandsAsync
 		(
 			applicationId,
 			guildId,

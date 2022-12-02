@@ -14,16 +14,16 @@ using Starnight.Caching.Providers.Abstractions;
 
 public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 {
-	private readonly ConcurrentDictionary<String, String> __endpoint_buckets;
-	private readonly RatelimitBucket __global_bucket;
+	private readonly ConcurrentDictionary<String, String> endpointBuckets;
+	private readonly RatelimitBucket globalBucket;
 
-	private readonly static TimeSpan __one_second = TimeSpan.FromSeconds(1);
+	private readonly static TimeSpan oneSecond = TimeSpan.FromSeconds(1);
 
 	public PollyRateLimitPolicy()
 	{
 		// 50 per second is discord's defined global ratelimit
-		this.__global_bucket = new(50, 50, DateTimeOffset.UtcNow.AddSeconds(1), "global");
-		this.__endpoint_buckets = new();
+		this.globalBucket = new(50, 50, DateTimeOffset.UtcNow.AddSeconds(1), "global");
+		this.endpointBuckets = new();
 	}
 
 	protected override async Task<HttpResponseMessage> ImplementationAsync
@@ -56,23 +56,23 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 
 		if(!exemptFromGlobalLimit)
 		{
-			if(this.__global_bucket.ResetTime < instant)
+			if(this.globalBucket.ResetTime < instant)
 			{
-				this.__global_bucket.ResetBucket(instant + __one_second);
+				this.globalBucket.ResetBucket(instant + oneSecond);
 			}
 
-			if(!this.__global_bucket.AllowNextRequest())
+			if(!this.globalBucket.AllowNextRequest())
 			{
 				HttpResponseMessage response = new(HttpStatusCode.TooManyRequests);
 
-				response.Headers.RetryAfter = new RetryConditionHeaderValue(this.__global_bucket.ResetTime - instant);
+				response.Headers.RetryAfter = new RetryConditionHeaderValue(this.globalBucket.ResetTime - instant);
 				response.Headers.Add("X-Starnight-Internal-Response", "global");
 
 				return response;
 			}
 		}
 
-		bucketHash = this.__endpoint_buckets.TryGetValue(endpoint, out String? bucketHashNullable)
+		bucketHash = this.endpointBuckets.TryGetValue(endpoint, out String? bucketHashNullable)
 			? bucketHashNullable
 			: endpoint;
 
@@ -100,7 +100,7 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 
 		if(extractedBucket.Hash is null)
 		{
-			_ = this.__endpoint_buckets.TryRemove(endpoint, out _);
+			_ = this.endpointBuckets.TryRemove(endpoint, out _);
 
 			// expire a second later, to pre-act a server/local time desync
 			await cache.CacheAsync(endpoint, extractedBucket);
@@ -108,7 +108,7 @@ public class PollyRateLimitPolicy : AsyncPolicy<HttpResponseMessage>
 			return message;
 		}
 
-		_ = this.__endpoint_buckets.AddOrUpdate(endpoint, extractedBucket.Hash, (_, _) => extractedBucket.Hash);
+		_ = this.endpointBuckets.AddOrUpdate(endpoint, extractedBucket.Hash, (_, _) => extractedBucket.Hash);
 		await cache.CacheAsync(endpoint, extractedBucket);
 
 		if(extractedBucket.Hash != bucketHash)

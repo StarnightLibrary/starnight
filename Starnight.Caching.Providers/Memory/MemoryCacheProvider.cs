@@ -13,8 +13,8 @@ using Starnight.Caching.Providers.Abstractions;
 /// </summary>
 public class MemoryCacheProvider : ICacheProvider
 {
-	private readonly MemoryCacheProviderOptions __options;
-	private readonly IMemoryCache __backing;
+	private readonly MemoryCacheProviderOptions options;
+	private readonly IMemoryCache backing;
 
 	/// <inheritdoc/>
 	public MemoryCacheProvider
@@ -23,8 +23,8 @@ public class MemoryCacheProvider : ICacheProvider
 		IMemoryCache cache
 	)
 	{
-		this.__options = options.Value;
-		this.__backing = cache;
+		this.options = options.Value;
+		this.backing = cache;
 	}
 
 	/// <inheritdoc/>
@@ -33,17 +33,17 @@ public class MemoryCacheProvider : ICacheProvider
 		IOptions<MemoryCacheProviderOptions> options
 	)
 	{
-		this.__options = options.Value;
+		this.options = options.Value;
 
 		MemoryCacheOptions settings = new()
 		{
-			CompactionPercentage = this.__options.CompactionPercentage,
-			ExpirationScanFrequency = this.__options.ExpirationScanFrequency,
-			SizeLimit = this.__options.SizeLimit,
-			TrackStatistics = this.__options.TrackStatistics
+			CompactionPercentage = this.options.CompactionPercentage,
+			ExpirationScanFrequency = this.options.ExpirationScanFrequency,
+			SizeLimit = this.options.SizeLimit,
+			TrackStatistics = this.options.TrackStatistics
 		};
 
-		this.__backing = new MemoryCache
+		this.backing = new MemoryCache
 		(
 			settings
 		);
@@ -65,12 +65,12 @@ public class MemoryCacheProvider : ICacheProvider
 		String key
 	)
 	{
-		T? item = this.__backing.Get<T>
+		T? item = this.backing.Get<T>
 		(
 			key
 		);
 
-		this.__backing.Remove
+		this.backing.Remove
 		(
 			key
 		);
@@ -85,17 +85,17 @@ public class MemoryCacheProvider : ICacheProvider
 		T item
 	)
 	{
-		this.__backing.CreateEntry
+		this.backing.CreateEntry
 			(
 				key
 			)
 			.SetAbsoluteExpiration
 			(
-				this.__options.GetAbsoluteExpiration<T>()
+				this.options.GetAbsoluteExpiration<T>()
 			)
 			.SetSlidingExpiration
 			(
-				this.__options.GetSlidingExpiration<T>()
+				this.options.GetSlidingExpiration<T>()
 			)
 			.SetValue
 			(
@@ -112,16 +112,16 @@ public class MemoryCacheProvider : ICacheProvider
 		BaseCacheEntry entry
 	)
 	{
-		using ICacheEntry finalEntry = this.__backing.CreateEntry
+		using ICacheEntry finalEntry = this.backing.CreateEntry
 		(
 			entry.Key
 		);
 
 		if(entry is MemoryCacheEntry memoryEntry)
 		{
-			TimeSpan absolute = memoryEntry.AbsoluteExpiration ?? this.__options.GetAbsoluteExpiration<Object>();
+			TimeSpan absolute = memoryEntry.AbsoluteExpiration ?? this.options.GetAbsoluteExpiration<Object>();
 
-			TimeSpan sliding = memoryEntry.SlidingExpiration ?? this.__options.GetSlidingExpiration<Object>();
+			TimeSpan sliding = memoryEntry.SlidingExpiration ?? this.options.GetSlidingExpiration<Object>();
 
 			_ = finalEntry.SetValue
 				(
@@ -150,11 +150,11 @@ public class MemoryCacheProvider : ICacheProvider
 				)
 				.SetAbsoluteExpiration
 				(
-					this.__options.GetAbsoluteExpiration<Object>()
+					this.options.GetAbsoluteExpiration<Object>()
 				)
 				.SetSlidingExpiration
 				(
-					this.__options.GetSlidingExpiration<Object>()
+					this.options.GetSlidingExpiration<Object>()
 				);
 
 		return ValueTask.CompletedTask;
@@ -171,7 +171,7 @@ public class MemoryCacheProvider : ICacheProvider
 	{
 		return ValueTask.FromResult
 		(
-			this.__backing.CreateEntry
+			this.backing.CreateEntry
 			(
 				key
 			)
@@ -184,7 +184,7 @@ public class MemoryCacheProvider : ICacheProvider
 		TimeSpan expiration
 	)
 	{
-		this.__options.SlidingExpirations[typeof(T)] = expiration;
+		this.options.SlidingExpirations[typeof(T)] = expiration;
 
 		return this;
 	}
@@ -195,7 +195,7 @@ public class MemoryCacheProvider : ICacheProvider
 		TimeSpan expiration
 	)
 	{
-		this.__options.AbsoluteExpirations[typeof(T)] = expiration;
+		this.options.AbsoluteExpirations[typeof(T)] = expiration;
 
 		return this;
 	}
@@ -206,7 +206,7 @@ public class MemoryCacheProvider : ICacheProvider
 		String key
 	)
 	{
-		_ = this.__backing.TryGetValue
+		_ = this.backing.TryGetValue
 		(
 			key,
 			out T? value

@@ -15,7 +15,7 @@ using static DiscordApiConstants;
 public sealed class DiscordAuditLogRestResource
 	: AbstractRestResource, IDiscordAuditLogRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	/// <inheritdoc/>
 	public DiscordAuditLogRestResource
@@ -24,7 +24,7 @@ public sealed class DiscordAuditLogRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	/// <inheritdoc/>
 	public async ValueTask<DiscordAuditLogObject> GetGuildAuditLogAsync
@@ -76,7 +76,7 @@ public sealed class DiscordAuditLogRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct

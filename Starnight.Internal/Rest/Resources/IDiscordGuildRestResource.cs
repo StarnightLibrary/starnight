@@ -393,7 +393,7 @@ public interface IDiscordGuildRestResource
 		Int64 roleId,
 		ModifyGuildRoleRequestPayload payload,
 		String? reason = null,
-		CancellationToken ct = default	
+		CancellationToken ct = default
 	);
 
 	/// <summary>

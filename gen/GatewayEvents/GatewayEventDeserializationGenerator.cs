@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 [Generator]
 public class GatewayEventDeserializationGenerator : IIncrementalGenerator
 {
-	private const String __attribute =
+	private const String attribute =
 @"// auto-generated code
 namespace Starnight.SourceGenerators.GatewayEvents;
 
@@ -31,7 +31,7 @@ internal sealed class GatewayEventAttribute : global::System.Attribute
 			ctx => ctx.AddSource
 			(
 				"GatewayEventAttribute.generated.cs",
-				__attribute
+				attribute
 			)
 		);
 

@@ -20,9 +20,9 @@ using Starnight.Internal.Utils;
 /// </summary>
 public sealed partial class RestClient
 {
-	private readonly HttpClient __http_client;
-	private readonly ILogger<RestClient>? __logger;
-	private readonly String __token;
+	private readonly HttpClient httpClient;
+	private readonly ILogger<RestClient>? logger;
+	private readonly String token;
 
 	[GeneratedRegex(@"([0-9a-z_\-\./:]+)")]
 	private static partial Regex routeRegex();
@@ -31,7 +31,7 @@ public sealed partial class RestClient
 	(
 		TimeSpan timeout
 	)
-		=> this.__http_client.Timeout = timeout;
+		=> this.httpClient.Timeout = timeout;
 
 	public RestClient
 	(
@@ -41,9 +41,9 @@ public sealed partial class RestClient
 		IOptions<TokenContainer> container
 	)
 	{
-		this.__http_client = client;
-		this.__logger = logger;
-		this.__token = container.Value.Token;
+		this.httpClient = client;
+		this.logger = logger;
+		this.token = container.Value.Token;
 	}
 
 	/// <summary>
@@ -91,7 +91,7 @@ public sealed partial class RestClient
 	{
 		if(!routeRegex().IsMatch(request.Url))
 		{
-			this.__logger?.LogError
+			this.logger?.LogError
 			(
 				LoggingEvents.RestClientRequestDenied,
 				"Invalid request route. Please contact the library developers."
@@ -112,15 +112,15 @@ public sealed partial class RestClient
 
 		if(!isWebhookRequest)
 		{
-			message.Headers.Authorization = new AuthenticationHeaderValue("Bot", this.__token);
+			message.Headers.Authorization = new AuthenticationHeaderValue("Bot", this.token);
 		}
 
-		this.__logger?.LogTrace(LoggingEvents.RestClientOutgoing,
+		this.logger?.LogTrace(LoggingEvents.RestClientOutgoing,
 			"Outgoing HTTP payload:\n{Payload}", message.ToString());
 
-		HttpResponseMessage response = await this.__http_client.SendAsync(message, ct);
+		HttpResponseMessage response = await this.httpClient.SendAsync(message, ct);
 
-		this.__logger?.LogTrace(LoggingEvents.RestClientIncoming,
+		this.logger?.LogTrace(LoggingEvents.RestClientIncoming,
 			"Incoming HTTP payload:\n{Payload}", response.ToString());
 
 		return response.StatusCode switch

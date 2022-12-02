@@ -12,28 +12,28 @@ using System.Threading;
 /// </summary>
 public record RatelimitBucket
 {
-	private const String __unlimited_ratelimit_identifier = "unlimited";
-	private const Int32 __default_limit = 1;
-	private const Int32 __default_remaining = 0;
-	private readonly static DateTimeOffset __discord_epoch = new(2015, 1, 1, 0, 0, 0, TimeSpan.Zero);
+	private const String unlimitedRatelimitIdentifier = "unlimited";
+	private const Int32 defaultLimit = 1;
+	private const Int32 defaultRemaining = 0;
+	private readonly static DateTimeOffset discordEpoch = new(2015, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
-	private readonly Object __lock = new();
+	private readonly Object @lock = new();
 
-	public Int32 Limit { get; internal set; } = __default_limit;
+	public Int32 Limit { get; internal set; } = defaultLimit;
 
 #pragma warning disable CS0420
 	public Int32 Remaining
 	{
-		get => Volatile.Read(ref this.__remaining);
-		set => Volatile.Write(ref this.__remaining, value);
+		get => Volatile.Read(ref this.remaining);
+		set => Volatile.Write(ref this.remaining, value);
 	}
 #pragma warning restore CS0420
 
-	private volatile Int32 __remaining = __default_remaining;
+	private volatile Int32 remaining = defaultRemaining;
 
-	public DateTimeOffset ResetTime { get; internal set; } = __discord_epoch;
+	public DateTimeOffset ResetTime { get; internal set; } = discordEpoch;
 
-	public String Hash { get; internal set; } = __unlimited_ratelimit_identifier;
+	public String Hash { get; internal set; } = unlimitedRatelimitIdentifier;
 
 	#region Constructing
 
@@ -42,7 +42,7 @@ public record RatelimitBucket
 		this.Limit = limit;
 		this.Remaining = remaining;
 		this.ResetTime = resetTime;
-		this.Hash = hash ?? __unlimited_ratelimit_identifier;
+		this.Hash = hash ?? unlimitedRatelimitIdentifier;
 	}
 
 	public static Boolean ExtractRatelimitBucket(HttpResponseHeaders headers,
@@ -90,7 +90,7 @@ public record RatelimitBucket
 				"The next ratelimit bucket expiration cannot be in the past.");
 		}
 
-		lock(this.__lock)
+		lock(this.@lock)
 		{
 			this.Remaining = this.Limit;
 			this.ResetTime = nextResetTime;

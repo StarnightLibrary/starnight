@@ -11,19 +11,19 @@ using Starnight.Exceptions;
 /// </summary>
 public class ResponderCollection
 {
-	private readonly Dictionary<Type, List<Type>> __pre_event_responders;
-	private readonly Dictionary<Type, List<Type>> __early_responders;
-	private readonly Dictionary<Type, List<Type>> __responders;
-	private readonly Dictionary<Type, List<Type>> __late_responders;
-	private readonly Dictionary<Type, List<Type>> __post_event_responders;
+	private readonly Dictionary<Type, List<Type>> preEventResponders;
+	private readonly Dictionary<Type, List<Type>> earlyResponders;
+	private readonly Dictionary<Type, List<Type>> responders;
+	private readonly Dictionary<Type, List<Type>> lateResponders;
+	private readonly Dictionary<Type, List<Type>> postEventResponders;
 
 	public ResponderCollection()
 	{
-		this.__pre_event_responders = new();
-		this.__early_responders = new();
-		this.__responders = new();
-		this.__late_responders = new();
-		this.__post_event_responders = new();
+		this.preEventResponders = new();
+		this.earlyResponders = new();
+		this.responders = new();
+		this.lateResponders = new();
+		this.postEventResponders = new();
 	}
 
 	/// <summary>
@@ -52,11 +52,11 @@ public class ResponderCollection
 		{
 			Dictionary<Type, List<Type>> dictionary = phase switch
 			{
-				ResponderPhase.PreEvent => this.__pre_event_responders,
-				ResponderPhase.Early => this.__early_responders,
-				ResponderPhase.Normal => this.__responders,
-				ResponderPhase.Late => this.__late_responders,
-				ResponderPhase.PostEvent => this.__post_event_responders,
+				ResponderPhase.PreEvent => this.preEventResponders,
+				ResponderPhase.Early => this.earlyResponders,
+				ResponderPhase.Normal => this.responders,
+				ResponderPhase.Late => this.lateResponders,
+				ResponderPhase.PostEvent => this.postEventResponders,
 				_ => throw new InvalidOperationException("Invalid enum type.")
 			};
 
@@ -96,11 +96,11 @@ public class ResponderCollection
 	{
 		Dictionary<Type, List<Type>> dictionary = phase switch
 		{
-			ResponderPhase.PreEvent => this.__pre_event_responders,
-			ResponderPhase.Early => this.__early_responders,
-			ResponderPhase.Normal => this.__responders,
-			ResponderPhase.Late => this.__late_responders,
-			ResponderPhase.PostEvent => this.__post_event_responders,
+			ResponderPhase.PreEvent => this.preEventResponders,
+			ResponderPhase.Early => this.earlyResponders,
+			ResponderPhase.Normal => this.responders,
+			ResponderPhase.Late => this.lateResponders,
+			ResponderPhase.PostEvent => this.postEventResponders,
 			_ => throw new InvalidOperationException("Invalid enum type.")
 		};
 

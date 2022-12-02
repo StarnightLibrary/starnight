@@ -18,7 +18,7 @@ using static DiscordApiConstants;
 public sealed class DiscordEmojiRestResource
 	: AbstractRestResource, IDiscordEmojiRestResource
 {
-	private readonly RestClient __rest_client;
+	private readonly RestClient restClient;
 
 	/// <inheritdoc/>
 	public DiscordEmojiRestResource
@@ -27,7 +27,7 @@ public sealed class DiscordEmojiRestResource
 		ICacheProvider cache
 	)
 		: base(cache)
-		=> this.__rest_client = client;
+		=> this.restClient = client;
 
 	/// <inheritdoc/>
 	public async ValueTask<IEnumerable<DiscordEmoji>> ListGuildEmojisAsync
@@ -49,7 +49,7 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -86,7 +86,7 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -134,7 +134,7 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -183,7 +183,7 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct
@@ -226,7 +226,7 @@ public sealed class DiscordEmojiRestResource
 			}
 		};
 
-		HttpResponseMessage response = await this.__rest_client.MakeRequestAsync
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
 		(
 			request,
 			ct

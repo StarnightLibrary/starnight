@@ -18,18 +18,18 @@ using Starnight.Internal.Gateway.Payloads;
 /// </summary>
 public class TransportService : IAsyncDisposable
 {
-	private readonly ILogger<TransportService> __logger;
-	private readonly ClientWebSocket __socket;
-	private readonly DiscordGatewayRestResource __gateway_resource;
+	private readonly ILogger<TransportService> logger;
+	private readonly ClientWebSocket socket;
+	private readonly DiscordGatewayRestResource gatewayRestResource;
 
-	private readonly Byte[] __reading_raw_buffer;
-	private readonly Memory<Byte> __reading_buffer;
+	private readonly Byte[] readingRawBuffer;
+	private readonly Memory<Byte> readingBuffer;
 
-	private readonly Byte[] __writing_raw_buffer;
-	private readonly ReadOnlyMemory<Byte> __writing_buffer;
+	private readonly Byte[] writingRawBuffer;
+	private readonly ReadOnlyMemory<Byte> writingBuffer;
 
-	private Boolean __is_connected = false;
-	private Boolean __is_disposed = false;
+	private Boolean isConnected = false;
+	private Boolean isDisposed = false;
 
 	/// <summary>
 	/// Gets or sets the URL which should be used for resuming a session.
@@ -46,17 +46,17 @@ public class TransportService : IAsyncDisposable
 		DiscordGatewayRestResource gatewayResource
 	)
 	{
-		this.__logger = logger;
-		this.__socket = new();
-		this.__socket.Options.KeepAliveInterval = TimeSpan.Zero;
-		this.__gateway_resource = gatewayResource;
+		this.logger = logger;
+		this.socket = new();
+		this.socket.Options.KeepAliveInterval = TimeSpan.Zero;
+		this.gatewayRestResource = gatewayResource;
 
-		this.__reading_raw_buffer = new Byte[4096];
-		this.__reading_buffer = new(this.__reading_raw_buffer);
+		this.readingRawBuffer = new Byte[4096];
+		this.readingBuffer = new(this.readingRawBuffer);
 
-		this.__writing_raw_buffer = new Byte[4096];
+		this.writingRawBuffer = new Byte[4096];
 
-		this.__writing_buffer = new(this.__writing_raw_buffer);
+		this.writingBuffer = new(this.writingRawBuffer);
 	}
 
 	/// <summary>
@@ -68,9 +68,9 @@ public class TransportService : IAsyncDisposable
 	/// </exception>
 	public async ValueTask ConnectAsync(CancellationToken ct = default)
 	{
-		if(this.__is_connected)
+		if(this.isConnected)
 		{
-			this.__logger.LogWarning
+			this.logger.LogWarning
 			(
 				"Attempted to connect, but there already is a connection opened. Ignoring."
 			);
@@ -80,9 +80,9 @@ public class TransportService : IAsyncDisposable
 
 		if(this.ResumeUrl is null)
 		{
-			GetGatewayBotResponsePayload connectionObject = await this.__gateway_resource.GetBotGatewayInfoAsync();
+			GetGatewayBotResponsePayload connectionObject = await this.gatewayRestResource.GetBotGatewayInfoAsync();
 
-			this.__logger.LogDebug
+			this.logger.LogDebug
 			(
 				"Attempting to connect to the Discord gateway, recommending {shards} shards.",
 				connectionObject.Shards
@@ -90,7 +90,7 @@ public class TransportService : IAsyncDisposable
 
 			if(connectionObject.SessionStartLimit.Remaining == 0)
 			{
-				this.__logger.LogError
+				this.logger.LogError
 				(
 					"Maximum session starts exceeded - wait {time} before attempting another start.",
 					TimeSpan.FromMilliseconds(connectionObject.SessionStartLimit.ResetAfter)
@@ -103,7 +103,7 @@ public class TransportService : IAsyncDisposable
 				);
 			}
 
-			this.__logger.LogInformation
+			this.logger.LogInformation
 			(
 				"Connecting. Remaining session starts: {remaining}/{total}.\n" +
 				"This limit resets in {time}",
@@ -112,7 +112,7 @@ public class TransportService : IAsyncDisposable
 				TimeSpan.FromMilliseconds(connectionObject.SessionStartLimit.ResetAfter)
 			);
 
-			await this.__socket.ConnectAsync
+			await this.socket.ConnectAsync
 			(
 				new($"{connectionObject.Url}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
 				ct
@@ -120,23 +120,23 @@ public class TransportService : IAsyncDisposable
 		}
 		else
 		{
-			this.__logger.LogInformation
+			this.logger.LogInformation
 			(
 				"Attempting to resume existing session."
 			);
 
-			this.__socket.Dispose();
+			this.socket.Dispose();
 
-			await this.__socket.ConnectAsync
+			await this.socket.ConnectAsync
 			(
 				new($"{this.ResumeUrl}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
 				ct
 			);
 		}
 
-		this.__is_connected = true;
+		this.isConnected = true;
 
-		this.__logger.LogInformation
+		this.logger.LogInformation
 		(
 			"Connected to the Discord websocket."
 		);
@@ -156,9 +156,9 @@ public class TransportService : IAsyncDisposable
 		{
 			do
 			{
-				receiveResult = await this.__socket.ReceiveAsync(this.__reading_buffer, ct);
+				receiveResult = await this.socket.ReceiveAsync(this.readingBuffer, ct);
 
-				readingStream.Write(this.__reading_raw_buffer, 0, receiveResult.Count);
+				readingStream.Write(this.readingRawBuffer, 0, receiveResult.Count);
 
 			} while(!receiveResult.EndOfMessage);
 		}
@@ -167,7 +167,7 @@ public class TransportService : IAsyncDisposable
 #if DEBUG
 		readingStream.Position = 0;
 
-		this.__logger.LogTrace
+		this.logger.LogTrace
 		(
 			"Payload for the last inbound gateway event:\n{event}",
 			Encoding.UTF8.GetString(readingStream.ToArray())
@@ -182,7 +182,7 @@ public class TransportService : IAsyncDisposable
 			StarnightInternalConstants.DefaultSerializerOptions
 		)!;
 
-		this.__logger.LogTrace
+		this.logger.LogTrace
 		(
 			"Inbound gateway event received:\n{event}",
 			@event.ToString()
@@ -196,7 +196,7 @@ public class TransportService : IAsyncDisposable
 	/// </summary>
 	internal async ValueTask WriteAsync(IDiscordGatewayEvent @event, CancellationToken ct)
 	{
-		this.__logger.LogTrace
+		this.logger.LogTrace
 		(
 			"Sending outbound gateway event:\n{event}",
 			@event.ToString()
@@ -217,20 +217,20 @@ public class TransportService : IAsyncDisposable
 			);
 		}
 
-		writingStream.Read(this.__writing_raw_buffer, 0, 4096);
+		writingStream.Read(this.writingRawBuffer, 0, 4096);
 
 #if DEBUG
 
-		this.__logger.LogTrace
+		this.logger.LogTrace
 		(
 			"Serialized payload for the last outbound event:\n{event}",
 			Encoding.UTF8.GetString(writingStream.ToArray())
 		);
 #endif
 
-		await this.__socket.SendAsync
+		await this.socket.SendAsync
 		(
-			this.__writing_buffer[..(Int32)writingStream.Length],
+			this.writingBuffer[..(Int32)writingStream.Length],
 			WebSocketMessageType.Text,
 			true,
 			ct
@@ -248,26 +248,26 @@ public class TransportService : IAsyncDisposable
 		WebSocketCloseStatus closeStatus
 	)
 	{
-		if(!this.__is_connected)
+		if(!this.isConnected)
 		{
-			this.__logger.LogWarning
+			this.logger.LogWarning
 			(
 				"Attempting to disconnect from the Discord gateway, but there was no open connection. Ignoring."
 			);
 		}
 
-		switch(this.__socket.State)
+		switch(this.socket.State)
 		{
 			case WebSocketState.CloseSent:
 			case WebSocketState.CloseReceived:
 			case WebSocketState.Closed:
 			case WebSocketState.Aborted:
 
-				this.__logger.LogWarning
+				this.logger.LogWarning
 				(
 					"Attempting to disconnect from the Discord gateway, but there is a disconnect in progress or complete. " +
 					"Current websocket state: {state}",
-					this.__socket.State.ToString()
+					this.socket.State.ToString()
 				);
 
 				return;
@@ -275,15 +275,15 @@ public class TransportService : IAsyncDisposable
 			case WebSocketState.Open:
 			case WebSocketState.Connecting:
 
-				this.__logger.LogDebug
+				this.logger.LogDebug
 				(
 					"Disconnecting. Current websocket state: {state}",
-					this.__socket.State.ToString()
+					this.socket.State.ToString()
 				);
 
 				try
 				{
-					await this.__socket.CloseAsync
+					await this.socket.CloseAsync
 					(
 						reconnect ? (WebSocketCloseStatus)1012 : closeStatus,
 						"Disconnecting.",
@@ -296,25 +296,25 @@ public class TransportService : IAsyncDisposable
 				break;
 		}
 
-		this.__is_connected = false;
+		this.isConnected = false;
 
 		if(!reconnect)
 		{
-			this.__socket.Dispose();
+			this.socket.Dispose();
 		}
 	}
 
 	public async ValueTask DisposeAsync()
 	{
-		if(!this.__is_disposed)
+		if(!this.isDisposed)
 		{
-			if(this.__is_connected)
+			if(this.isConnected)
 			{
 				await this.DisconnectAsync(false, WebSocketCloseStatus.NormalClosure);
 			}
 		}
 
-		this.__is_disposed = true;
+		this.isDisposed = true;
 
 		GC.SuppressFinalize(this);
 	}

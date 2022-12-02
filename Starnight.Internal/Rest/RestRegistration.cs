@@ -23,7 +23,7 @@ using Starnight.Internal.Rest.Resources.Implementation;
 /// </summary>
 public static class RestRegistration
 {
-	private static readonly TimeSpan __one_second = TimeSpan.FromSeconds(1);
+	private static readonly TimeSpan oneSecond = TimeSpan.FromSeconds(1);
 
 	/// <summary>
 	/// Registers the Starnight rest client into the given service collection.
@@ -105,9 +105,9 @@ public static class RestRegistration
 								"Polly request retry policy"
 							)
 							: message == default
-								? __one_second
+								? oneSecond
 								: message.Headers.RetryAfter is null || message.Headers.RetryAfter.Delta is null
-									? __one_second
+									? oneSecond
 									: message.Headers.RetryAfter.Delta.Value;
 					},
 					(_, _, _, _) => Task.CompletedTask

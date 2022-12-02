@@ -24,16 +24,16 @@ public delegate void ZombiedDelegate(DiscordGatewayClient client);
 /// </summary>
 public class DiscordGatewayClient : IHostedService
 {
-	private readonly ILogger<DiscordGatewayClient> __logger;
-	private readonly DiscordGatewayClientOptions __options;
-	private readonly String __token;
-	private readonly TransportService __transport_service;
-	private readonly IInboundGatewayService __inbound_gateway_service;
-	private readonly IOutboundGatewayService __outbound_gateway_service;
+	private readonly ILogger<DiscordGatewayClient> logger;
+	private readonly DiscordGatewayClientOptions options;
+	private readonly String token;
+	private readonly TransportService transportService;
+	private readonly IInboundGatewayService inboundGatewayService;
+	private readonly IOutboundGatewayService outboundGatewayService;
 
-	private Int32 __responseless_heartbeats = 0;
-	private Int32 __heartbeat_interval;
-	private String __session_id = null!;
+	private Int32 responselessHeartbeats = 0;
+	private Int32 heartbeatInterval;
+	private String sessionId = null!;
 
 	/// <summary>
 	/// An event indicating that the current connection is considered zombied.
@@ -47,7 +47,7 @@ public class DiscordGatewayClient : IHostedService
 	/// <summary>
 	/// Gets the last received sequence number of any event.
 	/// </summary>
-	public Int32 LastReceivedSequence => this.__inbound_gateway_service.LastReceivedSequence;
+	public Int32 LastReceivedSequence => this.inboundGatewayService.LastReceivedSequence;
 
 	/// <summary>
 	/// Gets the amount of consecutive heartbeats without response.
@@ -57,15 +57,15 @@ public class DiscordGatewayClient : IHostedService
 	/// </remarks>
 	public Int32 ResponselessHeartbeats
 	{
-		get => this.__responseless_heartbeats;
+		get => this.responselessHeartbeats;
 		private set
 		{
-			this.__responseless_heartbeats = value;
+			this.responselessHeartbeats = value;
 
 			// equality comparison because we don't want to fire this event twice for the same zombie.
-			if(this.__responseless_heartbeats == this.__options.ZombieThreshold)
+			if(this.responselessHeartbeats == this.options.ZombieThreshold)
 			{
-				this.__logger.LogWarning
+				this.logger.LogWarning
 				(
 					"The current gateway connection is considered zombied. Missed heartbeats: {heartbeats}",
 					value
@@ -104,13 +104,13 @@ public class DiscordGatewayClient : IHostedService
 		IOutboundGatewayService outboundService
 	)
 	{
-		this.__logger = logger;
-		this.__options = options.Value;
-		this.__transport_service = transportService;
-		this.__inbound_gateway_service = inboundService;
-		this.__outbound_gateway_service = outboundService;
+		this.logger = logger;
+		this.options = options.Value;
+		this.transportService = transportService;
+		this.inboundGatewayService = inboundService;
+		this.outboundGatewayService = outboundService;
 
-		this.__token = container.Value.Token;
+		this.token = container.Value.Token;
 
 		this.LastHeartbeatSent = DateTimeOffset.MinValue;
 		this.LastHeartbeatReceived = DateTimeOffset.MinValue;
@@ -122,15 +122,15 @@ public class DiscordGatewayClient : IHostedService
 		CancellationToken cancellationToken
 	)
 	{
-		if(this.__options.ShardInformation is not null && this.__options.ShardInformation.Length != 2)
+		if(this.options.ShardInformation is not null && this.options.ShardInformation.Length != 2)
 		{
 			throw new StarnightInvalidConnectionException
 			(
-				$"The shard information data passed must comprise of two elements, found {this.__options.ShardInformation.Length}."
+				$"The shard information data passed must comprise of two elements, found {this.options.ShardInformation.Length}."
 			);
 		}
 
-		await this.__transport_service.ConnectAsync
+		await this.transportService.ConnectAsync
 		(
 			cancellationToken
 		);
@@ -140,7 +140,7 @@ public class DiscordGatewayClient : IHostedService
 			cancellationToken
 		);
 
-		await this.__inbound_gateway_service.StartAsync
+		await this.inboundGatewayService.StartAsync
 		(
 			cancellationToken
 		);
@@ -159,12 +159,12 @@ public class DiscordGatewayClient : IHostedService
 		CancellationToken cancellationToken
 	)
 	{
-		await this.__transport_service.DisconnectAsync
+		await this.transportService.DisconnectAsync
 		(
 			false,
 			WebSocketCloseStatus.NormalClosure
 		);
-}
+	}
 
 	/// <summary>
 	/// Reconnects to the discord gateway.
@@ -172,9 +172,9 @@ public class DiscordGatewayClient : IHostedService
 	/// <param name="ct">The cancellation token to use for this operation.</param>
 	public async ValueTask ReconnectAsync(CancellationToken ct)
 	{
-		this.__transport_service.ResumeUrl = null;
+		this.transportService.ResumeUrl = null;
 
-		await this.__transport_service.ConnectAsync
+		await this.transportService.ConnectAsync
 		(
 			ct
 		);
@@ -211,7 +211,7 @@ public class DiscordGatewayClient : IHostedService
 			);
 		}
 
-		await this.__outbound_gateway_service.SendEventAsync
+		await this.outboundGatewayService.SendEventAsync
 		(
 			@event
 		);
@@ -224,10 +224,10 @@ public class DiscordGatewayClient : IHostedService
 	{
 		ArgumentNullException.ThrowIfNull
 		(
-			this.__token
+			this.token
 		);
 
-		IDiscordGatewayEvent @event = await this.__transport_service.ReadAsync
+		IDiscordGatewayEvent @event = await this.transportService.ReadAsync
 		(
 			ct
 		);
@@ -240,7 +240,7 @@ public class DiscordGatewayClient : IHostedService
 			);
 		}
 
-		this.__logger.LogDebug
+		this.logger.LogDebug
 		(
 			"Received hello event, starting heartbeating with an interval of {interval} and identifying.",
 			TimeSpan.FromMilliseconds
@@ -249,7 +249,7 @@ public class DiscordGatewayClient : IHostedService
 			)
 		);
 
-		this.__heartbeat_interval = helloEvent.Data.HeartbeatInterval;
+		this.heartbeatInterval = helloEvent.Data.HeartbeatInterval;
 		_ = Task.Factory.StartNew
 		(
 			async () => await this.heartbeatAsync
@@ -260,7 +260,7 @@ public class DiscordGatewayClient : IHostedService
 
 		IdentifyPayload identify = new()
 		{
-			Token = this.__token,
+			Token = this.token,
 			ConnectionProperties = new()
 			{
 				Browser = StarnightInternalConstants.LibraryName,
@@ -268,25 +268,25 @@ public class DiscordGatewayClient : IHostedService
 				OS = RuntimeInformation.OSDescription
 			},
 			Compress = false,
-			LargeGuildThreshold = this.__options.LargeGuildThreshold,
+			LargeGuildThreshold = this.options.LargeGuildThreshold,
 
-			Shard = this.__options.ShardInformation is not null
-				? this.__options.ShardInformation
+			Shard = this.options.ShardInformation is not null
+				? this.options.ShardInformation
 				: Optional<IEnumerable<Int32>>.Empty,
 
-			Presence = this.__options.Presence is not null
-				? this.__options.Presence
+			Presence = this.options.Presence is not null
+				? this.options.Presence
 				: Optional<DiscordPresence>.Empty,
 
-			Intents = (Int32)this.__options.Intents
+			Intents = (Int32)this.options.Intents
 		};
 
-		await this.__outbound_gateway_service.IdentifyAsync
+		await this.outboundGatewayService.IdentifyAsync
 		(
 			identify
 		);
 
-		this.__logger.LogInformation
+		this.logger.LogInformation
 		(
 			"Connected to the Discord gateway."
 		);
@@ -301,11 +301,11 @@ public class DiscordGatewayClient : IHostedService
 
 		await Task.Delay
 		(
-			(Int32)(this.__heartbeat_interval * jitter),
+			(Int32)(this.heartbeatInterval * jitter),
 			ct
 		);
 
-		await this.__outbound_gateway_service.SendHeartbeatAsync
+		await this.outboundGatewayService.SendHeartbeatAsync
 		(
 			this.LastReceivedSequence
 		);
@@ -313,7 +313,7 @@ public class DiscordGatewayClient : IHostedService
 		this.ResponselessHeartbeats++;
 		this.LastHeartbeatSent = DateTimeOffset.UtcNow;
 
-		this.__logger.LogTrace
+		this.logger.LogTrace
 		(
 			"Sent initial heartbeat."
 		);
@@ -322,11 +322,11 @@ public class DiscordGatewayClient : IHostedService
 		{
 			await Task.Delay
 			(
-				this.__heartbeat_interval,
+				this.heartbeatInterval,
 				ct
 			);
 
-			await this.__outbound_gateway_service.SendHeartbeatAsync
+			await this.outboundGatewayService.SendHeartbeatAsync
 			(
 				this.LastReceivedSequence
 			);
@@ -334,7 +334,7 @@ public class DiscordGatewayClient : IHostedService
 			this.ResponselessHeartbeats++;
 			this.LastHeartbeatSent = DateTimeOffset.UtcNow;
 
-			this.__logger.LogTrace
+			this.logger.LogTrace
 			(
 				"Heartbeat sent."
 			);
@@ -348,7 +348,7 @@ public class DiscordGatewayClient : IHostedService
 	{
 		while(!ct.IsCancellationRequested)
 		{
-			IDiscordGatewayEvent @event = await this.__inbound_gateway_service.ControlEvents.ReadAsync
+			IDiscordGatewayEvent @event = await this.inboundGatewayService.ControlEvents.ReadAsync
 			(
 				ct
 			);
@@ -357,8 +357,8 @@ public class DiscordGatewayClient : IHostedService
 			{
 				case DiscordConnectedEvent connectedEvent:
 
-					this.__transport_service.ResumeUrl = connectedEvent.Data.ResumeGatewayUrl;
-					this.__session_id = connectedEvent.Data.SessionId;
+					this.transportService.ResumeUrl = connectedEvent.Data.ResumeGatewayUrl;
+					this.sessionId = connectedEvent.Data.SessionId;
 
 					break;
 
@@ -368,7 +368,7 @@ public class DiscordGatewayClient : IHostedService
 					this.LastHeartbeatReceived = DateTimeOffset.UtcNow;
 					this.Latency = this.LastHeartbeatReceived - this.LastHeartbeatSent;
 
-					this.__logger.LogTrace
+					this.logger.LogTrace
 					(
 						"Heartbeat received, with {delay}ms latency.",
 						this.Latency.Milliseconds
@@ -387,7 +387,7 @@ public class DiscordGatewayClient : IHostedService
 						);
 					}
 
-					this.__logger.LogWarning
+					this.logger.LogWarning
 					(
 						"The current session is considered invalid by Discord, {resumable}",
 						invalidSessionEvent.Data
@@ -425,19 +425,19 @@ public class DiscordGatewayClient : IHostedService
 	{
 		ArgumentNullException.ThrowIfNull
 		(
-			this.__token
+			this.token
 		);
 
-		await this.__transport_service.ConnectAsync();
+		await this.transportService.ConnectAsync();
 
 		ResumePayload resume = new()
 		{
 			Sequence = this.LastReceivedSequence,
-			Token = this.__token,
-			SessionId = this.__session_id
+			Token = this.token,
+			SessionId = this.sessionId
 		};
 
-		await this.__outbound_gateway_service.ResumeAsync
+		await this.outboundGatewayService.ResumeAsync
 		(
 			resume
 		);

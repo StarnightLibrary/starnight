@@ -6,7 +6,7 @@ using System.Linq;
 
 internal class QueryBuilder
 {
-	private readonly List<KeyValuePair<String, String>> __parameters = new();
+	private readonly List<KeyValuePair<String, String>> parameters = new();
 
 	public String RootUri { get; set; }
 
@@ -25,10 +25,10 @@ internal class QueryBuilder
 			return this;
 		}
 
-		this.__parameters.Add(new(key, value));
+		this.parameters.Add(new(key, value));
 		return this;
 	}
 
 	public String Build()
-		=> this.RootUri + String.Join("&", this.__parameters.Select(e => Uri.EscapeDataString(e.Key) + '=' + Uri.EscapeDataString(e.Value)));
+		=> this.RootUri + String.Join("&", this.parameters.Select(e => Uri.EscapeDataString(e.Key) + '=' + Uri.EscapeDataString(e.Value)));
 }

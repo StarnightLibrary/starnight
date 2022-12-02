@@ -32,13 +32,13 @@ using DispatchDelegate = System.Func
 /// </summary>
 public class ResponderService
 {
-	private readonly ILogger<ResponderService> __logger;
-	private readonly IServiceProvider __service_provider;
-	private readonly ResponderCollection __responder_collection;
+	private readonly ILogger<ResponderService> logger;
+	private readonly IServiceProvider serviceProvider;
+	private readonly ResponderCollection responderCollection;
 
-	private readonly ChannelReader<IDiscordGatewayEvent> __event_channel;
+	private readonly ChannelReader<IDiscordGatewayEvent> eventChannel;
 
-	private readonly Dictionary<Type, DispatchDelegate> __cached_delegates;
+	private readonly Dictionary<Type, DispatchDelegate> cachedDelegates;
 
 	public ResponderService
 	(
@@ -49,12 +49,12 @@ public class ResponderService
 		CancellationToken ct
 	)
 	{
-		this.__logger = logger;
-		this.__service_provider = serviceProvider;
-		this.__responder_collection = responders;
-		this.__event_channel = eventChannel;
+		this.logger = logger;
+		this.serviceProvider = serviceProvider;
+		this.responderCollection = responders;
+		this.eventChannel = eventChannel;
 
-		this.__cached_delegates = new();
+		this.cachedDelegates = new();
 
 		_ = Task.Factory.StartNew(async () => await this.dispatchAsync(ct));
 	}
@@ -65,7 +65,7 @@ public class ResponderService
 		{
 			try
 			{
-				IDiscordGatewayEvent @event = await this.__event_channel.ReadAsync(ct);
+				IDiscordGatewayEvent @event = await this.eventChannel.ReadAsync(ct);
 
 				_ = Task.Run
 				(
@@ -81,20 +81,20 @@ public class ResponderService
 	{
 		Type eventType = @event.GetType();
 
-		IServiceScope scope = this.__service_provider.CreateScope();
+		IServiceScope scope = this.serviceProvider.CreateScope();
 
 		IEnumerable<Type>[] responders = new IEnumerable<Type>[]
 		{
-			this.__responder_collection.GetResponders(eventType, ResponderPhase.PreEvent),
-			this.__responder_collection.GetResponders(eventType, ResponderPhase.Early),
-			this.__responder_collection.GetResponders(eventType, ResponderPhase.Normal),
-			this.__responder_collection.GetResponders(eventType, ResponderPhase.Late),
-			this.__responder_collection.GetResponders(eventType, ResponderPhase.PostEvent)
+			this.responderCollection.GetResponders(eventType, ResponderPhase.PreEvent),
+			this.responderCollection.GetResponders(eventType, ResponderPhase.Early),
+			this.responderCollection.GetResponders(eventType, ResponderPhase.Normal),
+			this.responderCollection.GetResponders(eventType, ResponderPhase.Late),
+			this.responderCollection.GetResponders(eventType, ResponderPhase.PostEvent)
 		};
 
 		DispatchDelegate dispatchDelegate;
 
-		if(!this.__cached_delegates.TryGetValue(eventType, out dispatchDelegate!))
+		if(!this.cachedDelegates.TryGetValue(eventType, out dispatchDelegate!))
 		{
 			Type delegateType = typeof(Func<,,,>).MakeGenericType
 			(
@@ -123,7 +123,7 @@ public class ResponderService
 					)
 			);
 
-			this.__cached_delegates.Add(@event.GetType(), dispatchDelegate);
+			this.cachedDelegates.Add(@event.GetType(), dispatchDelegate);
 		}
 
 		await dispatchDelegate(@event, responders, scope);
@@ -152,7 +152,7 @@ public class ResponderService
 					}
 					catch(Exception e)
 					{
-						this.__logger.LogError(e, "An error occured during event dispatch.");
+						this.logger.LogError(e, "An error occured during event dispatch.");
 					}
 				}
 			);
