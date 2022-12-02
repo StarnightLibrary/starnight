@@ -33,7 +33,38 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 		this.cache = cache;
 	}
 
-	public ValueTask<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildMember?> AddGuildMemberAsync
+	(
+		Int64 guildId,
+		Int64 userId,
+		AddGuildMemberRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		DiscordGuildMember? member = await this.underlying.AddGuildMemberAsync
+		(
+			guildId,
+			userId,
+			payload,
+			ct
+		);
+
+		if(member is not null)
+		{
+			await this.cache.CacheObjectAsync
+			(
+				KeyHelper.GetGuildMemberKey
+				(
+					guildId,
+					userId
+				),
+				member
+			);
+		}
+
+		return member;
+	}
 	public ValueTask<Boolean> AddGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask BanMemberAsync(Int64 guildId, Int64 userId, Int32 deleteMessageDays, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Int32?> BeginGuildPruneAsync(Int64 guildId, Int32? days = null, String? roles = null, Boolean? computeCount = null, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
