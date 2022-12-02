@@ -616,9 +616,91 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 
 		return members;
 	}
-	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGroupDMRequestPayload payload, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGuildChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
-	public ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyThreadChannelRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordChannel> ModifyChannelAsync
+	(
+		Int64 channelId,
+		ModifyGroupDMRequestPayload payload,
+		CancellationToken ct = default
+	)
+	{
+		DiscordChannel channel = await this.__underlying.ModifyChannelAsync
+		(
+			channelId,
+			payload,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetChannelKey
+			(
+				channelId
+			),
+			channel
+		);
+
+		return channel;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordChannel> ModifyChannelAsync
+	(
+		Int64 channelId,
+		ModifyGuildChannelRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordChannel channel = await this.__underlying.ModifyChannelAsync
+		(
+			channelId,
+			payload,
+			reason,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetChannelKey
+			(
+				channelId
+			),
+			channel
+		);
+
+		return channel;
+	}
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordChannel> ModifyChannelAsync
+	(
+		Int64 channelId,
+		ModifyThreadChannelRequestPayload payload,
+		String? reason = null,
+		CancellationToken ct = default
+	)
+	{
+		DiscordChannel channel = await this.__underlying.ModifyChannelAsync
+		(
+			channelId,
+			payload,
+			reason,
+			ct
+		);
+
+		await this.__cache.CacheObjectAsync
+		(
+			KeyHelper.GetChannelKey
+			(
+				channelId
+			),
+			channel
+		);
+
+		return channel;
+	}
 	public ValueTask<Boolean> PinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> RemoveFromThreadAsync(Int64 threadId, Int64 userId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId, StartThreadFromMessageRequestPayload payload, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
