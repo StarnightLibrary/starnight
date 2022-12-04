@@ -7,6 +7,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Responders;
@@ -39,7 +40,7 @@ public class InboundGatewayService : IInboundGatewayService
 		TransportService transportService,
 
 		IServiceProvider services,
-		ResponderCollection responders
+		IOptions<ResponderCollection> responders
 	)
 	{
 		this.logger = logger;
@@ -48,7 +49,7 @@ public class InboundGatewayService : IInboundGatewayService
 
 		this.responderLogger = responderLogger;
 		this.serviceProvider = services;
-		this.responders = responders;
+		this.responders = responders.Value;
 
 		this.controlChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
 		this.responderChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
@@ -86,7 +87,7 @@ public class InboundGatewayService : IInboundGatewayService
 	{
 		while(!ct.IsCancellationRequested)
 		{
-			IDiscordGatewayEvent @event = null!;
+			IDiscordGatewayEvent? @event = null!;
 
 			try
 			{
@@ -100,6 +101,11 @@ public class InboundGatewayService : IInboundGatewayService
 					"Failed to deserialize inbound gateway event."
 				);
 
+				continue;
+			}
+
+			if(@event is null)
+			{
 				continue;
 			}
 

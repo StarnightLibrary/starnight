@@ -30,6 +30,8 @@ public class DiscordGatewayClient : IHostedService
 	private readonly TransportService transportService;
 	private readonly IInboundGatewayService inboundGatewayService;
 	private readonly IOutboundGatewayService outboundGatewayService;
+	private readonly CancellationTokenSource inboundCts;
+	private readonly CancellationTokenSource transportCts;
 
 	private Int32 responselessHeartbeats = 0;
 	private Int32 heartbeatInterval;
@@ -112,6 +114,9 @@ public class DiscordGatewayClient : IHostedService
 
 		this.token = container.Value.Token;
 
+		this.inboundCts = new();
+		this.transportCts = new();
+
 		this.LastHeartbeatSent = DateTimeOffset.MinValue;
 		this.LastHeartbeatReceived = DateTimeOffset.MinValue;
 		this.Latency = TimeSpan.Zero;
@@ -132,7 +137,7 @@ public class DiscordGatewayClient : IHostedService
 
 		await this.transportService.ConnectAsync
 		(
-			cancellationToken
+			this.transportCts.Token
 		);
 
 		await this.identifyAsync
@@ -142,7 +147,7 @@ public class DiscordGatewayClient : IHostedService
 
 		await this.inboundGatewayService.StartAsync
 		(
-			cancellationToken
+			this.inboundCts.Token
 		);
 
 		_ = Task.Factory.StartNew
@@ -159,6 +164,9 @@ public class DiscordGatewayClient : IHostedService
 		CancellationToken cancellationToken
 	)
 	{
+		this.inboundCts.Cancel();
+		this.transportCts.Cancel();
+
 		await this.transportService.DisconnectAsync
 		(
 			false,
@@ -227,7 +235,7 @@ public class DiscordGatewayClient : IHostedService
 			this.token
 		);
 
-		IDiscordGatewayEvent @event = await this.transportService.ReadAsync
+		IDiscordGatewayEvent? @event = await this.transportService.ReadAsync
 		(
 			ct
 		);

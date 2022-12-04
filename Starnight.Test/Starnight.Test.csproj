@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Starnight.Internal\Starnight.Internal.csproj" />
-    <ProjectReference Include="..\Starnight\Starnight.csproj" />
   </ItemGroup>
 
 </Project>

@@ -146,8 +146,13 @@ public class TransportService : IAsyncDisposable
 	/// <summary>
 	/// Reads all payloads and enqueues them into the channel.
 	/// </summary>
-	internal async ValueTask<IDiscordGatewayEvent> ReadAsync(CancellationToken ct)
+	internal async ValueTask<IDiscordGatewayEvent?> ReadAsync(CancellationToken ct)
 	{
+		if(this.isDisposed)
+		{
+			return null;
+		}
+
 		ValueWebSocketReceiveResult receiveResult;
 
 		MemoryStream readingStream = new();
@@ -169,10 +174,21 @@ public class TransportService : IAsyncDisposable
 
 		this.logger.LogTrace
 		(
+			"Length for the last inbound gatway event: {length}",
+			readingStream.Length
+		);
+
+		this.logger.LogTrace
+		(
 			"Payload for the last inbound gateway event:\n{event}",
 			Encoding.UTF8.GetString(readingStream.ToArray())
 		);
 #endif
+
+		if(readingStream.Length == 0)
+		{
+			return null;
+		}
 
 		readingStream.Position = 0;
 

@@ -37,14 +37,14 @@ public static class ServiceCollectionExtensions
 
 		_ = services.AddScoped(responder);
 
-		services
-			.BuildServiceProvider()
-			.GetRequiredService<ResponderCollection>()
-			.RegisterResponder
+		_ = services.Configure<ResponderCollection>
+		(
+			xm => xm.RegisterResponder
 			(
 				responder,
 				phase
-			);
+			)
+		);
 
 		return services;
 	}

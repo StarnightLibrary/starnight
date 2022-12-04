@@ -21,6 +21,11 @@ public class Program
 			.CreateDefaultBuilder(args)
 			.UseConsoleLifetime();
 
+		_ = hostBuilder.ConfigureServices(services => _ = services.AddResponder
+			(
+				typeof(TestResponder)
+			));
+
 		_ = hostBuilder.AddStarnightGateway();
 
 		_ = hostBuilder.ConfigureServices(services =>
@@ -44,11 +49,6 @@ public class Program
 			_ = services.Configure<DiscordGatewayClientOptions>
 			(
 				xm => xm.Intents = DiscordGatewayIntents.Guilds
-			);
-
-			_ = services.AddResponder
-			(
-				typeof(TestResponder)
 			);
 		});
 

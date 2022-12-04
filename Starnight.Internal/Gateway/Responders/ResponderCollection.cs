@@ -4,18 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.Extensions.Options;
+
 using Starnight.Exceptions;
 
 /// <summary>
 /// Represents a collection of responders.
 /// </summary>
-public class ResponderCollection
+public class ResponderCollection : IOptions<ResponderCollection>
 {
 	private readonly Dictionary<Type, List<Type>> preEventResponders;
 	private readonly Dictionary<Type, List<Type>> earlyResponders;
 	private readonly Dictionary<Type, List<Type>> responders;
 	private readonly Dictionary<Type, List<Type>> lateResponders;
 	private readonly Dictionary<Type, List<Type>> postEventResponders;
+
+	public ResponderCollection Value => this;
 
 	public ResponderCollection()
 	{

@@ -20,11 +20,6 @@ public static class GatewayRegistration
 	{
 		_ = services.AddSingleton<DiscordGatewayRestResource>();
 
-		_ = services.AddSingleton
-		(
-			new ResponderCollection()
-		);
-
 		_ = services.AddSingleton<TransportService>()
 			.AddSingleton<IOutboundGatewayService, OutboundGatewayService>()
 			.AddSingleton<IInboundGatewayService, InboundGatewayService>()
