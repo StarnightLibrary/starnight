@@ -123,7 +123,13 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 
 		return role;
 	}
-	public ValueTask<Boolean> DeleteGuildAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public ValueTask<Boolean> DeleteGuildAsync
+	(
+		Int64 guildId,
+		CancellationToken ct = default
+	) => throw new NotImplementedException();
 	public ValueTask<Boolean> DeleteGuildIntegrationAsync(Int64 guildId, Int64 integrationId, String? reason = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<Boolean> DeleteRoleAsync(Int64 guildId, Int64 roleId, String? reason, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordGuild> GetGuildAsync(Int64 guildId, Boolean? withCounts = null, CancellationToken ct = default) => throw new NotImplementedException();

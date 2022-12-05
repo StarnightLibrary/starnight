@@ -89,4 +89,10 @@ public static class KeyHelper
 		Int64 roleId
 	)
 		=> $"StarnightLibraryCache.Role.{roleId}";
+
+	public static String GetGuildKey
+	(
+		Int64 guildId
+	)
+		=> $"StarnightLibraryCache.Guild.{guildId}";
 }
