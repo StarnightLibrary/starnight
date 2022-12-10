@@ -78,7 +78,11 @@ public class InboundGatewayService : IInboundGatewayService
 			"Initialized responder handling."
 		);
 
-		_ = Task.Factory.StartNew(async () => await this.HandleEventsAsync(ct));
+		_ = Task.Factory.StartNew
+		(
+			async () => await this.HandleEventsAsync(ct),
+			TaskCreationOptions.LongRunning
+		);
 
 		return ValueTask.CompletedTask;
 	}
@@ -87,7 +91,7 @@ public class InboundGatewayService : IInboundGatewayService
 	{
 		while(!ct.IsCancellationRequested)
 		{
-			IDiscordGatewayEvent? @event = null!;
+			InboundGatewayFrame @event;
 
 			try
 			{
@@ -104,7 +108,12 @@ public class InboundGatewayService : IInboundGatewayService
 				continue;
 			}
 
-			if(@event is null)
+			if(@event is { IsDisconnected: true } or { IsDisposed: true })
+			{
+				return;
+			}
+
+			if(@event is { Event: null })
 			{
 				continue;
 			}
@@ -113,12 +122,12 @@ public class InboundGatewayService : IInboundGatewayService
 			(
 				async () =>
 				{
-					await this.responderChannel.Writer.WriteAsync(@event);
+					await this.responderChannel.Writer.WriteAsync(@event.Event!);
 
 
 					if(!this.controlEvents.TryGetValue(@event.GetType(), out Boolean isControlEvent))
 					{
-						isControlEvent = @event.Opcode is
+						isControlEvent = @event.Event!.Opcode is
 							DiscordGatewayOpcode.Hello or
 							DiscordGatewayOpcode.Reconnect or
 							DiscordGatewayOpcode.InvalidSession or
@@ -130,7 +139,7 @@ public class InboundGatewayService : IInboundGatewayService
 
 					if(isControlEvent)
 					{
-						await this.controlChannel.Writer.WriteAsync(@event);
+						await this.controlChannel.Writer.WriteAsync(@event.Event!);
 					}
 				},
 				ct

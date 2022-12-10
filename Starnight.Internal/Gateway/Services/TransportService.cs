@@ -28,6 +28,11 @@ public class TransportService : IAsyncDisposable
 	private readonly Byte[] writingRawBuffer;
 	private readonly ReadOnlyMemory<Byte> writingBuffer;
 
+	private readonly MemoryStream readingStream;
+	private readonly MemoryStream writingStream;
+	private readonly SemaphoreSlim readingSemaphore;
+	private readonly SemaphoreSlim writingSemaphore;
+
 	private Boolean isConnected = false;
 	private Boolean isDisposed = false;
 
@@ -55,8 +60,12 @@ public class TransportService : IAsyncDisposable
 		this.readingBuffer = new(this.readingRawBuffer);
 
 		this.writingRawBuffer = new Byte[4096];
-
 		this.writingBuffer = new(this.writingRawBuffer);
+
+		this.readingStream = new();
+		this.writingStream = new();
+		this.readingSemaphore = new(1);
+		this.writingSemaphore = new(1);
 	}
 
 	/// <summary>
@@ -125,8 +134,6 @@ public class TransportService : IAsyncDisposable
 				"Attempting to resume existing session."
 			);
 
-			this.socket.Dispose();
-
 			await this.socket.ConnectAsync
 			(
 				new($"{this.ResumeUrl}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
@@ -146,16 +153,26 @@ public class TransportService : IAsyncDisposable
 	/// <summary>
 	/// Reads all payloads and enqueues them into the channel.
 	/// </summary>
-	internal async ValueTask<IDiscordGatewayEvent?> ReadAsync(CancellationToken ct)
+	internal async ValueTask<InboundGatewayFrame> ReadAsync(CancellationToken ct)
 	{
 		if(this.isDisposed)
 		{
-			return null;
+			return InboundGatewayFrame.Disposed;
 		}
+
+		if(this.socket.State != WebSocketState.Open)
+		{
+			return InboundGatewayFrame.NotConnected;
+		}
+
+		await this.readingSemaphore.WaitAsync
+		(
+			ct
+		);
 
 		ValueWebSocketReceiveResult receiveResult;
 
-		MemoryStream readingStream = new();
+		this.readingStream.SetLength(0);
 
 		try
 		{
@@ -163,38 +180,38 @@ public class TransportService : IAsyncDisposable
 			{
 				receiveResult = await this.socket.ReceiveAsync(this.readingBuffer, ct);
 
-				readingStream.Write(this.readingRawBuffer, 0, receiveResult.Count);
+				this.readingStream.Write(this.readingRawBuffer, 0, receiveResult.Count);
 
 			} while(!receiveResult.EndOfMessage);
 		}
 		catch(OperationCanceledException) { }
 
 #if DEBUG
-		readingStream.Position = 0;
+		this.readingStream.Position = 0;
 
 		this.logger.LogTrace
 		(
 			"Length for the last inbound gatway event: {length}",
-			readingStream.Length
+			this.readingStream.Length
 		);
 
 		this.logger.LogTrace
 		(
 			"Payload for the last inbound gateway event:\n{event}",
-			Encoding.UTF8.GetString(readingStream.ToArray())
+			Encoding.UTF8.GetString(this.readingStream.ToArray())
 		);
 #endif
 
-		if(readingStream.Length == 0)
+		if(this.readingStream.Length == 0)
 		{
-			return null;
+			return InboundGatewayFrame.EmptyResponse;
 		}
 
-		readingStream.Position = 0;
+		this.readingStream.Position = 0;
 
 		IDiscordGatewayEvent @event = JsonSerializer.Deserialize<IDiscordGatewayEvent>
 		(
-			readingStream,
+			this.readingStream,
 			StarnightInternalConstants.DefaultSerializerOptions
 		)!;
 
@@ -204,13 +221,24 @@ public class TransportService : IAsyncDisposable
 			@event.ToString()
 		);
 
-		return @event;
+		this.readingSemaphore.Release();
+
+		return new()
+		{
+			Event = @event,
+			IsDisconnected = false,
+			IsDisposed = false
+		};
 	}
 
 	/// <summary>
 	/// Writes all payloads passed through the channel.
 	/// </summary>
-	internal async ValueTask WriteAsync(IDiscordGatewayEvent @event, CancellationToken ct)
+	internal async ValueTask WriteAsync
+	(
+		IDiscordGatewayEvent @event,
+		CancellationToken ct
+	)
 	{
 		this.logger.LogTrace
 		(
@@ -218,13 +246,23 @@ public class TransportService : IAsyncDisposable
 			@event.ToString()
 		);
 
-		MemoryStream writingStream = new();
+		await this.writingSemaphore.WaitAsync
+		(
+			ct
+		);
 
-		JsonSerializer.Serialize(writingStream, @event, StarnightInternalConstants.DefaultSerializerOptions);
+		this.writingStream.SetLength(0);
 
-		writingStream.Position = 0;
+		JsonSerializer.Serialize
+		(
+			this.writingStream,
+			@event,
+			StarnightInternalConstants.DefaultSerializerOptions
+		);
 
-		if(writingStream.Length > 4096)
+		this.writingStream.Position = 0;
+
+		if(this.writingStream.Length > 4096)
 		{
 			throw new StarnightInvalidOutboundEventException
 			(
@@ -233,24 +271,26 @@ public class TransportService : IAsyncDisposable
 			);
 		}
 
-		writingStream.Read(this.writingRawBuffer, 0, 4096);
+		this.writingStream.Read(this.writingRawBuffer, 0, 4096);
 
 #if DEBUG
 
 		this.logger.LogTrace
 		(
 			"Serialized payload for the last outbound event:\n{event}",
-			Encoding.UTF8.GetString(writingStream.ToArray())
+			Encoding.UTF8.GetString(this.writingStream.ToArray())
 		);
 #endif
 
 		await this.socket.SendAsync
 		(
-			this.writingBuffer[..(Int32)writingStream.Length],
+			this.writingBuffer[..(Int32)this.writingStream.Length],
 			WebSocketMessageType.Text,
 			true,
 			ct
 		);
+
+		this.writingSemaphore.Release();
 	}
 
 	/// <summary>

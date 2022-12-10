@@ -155,7 +155,8 @@ public class DiscordGatewayClient : IHostedService
 			async () => await this.handleControlEventsAsync
 			(
 				cancellationToken
-			)
+			),
+			TaskCreationOptions.LongRunning
 		);
 	}
 
@@ -235,10 +236,11 @@ public class DiscordGatewayClient : IHostedService
 			this.token
 		);
 
-		IDiscordGatewayEvent? @event = await this.transportService.ReadAsync
+		IDiscordGatewayEvent? @event = (await this.transportService.ReadAsync
 		(
 			ct
-		);
+		))
+		.Event;
 
 		if(@event is not DiscordHelloEvent helloEvent)
 		{
@@ -263,7 +265,8 @@ public class DiscordGatewayClient : IHostedService
 			async () => await this.heartbeatAsync
 			(
 				ct
-			)
+			),
+			TaskCreationOptions.LongRunning
 		);
 
 		IdentifyPayload identify = new()

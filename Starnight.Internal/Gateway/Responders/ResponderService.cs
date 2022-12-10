@@ -56,7 +56,11 @@ public class ResponderService
 
 		this.cachedDelegates = new();
 
-		_ = Task.Factory.StartNew(async () => await this.dispatchAsync(ct));
+		_ = Task.Factory.StartNew
+		(
+			async () => await this.dispatchAsync(ct),
+			TaskCreationOptions.LongRunning
+		);
 	}
 
 	private async ValueTask dispatchAsync(CancellationToken ct)
