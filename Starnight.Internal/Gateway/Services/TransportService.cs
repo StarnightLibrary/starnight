@@ -200,7 +200,7 @@ public class TransportService : IAsyncDisposable
 
 		this.logger.LogTrace
 		(
-			"Length for the last inbound gatway event: {length}",
+			"Length for the last inbound gateway event: {length}",
 			this.readingStream.Length
 		);
 
