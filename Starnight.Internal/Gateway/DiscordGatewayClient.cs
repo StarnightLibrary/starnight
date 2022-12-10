@@ -163,13 +163,13 @@ public class DiscordGatewayClient : IHostedService
 		CancellationToken cancellationToken
 	)
 	{
-		this.gatewayTokenSource.Cancel();
-
 		await this.transportService.DisconnectAsync
 		(
 			false,
 			WebSocketCloseStatus.NormalClosure
 		);
+
+		this.gatewayTokenSource.Cancel();
 	}
 
 	/// <summary>
