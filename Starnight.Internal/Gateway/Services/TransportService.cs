@@ -124,7 +124,7 @@ public class TransportService : IAsyncDisposable
 			await this.socket.ConnectAsync
 			(
 				new($"{connectionObject.Url}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
-				ct
+				CancellationToken.None
 			);
 		}
 		else
@@ -137,7 +137,7 @@ public class TransportService : IAsyncDisposable
 			await this.socket.ConnectAsync
 			(
 				new($"{this.ResumeUrl}?v={DiscordApiConstants.ApiVersion}&encoding=json"),
-				ct
+				CancellationToken.None
 			);
 		}
 
