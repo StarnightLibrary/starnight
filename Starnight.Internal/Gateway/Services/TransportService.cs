@@ -36,6 +36,8 @@ public class TransportService : IAsyncDisposable
 	private Boolean isConnected = false;
 	private Boolean isDisposed = false;
 
+	private CancellationToken ct;
+
 	/// <summary>
 	/// Gets or sets the URL which should be used for resuming a session.
 	/// </summary>
@@ -86,6 +88,8 @@ public class TransportService : IAsyncDisposable
 
 			return;
 		}
+
+		this.ct = ct;
 
 		if(this.ResumeUrl is null)
 		{
@@ -155,6 +159,11 @@ public class TransportService : IAsyncDisposable
 	/// </summary>
 	internal async ValueTask<InboundGatewayFrame> ReadAsync(CancellationToken ct)
 	{
+		if(this.ct.IsCancellationRequested)
+		{
+			return InboundGatewayFrame.NotConnected;
+		}
+
 		if(this.isDisposed)
 		{
 			return InboundGatewayFrame.Disposed;
@@ -240,6 +249,11 @@ public class TransportService : IAsyncDisposable
 		CancellationToken ct
 	)
 	{
+		if(this.ct.IsCancellationRequested)
+		{
+			return;
+		}
+
 		this.logger.LogTrace
 		(
 			"Sending outbound gateway event:\n{event}",
