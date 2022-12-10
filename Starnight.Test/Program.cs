@@ -57,9 +57,5 @@ public class Program
 		await host.StartAsync();
 
 		await host.WaitForShutdownAsync();
-
-		Console.WriteLine("success");
-
-		_ = Console.ReadKey();
 	}
 }
