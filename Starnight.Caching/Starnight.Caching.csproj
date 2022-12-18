@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PackageVersion="(0.8.0-dev.0,0.8.0]" />
+	  <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PackageVersion="(0.8.1-dev.0,0.8.1]" />
   </ItemGroup>
 
 </Project>
