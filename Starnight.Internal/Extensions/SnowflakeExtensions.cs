@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Utils;
+namespace Starnight.Internal.Extensions;
 
 using System;
 
@@ -7,7 +7,7 @@ using Starnight.Internal.Entities;
 /// <summary>
 /// Extension method holder to extract data from Snowflakes.
 /// </summary>
-public static class SnowflakeConverter
+public static class SnowflakeExtensions
 {
 	private static readonly DateTimeOffset discordEpoch = new(2015, 1, 1, 0, 0, 0, TimeSpan.Zero);
 

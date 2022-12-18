@@ -12,7 +12,6 @@ using Microsoft.Extensions.Options;
 
 using Starnight.Exceptions;
 using Starnight.Internal.Exceptions;
-using Starnight.Internal.Utils;
 
 /// <summary>
 /// Represents a rest client for the discord API.
@@ -73,7 +72,6 @@ public sealed partial class RestClient
 		{
 			this.logger?.LogError
 			(
-				LoggingEvents.RestClientRequestDenied,
 				"Invalid request route. Please contact the library developers."
 			);
 
@@ -95,13 +93,19 @@ public sealed partial class RestClient
 			message.Headers.Authorization = new AuthenticationHeaderValue("Bot", this.token);
 		}
 
-		this.logger?.LogTrace(LoggingEvents.RestClientOutgoing,
-			"Outgoing HTTP payload:\n{Payload}", message.ToString());
+		this.logger?.LogTrace
+		(
+			"Outgoing HTTP payload:\n{Payload}",
+			message.ToString()
+		);
 
 		HttpResponseMessage response = await this.httpClient.SendAsync(message, ct);
 
-		this.logger?.LogTrace(LoggingEvents.RestClientIncoming,
-			"Incoming HTTP payload:\n{Payload}", response.ToString());
+		this.logger?.LogTrace
+		(
+			"Incoming HTTP payload:\n{Payload}",
+			response.ToString()
+		);
 
 		return !response.IsSuccessStatusCode
 			? throw new DiscordRestException

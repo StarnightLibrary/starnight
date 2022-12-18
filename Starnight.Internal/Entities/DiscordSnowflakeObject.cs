@@ -3,7 +3,7 @@ namespace Starnight.Internal.Entities;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Utils;
+using Starnight.Internal.Extensions;
 
 /// <summary>
 /// Base class for all Snowflake objects. Used chiefly for REST purposes and basic abstraction. Do not use directly.
