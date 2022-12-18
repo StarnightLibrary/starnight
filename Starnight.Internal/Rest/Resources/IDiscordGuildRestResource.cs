@@ -10,7 +10,6 @@ using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Guilds.Invites;
 using Starnight.Internal.Entities.Voice;
-using Starnight.Internal.Exceptions;
 using Starnight.Internal.Rest.Payloads.Guilds;
 
 /// <summary>
@@ -288,7 +287,7 @@ public interface IDiscordGuildRestResource
 	);
 
 	/// <summary>
-	/// Returns the ban object for the given user, or a <see cref="DiscordNotFoundException"/> if there is no associated ban.
+	/// Returns the ban object for the given user.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
 	/// <param name="userId">Snowflake identifier of the user in question.</param>
