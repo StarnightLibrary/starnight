@@ -9,9 +9,9 @@ using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 using Starnight.Internal.Gateway.Listeners;
 
 /// <summary>
-/// Represents a listener handling incoming channel-related create/update events.
+/// Represents a listener handling incoming create/update events.
 /// </summary>
-internal class PreChannelListener :
+internal class PreEventListener :
 	IListener<DiscordChannelCreatedEvent>,
 	IListener<DiscordChannelUpdatedEvent>,
 	IListener<DiscordThreadCreatedEvent>,
@@ -20,13 +20,13 @@ internal class PreChannelListener :
 {
 	private readonly IStarnightCacheService cache;
 
-	public PreChannelListener
+	public PreEventListener
 	(
 		IStarnightCacheService cache
 	)
 		=> this.cache = cache;
 
-	public async ValueTask RespondAsync
+	public async ValueTask ListenAsync
 	(
 		DiscordChannelCreatedEvent @event
 	)
@@ -41,7 +41,7 @@ internal class PreChannelListener :
 		);
 	}
 
-	public async ValueTask RespondAsync
+	public async ValueTask ListenAsync
 	(
 		DiscordChannelUpdatedEvent @event
 	)
@@ -56,7 +56,7 @@ internal class PreChannelListener :
 		);
 	}
 
-	public async ValueTask RespondAsync
+	public async ValueTask ListenAsync
 	(
 		DiscordThreadCreatedEvent @event
 	)
@@ -71,7 +71,7 @@ internal class PreChannelListener :
 		);
 	}
 
-	public async ValueTask RespondAsync
+	public async ValueTask ListenAsync
 	(
 		DiscordThreadUpdatedEvent @event
 	)
@@ -86,7 +86,7 @@ internal class PreChannelListener :
 		);
 	}
 
-	public async ValueTask RespondAsync
+	public async ValueTask ListenAsync
 	(
 		DiscordThreadListSyncEvent @event
 	)

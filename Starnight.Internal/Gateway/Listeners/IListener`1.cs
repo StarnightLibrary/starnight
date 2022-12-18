@@ -13,5 +13,5 @@ public interface IListener<TEvent> : IListener
 	/// Responds to the given gateway event.
 	/// </summary>
 	/// <param name="event">The event in question.</param>
-	public ValueTask RespondAsync(TEvent @event);
+	public ValueTask ListenAsync(TEvent @event);
 }
