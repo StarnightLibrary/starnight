@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Starnight.Caching.Listeners;
 using Starnight.Caching.Services;
 using Starnight.Caching.Shims;
+using Starnight.Internal.Extensions;
 using Starnight.Internal.Gateway.Listeners;
 using Starnight.Internal.Rest.Resources;
-using Starnight.Internal.Utils;
 
 /// <summary>
 /// Contains an extension method to register caching
