@@ -38,7 +38,7 @@ In principle, Listeners can implement any event within the `Starnight.Internal.G
 
 A Listener method will only be called if the dispatched event matches the method perfectly, with two exceptions:
 
-1.  @Starnight.Internal.Gateway.Events.Inbound.DiscordUnknownInboundEvent: Listeners handling this event will be called whenever Starnight failed to deserialize to any known event.
+1. @Starnight.Internal.Gateway.Events.Inbound.DiscordUnknownInboundEvent: Listeners handling this event will be called whenever Starnight failed to deserialize to any known event.
 2. @Starnight.Internal.Gateway.IDiscordGatewayEvent: Listeners handling this type will be called *every time any event is fired.*
 
 ## Calling Order and Phases
