@@ -44,6 +44,7 @@ public static class DiscordApiConstants
 	public const String Members = "members";
 	public const String MemberVerification = "member-verification";
 	public const String Messages = "messages";
+	public const String Metadata = "metadata";
 	public const String MFA = "mfa";
 	public const String OAuth2 = "oauth2";
 	public const String Original = "original";
@@ -56,6 +57,7 @@ public static class DiscordApiConstants
 	public const String Reactions = "reactions";
 	public const String Recipients = "recipients";
 	public const String Regions = "regions";
+	public const String RoleConnections = "role-connections";
 	public const String Roles = "roles";
 	public const String Rules = "rules";
 	public const String Search = "search";

@@ -3,6 +3,7 @@ namespace Starnight.Internal.Rest.Resources;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 using Starnight.Internal.Entities.Guilds.RoleConnections;
 
@@ -14,7 +15,7 @@ public interface IDiscordRoleConnectionRestResource
 	/// <summary>
 	/// Returns a list of role connection metadata objects for the given application.
 	/// </summary>
-	public IEnumerable<DiscordRoleConnectionMetadata> GetApplicationRoleConnectionMetadata
+	public ValueTask<IEnumerable<DiscordRoleConnectionMetadata>> GetApplicationRoleConnectionMetadata
 	(
 		Int64 applicationId,
 		CancellationToken ct = default
@@ -27,7 +28,7 @@ public interface IDiscordRoleConnectionRestResource
 	/// <param name="payload">Up to 5 role connection metadata objects to update to.</param>
 	/// <param name="ct">Cancellation token for this request.</param>
 	/// <returns>The updated role connection metadata objects.</returns>
-	public IEnumerable<DiscordRoleConnectionMetadata> UpdateApplicationRoleConnectionMetadata
+	public ValueTask<IEnumerable<DiscordRoleConnectionMetadata>> UpdateApplicationRoleConnectionMetadata
 	(
 		Int64 applicationId,
 		IEnumerable<DiscordRoleConnectionMetadata> payload,
