@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
 
 		_ = services.AddListener
 		(
-			typeof(PreChannelListener),
+			typeof(PreEventListener),
 			ListenerPhase.PreEvent
 		);
 
