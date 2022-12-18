@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Gateway.Responders;
+namespace Starnight.Internal.Gateway.Listeners;
 
 using System;
 using System.Collections.Generic;
@@ -28,30 +28,30 @@ using DispatchDelegate = System.Func
 #pragma warning restore IDE0001
 
 /// <summary>
-/// Contains all handling logic for dispatching gateway events to responders.
+/// Contains all handling logic for dispatching gateway events to listeners.
 /// </summary>
-public class ResponderService
+public class ListenerService
 {
-	private readonly ILogger<ResponderService> logger;
+	private readonly ILogger<ListenerService> logger;
 	private readonly IServiceProvider serviceProvider;
-	private readonly ResponderCollection responderCollection;
+	private readonly ListenerCollection listenerCollection;
 
 	private readonly ChannelReader<IDiscordGatewayEvent> eventChannel;
 
 	private readonly Dictionary<Type, DispatchDelegate> cachedDelegates;
 
-	public ResponderService
+	public ListenerService
 	(
-		ILogger<ResponderService> logger,
+		ILogger<ListenerService> logger,
 		IServiceProvider serviceProvider,
-		ResponderCollection responders,
+		ListenerCollection listeners,
 		ChannelReader<IDiscordGatewayEvent> eventChannel,
 		CancellationToken ct
 	)
 	{
 		this.logger = logger;
 		this.serviceProvider = serviceProvider;
-		this.responderCollection = responders;
+		this.listenerCollection = listeners;
 		this.eventChannel = eventChannel;
 
 		this.cachedDelegates = new();
@@ -87,13 +87,13 @@ public class ResponderService
 
 		IServiceScope scope = this.serviceProvider.CreateScope();
 
-		IEnumerable<Type>[] responders = new IEnumerable<Type>[]
+		IEnumerable<Type>[] listeners = new IEnumerable<Type>[]
 		{
-			this.responderCollection.GetResponders(eventType, ResponderPhase.PreEvent),
-			this.responderCollection.GetResponders(eventType, ResponderPhase.Early),
-			this.responderCollection.GetResponders(eventType, ResponderPhase.Normal),
-			this.responderCollection.GetResponders(eventType, ResponderPhase.Late),
-			this.responderCollection.GetResponders(eventType, ResponderPhase.PostEvent)
+			this.listenerCollection.GetListeners(eventType, ListenerPhase.PreEvent),
+			this.listenerCollection.GetListeners(eventType, ListenerPhase.Early),
+			this.listenerCollection.GetListeners(eventType, ListenerPhase.Normal),
+			this.listenerCollection.GetListeners(eventType, ListenerPhase.Late),
+			this.listenerCollection.GetListeners(eventType, ListenerPhase.PostEvent)
 		};
 
 		DispatchDelegate dispatchDelegate;
@@ -110,10 +110,10 @@ public class ResponderService
 
 			dispatchDelegate = Unsafe.As<DispatchDelegate>
 			(
-				typeof(ResponderService)
+				typeof(ListenerService)
 					.GetMethod
 					(
-						nameof(invokeRespondersAsync),
+						nameof(invokeListenersAsync),
 						BindingFlags.NonPublic | BindingFlags.Instance
 					)!
 					.MakeGenericMethod
@@ -130,18 +130,18 @@ public class ResponderService
 			this.cachedDelegates.Add(@event.GetType(), dispatchDelegate);
 		}
 
-		await dispatchDelegate(@event, responders, scope);
+		await dispatchDelegate(@event, listeners, scope);
 	}
 
-	private async ValueTask invokeRespondersAsync<TEvent>
+	private async ValueTask invokeListenersAsync<TEvent>
 	(
 		TEvent @event,
-		IEnumerable<IEnumerable<Type>> responders,
+		IEnumerable<IEnumerable<Type>> listeners,
 		IServiceScope scope
 	)
 		where TEvent : IDiscordGatewayEvent
 	{
-		foreach(IEnumerable<Type> phase in responders)
+		foreach(IEnumerable<Type> phase in listeners)
 		{
 			await Parallel.ForEachAsync
 			(
@@ -150,9 +150,9 @@ public class ResponderService
 				{
 					try
 					{
-						IResponder<TEvent> responder = Unsafe.As<IResponder<TEvent>>(scope.ServiceProvider.GetRequiredService(xm));
+						IListener<TEvent> listener = Unsafe.As<IListener<TEvent>>(scope.ServiceProvider.GetRequiredService(xm));
 
-						await responder.RespondAsync(@event);
+						await listener.RespondAsync(@event);
 					}
 					catch(Exception e)
 					{

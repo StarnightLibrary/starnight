@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Starnight.Internal.Gateway.Events.Inbound;
-using Starnight.Internal.Gateway.Responders;
+using Starnight.Internal.Gateway.Listeners;
 
 /// <summary>
 /// Receives gateway events from discord and handles them.
@@ -20,14 +20,14 @@ public class InboundGatewayService : IInboundGatewayService
 	private readonly ILogger<InboundGatewayService> logger;
 	private readonly TransportService transportService;
 	private readonly Channel<IDiscordGatewayEvent> controlChannel;
-	private readonly Channel<IDiscordGatewayEvent> responderChannel;
-	private ResponderService responderService;
+	private readonly Channel<IDiscordGatewayEvent> listenerChannel;
+	private ListenerService listenerService;
 
 	private readonly Dictionary<Type, Boolean> controlEvents;
 
-	private readonly ILogger<ResponderService> responderLogger;
+	private readonly ILogger<ListenerService> listenerLogger;
 	private readonly IServiceProvider serviceProvider;
-	private readonly ResponderCollection responders;
+	private readonly ListenerCollection listeners;
 
 	public Int32 LastReceivedSequence { get; private set; }
 
@@ -36,46 +36,46 @@ public class InboundGatewayService : IInboundGatewayService
 	public InboundGatewayService
 	(
 		ILogger<InboundGatewayService> logger,
-		ILogger<ResponderService> responderLogger,
+		ILogger<ListenerService> listenerLogger,
 		TransportService transportService,
 
 		IServiceProvider services,
-		IOptions<ResponderCollection> responders
+		IOptions<ListenerCollection> listeners
 	)
 	{
 		this.logger = logger;
 		this.transportService = transportService;
 		this.controlEvents = new();
 
-		this.responderLogger = responderLogger;
+		this.listenerLogger = listenerLogger;
 		this.serviceProvider = services;
-		this.responders = responders.Value;
+		this.listeners = listeners.Value;
 
 		this.controlChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
-		this.responderChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
+		this.listenerChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
 
 		this.ControlEvents = this.controlChannel.Reader;
 		this.LastReceivedSequence = 0;
 
 		// we'll assign this in StartAsync
-		this.responderService = null!;
+		this.listenerService = null!;
 	}
 
 	/// <inheritdoc/>
 	public ValueTask StartAsync(CancellationToken ct)
 	{
-		this.responderService = new
+		this.listenerService = new
 		(
-			this.responderLogger,
+			this.listenerLogger,
 			this.serviceProvider,
-			this.responders,
-			this.responderChannel.Reader,
+			this.listeners,
+			this.listenerChannel.Reader,
 			ct
 		);
 
 		this.logger.LogDebug
 		(
-			"Initialized responder handling."
+			"Initialized listener handling."
 		);
 
 		_ = Task.Factory.StartNew
@@ -122,7 +122,7 @@ public class InboundGatewayService : IInboundGatewayService
 			(
 				async () =>
 				{
-					await this.responderChannel.Writer.WriteAsync(@event.Event!);
+					await this.listenerChannel.Writer.WriteAsync(@event.Event!);
 
 
 					if(!this.controlEvents.TryGetValue(@event.GetType(), out Boolean isControlEvent))
@@ -146,6 +146,6 @@ public class InboundGatewayService : IInboundGatewayService
 			);
 		}
 
-		GC.KeepAlive(this.responderService);
+		GC.KeepAlive(this.listenerService);
 	}
 }

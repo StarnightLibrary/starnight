@@ -6,6 +6,6 @@ using Starnight.Exceptions;
 [assembly: TypeForwardedTo(typeof(StarnightGatewayConnectionRefusedException))]
 [assembly: TypeForwardedTo(typeof(StarnightInvalidConnectionException))]
 [assembly: TypeForwardedTo(typeof(StarnightInvalidOutboundEventException))]
-[assembly: TypeForwardedTo(typeof(StarnightInvalidResponderException))]
+[assembly: TypeForwardedTo(typeof(StarnightInvalidListenerException))]
 [assembly: TypeForwardedTo(typeof(StarnightRequestRejectedException))]
 [assembly: TypeForwardedTo(typeof(StarnightSharedRatelimitHitException))]

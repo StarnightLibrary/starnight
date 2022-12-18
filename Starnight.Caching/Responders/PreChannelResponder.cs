@@ -1,4 +1,4 @@
-namespace Starnight.Caching.Responders;
+namespace Starnight.Caching.Listeners;
 
 using System.Threading.Tasks;
 
@@ -6,21 +6,21 @@ using Starnight.Caching.Services;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
-using Starnight.Internal.Gateway.Responders;
+using Starnight.Internal.Gateway.Listeners;
 
 /// <summary>
-/// Represents a responder handling incoming channel-related create/update events.
+/// Represents a listener handling incoming channel-related create/update events.
 /// </summary>
-internal class PreChannelResponder :
-	IResponder<DiscordChannelCreatedEvent>,
-	IResponder<DiscordChannelUpdatedEvent>,
-	IResponder<DiscordThreadCreatedEvent>,
-	IResponder<DiscordThreadUpdatedEvent>,
-	IResponder<DiscordThreadListSyncEvent>
+internal class PreChannelListener :
+	IListener<DiscordChannelCreatedEvent>,
+	IListener<DiscordChannelUpdatedEvent>,
+	IListener<DiscordThreadCreatedEvent>,
+	IListener<DiscordThreadUpdatedEvent>,
+	IListener<DiscordThreadListSyncEvent>
 {
 	private readonly IStarnightCacheService cache;
 
-	public PreChannelResponder
+	public PreChannelListener
 	(
 		IStarnightCacheService cache
 	)

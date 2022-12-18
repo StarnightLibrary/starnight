@@ -3,7 +3,7 @@ namespace Starnight.Internal.Gateway;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Starnight.Internal.Gateway.Responders;
+using Starnight.Internal.Gateway.Listeners;
 using Starnight.Internal.Gateway.Services;
 
 /// <summary>
@@ -43,7 +43,7 @@ public static class GatewayRegistration
 
 				_ = services.AddSingleton
 				(
-					new ResponderCollection()
+					new ListenerCollection()
 				);
 
 				_ = services.AddSingleton<TransportService>()

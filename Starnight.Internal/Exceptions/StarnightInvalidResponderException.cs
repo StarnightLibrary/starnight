@@ -7,22 +7,22 @@ using System.Runtime.CompilerServices;
 /// <summary>
 /// An exception thrown if Starnight encountered an outbound event too large to send to Discord.
 /// </summary>
-public class StarnightInvalidResponderException : AbstractStarnightException
+public class StarnightInvalidListenerException : AbstractStarnightException
 {
 	/// <summary>
 	/// The event whose serialized form exceeded 4096 bytes.
 	/// </summary>
-	public required Type ResponderType { get; set; }
+	public required Type ListenerType { get; set; }
 
 	[SetsRequiredMembers]
-	public StarnightInvalidResponderException
+	public StarnightInvalidListenerException
 	(
 		String message,
-		Type responderType,
+		Type listenerType,
 
 		[CallerMemberName]
 		String caller = ""
 	)
 		: base(message, caller)
-		=> this.ResponderType = responderType;
+		=> this.ListenerType = listenerType;
 }

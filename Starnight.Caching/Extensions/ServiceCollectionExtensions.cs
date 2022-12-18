@@ -2,10 +2,10 @@ namespace Starnight.Caching.Extensions;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Starnight.Caching.Responders;
+using Starnight.Caching.Listeners;
 using Starnight.Caching.Services;
 using Starnight.Caching.Shims;
-using Starnight.Internal.Gateway.Responders;
+using Starnight.Internal.Gateway.Listeners;
 using Starnight.Internal.Rest.Resources;
 using Starnight.Internal.Utils;
 
@@ -31,10 +31,10 @@ public static class ServiceCollectionExtensions
 			.Decorate<IDiscordEmojiRestResource, CachingEmojiRestResource>()
 			.Decorate<IDiscordGuildRestResource, CachingGuildRestResource>();
 
-		_ = services.AddResponder
+		_ = services.AddListener
 		(
-			typeof(PreChannelResponder),
-			ResponderPhase.PreEvent
+			typeof(PreChannelListener),
+			ListenerPhase.PreEvent
 		);
 
 		return services;

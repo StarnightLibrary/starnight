@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Starnight.Caching.Providers;
 using Starnight.Internal;
 using Starnight.Internal.Gateway;
-using Starnight.Internal.Gateway.Responders;
+using Starnight.Internal.Gateway.Listeners;
 using Starnight.Internal.Rest;
 
 public class Program
@@ -21,9 +21,9 @@ public class Program
 			.CreateDefaultBuilder(args)
 			.UseConsoleLifetime();
 
-		_ = hostBuilder.ConfigureServices(services => _ = services.AddResponder
+		_ = hostBuilder.ConfigureServices(services => _ = services.AddListener
 			(
-				typeof(TestResponder)
+				typeof(TestListener)
 			));
 
 		_ = hostBuilder.AddStarnightGateway();

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
-using Starnight.Internal.Gateway.Responders;
+using Starnight.Internal.Gateway.Listeners;
 
-internal class TestResponder : IResponder<DiscordConnectedEvent>, IResponder<DiscordGuildCreatedEvent>
+internal class TestListener : IListener<DiscordConnectedEvent>, IListener<DiscordGuildCreatedEvent>
 {
 	public ValueTask RespondAsync(DiscordConnectedEvent @event)
 	{

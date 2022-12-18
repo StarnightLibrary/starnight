@@ -1,12 +1,12 @@
-namespace Starnight.Internal.Gateway.Responders;
+namespace Starnight.Internal.Gateway.Listeners;
 
 using System.Threading.Tasks;
 
 /// <summary>
-/// Represents a base interface for all responders.
+/// Represents a base interface for all listeners.
 /// </summary>
-/// <typeparam name="TEvent">The event type this responder handles.</typeparam>
-public interface IResponder<TEvent> : IResponder
+/// <typeparam name="TEvent">The event type this listener handles.</typeparam>
+public interface IListener<TEvent> : IListener
 	where TEvent : IDiscordGatewayEvent
 {
 	/// <summary>
