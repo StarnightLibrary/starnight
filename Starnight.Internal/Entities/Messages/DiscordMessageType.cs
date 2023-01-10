@@ -33,5 +33,8 @@ public enum DiscordMessageType
 	ThreadStarterMessage,
 	GuildInviteReminder,
 	ContextMenuCommand,
-	AutoModerationAction
+	AutoModerationAction,
+	RoleSubscriptionPurchase,
+	InteractionPremiumUpsell,
+	GuildApplicationPremiumSubscription = 32
 }
