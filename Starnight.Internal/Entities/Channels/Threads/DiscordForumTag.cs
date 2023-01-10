@@ -25,11 +25,11 @@ public sealed record DiscordForumTag : DiscordSnowflakeObject
 	/// Snowflake ID of the custom emoji associated with this tag.
 	/// </summary>
 	[JsonPropertyName("emoji_id")]
-	public Optional<Int64> EmojiId { get; init; }
+	public Int64? EmojiId { get; init; }
 
 	/// <summary>
 	/// The unicode character representation of the emoji associated with this tag.
 	/// </summary>
 	[JsonPropertyName("emoji_name")]
-	public Optional<String?> EmojiName { get; init; }
+	public String? EmojiName { get; init; }
 }
