@@ -2,12 +2,14 @@ namespace Starnight.Internal.Gateway.Listeners;
 
 using System.Threading.Tasks;
 
+using Starnight.Internal.Gateway.Events;
+
 /// <summary>
 /// Represents a base interface for all listeners.
 /// </summary>
 /// <typeparam name="TEvent">The event type this listener handles.</typeparam>
 public interface IListener<TEvent> : IListener
-	where TEvent : IDiscordGatewayEvent
+	where TEvent : IGatewayEvent
 {
 	/// <summary>
 	/// Responds to the given gateway event.
