@@ -30,6 +30,7 @@ using Starnight.SourceGenerators.GatewayEvents;
 [GatewayEvent(EventName = GuildCreate, EventType = typeof(DiscordGuildCreatedEvent))]
 [GatewayEvent(EventName = GuildUpdate, EventType = typeof(DiscordGuildUpdatedEvent))]
 [GatewayEvent(EventName = GuildDelete, EventType = typeof(DiscordGuildDeletedEvent))]
+[GatewayEvent(EventName = GuildAuditLogEntryCreate, EventType = typeof(DiscordAuditLogEntryCreatedEvent))]
 [GatewayEvent(EventName = GuildBanAdd, EventType = typeof(DiscordGuildBanAddedEvent))]
 [GatewayEvent(EventName = GuildBanRemove, EventType = typeof(DiscordGuildBanRemovedEvent))]
 [GatewayEvent(EventName = GuildEmojisUpdate, EventType = typeof(DiscordGuildEmojisUpdatedEvent))]
@@ -93,6 +94,7 @@ internal static partial class DispatchEvents
 	public const String GuildCreate = "GUILD_CREATE";
 	public const String GuildUpdate = "GUILD_UPDATE";
 	public const String GuildDelete = "GUILD_DELETE";
+	public const String GuildAuditLogEntryCreate = "GUILD_AUDIT_LOG_ENTRY_CREATE";
 	public const String GuildBanAdd = "GUILD_BAN_ADD";
 	public const String GuildBanRemove = "GUILD_BAN_REMOVE";
 	public const String GuildEmojisUpdate = "GUILD_EMOJIS_UPDATE";
@@ -158,6 +160,7 @@ internal static partial class DispatchEvents
 			GuildCreate => deserializeGuildCreate(element),
 			GuildUpdate => deserializeGuildUpdate(element),
 			GuildDelete => deserializeGuildDelete(element),
+			GuildAuditLogEntryCreate => deserializeGuildAuditLogEntryCreate(element),
 			GuildBanAdd => deserializeGuildBanAdd(element),
 			GuildBanRemove => deserializeGuildBanRemove(element),
 			GuildEmojisUpdate => deserializeGuildEmojisUpdate(element),
