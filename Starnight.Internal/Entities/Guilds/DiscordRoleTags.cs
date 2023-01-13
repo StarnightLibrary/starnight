@@ -23,6 +23,39 @@ public sealed record DiscordRoleTags
 	/// <summary>
 	/// Whether this is the guild's premium subscriber role.
 	/// </summary>
+	/// <remarks>
+	/// If <see cref="Optional{T}.HasValue"/> is <see langword="false"/>, the value represented by this field
+	/// is false; if <see cref="Optional{T}.HasValue"/> is <see langword="true"/>,
+	/// <see cref="Optional{T}.Value"/> will always be <see langword="null"/> indicating this field is true.
+	/// </remarks>
 	[JsonPropertyName("premium_subscriber")]
-	public Optional<Boolean> PremiumRole { get; init; }
+	public Optional<Boolean?> PremiumRole { get; init; }
+
+	/// <summary>
+	/// The ID of this role#s subscription SKU and listing.
+	/// </summary>
+	[JsonPropertyName("subscription_listing_id")]
+	public Optional<Int64> SubscriptionListingId { get; init; }
+
+	/// <summary>
+	/// Whether this role is available for purchase.
+	/// </summary>
+	/// <remarks>
+	/// If <see cref="Optional{T}.HasValue"/> is <see langword="false"/>, the value represented by this field
+	/// is false; if <see cref="Optional{T}.HasValue"/> is <see langword="true"/>,
+	/// <see cref="Optional{T}.Value"/> will always be <see langword="null"/> indicating this field is true.
+	/// </remarks>
+	[JsonPropertyName("available_for_purchase")]
+	public Optional<Boolean?> AvailableForPurchase { get; init; }
+
+	/// <summary>
+	/// Whether this role is a guild's linked role.
+	/// </summary>
+	/// <remarks>
+	/// If <see cref="Optional{T}.HasValue"/> is <see langword="false"/>, the value represented by this field
+	/// is false; if <see cref="Optional{T}.HasValue"/> is <see langword="true"/>,
+	/// <see cref="Optional{T}.Value"/> will always be <see langword="null"/> indicating this field is true.
+	/// </remarks>
+	[JsonPropertyName("guild_connections")]
+	public Optional<Boolean?> GuildConnections { get; init; }
 }
