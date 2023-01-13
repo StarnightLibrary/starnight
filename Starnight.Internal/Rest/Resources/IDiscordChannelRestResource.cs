@@ -569,11 +569,13 @@ public interface IDiscordChannelRestResource
 	/// </summary>
 	/// <param name="threadId">Snowflake identifier of the thread to obtain data from.</param>
 	/// <param name="userId">Snowflake identifier of the user to obtain data for.</param>
+	/// <param name="withMember">Whether the returned thread member object should contain guild member data.</param>
 	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<DiscordThreadMember> GetThreadMemberAsync
 	(
 		Int64 threadId,
 		Int64 userId,
+		Boolean? withMember = null,
 		CancellationToken ct = default
 	);
 
@@ -581,10 +583,16 @@ public interface IDiscordChannelRestResource
 	/// Returns a list of all thread members for the specified thread.
 	/// </summary>
 	/// <param name="threadId">Snowflake identifier fo the thread to obtain data from.</param>
+	/// <param name="withMember">Whether the returned thread member object should contain guild member data.</param>
+	/// <param name="after">Gets thread members after this snowflake ID.</param>
+	/// <param name="limit">The maximum number of thread members to return.</param>
 	/// <param name="ct">Cancellation token for this request.</param>
 	public ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync
 	(
 		Int64 threadId,
+		Boolean? withMember = null,
+		Int64? after = null,
+		Int32? limit = null,
 		CancellationToken ct = default
 	);
 

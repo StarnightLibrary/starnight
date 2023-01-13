@@ -1509,12 +1509,21 @@ public sealed class DiscordChannelRestResource
 	(
 		Int64 threadId,
 		Int64 userId,
+		Boolean? withMember = null,
 		CancellationToken ct = default
 	)
 	{
+		QueryBuilder query = new($"{Channels}/{threadId}/{ThreadMembers}/{userId}");
+
+		_ = query.AddParameter
+		(
+			"with_member",
+			withMember?.ToString()
+		);
+
 		IRestRequest request = new RestRequest
 		{
-			Url = $"{Channels}/{threadId}/{ThreadMembers}/{userId}",
+			Url = query.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
 			{
@@ -1545,12 +1554,33 @@ public sealed class DiscordChannelRestResource
 	public async ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync
 	(
 		Int64 threadId,
+		Boolean? withMember = null,
+		Int64? after = null,
+		Int32? limit = null,
 		CancellationToken ct = default
 	)
 	{
+		QueryBuilder query = new($"{Channels}/{threadId}/{ThreadMembers}");
+
+		_ = query.AddParameter
+		(
+			"with_member",
+			withMember?.ToString()
+		)
+		.AddParameter
+		(
+			"after",
+			after?.ToString()
+		)
+		.AddParameter
+		(
+			"limit",
+			limit?.ToString()
+		);
+
 		IRestRequest request = new RestRequest
 		{
-			Url = $"{Channels}/{threadId}/{ThreadMembers}",
+			Url = query.Build(),
 			Method = HttpMethod.Get,
 			Context = new()
 			{
