@@ -26,7 +26,7 @@ public sealed record DiscordGuildIntegration : DiscordSnowflakeObject
 	/// Gets whether this integration is enabled
 	/// </summary>
 	[JsonPropertyName("enabled")]
-	public Optional<Boolean> Enabled { get; init; }
+	public required Boolean Enabled { get; init; }
 
 	/// <summary>
 	/// The integration account
