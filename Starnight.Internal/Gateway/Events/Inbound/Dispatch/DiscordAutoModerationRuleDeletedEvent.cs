@@ -4,6 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds.AutoModeration;
+using Starnight.Internal.Gateway.Events;
 
 /// <summary>
 /// Fired when an auto moderation rule is deleted.

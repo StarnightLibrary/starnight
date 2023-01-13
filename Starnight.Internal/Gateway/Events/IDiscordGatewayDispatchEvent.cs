@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Gateway;
+namespace Starnight.Internal.Gateway.Events;
 
 using System;
 

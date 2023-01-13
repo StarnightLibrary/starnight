@@ -3,6 +3,8 @@ namespace Starnight.Internal.Gateway.Events.Outbound;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Gateway.Events;
+
 /// <summary>
 /// Represents an outbound heartbeat event.
 /// </summary>

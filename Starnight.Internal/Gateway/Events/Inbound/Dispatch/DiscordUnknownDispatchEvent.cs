@@ -4,6 +4,8 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Gateway.Events;
+
 /// <summary>
 /// Represents an unknown dispatch event.
 /// </summary>

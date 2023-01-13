@@ -4,6 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Channels;
+using Starnight.Internal.Gateway.Events;
 
 /// <summary>
 /// Fired when a new thread is created or if the current user is added to an existing thread.

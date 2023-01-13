@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Gateway;
+namespace Starnight.Internal.Gateway.Events;
 /// <summary>
 /// Represents a payload for any opcode. Note that implementers must set JSON attributes themselves, that is:
 /// </summary>

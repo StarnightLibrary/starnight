@@ -4,6 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds.Audit;
+using Starnight.Internal.Gateway.Events;
 
 public sealed record DiscordAuditLogEntryCreatedEvent
 	: IDiscordGatewayDispatchEvent<DiscordAuditLogEntry>

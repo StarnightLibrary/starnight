@@ -4,6 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Gateway.Events;
 
 /// <summary>
 /// Represents an IntegrationCreated event.

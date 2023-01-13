@@ -3,6 +3,7 @@ namespace Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Gateway.Events;
 using Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 
 public sealed record DiscordMessagesBulkDeletedEvent : IDiscordGatewayDispatchEvent<MessagesBulkDeletedPayload>

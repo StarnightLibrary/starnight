@@ -4,6 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 using Starnight.Internal.Entities.Messages;
+using Starnight.Internal.Gateway.Events;
 
 /// <summary>
 /// Represents a MessageCreated event.

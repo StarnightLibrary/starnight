@@ -2,6 +2,7 @@ namespace Starnight.Internal.Gateway.Events.Inbound;
 
 using System.Text.Json.Serialization;
 
+using Starnight.Internal.Gateway.Events;
 using Starnight.Internal.Gateway.Payloads.Inbound;
 
 /// <summary>
