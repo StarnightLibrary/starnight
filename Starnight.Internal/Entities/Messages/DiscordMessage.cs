@@ -202,4 +202,10 @@ public sealed record DiscordMessage : DiscordSnowflakeObject
 	/// </summary>
 	[JsonPropertyName("mentions")]
 	public Optional<IEnumerable<DiscordUser>> Mentions { get; init; }
+
+	/// <summary>
+	/// Data of the role subscription purchase or renewal that prompted this message.
+	/// </summary>
+	[JsonPropertyName("role_subscription_data")]
+	public Optional<DiscordRoleSubscriptionData> RoleSubscriptionData { get; init; }
 }

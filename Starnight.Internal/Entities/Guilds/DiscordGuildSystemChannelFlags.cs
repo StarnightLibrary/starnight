@@ -26,5 +26,15 @@ public enum DiscordGuildSystemChannelFlags
 	/// <summary>
 	/// Disable sticker reply buttons on member join notifications.
 	/// </summary>
-	SuppressJoinNotificationReplies = 1 << 3
+	SuppressJoinNotificationReplies = 1 << 3,
+
+	/// <summary>
+	/// Suppress role subscription purchase and renewal notifications.
+	/// </summary>
+	SuppressRoleSubscriptionPurchaseNotifications = 1 << 4,
+
+	/// <summary>
+	/// Hide role subscription sticker reply buttons.
+	/// </summary>
+	SuppressRoleSubscriptionPurchaseNotificationReplies = 1 << 5
 }
