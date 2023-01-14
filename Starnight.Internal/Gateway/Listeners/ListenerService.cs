@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Starnight.Internal.Gateway.Events;
+
 #pragma warning disable IDE0001
 using DispatchDelegate = System.Func
 <
@@ -139,7 +141,7 @@ public class ListenerService
 		IEnumerable<IEnumerable<Type>> listeners,
 		IServiceScope scope
 	)
-		where TEvent : IDiscordGatewayEvent
+		where TEvent : IGatewayEvent
 	{
 		foreach(IEnumerable<Type> phase in listeners)
 		{
