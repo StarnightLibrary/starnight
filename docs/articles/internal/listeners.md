@@ -5,7 +5,7 @@ title: Listeners
 
 # Listeners
 
-Listeners are a more powerful implementation of event handlers. A listener is a type implementing <xref href="Starnight.Internal.Gateway.Listeners.IListener`1">, the generic type being the @Starnight.Internal.Gateway.Events.IDiscordGatewayEvent the listener handles. Listeners are registered using the `IServiceCollection.AddListener` extension method, where they are given a [service lifetime](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicelifetime) and a <xref href="Starnight.Internal.Gateway.Listeners.ListenerPhase?text=phase">.
+Listeners are a more powerful implementation of event handlers. A listener is a type implementing <xref href="Starnight.Internal.Gateway.Listeners.IListener`1">, the generic type being the @Starnight.Internal.Gateway.Events.IGatewayEvent the listener handles. Listeners are registered using the `IServiceCollection.AddListener` extension method, where they are given a [service lifetime](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicelifetime) and a <xref href="Starnight.Internal.Gateway.Listeners.ListenerPhase?text=phase">.
 
 Registered into the containing dependency injection container, the listener will obey its service lifetime and be able to request services from DI - Starnight only controls execution of the listener logic itself.
 
@@ -39,7 +39,7 @@ In principle, listeners can implement any event within the `Starnight.Internal.G
 A listener method will only be called if the dispatched event matches the method perfectly, with two exceptions:
 
 1. @Starnight.Internal.Gateway.Events.Inbound.DiscordUnknownInboundEvent: Listeners handling this event will be called whenever Starnight failed to deserialize to any known event.
-2. @Starnight.Internal.Gateway.IDiscordGatewayEvent: Listeners handling this type will be called *every time any event is fired.*
+2. @Starnight.Internal.Gateway.Events.IDiscordGatewayEvent: Listeners handling this type will be called *every time any event is fired.*
 
 ## Calling Order and Phases
 

@@ -1,10 +1,8 @@
-﻿namespace Starnight.Internal.Gateway.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Starnight.Internal.Gateway.Events;
 
-internal interface IGatewayEvent
+/// <summary>
+/// Marker interface for all events utilized by the Starnight gateway.
+/// </summary>
+public interface IGatewayEvent
 {
 }
