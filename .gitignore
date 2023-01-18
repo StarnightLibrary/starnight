@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 
+# Starnight tooling
+generate-internal-events*
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -21,6 +24,7 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+[Pp]ublish/
 x64/
 x86/
 [Aa][Rr][Mm]/
