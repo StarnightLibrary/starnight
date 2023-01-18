@@ -20,11 +20,11 @@ echo Extracted dotnet runtime identifier: %rid%
 :ridknown
 
 :: dotnet publish tools\generators\ToolName\ToolName.csproj -r %rid% -c Release
-:: copy tools\generators\ToolName\bin\Release\net7.0\%rid%\ToolName tool-name
+:: copy tools\generators\ToolName\bin\Release\net7.0\%rid%\native\ToolName.exe tool-name.exe
 :: echo Successfully built and prepared tool tool-name for use.
 
 dotnet publish tools\generators\Starnight.Generators.GenerateInternalEvents\Starnight.Generators.GenerateInternalEvents.csproj -r %rid% -c Release || exit 1
-copy tools\generators\Starnight.Generators.GenerateInternalEvents\bin\Release\net7.0\%rid%\Starnight.Generators.GenerateInternalEvents generate-internal-events || exit 1
+copy tools\generators\Starnight.Generators.GenerateInternalEvents\bin\Release\net7.0\%rid%\native\Starnight.Generators.GenerateInternalEvents.exe generate-internal-events.exe || exit 1
 echo Successfully built and prepared tool generate-internal-events for use.
 
 echo Successfully built and prepared native tooling for Starnight development.
