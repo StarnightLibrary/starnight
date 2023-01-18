@@ -1,0 +1,301 @@
+{
+	"READY": [
+		"DiscordConnectedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.ConnectedPayload"
+	],
+
+	"APPLICATION_COMMAND_PERMISSIONS_UPDATE": [
+		"DiscordApplicationCommandPermissionsUpdatedEvent",
+		"Starnight.Internal.Entities.Interactions.ApplicationCommands.DiscordApplicationCommandPermissions"
+	],
+
+	"AUTO_MODERATION_RULE_CREATE": [
+		"DiscordAutoModerationRuleCreatedEvent",
+		"Starnight.Internal.Entities.Guilds.AutoModeration.DiscordAutoModerationRule"
+	],
+
+	"AUTO_MODERATION_RULE_UPDATE": [
+		"DiscordAutoModerationRuleUpdatedEvent",
+		"Starnight.Internal.Entities.Guilds.AutoModeration.DiscordAutoModerationRule"
+	],
+
+	"AUTO_MODERATION_RULE_DELETE": [
+		"DiscordAutoModerationRuleDeletedEvent",
+		"Starnight.Internal.Entities.Guilds.AutoModeration.DiscordAutoModerationRule"
+	],
+
+	"AUTO_MODERATION_ACTION_EXECUTION": [
+		"DiscordAutoModerationActionExecutedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.AutoModerationActionExecutedPayload"
+	],
+
+	"CHANNEL_CREATE": [
+		"DiscordChannelCreatedEvent",
+		"Starnight.Internal.Entities.Channels.DiscordChannel"
+	],
+
+	"CHANNEL_UPDATE": [
+		"DiscordChannelUpdatedEvent",
+		"Starnight.Internal.Entities.Channels.DiscordChannel"
+	],
+
+	"CHANNEL_DELETE": [
+		"DiscordChannelDeletedEvent",
+		"Starnight.Internal.Entities.Channels.DiscordChannel"
+	],
+
+	"CHANNEL_PINS_UPDATE": [
+		"DiscordChannelPinsUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.ChannelPinsUpdatedPayload"
+	],
+
+	"THREAD_CREATE": [
+		"DiscordThreadCreatedEvent",
+		"Starnight.Internal.Entities.Channels.DiscordChannel"
+	],
+
+	"THREAD_UPDATE": [
+		"DiscordThreadUpdatedEvent",
+		"Starnight.Internal.Entities.Channels.DiscordChannel"
+	],
+
+	"THREAD_DELETE": [
+		"DiscordThreadDeletedEvent",
+		"Starnight.Internal.Entities.Channels.DiscordChannel"
+	],
+
+	"THREAD_LIST_SYNC": [
+		"DiscordThreadListSyncEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.ThreadListSyncPayload"
+	],
+
+	"THREAD_MEMBER_UPDATE": [
+		"DiscordThreadMemberUpdatedEvent",
+		"Starnight.Internal.Entities.Channels.Threads.DiscordThreadMember"
+	],
+
+	"THREAD_MEMBERS_UPDATE": [
+		"DiscordThreadMembersUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.ThreadMembersUpdatedPayload"
+	],
+
+	"GUILD_CREATE": [
+		"DiscordGuildCreatedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordGuild"
+	],
+
+	"GUILD_UPDATE": [
+		"DiscordGuildUpdatedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordGuild"
+	],
+
+	"GUILD_DELETE": [
+		"DiscordGuildDeletedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordGuild"
+	],
+
+	"GUILD_AUDIT_LOG_ENTRY_CREATE": [
+		"DiscordAuditLogEntryCreatedEvent",
+		"Starnight.Internal.Guilds.Audit.DiscordAuditLogEntry"
+	],
+
+	"GUILD_BAN_ADD": [
+		"DiscordGuildBanAddedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildBanAddedPayload"
+	],
+
+	"GUILD_BAN_REMOVE": [
+		"DiscordGuildBanRemovedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildBanRemovedPayload"
+	],
+
+	"GUILD_EMOJIS_UPDATE": [
+		"DiscordGuildEmojisUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildEmojisUpdatedPayload"
+	],
+
+	"GUILD_STICKERS_UPDATE": [
+		"DiscordGuildStickersUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildStickersUpdatedPayload"
+	],
+
+	"GUILD_INTEGRATIONS_UPDATE": [
+		"DiscordGuildIntegrationsUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildIntegrationsUpdatedPayload"
+	],
+
+	"GUILD_MEMBER_ADD": [
+		"DiscordGuildMemberAddedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordGuildMember"
+	],
+
+	"GUILD_MEMBER_REMOVE": [
+		"DiscordGuildMemberRemovedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildMemberRemovedPayload"
+	],
+
+	"GUILD_MEMBER_UPDATE": [
+		"DiscordGuildMemberUpdatedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordGuildMember"
+	],
+
+	"GUILD_MEMBERS_CHUNK": [
+		"DiscordGuildMembersChunkEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildMembersChunkPayload"
+	],
+
+	"GUILD_ROLE_CREATE": [
+		"DiscordGuildRoleCreatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildRoleCreatedPayload"
+	],
+
+	"GUILD_ROLE_UPDATE": [
+		"DiscordGuildRoleUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildRoleUpdatedPayload"
+	],
+
+	"GUILD_ROLE_DELETE": [
+		"DiscordGuildRoleDeletedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.GuildRoleDeletedPayload"
+	],
+
+	"GUILD_SCHEDULED_EVENT_CREATE": [
+		"DiscordScheduledEventCreatedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordScheduledEvent"
+	],
+
+	"GUILD_SCHEDULED_EVENT_UPDATE": [
+		"DiscordScheduledEventUpdatedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordScheduledEvent"
+	],
+
+	"GUILD_SCHEDULED_EVENT_DELETE": [
+		"DiscordScheduledEventDeletedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordScheduledEvent"
+	],
+
+	"GUILD_SCHEDULED_EVENT_USER_ADD": [
+		"DiscordScheduledEventUserAddedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.ScheduledEventUserAddedPayload"
+	],
+
+	"GUILD_SCHEDULED_EVENT_USER_REMOVE": [
+		"DiscordScheduledEventUserRemovedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.ScheduledEventUserRemovedPayload"
+	],
+
+	"INTEGRATION_CREATE": [
+		"DiscordIntegrationCreatedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordGuildIntegration"
+	],
+
+	"INTEGRATION_UPDATE": [
+		"DiscordIntegrationUpdatedEvent",
+		"Starnight.Internal.Entities.Guilds.DiscordGuildIntegration"
+	],
+
+	"INTEGRATION_DELETE": [
+		"DiscordIntegrationDeletedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.IntegrationDeletedPayload"
+	],
+
+	"INTERACTION_CREATE": [
+		"DiscordInteractionCreatedEvent",
+		"Starnight.Internal.Entities.Interactions.DiscordInteraction"
+	],
+
+	"INVITE_CREATE": [
+		"DiscordInviteCreatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.InviteCreatedPayload"
+	],
+
+	"INVITE_DELETE": [
+		"DiscordInviteDeletedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.InviteDeletedPayload"
+	],
+
+	"MESSAGE_CREATE": [
+		"DiscordMessageCreatedEvent",
+		"Starnight.Internal.Entities.Messages.DiscordMessage"
+	],
+
+	"MESSAGE_UPDATE": [
+		"DiscordMessageUpdatedEvent",
+		"Starnight.Internal.Entities.Messages.DiscordMessage"
+	],
+
+	"MESSAGE_DELETE": [
+		"DiscordMessageDeletedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.MessageDeletedPayload"
+	],
+
+	"MESSAGE_DELETE_BULK": [
+		"DiscordMessagesBulkDeletedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.MessagesBulkDeletedPayload"
+	],
+
+	"MESSAGE_REACTION_ADD": [
+		"DiscordMessageReactionAddedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.MessageReactionAddedPayload"
+	],
+
+	"MESSAGE_REACTION_REMOVE": [
+		"DiscordMessageReactionRemovedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.MessageReactionRemovedPayload"
+	],
+
+	"MESSAGE_REACTION_REMOVE_ALL": [
+		"DiscordAllMessageReactionsRemovedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.AllMessageReactionsRemovedPayload"
+	],
+
+	"MESSAGE_REACTION_REMOVE_EMOJI": [
+		"DiscordEmojiMessageReactionsRemovedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.EmojiMessageReactionsRemovedPayload"
+	],
+
+	"PRESENCE_UPDATE": [
+		"DiscordPresenceUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.PresenceUpdatedPayload"
+	],
+
+	"STAGE_INSTANCE_CREATE": [
+		"DiscordStageInstanceCreatedEvent",
+		"Starnight.Internal.Entities.Voice.DiscordStageInstance"
+	],
+
+	"STAGE_INSTANCE_UPDATE": [
+		"DiscordStageInstanceUpdatedEvent",
+		"Starnight.Internal.Entities.Voice.DiscordStageInstance"
+	],
+
+	"STAGE_INSTANCE_DELETE": [
+		"DiscordStageInstanceDeletedEvent",
+		"Starnight.Internal.Entities.Voice.DiscordStageInstance"
+	],
+
+	"TYPING_START": [
+		"DiscordTypingStartedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.TypingStartedPayload"
+	],
+
+	"USER_UPDATE": [
+		"DiscordUserUpdatedEvent",
+		"Starnight.Internal.Entities.Users.DiscordUser"
+	],
+
+	"VOICE_STATE_UPDATE": [
+		"DiscordVoiceStateUpdatedEvent",
+		"Starnight.Internal.Entities.Voice.DiscordVoiceState"
+	],
+
+	"VOICE_SERVER_UPDATE": [
+		"DiscordVoiceServerUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.VoiceServerUpdatedPayload"
+	],
+
+	"WEBHOOKS_UPDATE": [
+		"DiscordWebhooksUpdatedEvent",
+		"Starnight.Internal.Gateway.Payloads.Inbound.Dispatch.WebhooksUpdatedPayload"
+	]
+}
