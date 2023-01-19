@@ -3,6 +3,8 @@ namespace Starnight.Generators.GenerateInternalEvents;
 using System;
 using System.IO;
 
+using Spectre.Console;
+
 public static class Program
 {
 	public static Int32 Main(String[] args)
@@ -14,16 +16,13 @@ public static class Program
 				or ["-?"]
 		)
 		{
-			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.WriteLine
+			AnsiConsole.MarkupLine
 			(
-				"Starnight.Internal Events generator v0.3.0\n"
-			);
+				"""
+				Starnight.Internal Events generator v0.3.0
 
-			Console.ForegroundColor = ConsoleColor.Cyan;
-			Console.WriteLine
-			(
-				"    Usage: generate-internal-events path/to/events-internal.json output/path"
+				    [orchid]Usage: generate-internal-events path/to/events-internal.json output/path[/]
+				"""
 			);
 			
 			return 0;
@@ -32,11 +31,11 @@ public static class Program
 		// doesn't supply a json file
 		if(!args[0].EndsWith(".json"))
 		{
-			Console.ForegroundColor = ConsoleColor.Red;
-			Console.WriteLine
+			AnsiConsole.MarkupLine
 			(
-				$"Expected a json file with event definitions as first parameter, " +
-				$"received \"{args[0]}\""
+				$$"""
+				[red]Expected a json file with event definitions as first parameter, received "{{args[0]}}"[/]
+				"""
 			);
 
 			return 1;
@@ -44,21 +43,21 @@ public static class Program
 
 		if(!File.Exists(args[0]))
 		{
-			Console.ForegroundColor = ConsoleColor.Red;
-			Console.WriteLine
+			AnsiConsole.MarkupLine
 			(
-				$"The event definition file \"{args[0]}\" could not be found."
-			);
-
-			return 1;
+				$$"""
+				[red]The event definition file "{{args[0]}}" could not be found."[/]
+				"""
+			); 
 		}
 
 		if(!Directory.Exists(args[1]))
 		{
-			Console.ForegroundColor = ConsoleColor.Red;
-			Console.WriteLine
+			AnsiConsole.MarkupLine
 			(
-				$"The output directory \"{args[1]}\" could not be found."
+				$$"""
+				[red]The output directory "{{args[1]}}" could not be found."[/]
+				"""
 			);
 
 			return 1;
