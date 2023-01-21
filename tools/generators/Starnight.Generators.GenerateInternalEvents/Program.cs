@@ -2,6 +2,7 @@ namespace Starnight.Generators.GenerateInternalEvents;
 
 using System;
 using System.IO;
+using System.Text.Json;
 
 using Spectre.Console;
 
@@ -21,7 +22,7 @@ public static class Program
 				"""
 				Starnight.Internal Events generator v0.3.0
 
-				    [orchid]Usage: generate-internal-events path/to/events-internal.json output/path[/]
+				  [plum1]Usage: generate-internal-events path/to/events-internal.json output/path[/]
 				"""
 			);
 			
@@ -46,7 +47,7 @@ public static class Program
 			AnsiConsole.MarkupLine
 			(
 				$$"""
-				[red]The event definition file "{{args[0]}}" could not be found."[/]
+				[red]The event definition file "{{args[0]}}" could not be found.[/]
 				"""
 			); 
 		}
@@ -56,12 +57,44 @@ public static class Program
 			AnsiConsole.MarkupLine
 			(
 				$$"""
-				[red]The output directory "{{args[1]}}" could not be found."[/]
+				[red]The output directory "{{args[1]}}" could not be found.[/]
 				"""
 			);
 
 			return 1;
 		}
+
+		AnsiConsole.MarkupLine
+		(
+			"""
+			[bold]Starnight Internal Events generator, version 0.3.0[/]
+
+			  Loading event definitions file...
+			"""
+		);
+
+		using StreamReader reader = new(args[0]);
+
+		JsonDocument document = JsonDocument.Parse
+		(
+			reader.ReadToEnd(),
+			options: new()
+			{
+				CommentHandling = JsonCommentHandling.Skip,
+				AllowTrailingCommas = true
+			}
+		);
+
+		GeneratorMetadata metadata = MetadataExtractor.ExtractMetadata
+		(
+			document.RootElement
+		);
+
+		EventEmitter.Emit
+		(
+			metadata,
+			args[1]
+		);
 
 		return 0;
 	}

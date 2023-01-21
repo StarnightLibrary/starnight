@@ -91,12 +91,12 @@
 
 	"GUILD_DELETE": [
 		"DiscordGuildDeletedEvent",
-		"Starnight.Internal.Entities.Guilds.DiscordGuild"
+		"Starnight.Internal.Entities.Guilds.DiscordUnavailableGuild"
 	],
 
 	"GUILD_AUDIT_LOG_ENTRY_CREATE": [
 		"DiscordAuditLogEntryCreatedEvent",
-		"Starnight.Internal.Guilds.Audit.DiscordAuditLogEntry"
+		"Starnight.Internal.Entities.Guilds.Audit.DiscordAuditLogEntry"
 	],
 
 	"GUILD_BAN_ADD": [
