@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 
 using Starnight.Internal.Gateway;
 using Starnight.Internal.Gateway.Events.Inbound;
+using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 using Starnight.Internal.Gateway.Events.Outbound;
 
 public class GatewayEventJsonConverter : JsonConverter<IDiscordGatewayEvent>
@@ -24,10 +25,10 @@ public class GatewayEventJsonConverter : JsonConverter<IDiscordGatewayEvent>
 
 		return opcode switch
 		{
-			DiscordGatewayOpcode.Dispatch => DispatchEvents.Deserialize
+			DiscordGatewayOpcode.Dispatch => EventDeserializer.DeserializeEvent
 			(
-				gatewayEvent.GetProperty("t").GetString()!,
-				gatewayEvent
+				gatewayEvent,
+				gatewayEvent.GetProperty("t").GetString()!
 			),
 			DiscordGatewayOpcode.Reconnect => JsonSerializer.Deserialize<DiscordReconnectEvent>
 			(
