@@ -2,6 +2,8 @@ namespace Starnight.Internal.Gateway;
 
 using System;
 
+using Starnight.Internal.Gateway.Events;
+
 /// <summary>
 /// Contains the results of the current gateway frame.
 /// </summary>

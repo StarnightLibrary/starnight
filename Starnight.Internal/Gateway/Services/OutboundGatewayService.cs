@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Polly;
 using Polly.RateLimit;
 
+using Starnight.Internal.Gateway.Events;
 using Starnight.Internal.Gateway.Events.Outbound;
 using Starnight.Internal.Gateway.Payloads.Outbound;
 

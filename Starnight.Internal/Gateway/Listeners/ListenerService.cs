@@ -16,7 +16,7 @@ using Starnight.Internal.Gateway.Events;
 #pragma warning disable IDE0001
 using DispatchDelegate = System.Func
 <
-	Starnight.Internal.Gateway.IDiscordGatewayEvent,
+	Starnight.Internal.Gateway.Events.IGatewayEvent,
 	System.Collections.Generic.IEnumerable
 	<
 		System.Collections.Generic.IEnumerable
@@ -38,23 +38,24 @@ public class ListenerService
 	private readonly IServiceProvider serviceProvider;
 	private readonly ListenerCollection listenerCollection;
 
-	private readonly ChannelReader<IDiscordGatewayEvent> eventChannel;
+	private readonly Channel<IGatewayEvent> eventChannel;
 
 	private readonly Dictionary<Type, DispatchDelegate> cachedDelegates;
+
+	public ChannelWriter<IGatewayEvent> Writer => this.eventChannel.Writer;
 
 	public ListenerService
 	(
 		ILogger<ListenerService> logger,
 		IServiceProvider serviceProvider,
 		ListenerCollection listeners,
-		ChannelReader<IDiscordGatewayEvent> eventChannel,
 		CancellationToken ct
 	)
 	{
 		this.logger = logger;
 		this.serviceProvider = serviceProvider;
 		this.listenerCollection = listeners;
-		this.eventChannel = eventChannel;
+		this.eventChannel = Channel.CreateUnbounded<IGatewayEvent>();
 
 		this.cachedDelegates = new();
 
@@ -71,7 +72,7 @@ public class ListenerService
 		{
 			try
 			{
-				IDiscordGatewayEvent @event = await this.eventChannel.ReadAsync(ct);
+				IGatewayEvent @event = await this.eventChannel.Reader.ReadAsync(ct);
 
 				_ = Task.Run
 				(
@@ -83,7 +84,7 @@ public class ListenerService
 		}
 	}
 
-	private async ValueTask dispatchEventAsync(IDiscordGatewayEvent @event)
+	private async ValueTask dispatchEventAsync(IGatewayEvent @event)
 	{
 		Type eventType = @event.GetType();
 

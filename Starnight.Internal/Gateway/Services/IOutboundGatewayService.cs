@@ -3,6 +3,7 @@ namespace Starnight.Internal.Gateway.Services;
 using System;
 using System.Threading.Tasks;
 
+using Starnight.Internal.Gateway.Events;
 using Starnight.Internal.Gateway.Payloads.Outbound;
 
 /// <summary>

@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.Extensions.Options;
 
 using Starnight.Exceptions;
+using Starnight.Internal.Gateway.Events;
 
 /// <summary>
 /// Represents a collection of listeners.

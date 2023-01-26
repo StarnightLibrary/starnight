@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+using Starnight.Internal.Gateway.Events;
+
 /// <summary>
 /// Represents an interface for inbouond gateway handling. To modify inbound gateway handling logic,
 /// decorate this interface or register your own implementation of this interface.

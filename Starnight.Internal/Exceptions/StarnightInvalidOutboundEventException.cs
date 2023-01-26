@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-using Starnight.Internal.Gateway;
+using Starnight.Internal.Gateway.Events;
 
 /// <summary>
 /// Thrown if an event is considered invalid by the Starnight gateway client.

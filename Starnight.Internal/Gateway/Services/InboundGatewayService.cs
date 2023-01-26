@@ -7,8 +7,8 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
+using Starnight.Internal.Gateway.Events;
 using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Listeners;
 
@@ -20,14 +20,9 @@ public class InboundGatewayService : IInboundGatewayService
 	private readonly ILogger<InboundGatewayService> logger;
 	private readonly TransportService transportService;
 	private readonly Channel<IDiscordGatewayEvent> controlChannel;
-	private readonly Channel<IDiscordGatewayEvent> listenerChannel;
-	private ListenerService listenerService;
+	private readonly ListenerService listenerService;
 
 	private readonly Dictionary<Type, Boolean> controlEvents;
-
-	private readonly ILogger<ListenerService> listenerLogger;
-	private readonly IServiceProvider serviceProvider;
-	private readonly ListenerCollection listeners;
 
 	public Int32 LastReceivedSequence { get; private set; }
 
@@ -36,43 +31,26 @@ public class InboundGatewayService : IInboundGatewayService
 	public InboundGatewayService
 	(
 		ILogger<InboundGatewayService> logger,
-		ILogger<ListenerService> listenerLogger,
 		TransportService transportService,
-
-		IServiceProvider services,
-		IOptions<ListenerCollection> listeners
+		ListenerService listenerService
 	)
 	{
 		this.logger = logger;
 		this.transportService = transportService;
 		this.controlEvents = new();
 
-		this.listenerLogger = listenerLogger;
-		this.serviceProvider = services;
-		this.listeners = listeners.Value;
-
 		this.controlChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
-		this.listenerChannel = Channel.CreateUnbounded<IDiscordGatewayEvent>();
 
 		this.ControlEvents = this.controlChannel.Reader;
 		this.LastReceivedSequence = 0;
 
 		// we'll assign this in StartAsync
-		this.listenerService = null!;
+		this.listenerService = listenerService;
 	}
 
 	/// <inheritdoc/>
 	public ValueTask StartAsync(CancellationToken ct)
 	{
-		this.listenerService = new
-		(
-			this.listenerLogger,
-			this.serviceProvider,
-			this.listeners,
-			this.listenerChannel.Reader,
-			ct
-		);
-
 		this.logger.LogDebug
 		(
 			"Initialized listener handling."
@@ -122,7 +100,7 @@ public class InboundGatewayService : IInboundGatewayService
 			(
 				async () =>
 				{
-					await this.listenerChannel.Writer.WriteAsync(@event.Event!);
+					await this.listenerService.Writer.WriteAsync(@event.Event!);
 
 
 					if(!this.controlEvents.TryGetValue(@event.GetType(), out Boolean isControlEvent))
