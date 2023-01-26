@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Starnight.Internal.Gateway.Events;
 
@@ -48,22 +49,29 @@ public class ListenerService
 	(
 		ILogger<ListenerService> logger,
 		IServiceProvider serviceProvider,
-		ListenerCollection listeners,
-		CancellationToken ct
+		IOptions<ListenerCollection> listeners
 	)
 	{
 		this.logger = logger;
 		this.serviceProvider = serviceProvider;
-		this.listenerCollection = listeners;
+		this.listenerCollection = listeners.Value;
 		this.eventChannel = Channel.CreateUnbounded<IGatewayEvent>();
 
 		this.cachedDelegates = new();
+	}
 
+	public ValueTask StartAsync
+	(
+		CancellationToken ct
+	)
+	{
 		_ = Task.Factory.StartNew
 		(
 			async () => await this.dispatchAsync(ct),
 			TaskCreationOptions.LongRunning
 		);
+
+		return ValueTask.CompletedTask;
 	}
 
 	private async ValueTask dispatchAsync(CancellationToken ct)

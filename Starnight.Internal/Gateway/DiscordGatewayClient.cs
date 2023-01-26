@@ -143,6 +143,11 @@ public class DiscordGatewayClient : IHostedService
 			);
 		}
 
+		await this.listenerService.StartAsync
+		(
+			this.gatewayTokenSource.Token
+		);
+
 		this.gatewayClientStateTracker.SetConnecting();
 
 		await this.transportService.ConnectAsync
