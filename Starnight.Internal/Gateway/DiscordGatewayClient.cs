@@ -19,6 +19,7 @@ using Starnight.Internal.Gateway.Events.Inbound;
 using Starnight.Internal.Gateway.Listeners;
 using Starnight.Internal.Gateway.Payloads.Outbound;
 using Starnight.Internal.Gateway.Services;
+using Starnight.Internal.Gateway.State;
 
 /// <summary>
 /// Represents the main gateway client.
@@ -33,6 +34,7 @@ public class DiscordGatewayClient : IHostedService
 	private readonly IOutboundGatewayService outboundGatewayService;
 	private readonly CancellationTokenSource gatewayTokenSource;
 	private readonly ListenerService listenerService;
+	private GatewayClientStateTracker gatewayClientStateTracker;
 
 	private Int32 responselessHeartbeats = 0;
 	private Int32 heartbeatInterval;
@@ -42,6 +44,11 @@ public class DiscordGatewayClient : IHostedService
 	/// Gets the last received sequence number of any event.
 	/// </summary>
 	public Int32 LastReceivedSequence => this.inboundGatewayService.LastReceivedSequence;
+
+	/// <summary>
+	/// Gets the current state of the gateway client.
+	/// </summary>
+	public DiscordGatewayClientState State => this.gatewayClientStateTracker.State;
 
 	/// <summary>
 	/// Gets the amount of consecutive heartbeats without response.
@@ -111,6 +118,11 @@ public class DiscordGatewayClient : IHostedService
 
 		this.token = container.Value.Token;
 
+		this.gatewayClientStateTracker = new()
+		{
+			State = DiscordGatewayClientState.Disconnected
+		};
+
 		this.gatewayTokenSource = new();
 
 		this.LastHeartbeatSent = DateTimeOffset.MinValue;
@@ -131,15 +143,21 @@ public class DiscordGatewayClient : IHostedService
 			);
 		}
 
+		this.gatewayClientStateTracker.SetConnecting();
+
 		await this.transportService.ConnectAsync
 		(
 			this.gatewayTokenSource.Token
 		);
 
+		this.gatewayClientStateTracker.SetIdentifying();
+
 		await this.identifyAsync
 		(
 			cancellationToken
 		);
+
+		this.gatewayClientStateTracker.SetConnected();
 
 		await this.inboundGatewayService.StartAsync
 		(
@@ -161,6 +179,8 @@ public class DiscordGatewayClient : IHostedService
 		CancellationToken cancellationToken
 	)
 	{
+		this.gatewayClientStateTracker.SetDisconnected();
+
 		await this.transportService.DisconnectAsync
 		(
 			false,
@@ -178,15 +198,21 @@ public class DiscordGatewayClient : IHostedService
 	{
 		this.transportService.ResumeUrl = null;
 
+		this.gatewayClientStateTracker.SetConnecting();
+
 		await this.transportService.ConnectAsync
 		(
 			ct
 		);
 
+		this.gatewayClientStateTracker.SetIdentifying();
+
 		await this.identifyAsync
 		(
 			ct
 		);
+
+		this.gatewayClientStateTracker.SetConnected();
 	}
 
 	/// <summary>
@@ -384,15 +410,6 @@ public class DiscordGatewayClient : IHostedService
 
 				case DiscordInvalidSessionEvent invalidSessionEvent:
 
-					if(invalidSessionEvent.Data)
-					{
-						_ = Task.Run
-						(
-							async () => await this.resume(),
-							ct
-						);
-					}
-
 					this.logger.LogWarning
 					(
 						"The current session is considered invalid by Discord, {resumable}",
@@ -401,8 +418,20 @@ public class DiscordGatewayClient : IHostedService
 							: "abandoning..."
 					);
 
-					if(!invalidSessionEvent.Data)
+					if(invalidSessionEvent.Data)
 					{
+						this.gatewayClientStateTracker.SetDisconnectedResumable();
+
+						_ = Task.Run
+						(
+							async () => await this.resume(),
+							ct
+						);
+					}
+					else
+					{
+						this.gatewayClientStateTracker.SetDisconnected();
+
 						throw new StarnightInvalidConnectionException
 						(
 							"The current connection was considered invalid by Discord."
@@ -412,6 +441,8 @@ public class DiscordGatewayClient : IHostedService
 					break;
 
 				case DiscordReconnectEvent reconnectEvent:
+
+					this.gatewayClientStateTracker.SetDisconnected();
 
 					_ = Task.Run
 					(
@@ -434,6 +465,8 @@ public class DiscordGatewayClient : IHostedService
 			this.token
 		);
 
+		this.gatewayClientStateTracker.SetResuming();
+
 		await this.transportService.ConnectAsync();
 
 		ResumePayload resume = new()
@@ -447,5 +480,7 @@ public class DiscordGatewayClient : IHostedService
 		(
 			resume
 		);
+
+		this.gatewayClientStateTracker.SetConnected();
 	}
 }
