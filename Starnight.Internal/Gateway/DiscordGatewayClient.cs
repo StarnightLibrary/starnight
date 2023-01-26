@@ -14,11 +14,11 @@ using Microsoft.Extensions.Options;
 using Starnight.Exceptions;
 using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Gateway.Events;
+using Starnight.Internal.Gateway.Events.Control;
 using Starnight.Internal.Gateway.Events.Inbound;
+using Starnight.Internal.Gateway.Listeners;
 using Starnight.Internal.Gateway.Payloads.Outbound;
 using Starnight.Internal.Gateway.Services;
-
-public delegate void ZombiedDelegate(DiscordGatewayClient client);
 
 /// <summary>
 /// Represents the main gateway client.
@@ -32,19 +32,11 @@ public class DiscordGatewayClient : IHostedService
 	private readonly IInboundGatewayService inboundGatewayService;
 	private readonly IOutboundGatewayService outboundGatewayService;
 	private readonly CancellationTokenSource gatewayTokenSource;
+	private readonly ListenerService listenerService;
 
 	private Int32 responselessHeartbeats = 0;
 	private Int32 heartbeatInterval;
 	private String sessionId = null!;
-
-	/// <summary>
-	/// An event indicating that the current connection is considered zombied.
-	/// </summary>
-	/// <remarks>
-	/// This event is fired after a certain amount of heartbeats were missed. This threshold is configurable in
-	/// <see cref="DiscordGatewayClientOptions"/>.
-	/// </remarks>
-	public event ZombiedDelegate ZombiedEvent = null!;
 
 	/// <summary>
 	/// Gets the last received sequence number of any event.
@@ -73,9 +65,12 @@ public class DiscordGatewayClient : IHostedService
 					value
 				);
 
-				this.ZombiedEvent
+				_ = this.listenerService.Writer.TryWrite
 				(
-					this
+					new ZombiedEvent
+					{
+						LastReceivedSequence = this.LastReceivedSequence
+					}
 				);
 			}
 		}
@@ -103,7 +98,8 @@ public class DiscordGatewayClient : IHostedService
 		IOptions<TokenContainer> container,
 		TransportService transportService,
 		IInboundGatewayService inboundService,
-		IOutboundGatewayService outboundService
+		IOutboundGatewayService outboundService,
+		ListenerService listenerService
 	)
 	{
 		this.logger = logger;
@@ -111,6 +107,7 @@ public class DiscordGatewayClient : IHostedService
 		this.transportService = transportService;
 		this.inboundGatewayService = inboundService;
 		this.outboundGatewayService = outboundService;
+		this.listenerService = listenerService;
 
 		this.token = container.Value.Token;
 
