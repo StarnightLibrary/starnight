@@ -1170,7 +1170,8 @@ internal static class EventDeserializer
 	)
 	{
 		switch(name)
-		{			case "READY":
+		{
+			case "READY":
 				return deserializeDiscordConnectedEvent
 				(
 					element,
