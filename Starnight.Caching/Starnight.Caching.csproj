@@ -13,7 +13,7 @@
 
   <ItemGroup>
 	  <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj"
-						PackageVersion="(0.10.0-dev.0,0.10.0]" />
+						PackageVersion="(0.11.0-dev.0,0.11.0]" />
   </ItemGroup>
 
 </Project>
