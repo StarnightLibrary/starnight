@@ -16,7 +16,9 @@ internal class PreEventListener :
 	IListener<DiscordChannelUpdatedEvent>,
 	IListener<DiscordThreadCreatedEvent>,
 	IListener<DiscordThreadUpdatedEvent>,
-	IListener<DiscordThreadListSyncEvent>
+	IListener<DiscordThreadListSyncEvent>,
+	IListener<DiscordThreadMemberUpdatedEvent>,
+	IListener<DiscordThreadMembersUpdatedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -113,6 +115,47 @@ internal class PreEventListener :
 					threadMember.UserId
 				),
 				threadMember
+			);
+		}
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordThreadMemberUpdatedEvent @event
+	)
+	{
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetThreadMemberKey
+			(
+				@event.Data.ThreadId,
+				@event.Data.UserId
+			),
+			@event.Data
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordThreadMembersUpdatedEvent @event
+	)
+	{
+		// only deal with added members here, we deal with removed members later
+		if(!@event.Data.AddedMembers.HasValue)
+		{
+			return;
+		}
+
+		foreach(DiscordThreadMember member in @event.Data.AddedMembers.Value)
+		{
+			await this.cache.CacheObjectAsync
+			(
+				KeyHelper.GetThreadMemberKey
+				(
+					@event.Data.ThreadId,
+					member.UserId
+				),
+				member
 			);
 		}
 	}
