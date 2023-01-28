@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Starnight.Caching.Services;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Channels.Threads;
+using Starnight.Internal.Entities.Guilds;
+using Starnight.Internal.Entities.Stickers;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 using Starnight.Internal.Gateway.Listeners;
 
@@ -20,7 +22,9 @@ internal class PreEventListener :
 	IListener<DiscordThreadMemberUpdatedEvent>,
 	IListener<DiscordThreadMembersUpdatedEvent>,
 	IListener<DiscordGuildCreatedEvent>,
-	IListener<DiscordGuildUpdatedEvent>
+	IListener<DiscordGuildUpdatedEvent>,
+	IListener<DiscordGuildEmojisUpdatedEvent>,
+	IListener<DiscordGuildStickersUpdatedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -190,5 +194,41 @@ internal class PreEventListener :
 			),
 			@event.Data
 		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildEmojisUpdatedEvent @event
+	)
+	{
+		foreach(DiscordEmoji emoji in @event.Data.Emojis)
+		{
+			await this.cache.CacheObjectAsync
+			(
+				KeyHelper.GetEmojiKey
+				(
+					emoji.Id!.Value
+				),
+				emoji
+			);
+		}
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildStickersUpdatedEvent @event
+	)
+	{
+		foreach(DiscordSticker sticker in @event.Data.Stickers)
+		{
+			await this.cache.CacheObjectAsync
+			(
+				KeyHelper.GetStickerKey
+				(
+					sticker.Id
+				),
+				sticker
+			);
+		}
 	}
 }
