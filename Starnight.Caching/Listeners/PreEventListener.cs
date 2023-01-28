@@ -18,7 +18,9 @@ internal class PreEventListener :
 	IListener<DiscordThreadUpdatedEvent>,
 	IListener<DiscordThreadListSyncEvent>,
 	IListener<DiscordThreadMemberUpdatedEvent>,
-	IListener<DiscordThreadMembersUpdatedEvent>
+	IListener<DiscordThreadMembersUpdatedEvent>,
+	IListener<DiscordGuildCreatedEvent>,
+	IListener<DiscordGuildUpdatedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -158,5 +160,35 @@ internal class PreEventListener :
 				member
 			);
 		}
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildCreatedEvent @event
+	)
+	{
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetGuildKey
+			(
+				@event.Data.Id
+			),
+			@event.Data
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildUpdatedEvent @event
+	)
+	{
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetGuildKey
+			(
+				@event.Data.Id
+			),
+			@event.Data
+		);
 	}
 }
