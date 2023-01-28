@@ -423,6 +423,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 	(
 		Int64 threadId,
 		Int64 userId,
+		Boolean? withMember = null,
 		CancellationToken ct = default
 	)
 	{
@@ -430,6 +431,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		(
 			threadId,
 			userId,
+			withMember,
 			ct
 		);
 
@@ -591,12 +593,18 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 	public async ValueTask<IEnumerable<DiscordThreadMember>> ListThreadMembersAsync
 	(
 		Int64 threadId,
+		Boolean? withMember = null,
+		Int64? after = null,
+		Int32? limit = null,
 		CancellationToken ct = default
 	)
 	{
 		IEnumerable<DiscordThreadMember> members = await this.__underlying.ListThreadMembersAsync
 		(
 			threadId,
+			withMember,
+			after,
+			limit,
 			ct
 		);
 
