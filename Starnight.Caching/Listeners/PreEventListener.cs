@@ -27,7 +27,9 @@ internal class PreEventListener :
 	IListener<DiscordGuildStickersUpdatedEvent>,
 	IListener<DiscordGuildMemberAddedEvent>,
 	IListener<DiscordGuildMemberUpdatedEvent>,
-	IListener<DiscordGuildMembersChunkEvent>
+	IListener<DiscordGuildMembersChunkEvent>,
+	IListener<DiscordGuildRoleCreatedEvent>,
+	IListener<DiscordGuildRoleUpdatedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -303,6 +305,36 @@ internal class PreEventListener :
 					member
 				);
 			}
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildRoleCreatedEvent @event
+	)
+	{
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetRoleKey
+			(
+				@event.Data.Role.Id
+			),
+			@event.Data.Role
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildRoleUpdatedEvent @event
+	)
+	{
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetRoleKey
+			(
+				@event.Data.Role.Id
+			),
+			@event.Data.Role
 		);
 	}
 }
