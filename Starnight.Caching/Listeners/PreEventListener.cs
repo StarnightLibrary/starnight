@@ -24,7 +24,10 @@ internal class PreEventListener :
 	IListener<DiscordGuildCreatedEvent>,
 	IListener<DiscordGuildUpdatedEvent>,
 	IListener<DiscordGuildEmojisUpdatedEvent>,
-	IListener<DiscordGuildStickersUpdatedEvent>
+	IListener<DiscordGuildStickersUpdatedEvent>,
+	IListener<DiscordGuildMemberAddedEvent>,
+	IListener<DiscordGuildMemberUpdatedEvent>,
+	IListener<DiscordGuildMembersChunkEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -230,5 +233,76 @@ internal class PreEventListener :
 				sticker
 			);
 		}
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildMemberAddedEvent @event
+	)
+	{
+		if(!@event.Data.User.HasValue)
+		{
+			return;
+		}
+
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetGuildMemberKey
+			(
+				@event.Data.GuildId.Value,
+				@event.Data.User.Value.Id
+			),
+			@event.Data
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildMemberUpdatedEvent @event
+	)
+	{
+		if(!@event.Data.User.HasValue)
+		{
+			return;
+		}
+
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetGuildMemberKey
+			(
+				@event.Data.GuildId.Value,
+				@event.Data.User.Value.Id
+			),
+			@event.Data
+		);
+	}
+
+	// we remove the not found members from cache in the post event listener
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildMembersChunkEvent @event
+	)
+	{
+		await Parallel.ForEachAsync
+		(
+			@event.Data.Members,
+			async (member, _) =>
+			{
+				if(!member.User.HasValue)
+				{
+					return;
+				}
+
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetGuildMemberKey
+					(
+						@event.Data.GuildId,
+						member.User.Value.Id
+					),
+					member
+				);
+			}
+		);
 	}
 }
