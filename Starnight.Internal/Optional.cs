@@ -2,6 +2,7 @@ namespace Starnight;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Represents an optional value - that is, a value that may either be present or not be present.
@@ -39,6 +40,29 @@ public struct Optional<T> : IOptional
 	/// Specifies whether this instance represents a value that is not null.
 	/// </summary>
 	public Boolean IsDefined => this.HasValue && this.value is not null;
+
+	/// <summary>
+	/// Resolves the value from an optional value, if available
+	/// </summary>
+	/// <param name="value">The resolved value. This should only be utilized if the method returned true.</param>
+	/// <returns>Whether this instance represents a non-null value.</returns>
+	public Boolean Resolve
+	(
+		[NotNullWhen(true)]
+		out T? value
+	)
+	{
+		if(this.IsDefined)
+		{
+			value = this.Value!;
+			return true;
+		}
+		else
+		{
+			value = default;
+			return false;
+		}
+	}
 
 	public static implicit operator T(Optional<T> parameter)
 		=> parameter.Value;
