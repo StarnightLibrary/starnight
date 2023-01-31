@@ -15,32 +15,32 @@ using Starnight.Internal.Entities.Users;
 public sealed record DiscordInteractionResolvedData
 {
 	/// <summary>
-	/// Maps snowflake identifiers (in string form) to <see cref="DiscordUser"/>s.
+	/// Maps snowflake identifiers to <see cref="DiscordUser"/>s.
 	/// </summary>
 	[JsonPropertyName("users")]
-	public Optional<IDictionary<String, DiscordUser>> ResolvedUsers { get; init; }
+	public Optional<IDictionary<Int64, DiscordUser>> ResolvedUsers { get; init; }
 
 	/// <summary>
-	/// Maps snowflake identifiers (in string form) to <see cref="DiscordGuildMember"/>s.
+	/// Maps snowflake identifiers to <see cref="DiscordGuildMember"/>s.
 	/// </summary>
 	[JsonPropertyName("members")]
-	public Optional<IDictionary<String, DiscordGuildMember>> ResolvedGuildMembers { get; init; }
+	public Optional<IDictionary<Int64, DiscordGuildMember>> ResolvedGuildMembers { get; init; }
 
 	/// <summary>
-	/// Maps snowflake identifiers (in string form) to <see cref="DiscordRole"/>s.
+	/// Maps snowflake identifiers to <see cref="DiscordRole"/>s.
 	/// </summary>
 	[JsonPropertyName("roles")]
-	public Optional<IDictionary<String, DiscordRole>> ResolvedRoles { get; init; }
+	public Optional<IDictionary<Int64, DiscordRole>> ResolvedRoles { get; init; }
 
 	/// <summary>
-	/// Maps snowflake identifiers (in string form) to <see cref="DiscordChannel"/>s.
+	/// Maps snowflake identifiers to <see cref="DiscordChannel"/>s.
 	/// </summary>
 	[JsonPropertyName("channels")]
-	public Optional<IDictionary<String, DiscordChannel>> ResolvedChannels { get; init; }
+	public Optional<IDictionary<Int64, DiscordChannel>> ResolvedChannels { get; init; }
 
 	/// <summary>
-	/// Maps snowflake identifiers (in string form) to <see cref="DiscordMessage"/>s.
+	/// Maps snowflake identifiers to <see cref="DiscordMessage"/>s.
 	/// </summary>
 	[JsonPropertyName("messages")]
-	public Optional<IDictionary<String, DiscordMessage>> ResolvedMessages { get; init; }
+	public Optional<IDictionary<Int64, DiscordMessage>> ResolvedMessages { get; init; }
 }
