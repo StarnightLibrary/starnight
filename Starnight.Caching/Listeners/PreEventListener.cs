@@ -39,7 +39,8 @@ internal class PreEventListener :
 	IListener<DiscordScheduledEventUpdatedEvent>,
 	IListener<DiscordInteractionCreatedEvent>,
 	IListener<DiscordMessageCreatedEvent>,
-	IListener<DiscordMessageUpdatedEvent>
+	IListener<DiscordMessageUpdatedEvent>,
+	IListener<DiscordPresenceUpdatedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -546,6 +547,21 @@ internal class PreEventListener :
 				@event.Data.Id
 			),
 			@event.Data
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordPresenceUpdatedEvent @event
+	)
+	{
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetUserKey
+			(
+				@event.Data.User.Id
+			),
+			@event.Data.User
 		);
 	}
 }
