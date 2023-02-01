@@ -91,22 +91,38 @@ internal class UpdateCacheListener :
 		DiscordThreadMembersUpdatedEvent @event
 	)
 	{
-		// only deal with added members here, we deal with removed members later
-		if(!@event.Data.AddedMembers.HasValue)
+		if(@event.Data.AddedMembers.Resolve(out IEnumerable<DiscordThreadMember>? added))
 		{
-			return;
+			await Parallel.ForEachAsync
+			(
+				added,
+				async (member, _) =>
+					await this.cache.CacheObjectAsync
+					(
+						KeyHelper.GetThreadMemberKey
+						(
+							@event.Data.ThreadId,
+							member.UserId
+						),
+						member
+					)
+			);
 		}
 
-		foreach(DiscordThreadMember member in @event.Data.AddedMembers.Value)
+		if(@event.Data.RemovedMemberIds.Resolve(out IEnumerable<Int64>? removed))
 		{
-			await this.cache.CacheObjectAsync
+			await Parallel.ForEachAsync
 			(
-				KeyHelper.GetThreadMemberKey
-				(
-					@event.Data.ThreadId,
-					member.UserId
-				),
-				member
+				removed,
+				async (id, __) =>
+					_ = await this.cache.EvictObjectAsync<DiscordThreadMember>
+					(
+						KeyHelper.GetThreadMemberKey
+						(
+							@event.Data.ThreadId,
+							id
+						)
+					)
 			);
 		}
 	}
