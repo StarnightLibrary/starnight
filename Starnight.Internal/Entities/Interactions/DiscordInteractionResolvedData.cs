@@ -43,4 +43,10 @@ public sealed record DiscordInteractionResolvedData
 	/// </summary>
 	[JsonPropertyName("messages")]
 	public Optional<IDictionary<Int64, DiscordMessage>> ResolvedMessages { get; init; }
+
+	/// <summary>
+	/// Maps snowflake identifiers to <see cref="DiscordMessageAttachment"/>s as received with this interaction.
+	/// </summary>
+	[JsonPropertyName("attachments")]
+	public Optional<IDictionary<Int64, DiscordMessageAttachment>> ResolvedAttachments { get; init; }
 }
