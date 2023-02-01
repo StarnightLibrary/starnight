@@ -38,6 +38,11 @@ public static class ServiceCollectionExtensions
 		)
 		.AddListener
 		(
+			typeof(UpdateCacheListener),
+			ListenerPhase.PostEvent
+		)
+		.AddListener
+		(
 			typeof(DeleteCacheListener),
 			ListenerPhase.PostEvent
 		);
