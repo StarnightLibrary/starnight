@@ -199,7 +199,6 @@ internal class UpdateCacheListener :
 		);
 	}
 
-	// we remove the not found members from cache in the post event listener
 	public async ValueTask ListenAsync
 	(
 		DiscordGuildMembersChunkEvent @event
@@ -210,7 +209,7 @@ internal class UpdateCacheListener :
 			@event.Data.Members,
 			async (member, _) =>
 			{
-				if(!member.User.HasValue)
+				if(!member.User.Resolve(out DiscordUser? user))
 				{
 					return;
 				}
@@ -220,11 +219,30 @@ internal class UpdateCacheListener :
 					KeyHelper.GetGuildMemberKey
 					(
 						@event.Data.GuildId,
-						member.User.Value.Id
+						user.Id
 					),
 					member
 				);
 			}
+		);
+
+		if(!@event.Data.NotFound.Resolve(out IEnumerable<Int64>? remove))
+		{
+			return;
+		}
+
+		await Parallel.ForEachAsync
+		(
+			remove,
+			async (id, __) =>
+				_ = await this.cache.EvictObjectAsync<DiscordGuildMember>
+				(
+					KeyHelper.GetGuildMemberKey
+					(
+						@event.Data.GuildId,
+						id
+					)
+				)
 		);
 	}
 
