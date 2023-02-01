@@ -7,12 +7,12 @@ using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 using Starnight.Internal.Gateway.Listeners;
 
-internal class PostEventListener
+internal class DeleteCacheListener
 	: IListener<DiscordChannelDeletedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
-	public PostEventListener
+	public DeleteCacheListener
 	(
 		IStarnightCacheService cache
 	)

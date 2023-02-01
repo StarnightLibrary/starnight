@@ -33,12 +33,12 @@ public static class ServiceCollectionExtensions
 
 		_ = services.AddListener
 		(
-			typeof(PreEventListener),
+			typeof(CreateCacheListener),
 			ListenerPhase.PreEvent
 		)
 		.AddListener
 		(
-			typeof(PostEventListener),
+			typeof(DeleteCacheListener),
 			ListenerPhase.PostEvent
 		);
 

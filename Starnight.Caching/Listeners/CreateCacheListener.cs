@@ -18,7 +18,7 @@ using Starnight.Internal.Gateway.Listeners;
 /// <summary>
 /// Represents a listener handling incoming create/update events.
 /// </summary>
-internal class PreEventListener :
+internal class CreateCacheListener :
 	IListener<DiscordChannelCreatedEvent>,
 	IListener<DiscordChannelUpdatedEvent>,
 	IListener<DiscordThreadCreatedEvent>,
@@ -45,7 +45,7 @@ internal class PreEventListener :
 {
 	private readonly IStarnightCacheService cache;
 
-	public PreEventListener
+	public CreateCacheListener
 	(
 		IStarnightCacheService cache
 	)
