@@ -35,6 +35,11 @@ public static class ServiceCollectionExtensions
 		(
 			typeof(PreEventListener),
 			ListenerPhase.PreEvent
+		)
+		.AddListener
+		(
+			typeof(PostEventListener),
+			ListenerPhase.PostEvent
 		);
 
 		return services;
