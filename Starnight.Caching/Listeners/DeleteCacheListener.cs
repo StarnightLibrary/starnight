@@ -13,7 +13,8 @@ internal class DeleteCacheListener :
 	IListener<DiscordThreadDeletedEvent>,
 	IListener<DiscordGuildDeletedEvent>,
 	IListener<DiscordGuildBanAddedEvent>,
-	IListener<DiscordGuildMemberRemovedEvent>
+	IListener<DiscordGuildMemberRemovedEvent>,
+	IListener<DiscordGuildRoleDeletedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -91,6 +92,20 @@ internal class DeleteCacheListener :
 			(
 				@event.Data.GuildId,
 				@event.Data.User.Id
+			)
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildRoleDeletedEvent @event
+	)
+	{
+		_ = await this.cache.EvictObjectAsync<DiscordRole>
+		(
+			KeyHelper.GetRoleKey
+			(
+				@event.Data.RoleId
 			)
 		);
 	}
