@@ -11,7 +11,8 @@ using Starnight.Internal.Gateway.Listeners;
 internal class DeleteCacheListener :
 	IListener<DiscordChannelDeletedEvent>,
 	IListener<DiscordThreadDeletedEvent>,
-	IListener<DiscordGuildDeletedEvent>	
+	IListener<DiscordGuildDeletedEvent>,
+	IListener<DiscordGuildBanAddedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -59,6 +60,21 @@ internal class DeleteCacheListener :
 			KeyHelper.GetGuildKey
 			(
 				@event.Data.Id
+			)
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordGuildBanAddedEvent @event
+	)
+	{
+		_ = await this.cache.EvictObjectAsync<DiscordGuildMember>
+		(
+			KeyHelper.GetGuildMemberKey
+			(
+				@event.Data.GuildId,
+				@event.Data.User.Id
 			)
 		);
 	}
