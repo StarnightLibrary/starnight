@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - Starnight.Caching.Providers/**
+      - src/Starnight.Caching.Providers/**
 
 jobs:
   build:

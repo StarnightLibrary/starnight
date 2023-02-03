@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - Starnight.Internal/**
+      - src/Starnight.Internal/**
 
 jobs:
   build:
