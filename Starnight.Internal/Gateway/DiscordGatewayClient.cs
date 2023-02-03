@@ -355,14 +355,10 @@ public class DiscordGatewayClient : IHostedService
 			"Sent initial heartbeat."
 		);
 
-		while(!ct.IsCancellationRequested)
-		{
-			await Task.Delay
-			(
-				this.heartbeatInterval,
-				ct
-			);
+		using PeriodicTimer timer = new(TimeSpan.FromMilliseconds(this.heartbeatInterval));
 
+		while(!await timer.WaitForNextTickAsync(ct))
+		{
 			await this.outboundGatewayService.SendHeartbeatAsync
 			(
 				this.LastReceivedSequence
