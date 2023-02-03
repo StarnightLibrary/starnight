@@ -6,6 +6,7 @@ using Starnight.Caching.Services;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Guilds.Invites;
+using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Gateway.Events.Inbound.Dispatch;
 using Starnight.Internal.Gateway.Listeners;
 
@@ -17,7 +18,9 @@ internal class DeleteCacheListener :
 	IListener<DiscordGuildMemberRemovedEvent>,
 	IListener<DiscordGuildRoleDeletedEvent>,
 	IListener<DiscordScheduledEventDeletedEvent>,
-	IListener<DiscordInviteDeletedEvent>
+	IListener<DiscordInviteDeletedEvent>,
+	IListener<DiscordMessageDeletedEvent>,
+	IListener<DiscordMessagesBulkDeletedEvent>
 {
 	private readonly IStarnightCacheService cache;
 
@@ -138,6 +141,39 @@ internal class DeleteCacheListener :
 			(
 				@event.Data.Code
 			)
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordMessageDeletedEvent @event
+	)
+	{
+		_ = await this.cache.EvictObjectAsync<DiscordMessage>
+		(
+			KeyHelper.GetMessageKey
+			(
+				@event.Data.MessageId
+			)
+		);
+	}
+
+	public async ValueTask ListenAsync
+	(
+		DiscordMessagesBulkDeletedEvent @event
+	)
+	{
+		await Parallel.ForEachAsync
+		(
+			@event.Data.MessageIds,
+			async (id, __) =>
+				await this.cache.EvictObjectAsync<DiscordMessage>
+				(
+					KeyHelper.GetMessageKey
+					(
+						id
+					)
+				)
 		);
 	}
 }
