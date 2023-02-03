@@ -34,7 +34,7 @@ The only limit placed on the amount of interface implementation is the amount of
 
 ## Valid Events
 
-In principle, listeners can implement any event within the `Starnight.Internal.Gateway.Events.Inbound` namespace. This includes Dispatch events (located in their own sub-namespace) as well as control events.
+In principle, listeners can implement any event within the `Starnight.Internal.Gateway.Events.Inbound` and `Starnight.Internal.Gateway.Events.Control` namespaces. This includes Dispatch events (located in their own sub-namespace) as well as control events.
 
 A listener method will only be called if the dispatched event matches the method perfectly, with two exceptions:
 
