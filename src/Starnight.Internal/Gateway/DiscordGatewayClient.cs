@@ -334,7 +334,7 @@ public class DiscordGatewayClient : IHostedService
 		CancellationToken ct
 	)
 	{
-		Double jitter = Random.Shared.NextDouble();
+		Double jitter = Random.Shared.NextDouble() * 0.95;
 
 		await Task.Delay
 		(
@@ -342,22 +342,9 @@ public class DiscordGatewayClient : IHostedService
 			ct
 		);
 
-		await this.outboundGatewayService.SendHeartbeatAsync
-		(
-			this.LastReceivedSequence
-		);
-
-		this.ResponselessHeartbeats++;
-		this.LastHeartbeatSent = DateTimeOffset.UtcNow;
-
-		this.logger.LogTrace
-		(
-			"Sent initial heartbeat."
-		);
-
+		//Charge Defibrillator 
 		using PeriodicTimer timer = new(TimeSpan.FromMilliseconds(this.heartbeatInterval));
-
-		while(!await timer.WaitForNextTickAsync(ct))
+		do
 		{
 			await this.outboundGatewayService.SendHeartbeatAsync
 			(
@@ -371,7 +358,7 @@ public class DiscordGatewayClient : IHostedService
 			(
 				"Heartbeat sent."
 			);
-		}
+		} while(await timer.WaitForNextTickAsync(ct));
 	}
 
 	private async ValueTask handleControlEventsAsync
