@@ -24,7 +24,7 @@ jobs:
       run: dotnet restore Starnight.Internal
 
     - name: pack packages
-      run: "mkdir build && dotnet pack Starnight.Internal --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
+      run: "mkdir build && dotnet pack src/Starnight.Internal --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3
