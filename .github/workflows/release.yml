@@ -16,16 +16,16 @@ jobs:
         uses: "actions/setup-dotnet@v2"
         with:
           dotnet-version: 7.0.x
-        
+
       - name: "Restore"
         run: "dotnet restore"
 
       - name: "Build Nuget Packages"
-        run: "mkdir build && dotnet pack --no-dependencies -p:ReleaseBuild=true -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -c Release -o build"
+        run: "tools/pack-workflow.sh"
 
       - name: Publish main package
         run: "dotnet nuget push /home/runner/work/starnight/starnight/build/* --api-key ${{ secrets.NUGET_API_KEY }} --source NuGet --no-service-endpoint --skip-duplicate"
-      
+
       - name: "Upload Nuget Packages To Github Release"
         uses: "ncipollo/release-action@v1"
         with:
