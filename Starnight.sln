@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Internal", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight", "src\Starnight\Starnight.csproj", "{A7FB5ADB-7DCC-4A03-A927-26BF5CB31382}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Test", "src\Starnight.Test\Starnight.Test.csproj", "{A8DDC1A9-39E6-4254-9E4B-6D57A25BD500}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Test", "test\Starnight.Test.csproj", "{A8DDC1A9-39E6-4254-9E4B-6D57A25BD500}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43F91CA0-0B78-4ED1-8900-2EBBBE3A8FEF}"
 	ProjectSection(SolutionItems) = preProject

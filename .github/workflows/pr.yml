@@ -17,7 +17,7 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: "Build PR"
-        run: "mkdir build && dotnet pack -o build -p:VersionSuffix='-pr.${{ github.run_number }}'"
+        run: "tools/pack-pr-test.sh ${{ github.run_number }}'"
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
