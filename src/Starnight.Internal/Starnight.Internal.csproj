@@ -15,25 +15,25 @@
     <PackageReference Include="Microsoft.Extensions.Options" />
 
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    
+
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
-    
+
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" />
-    
+
     <PackageReference Include="Microsoft.SourceLink.Github" PrivateAssets="All" />
-    
+
     <PackageReference Include="Polly.Contrib.WaitAndRetry" />
 
     <PackageReference Include="NetEscapades.EnumGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
 
-    <ProjectReference Include="../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 
     <ProjectReference Include="../Starnight.Caching.Providers/Starnight.Caching.Providers.csproj" PackageVersion="(0.3.0-dev.0,0.3.0]" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
+    <None Include="../../img/starnight.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>

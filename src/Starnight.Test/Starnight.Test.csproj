@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Starnight.Internal\Starnight.Internal.csproj" />
+    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" />
   </ItemGroup>
 
 </Project>

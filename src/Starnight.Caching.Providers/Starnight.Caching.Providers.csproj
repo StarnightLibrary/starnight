@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
+    <None Include="../../img/starnight.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,9 +14,9 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
 
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-    
+
     <PackageReference Include="Microsoft.Extensions.Options" />
-    
+
     <PackageReference Include="Microsoft.SourceLink.Github" PrivateAssets="All" />
   </ItemGroup>
 

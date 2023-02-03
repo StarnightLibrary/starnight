@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Internal", "Starnight.Internal\Starnight.Internal.csproj", "{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Internal", "src\Starnight.Internal\Starnight.Internal.csproj", "{6C8BF445-6FC4-4A06-8A38-01AEF37CE4CD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight", "Starnight\Starnight.csproj", "{A7FB5ADB-7DCC-4A03-A927-26BF5CB31382}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight", "src\Starnight\Starnight.csproj", "{A7FB5ADB-7DCC-4A03-A927-26BF5CB31382}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Test", "Starnight.Test\Starnight.Test.csproj", "{A8DDC1A9-39E6-4254-9E4B-6D57A25BD500}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Test", "src\Starnight.Test\Starnight.Test.csproj", "{A8DDC1A9-39E6-4254-9E4B-6D57A25BD500}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43F91CA0-0B78-4ED1-8900-2EBBBE3A8FEF}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,9 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.SourceGenerators", "gen\Starnight.SourceGenerators.csproj", "{AF523164-8CC1-4936-8F4F-8F850BE2EE63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Caching.Providers", "Starnight.Caching.Providers\Starnight.Caching.Providers.csproj", "{92BC5277-8AF2-47E5-A12A-197A76D60151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Caching.Providers", "src\Starnight.Caching.Providers\Starnight.Caching.Providers.csproj", "{92BC5277-8AF2-47E5-A12A-197A76D60151}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Caching", "Starnight.Caching\Starnight.Caching.csproj", "{54F47553-210F-4DCA-87B1-3555B17ADCE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Caching", "src\Starnight.Caching\Starnight.Caching.csproj", "{54F47553-210F-4DCA-87B1-3555B17ADCE7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D7589FB1-982F-4010-B3C9-EFE0F1877298}"
 EndProject

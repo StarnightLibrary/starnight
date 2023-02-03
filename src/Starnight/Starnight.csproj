@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
+    <None Include="../../img/starnight.png" Pack="true" PackagePath="/" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.Github" PrivateAssets="All" />
-    
+
     <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PackageVersion="(0.6.0-dev.0,0.6.0]" />
   </ItemGroup>
 
