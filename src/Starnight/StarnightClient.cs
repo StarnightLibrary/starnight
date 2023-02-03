@@ -30,8 +30,7 @@ public partial class StarnightClient
 			{
 				MedianFirstRequestRetryDelay = options.MedianFirstRequestRetryDelay,
 				RetryCount = options.RetryCount,
-				RatelimitedRetryCount = options.RatelimitedRetryCount,
-				Token = options.Token
+				RatelimitedRetryCount = options.RatelimitedRetryCount
 			});
 
 		this.Services = this.ServiceCollection!.BuildServiceProvider();
