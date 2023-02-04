@@ -9,11 +9,13 @@ using Starnight.Caching.Services;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Rest.Payloads.Emojis;
 using Starnight.Internal.Rest.Resources;
+using Starnight.SourceGenerators.Shims;
 
 /// <summary>
 /// Represents a shim over the present emoji rest resource, updating and corroborating from
 /// cache where possible.
 /// </summary>
+[Shim<IDiscordEmojiRestResource>]
 public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 {
 	private readonly IDiscordEmojiRestResource underlying;
@@ -27,66 +29,6 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 	{
 		this.underlying = underlying;
 		this.cache = cache;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordEmoji> CreateGuildEmojiAsync
-	(
-		Int64 guildId,
-		CreateGuildEmojiRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordEmoji emoji = await this.underlying.CreateGuildEmojiAsync
-		(
-			guildId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.cache.CacheObjectAsync
-		(
-			KeyHelper.GetEmojiKey
-			(
-				emoji.Id!.Value
-			),
-			emoji
-		);
-
-		return emoji;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<Boolean> DeleteGuildEmojiAsync
-	(
-		Int64 guildId,
-		Int64 emojiId,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		Boolean result = await this.underlying.DeleteGuildEmojiAsync
-		(
-			guildId,
-			emojiId,
-			reason,
-			ct
-		);
-
-		if(result)
-		{
-			_ = await this.cache.EvictObjectAsync<DiscordEmoji>
-			(
-				KeyHelper.GetEmojiKey
-				(
-					emojiId
-				)
-			);
-		}
-
-		return result;
 	}
 
 	/// <inheritdoc/>
@@ -145,34 +87,8 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		return emojis;
 	}
 
-	/// <inheritdoc/>
-	public async ValueTask<DiscordEmoji> ModifyGuildEmojiAsync
-	(
-		Int64 guildId,
-		Int64 emojiId,
-		ModifyGuildEmojiRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordEmoji emoji = await this.underlying.ModifyGuildEmojiAsync
-		(
-			guildId,
-			emojiId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.cache.CacheObjectAsync
-		(
-			KeyHelper.GetEmojiKey
-			(
-				emojiId
-			),
-			emoji
-		);
-
-		return emoji;
-	}
+	// redirects
+	public partial ValueTask<DiscordEmoji> CreateGuildEmojiAsync(Int64 guildId,CreateGuildEmojiRequestPayload payload,String? reason = null,CancellationToken ct = default);
+	public partial ValueTask<Boolean> DeleteGuildEmojiAsync(Int64 guildId,Int64 emojiId,String? reason = null,CancellationToken ct = default);
+	public partial ValueTask<DiscordEmoji> ModifyGuildEmojiAsync(Int64 guildId, Int64 emojiId, ModifyGuildEmojiRequestPayload payload, String? reason = null, CancellationToken ct = default);
 }
