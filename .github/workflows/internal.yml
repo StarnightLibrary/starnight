@@ -20,6 +20,9 @@ jobs:
       with:
         dotnet-version: 7.0.x
 
+	- name: Restore
+	  run: "dotnet restore src/Starnight.Internal"
+
     - name: pack packages
       run: "mkdir build && dotnet pack src/Starnight.Internal --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
 
