@@ -32,66 +32,6 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<DiscordEmoji> CreateGuildEmojiAsync
-	(
-		Int64 guildId,
-		CreateGuildEmojiRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordEmoji emoji = await this.underlying.CreateGuildEmojiAsync
-		(
-			guildId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.cache.CacheObjectAsync
-		(
-			KeyHelper.GetEmojiKey
-			(
-				emoji.Id!.Value
-			),
-			emoji
-		);
-
-		return emoji;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<Boolean> DeleteGuildEmojiAsync
-	(
-		Int64 guildId,
-		Int64 emojiId,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		Boolean result = await this.underlying.DeleteGuildEmojiAsync
-		(
-			guildId,
-			emojiId,
-			reason,
-			ct
-		);
-
-		if(result)
-		{
-			_ = await this.cache.EvictObjectAsync<DiscordEmoji>
-			(
-				KeyHelper.GetEmojiKey
-				(
-					emojiId
-				)
-			);
-		}
-
-		return result;
-	}
-
-	/// <inheritdoc/>
 	public async ValueTask<DiscordEmoji> GetGuildEmojiAsync
 	(
 		Int64 guildId,
@@ -147,5 +87,8 @@ public partial class CachingEmojiRestResource : IDiscordEmojiRestResource
 		return emojis;
 	}
 
+	// redirects
+	public partial ValueTask<DiscordEmoji> CreateGuildEmojiAsync(Int64 guildId,CreateGuildEmojiRequestPayload payload,String? reason = null,CancellationToken ct = default);
+	public partial ValueTask<Boolean> DeleteGuildEmojiAsync(Int64 guildId,Int64 emojiId,String? reason = null,CancellationToken ct = default);
 	public partial ValueTask<DiscordEmoji> ModifyGuildEmojiAsync(Int64 guildId, Int64 emojiId, ModifyGuildEmojiRequestPayload payload, String? reason = null, CancellationToken ct = default);
 }

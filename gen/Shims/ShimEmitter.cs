@@ -85,6 +85,7 @@ partial class {{shimSymbol.Name}}
 		);
 	}
 
+
 """);
 		}
 
