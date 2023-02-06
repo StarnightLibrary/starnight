@@ -240,7 +240,62 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 		return members;
 	}
 
-	public ValueTask<ListActiveThreadsResponsePayload> ListActiveThreadsAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<ListActiveThreadsResponsePayload> ListActiveThreadsAsync
+	(
+		Int64 guildId,
+		CancellationToken ct = default
+	)
+	{
+		ListActiveThreadsResponsePayload response = await this.underlying.ListActiveThreadsAsync
+		(
+			guildId,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.Threads,
+			async (thread, _) =>
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetChannelKey
+					(
+						thread.Id
+					),
+					thread
+				)
+		);
+
+		await Parallel.ForEachAsync
+		(
+			response.MemberObjects,
+			async (member, _) =>
+			{
+				if
+				(
+					!member.ThreadId.Resolve(out Int64 threadId)
+					|| !member.UserId.Resolve(out Int64 userId)
+				)
+				{
+					return;
+				}
+
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetThreadMemberKey
+					(
+						threadId,
+						userId
+					),
+					member
+				);
+			}
+		);
+
+		return response;
+	}
+
 	public ValueTask<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync(Int64 guildId, Int32? limit = null, Int64? afterUserId = null, CancellationToken ct = default) => throw new NotImplementedException();
 
 	// redirects
