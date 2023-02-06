@@ -8,3 +8,4 @@ ideas and designs, to preserve the rationales for later considerations and revis
 1. Roslyn Source Generators
 
   - [The Caching Generator](./gen-caching.md)
+  - [The Shim Generator](./gen-shim.md)
