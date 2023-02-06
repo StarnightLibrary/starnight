@@ -14,15 +14,17 @@ using Starnight.Internal.Entities.Messages;
 using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Rest.Payloads.Channels;
 using Starnight.Internal.Rest.Resources;
+using Starnight.SourceGenerators.Shims;
 
 /// <summary>
 /// Represents a shim over the present channel commands rest resource, updating and corroborating from
 /// cache where possible.
 /// </summary>
+[Shim<IDiscordChannelRestResource>]
 public partial class CachingChannelRestResource : IDiscordChannelRestResource
 {
-	public readonly IDiscordChannelRestResource __underlying;
-	public readonly IStarnightCacheService __cache;
+	public readonly IDiscordChannelRestResource underlying;
+	public readonly IStarnightCacheService cache;
 
 	public CachingChannelRestResource
 	(
@@ -30,210 +32,9 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		IStarnightCacheService cache
 	)
 	{
-		this.__underlying = underlying;
-		this.__cache = cache;
+		this.underlying = underlying;
+		this.cache = cache;
 	}
-
-	/// <inheritdoc/>
-	public async ValueTask<Boolean> BulkDeleteMessagesAsync
-	(
-		Int64 channelId,
-		IEnumerable<Int64> messageIds,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		Boolean value = await this.__underlying.BulkDeleteMessagesAsync
-		(
-			channelId,
-			messageIds,
-			reason,
-			ct
-		);
-
-		foreach(Int64 id in messageIds)
-		{
-			_ = await this.__cache.EvictObjectAsync<DiscordMessage>
-			(
-				KeyHelper.GetMessageKey
-				(
-					id
-				)
-			);
-		}
-
-		return value;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordInvite> CreateChannelInviteAsync
-	(
-		Int64 channelId,
-		CreateChannelInviteRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordInvite invite = await this.__underlying.CreateChannelInviteAsync
-		(
-			channelId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetInviteKey
-			(
-				invite.Code
-			),
-			invite
-		);
-
-		return invite;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordMessage> CreateMessageAsync
-	(
-		Int64 channelId,
-		CreateMessageRequestPayload payload,
-		CancellationToken ct = default
-	)
-	{
-		DiscordMessage message = await this.__underlying.CreateMessageAsync
-		(
-			channelId,
-			payload,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetMessageKey
-			(
-				message.Id
-			),
-			message
-		);
-
-		return message;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordMessage> CrosspostMessageAsync
-	(
-		Int64 channelId,
-		Int64 messageId,
-		CancellationToken ct = default
-	)
-	{
-		DiscordMessage message = await this.__underlying.CrosspostMessageAsync
-		(
-			channelId,
-			messageId,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetMessageKey
-			(
-				message.Id
-			),
-			message
-		);
-
-		return message;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordChannel> DeleteChannelAsync
-	(
-		Int64 channelId,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		_ = await this.__cache.EvictObjectAsync<DiscordChannel>
-		(
-			KeyHelper.GetChannelKey
-			(
-				channelId
-			)
-		);
-
-		return await this.__underlying.DeleteChannelAsync
-		(
-			channelId,
-			reason,
-			ct
-		);
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<Boolean> DeleteMessageAsync
-	(
-		Int64 channelId,
-		Int64 messageId,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		Boolean value = await this.__underlying.DeleteMessageAsync
-		(
-			channelId,
-			messageId,
-			reason,
-			ct
-		);
-
-		if(!value)
-		{
-			return value;
-		}
-
-		_ = await this.__cache.EvictObjectAsync<DiscordMessage>
-		(
-			KeyHelper.GetMessageKey
-			(
-				messageId
-			)
-		);
-
-		return value;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordMessage> EditMessageAsync
-	(
-		Int64 channelId,
-		Int64 messageId,
-		EditMessageRequestPayload payload,
-		CancellationToken ct = default
-	)
-	{
-		DiscordMessage message = await this.__underlying.EditMessageAsync
-		(
-			channelId,
-			messageId,
-			payload,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetMessageKey
-			(
-				messageId
-			),
-			message
-		);
-
-		return message;
-	}
-
 	/// <inheritdoc/>
 	public async ValueTask<DiscordChannel> GetChannelAsync
 	(
@@ -241,13 +42,13 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		DiscordChannel channel = await this.__underlying.GetChannelAsync
+		DiscordChannel channel = await this.underlying.GetChannelAsync
 		(
 			channelId,
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetChannelKey
 			(
@@ -266,7 +67,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		IEnumerable<DiscordInvite> invites = await this.__underlying.GetChannelInvitesAsync
+		IEnumerable<DiscordInvite> invites = await this.underlying.GetChannelInvitesAsync
 		(
 			channelId,
 			ct
@@ -275,7 +76,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			invites,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetInviteKey
 				(
@@ -296,14 +97,14 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		DiscordMessage message = await this.__underlying.GetChannelMessageAsync
+		DiscordMessage message = await this.underlying.GetChannelMessageAsync
 		(
 			channelId,
 			messageId,
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetMessageKey
 			(
@@ -326,7 +127,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		IEnumerable<DiscordMessage> messages = await this.__underlying.GetChannelMessagesAsync
+		IEnumerable<DiscordMessage> messages = await this.underlying.GetChannelMessagesAsync
 		(
 			channelId,
 			count,
@@ -339,7 +140,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			messages,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetMessageKey
 				(
@@ -359,7 +160,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		IEnumerable<DiscordMessage> messages = await this.__underlying.GetPinnedMessagesAsync
+		IEnumerable<DiscordMessage> messages = await this.underlying.GetPinnedMessagesAsync
 		(
 			channelId,
 			ct
@@ -368,7 +169,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			messages,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetMessageKey
 				(
@@ -382,43 +183,6 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync
-	(
-		Int64 channelId,
-		Int64 messageId,
-		String emoji,
-		Int64? after = null,
-		Int32? limit = null,
-		CancellationToken ct = default
-	)
-	{
-		IEnumerable<DiscordUser> users = await this.__underlying.GetReactionsAsync
-		(
-			channelId,
-			messageId,
-			emoji,
-			after,
-			limit,
-			ct
-		);
-
-		await Parallel.ForEachAsync
-		(
-			users,
-			async (xm, _) => await this.__cache.CacheObjectAsync
-			(
-				KeyHelper.GetUserKey
-				(
-					xm.Id
-				),
-				xm
-			)
-		);
-
-		return users;
-	}
-
-	/// <inheritdoc/>
 	public async ValueTask<DiscordThreadMember> GetThreadMemberAsync
 	(
 		Int64 threadId,
@@ -427,7 +191,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		DiscordThreadMember threadMember = await this.__underlying.GetThreadMemberAsync
+		DiscordThreadMember threadMember = await this.underlying.GetThreadMemberAsync
 		(
 			threadId,
 			userId,
@@ -435,7 +199,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 			ct
 		);
 
-		await this.__cache.CacheObjectAsync
+		await this.cache.CacheObjectAsync
 		(
 			KeyHelper.GetThreadMemberKey
 			(
@@ -457,7 +221,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		ListArchivedThreadsResponsePayload response = await this.__underlying.ListJoinedPrivateArchivedThreadsAsync
+		ListArchivedThreadsResponsePayload response = await this.underlying.ListJoinedPrivateArchivedThreadsAsync
 		(
 			channelId,
 			before,
@@ -468,7 +232,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			response.Threads,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetChannelKey
 				(
@@ -481,7 +245,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			response.ThreadMembers,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetThreadMemberKey
 				(
@@ -504,7 +268,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		ListArchivedThreadsResponsePayload response = await this.__underlying.ListPrivateArchivedThreadsAsync
+		ListArchivedThreadsResponsePayload response = await this.underlying.ListPrivateArchivedThreadsAsync
 		(
 			channelId,
 			before,
@@ -515,7 +279,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			response.Threads,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetChannelKey
 				(
@@ -528,7 +292,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			response.ThreadMembers,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetThreadMemberKey
 				(
@@ -551,7 +315,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		ListArchivedThreadsResponsePayload response = await this.__underlying.ListPublicArchivedThreadsAsync
+		ListArchivedThreadsResponsePayload response = await this.underlying.ListPublicArchivedThreadsAsync
 		(
 			channelId,
 			before,
@@ -562,7 +326,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			response.Threads,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetChannelKey
 				(
@@ -575,7 +339,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			response.ThreadMembers,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetThreadMemberKey
 				(
@@ -599,7 +363,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		CancellationToken ct = default
 	)
 	{
-		IEnumerable<DiscordThreadMember> members = await this.__underlying.ListThreadMembersAsync
+		IEnumerable<DiscordThreadMember> members = await this.underlying.ListThreadMembersAsync
 		(
 			threadId,
 			withMember,
@@ -611,7 +375,7 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		await Parallel.ForEachAsync
 		(
 			members,
-			async (xm, _) => await this.__cache.CacheObjectAsync
+			async (xm, _) => await this.cache.CacheObjectAsync
 			(
 				KeyHelper.GetThreadMemberKey
 				(
@@ -625,177 +389,35 @@ public partial class CachingChannelRestResource : IDiscordChannelRestResource
 		return members;
 	}
 
-	/// <inheritdoc/>
-	public async ValueTask<DiscordChannel> ModifyChannelAsync
-	(
-		Int64 channelId,
-		ModifyGroupDMRequestPayload payload,
-		CancellationToken ct = default
-	)
-	{
-		DiscordChannel channel = await this.__underlying.ModifyChannelAsync
-		(
-			channelId,
-			payload,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetChannelKey
-			(
-				channelId
-			),
-			channel
-		);
-
-		return channel;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordChannel> ModifyChannelAsync
-	(
-		Int64 channelId,
-		ModifyGuildChannelRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordChannel channel = await this.__underlying.ModifyChannelAsync
-		(
-			channelId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetChannelKey
-			(
-				channelId
-			),
-			channel
-		);
-
-		return channel;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordChannel> ModifyChannelAsync
-	(
-		Int64 channelId,
-		ModifyThreadChannelRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordChannel channel = await this.__underlying.ModifyChannelAsync
-		(
-			channelId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetChannelKey
-			(
-				channelId
-			),
-			channel
-		);
-
-		return channel;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordChannel> StartThreadFromMessageAsync
-	(
-		Int64 channelId,
-		Int64 messageId,
-		StartThreadFromMessageRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordChannel channel = await this.__underlying.StartThreadFromMessageAsync
-		(
-			channelId,
-			messageId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetChannelKey
-			(
-				channel.Id
-			),
-			channel
-		);
-
-		return channel;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordChannel> StartThreadInForumChannelAsync
-	(
-		Int64 channelId,
-		StartThreadInForumChannelRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordChannel channel = await this.__underlying.StartThreadInForumChannelAsync
-		(
-			channelId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetChannelKey
-			(
-				channel.Id
-			),
-			channel
-		);
-
-		return channel;
-	}
-
-	/// <inheritdoc/>
-	public async ValueTask<DiscordChannel> StartThreadWithoutMessageAsync
-	(
-		Int64 channelId,
-		StartThreadWithoutMessageRequestPayload payload,
-		String? reason = null,
-		CancellationToken ct = default
-	)
-	{
-		DiscordChannel channel = await this.__underlying.StartThreadWithoutMessageAsync
-		(
-			channelId,
-			payload,
-			reason,
-			ct
-		);
-
-		await this.__cache.CacheObjectAsync
-		(
-			KeyHelper.GetChannelKey
-			(
-				channel.Id
-			),
-			channel
-		);
-
-		return channel;
-	}
+	public partial ValueTask AddGroupDMRecipientAsync(Int64 channelId, Int64 userId, AddGroupDMRecipientRequestPayload payload, CancellationToken ct = default);
+	public partial ValueTask<Boolean> AddToThreadAsync(Int64 threadId, Int64 userId, CancellationToken ct = default);
+	public partial ValueTask<Boolean> CreateReactionAsync(Int64 channelId, Int64 messageId, String emoji, CancellationToken ct = default);
+	public partial ValueTask DeleteAllReactionsAsync(Int64 channelId, Int64 messageId, CancellationToken ct = default);
+	public partial ValueTask<Boolean> DeleteChannelPermissionOverwriteAsync(Int64 channelId, Int64 overwriteId, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask DeleteEmojiReactionsAsync(Int64 channelId, Int64 messageId, String emoji, CancellationToken ct = default);
+	public partial ValueTask<Boolean> DeleteOwnReactionAsync(Int64 channelId, Int64 messageId, String emoji, CancellationToken ct = default);
+	public partial ValueTask<Boolean> DeleteUserReactionAsync(Int64 channelId, Int64 messageId, Int64 userId, String emoji, CancellationToken ct = default);
+	public partial ValueTask<Boolean> EditChannelPermissionsAsync(Int64 channelId, Int64 overwriteId, EditChannelPermissionsRequestPayload payload, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordFollowedChannel> FollowNewsChannelAsync(Int64 channelId, Int64 targetChannelId, CancellationToken ct = default);
+	public partial ValueTask<Boolean> JoinThreadAsync(Int64 threadId, CancellationToken ct = default);
+	public partial ValueTask<Boolean> LeaveThreadAsync(Int64 threadId, CancellationToken ct = default);
+	public partial ValueTask<Boolean> PinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<Boolean> RemoveFromThreadAsync(Int64 threadId, Int64 userId, CancellationToken ct = default);
+	public partial ValueTask RemoveGroupDMRecipientAsync(Int64 channelId, Int64 userId, CancellationToken ct = default);
+	public partial ValueTask TriggerTypingIndicatorAsync(Int64 channelId, CancellationToken ct = default);
+	public partial ValueTask<Boolean> UnpinMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGroupDMRequestPayload payload, CancellationToken ct = default);
+	public partial ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyGuildChannelRequestPayload payload, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordChannel> ModifyChannelAsync(Int64 channelId, ModifyThreadChannelRequestPayload payload, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordChannel> DeleteChannelAsync(Int64 channelId, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordMessage> CreateMessageAsync(Int64 channelId, CreateMessageRequestPayload payload, CancellationToken ct = default);
+	public partial ValueTask<DiscordMessage> CrosspostMessageAsync(Int64 channelId, Int64 messageId, CancellationToken ct = default);
+	public partial ValueTask<IEnumerable<DiscordUser>> GetReactionsAsync(Int64 channelId, Int64 messageId, String emoji, Int64? after = null, Int32? limit = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordMessage> EditMessageAsync(Int64 channelId, Int64 messageId, EditMessageRequestPayload payload, CancellationToken ct = default);
+	public partial ValueTask<Boolean> DeleteMessageAsync(Int64 channelId, Int64 messageId, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<Boolean> BulkDeleteMessagesAsync(Int64 channelId, IEnumerable<Int64> messageIds, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordInvite> CreateChannelInviteAsync(Int64 channelId, CreateChannelInviteRequestPayload payload, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordChannel> StartThreadFromMessageAsync(Int64 channelId, Int64 messageId, StartThreadFromMessageRequestPayload payload, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordChannel> StartThreadWithoutMessageAsync(Int64 channelId, StartThreadWithoutMessageRequestPayload payload, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordChannel> StartThreadInForumChannelAsync(Int64 channelId, StartThreadInForumChannelRequestPayload payload, String? reason = null, CancellationToken ct = default);
 }
