@@ -150,7 +150,31 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 		return member;
 	}
 
-	public ValueTask<DiscordGuildPreview> GetGuildPreviewAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildPreview> GetGuildPreviewAsync
+	(
+		Int64 guildId,
+		CancellationToken ct = default
+	)
+	{
+		DiscordGuildPreview preview = await this.underlying.GetGuildPreviewAsync
+		(
+			guildId,
+			ct
+		);
+
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetGuildPreviewKey
+			(
+				preview.Id
+			),
+			preview
+		);
+
+		return preview;
+	}
+
 	public ValueTask<IEnumerable<DiscordRole>> GetRolesAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<IEnumerable<DiscordGuildMember>> SearchGuildMembersAsync(Int64 guildId, String query, Int32? limit = null, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<ListActiveThreadsResponsePayload> ListActiveThreadsAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
