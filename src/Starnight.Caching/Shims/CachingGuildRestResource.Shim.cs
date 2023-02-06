@@ -10,6 +10,7 @@ using Starnight.Caching.Services;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Guilds.Invites;
+using Starnight.Internal.Entities.Users;
 using Starnight.Internal.Entities.Voice;
 using Starnight.Internal.Rest.Payloads.Guilds;
 using Starnight.Internal.Rest.Resources;
@@ -296,7 +297,44 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 		return response;
 	}
 
-	public ValueTask<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync(Int64 guildId, Int32? limit = null, Int64? afterUserId = null, CancellationToken ct = default) => throw new NotImplementedException();
+	public async ValueTask<IEnumerable<DiscordGuildMember>> ListGuildMembersAsync
+	(
+		Int64 guildId,
+		Int32? limit = null,
+		Int64? afterUserId = null,
+		CancellationToken ct = default
+	)
+	{
+		IEnumerable<DiscordGuildMember> members = await this.underlying.ListGuildMembersAsync
+		(
+			guildId,
+			limit,
+			afterUserId,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			members,
+			async (member, _) =>
+			{
+				if(!member.User.Resolve(out DiscordUser? user))
+				{
+					return;
+				}
+
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetGuildMemberKey
+					(
+						guildId,
+						user.Id
+					),
+					member
+				);
+			}
+		);
+	}
 
 	// redirects
 	public partial ValueTask<DiscordGuildMember?> AddGuildMemberAsync(Int64 guildId, Int64 userId, AddGuildMemberRequestPayload payload, CancellationToken ct = default);
