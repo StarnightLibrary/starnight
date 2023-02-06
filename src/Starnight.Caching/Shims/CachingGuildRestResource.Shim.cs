@@ -78,7 +78,7 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 		await Parallel.ForEachAsync
 		(
 			channels,
-			async (channel, __) =>
+			async (channel, _) =>
 				await this.cache.CacheObjectAsync
 				(
 					KeyHelper.GetChannelKey
@@ -92,7 +92,36 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 		return channels;
 	}
 
-	public ValueTask<IEnumerable<DiscordInvite>> GetGuildInvitesAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordInvite>> GetGuildInvitesAsync
+	(
+		Int64 guildId,
+		CancellationToken ct = default
+	)
+	{
+		IEnumerable<DiscordInvite> invites = await this.underlying.GetGuildInvitesAsync
+		(
+			guildId,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			invites,
+			async (invite, _) =>
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetInviteKey
+					(
+						invite.Code
+					),
+					invite
+				)
+		);
+
+		return invites;
+	}
+
 	public ValueTask<DiscordGuildMember> GetGuildMemberAsync(Int64 guildId, Int64 userId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<DiscordGuildPreview> GetGuildPreviewAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
 	public ValueTask<IEnumerable<DiscordRole>> GetRolesAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
