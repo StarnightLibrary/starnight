@@ -334,6 +334,8 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 				);
 			}
 		);
+
+		return members;
 	}
 
 	// redirects

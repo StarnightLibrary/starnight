@@ -26,8 +26,7 @@ public static class ServiceCollectionExtensions
 	{
 		_ = services.AddSingleton<IStarnightCacheService, StarnightCacheService>();
 
-		_ = services.Decorate<IDiscordApplicationCommandsRestResource, CachingApplicationCommandsRestResource>()
-			.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>()
+		_ = services.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>()
 			.Decorate<IDiscordEmojiRestResource, CachingEmojiRestResource>()
 			.Decorate<IDiscordGuildRestResource, CachingGuildRestResource>();
 
