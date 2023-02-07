@@ -84,7 +84,31 @@ public partial class CachingUserRestResource : IDiscordUserRestResource
 
 		return guilds;
 	}
-	public ValueTask<DiscordUser> GetUserAsync(Int64 userId, CancellationToken ct = default) => throw new NotImplementedException();
+
+	/// <inheritdoc/>
+	public async ValueTask<DiscordUser> GetUserAsync
+	(
+		Int64 userId,
+		CancellationToken ct = default
+	)
+	{
+		DiscordUser user = await this.underlying.GetUserAsync
+		(
+			userId,
+			ct
+		);
+
+		await this.cache.CacheObjectAsync
+		(
+			KeyHelper.GetUserKey
+			(
+				userId
+			),
+			user
+		);
+
+		return user;
+	}
 
 
 	// redirects
