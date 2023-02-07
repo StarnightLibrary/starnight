@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 
+using Starnight;
 using Starnight.Exceptions;
 
 [assembly: TypeForwardedTo(typeof(AbstractStarnightException))]
@@ -9,3 +10,5 @@ using Starnight.Exceptions;
 [assembly: TypeForwardedTo(typeof(StarnightInvalidListenerException))]
 [assembly: TypeForwardedTo(typeof(StarnightRequestRejectedException))]
 [assembly: TypeForwardedTo(typeof(StarnightSharedRatelimitHitException))]
+
+[assembly: TypeForwardedTo(typeof(Optional<>))]
