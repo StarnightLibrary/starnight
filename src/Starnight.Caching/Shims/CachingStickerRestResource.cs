@@ -79,7 +79,35 @@ public partial class CachingStickerRestResource : IDiscordStickerRestResource
 		return sticker;
 	}
 
-	public ValueTask<IEnumerable<DiscordSticker>> ListGuildStickersAsync(Int64 guildId, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordSticker>> ListGuildStickersAsync
+	(
+		Int64 guildId,
+		CancellationToken ct = default
+	)
+	{
+		IEnumerable<DiscordSticker> stickers = await this.underlying.ListGuildStickersAsync
+		(
+			guildId,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			stickers,
+			async (sticker, _) =>
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetStickerKey
+					(
+						sticker.Id
+					),
+					sticker
+				)
+		);
+
+		return stickers;
+	}
 
 	// redirects
 	public partial ValueTask<DiscordSticker> CreateGuildStickerAsync(Int64 guildId, CreateGuildStickerRequestPayload payload, String? reason = null, CancellationToken ct = default);
