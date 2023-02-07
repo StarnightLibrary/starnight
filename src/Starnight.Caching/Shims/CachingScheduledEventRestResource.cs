@@ -56,7 +56,64 @@ public partial class CachingScheduledEventRestResource : IDiscordScheduledEventR
 		return scheduledEvent;
 	}
 
-	public ValueTask<IEnumerable<DiscordScheduledEventUser>> GetScheduledEventUsersAsync(Int64 guildId, Int64 eventId, Int32? limit = null, Boolean? withMemberObject = null, Int64? before = null, Int64? after = null, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordScheduledEventUser>> GetScheduledEventUsersAsync
+	(
+		Int64 guildId,
+		Int64 eventId,
+		Int32? limit = null,
+		Boolean? withMemberObject = null,
+		Int64? before = null,
+		Int64? after = null,
+		CancellationToken ct = default
+	)
+	{
+		IEnumerable<DiscordScheduledEventUser> users = await this.underlying.GetScheduledEventUsersAsync
+		(
+			guildId,
+			eventId,
+			limit,
+			withMemberObject,
+			before,
+			after,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			users,
+			async (user, _) =>
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetUserKey
+					(
+						user.User.Id
+					),
+					user.User
+				)
+		);
+
+		if(withMemberObject == true)
+		{
+			await Parallel.ForEachAsync
+			(
+				users,
+				async (user, _) =>
+					await this.cache.CacheObjectAsync
+					(
+						KeyHelper.GetGuildMemberKey
+						(
+							guildId,
+							user.User.Id
+						),
+						user.Member.Value
+					)
+			);
+		}
+
+		return users;
+	}
+
 	public ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync(Int64 guildId, Boolean? withUserCount = null, CancellationToken ct = default) => throw new NotImplementedException();
 
 
