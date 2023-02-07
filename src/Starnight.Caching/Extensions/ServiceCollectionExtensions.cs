@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
 	/// </summary>
 	/// <param name="services">The service collection to register into.</param>
 	/// <returns>The service collection for chaining.</returns>
-	public static IServiceCollection AddRestCaching
+	public static IServiceCollection AddStarnightCaching
 	(
 		this IServiceCollection services
 	)
@@ -28,7 +28,8 @@ public static class ServiceCollectionExtensions
 
 		_ = services.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>()
 			.Decorate<IDiscordEmojiRestResource, CachingEmojiRestResource>()
-			.Decorate<IDiscordGuildRestResource, CachingGuildRestResource>();
+			.Decorate<IDiscordGuildRestResource, CachingGuildRestResource>()
+			.Decorate<IDiscordScheduledEventRestResource, CachingScheduledEventRestResource>();
 
 		_ = services.AddListener
 		(

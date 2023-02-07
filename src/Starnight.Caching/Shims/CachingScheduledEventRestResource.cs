@@ -114,7 +114,37 @@ public partial class CachingScheduledEventRestResource : IDiscordScheduledEventR
 		return users;
 	}
 
-	public ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync(Int64 guildId, Boolean? withUserCount = null, CancellationToken ct = default) => throw new NotImplementedException();
+	/// <inheritdoc/>
+	public async ValueTask<IEnumerable<DiscordScheduledEvent>> ListScheduledEventsAsync
+	(
+		Int64 guildId,
+		Boolean? withUserCount = null,
+		CancellationToken ct = default
+	)
+	{
+		IEnumerable<DiscordScheduledEvent> events = await this.underlying.ListScheduledEventsAsync
+		(
+			guildId,
+			withUserCount,
+			ct
+		);
+
+		await Parallel.ForEachAsync
+		(
+			events,
+			async (@event, _) =>
+				await this.cache.CacheObjectAsync
+				(
+					KeyHelper.GetScheduledEventKey
+					(
+						@event.Id
+					),
+					@event
+				)
+		);
+
+		return events;
+	}
 
 
 	// redirects
