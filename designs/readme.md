@@ -9,3 +9,7 @@ ideas and designs, to preserve the rationales for later considerations and revis
 
   - [The Caching Generator](./gen-caching.md)
   - [The Shim Generator](./gen-shim.md)
+
+2. Native Code Generators
+
+  - [The Internal Event Deserialization Generator](./ngen-internal-events.md)
