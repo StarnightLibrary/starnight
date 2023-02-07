@@ -42,7 +42,7 @@ public partial class CachingUserRestResource : IDiscordUserRestResource
 
 		await this.cache.CacheObjectAsync
 		(
-			KeyHelper
+			KeyHelper.GetUserKey
 			(
 				user.Id
 			),
