@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	  <Description>Caching library for Starnight</Description>
-	  <VersionPrefix>0.3.0</VersionPrefix>
+	  <VersionPrefix>0.4.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
