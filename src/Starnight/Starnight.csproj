@@ -12,7 +12,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.Github" PrivateAssets="All" />
 
-    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj" PackageVersion="(0.11.0-dev.0,0.11.0]" />
+    <ProjectReference Include="../Starnight.Internal/Starnight.Internal.csproj"
+                      PackageVersion="(0.12.0-dev.0,0.12.0]"
+                      PrivateAssets="All" />
+
+    <ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj"
+                      PackageVersion="(0.4.0-dev.0,0.4.0]"
+                      PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
