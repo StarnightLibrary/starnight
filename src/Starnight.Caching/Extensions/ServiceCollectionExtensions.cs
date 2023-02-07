@@ -29,7 +29,8 @@ public static class ServiceCollectionExtensions
 		_ = services.Decorate<IDiscordChannelRestResource, CachingChannelRestResource>()
 			.Decorate<IDiscordEmojiRestResource, CachingEmojiRestResource>()
 			.Decorate<IDiscordGuildRestResource, CachingGuildRestResource>()
-			.Decorate<IDiscordScheduledEventRestResource, CachingScheduledEventRestResource>();
+			.Decorate<IDiscordScheduledEventRestResource, CachingScheduledEventRestResource>()
+			.Decorate<IDiscordInviteRestResource, CachingInviteRestResource>();
 
 		_ = services.AddListener
 		(
