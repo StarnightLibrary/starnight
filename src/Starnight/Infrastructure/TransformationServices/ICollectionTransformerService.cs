@@ -44,4 +44,44 @@ public interface ICollectionTransformerService
 	)
 		where TWrapper : IStarnightEntity<TWrapper, TInternal>
 		where TInternal : class;
+
+	/// <summary>
+	/// Transforms a dictionary of internal entities into a dictionary of wrapper entities.
+	/// </summary>
+	/// <typeparam name="TInternalKey">The internal dictionary's key type.</typeparam>
+	/// <typeparam name="TInternalValue">The internal dictionary's value type.</typeparam>
+	/// <typeparam name="TWrapperKey">The wrapper dictionary's key type.</typeparam>
+	/// <typeparam name="TWrapperValue">The wrapper dictionary's value type.</typeparam>
+	public ValueTask<IDictionary<TWrapperKey, TWrapperValue>> TransformDictionaryAsync
+	<
+		TInternalKey,
+		TInternalValue,
+		TWrapperKey,
+		TWrapperValue
+	>
+	(
+		IDictionary<TInternalKey, TInternalValue> input
+	)
+		where TWrapperValue : IStarnightEntity<TWrapperValue, TInternalValue>
+		where TInternalValue : class;
+
+	/// <summary>
+	/// Transforms an immutable dictionary of internal entities into a dictionary of wrapper entities.
+	/// </summary>
+	/// <typeparam name="TInternalKey">The internal dictionary's key type.</typeparam>
+	/// <typeparam name="TInternalValue">The internal dictionary's value type.</typeparam>
+	/// <typeparam name="TWrapperKey">The wrapper dictionary's key type.</typeparam>
+	/// <typeparam name="TWrapperValue">The wrapper dictionary's value type.</typeparam>
+	public ValueTask<IImmutableDictionary<TWrapperKey, TWrapperValue>> TransformImmutableDictionaryAsync
+	<
+		TInternalKey,
+		TInternalValue,
+		TWrapperKey,
+		TWrapperValue
+	>
+	(
+		IImmutableDictionary<TInternalKey, TInternalValue> input
+	)
+		where TWrapperValue : IStarnightEntity<TWrapperValue, TInternalValue>
+		where TInternalValue : class;
 }
