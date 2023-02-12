@@ -51,5 +51,10 @@ public enum DiscordMessageFlags
 	/// <summary>
 	/// This message failed to mention some roles and failed to add their members to the thread.
 	/// </summary>
-	FailedToMentionRolesInThread = 1 << 8
+	FailedToMentionRolesInThread = 1 << 8,
+
+	/// <summary>
+	/// This message will not trigger push and desktop notifications.
+	/// </summary>
+	SuppressNotifications = 1 << 12
 }

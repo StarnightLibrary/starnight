@@ -4,7 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 
 /// <summary>
-/// Represents a text input component; child component of a <see cref="DiscordModalComponent"/>
+/// Represents a text input component, used in modals.
 /// </summary>
 public sealed record DiscordTextInputComponent : AbstractInteractiveDiscordMessageComponent
 {
