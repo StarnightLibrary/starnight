@@ -370,4 +370,5 @@ public partial class CachingGuildRestResource : IDiscordGuildRestResource
 	public partial ValueTask<Boolean> RemoveGuildMemberAsync(Int64 guildId, Int64 userId, String? reason = null, CancellationToken ct = default);
 	public partial ValueTask<Boolean> RemoveGuildMemberRoleAsync(Int64 guildId, Int64 userId, Int64 roleId, String? reason = null, CancellationToken ct = default);
 	public partial ValueTask<Boolean> UnbanMemberAsync(Int64 guildId, Int64 userId, String? reason = null, CancellationToken ct = default);
+	public partial ValueTask<DiscordGuildOnboarding> GetGuildOnboardingAsync(Int64 guildId, CancellationToken ct = default);
 }

@@ -1630,6 +1630,42 @@ public sealed class DiscordGuildRestResource
 	}
 
 	/// <inheritdoc/>
+	public async ValueTask<DiscordGuildOnboarding> GetGuildOnboardingAsync
+	(
+		Int64 guildId,
+		CancellationToken ct = default
+	)
+	{
+		IRestRequest request = new RestRequest
+		{
+			Url = $"{Guilds}/{guildId}/{Onboarding}",
+			Method = HttpMethod.Get,
+			Context = new()
+			{
+				["endpoint"] = $"/{Guilds}/{guildId}/{Onboarding}",
+				["cache"] = this.RatelimitBucketCache,
+				["exempt-from-global-limit"] = false,
+				["is-webhook-request"] = false
+			}
+		};
+
+		HttpResponseMessage response = await this.restClient.MakeRequestAsync
+		(
+			request,
+			ct
+		);
+
+		return JsonSerializer.Deserialize<DiscordGuildOnboarding>
+		(
+			await response.Content.ReadAsStringAsync
+			(
+				ct
+			),
+			StarnightInternalConstants.DefaultSerializerOptions
+		)!;
+	}
+
+	/// <inheritdoc/>
 	public async ValueTask<Boolean> ModifyCurrentUserVoiceStateAsync
 	(
 		Int64 guildId,

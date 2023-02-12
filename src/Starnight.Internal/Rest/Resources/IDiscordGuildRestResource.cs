@@ -584,6 +584,17 @@ public interface IDiscordGuildRestResource
 	);
 
 	/// <summary>
+	/// Returns the guild onboarding object for the specified guild.
+	/// </summary>
+	/// <param name="guildId">Snowflake identifier of the guild in question.</param>
+	/// <param name="ct">Cancellation token for this request.</param>
+	public ValueTask<DiscordGuildOnboarding> GetGuildOnboardingAsync
+	(
+		Int64 guildId,
+		CancellationToken ct = default
+	);
+
+	/// <summary>
 	/// Modifies the current user's stage voice state.
 	/// </summary>
 	/// <param name="guildId">Snowflake identifier of the guild everything takes place in.</param>

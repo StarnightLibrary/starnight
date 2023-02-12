@@ -47,6 +47,7 @@ public static class DiscordApiConstants
 	public const String Metadata = "metadata";
 	public const String MFA = "mfa";
 	public const String OAuth2 = "oauth2";
+	public const String Onboarding = "onboarding";
 	public const String Original = "original";
 	public const String Permissions = "permissions";
 	public const String Pins = "pins";
