@@ -4,9 +4,6 @@ using System;
 
 public readonly partial record struct Snowflake
 {
-	/// <summary>
-	/// Adds a timespan to a snowflake.
-	/// </summary>
 	public static Snowflake operator +
 	(
 		Snowflake left,
@@ -17,9 +14,6 @@ public readonly partial record struct Snowflake
 		return left.Value + time;
 	}
 
-	/// <summary>
-	/// Subtracts a timespan from a snowflake.
-	/// </summary>
 	public static Snowflake operator -
 	(
 		Snowflake left,
@@ -29,6 +23,48 @@ public readonly partial record struct Snowflake
 		Int64 time = (Int64)right.TotalMilliseconds << 22;
 		return left.Value - time;
 	}
+
+	public static Boolean operator ==
+	(
+		Snowflake left,
+		DateTimeOffset right
+	)
+		=> left.Timestamp == right;
+
+	public static Boolean operator !=
+	(
+		Snowflake left,
+		DateTimeOffset right
+	)
+		=> left.Timestamp != right;
+
+	public static Boolean operator <
+	(
+		Snowflake left,
+		DateTimeOffset right
+	)
+		=> left.Timestamp < right;
+
+	public static Boolean operator <=
+	(
+		Snowflake left,
+		DateTimeOffset right
+	)
+		=> left.Timestamp <= right;
+
+	public static Boolean operator >
+	(
+		Snowflake left,
+		DateTimeOffset right
+	)
+		=> left.Timestamp > right;
+
+	public static Boolean operator >=
+	(
+		Snowflake left,
+		DateTimeOffset right
+	)
+		=> left.Timestamp >= right;
 
 	/// <summary>
 	/// Returns the absolute difference in time between the two snowflakes.
