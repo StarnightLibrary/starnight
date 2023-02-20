@@ -44,101 +44,6 @@ public readonly partial record struct Snowflake :
 	/// <inheritdoc/>
 	static Snowflake IMultiplicativeIdentity<Snowflake, Snowflake>.MultiplicativeIdentity { get; } = 1;
 
-	/// <inheritdoc cref="INumberBase{TSelf}.Abs(TSelf)"/>
-	public static Snowflake Abs
-	(
-		Snowflake value
-	)
-		=> Int64.Abs(value.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.IsEvenInteger(TSelf)"/>
-	public static Boolean IsEvenInteger
-	(
-		Snowflake value
-	)
-		=> Int64.IsEvenInteger(value.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.IsNegative(TSelf)"/>
-	public static Boolean IsNegative
-	(
-		Snowflake value
-	)
-		=> Int64.IsNegative(value.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.IsNormal(TSelf)"/>
-	public static Boolean IsNormal
-	(
-		Snowflake value
-	)
-		=> value.Value != 0;
-
-	/// <inheritdoc cref="INumberBase{TSelf}.IsOddInteger(TSelf)"/>
-	public static Boolean IsOddInteger
-	(
-		Snowflake value
-	)
-		=> Int64.IsOddInteger(value.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.IsPositive(TSelf)"/>
-	public static Boolean IsPositive
-	(
-		Snowflake value
-	)
-		=> Int64.IsPositive(value.Value);
-
-	/// <inheritdoc cref="IBinaryNumber{TSelf}.IsPow2(TSelf)"/>
-	public static Boolean IsPow2
-	(
-		Snowflake value
-	)
-		=> Int64.IsPow2(value.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.IsZero(TSelf)"/>
-	public static Boolean IsZero
-	(
-		Snowflake value
-	)
-		=> value.Value == 0;
-
-	/// <inheritdoc cref="IBinaryNumber{TSelf}.Log2(TSelf)"/>
-	public static Snowflake Log2
-	(
-		Snowflake value
-	)
-		=> Int64.Log2(value.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.MaxMagnitude(TSelf, TSelf)"/>
-	public static Snowflake MaxMagnitude
-	(
-		Snowflake x,
-		Snowflake y
-	)
-		=> Int64.MaxMagnitude(x.Value, y.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.MaxMagnitudeNumber(TSelf, TSelf)"/>
-	public static Snowflake MaxMagnitudeNumber
-	(
-		Snowflake x,
-		Snowflake y
-	)
-		=> MaxMagnitude(x.Value, y.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.MinMagnitude(TSelf, TSelf)"/>
-	public static Snowflake MinMagnitude
-	(
-		Snowflake x,
-		Snowflake y
-	)
-		=> Int64.MinMagnitude(x.Value, y.Value);
-
-	/// <inheritdoc cref="INumberBase{TSelf}.MaxMagnitudeNumber(TSelf, TSelf)"/>
-	public static Snowflake MinMagnitudeNumber
-	(
-		Snowflake x,
-		Snowflake y
-	)
-		=> MinMagnitude(x.Value, y.Value);
-
 	/// <inheritdoc cref="INumberBase{TSelf}.Parse(ReadOnlySpan{Char}, NumberStyles, IFormatProvider?)"/>
 	public static Snowflake Parse
 	(
@@ -198,20 +103,6 @@ public readonly partial record struct Snowflake :
 			provider
 		);
 	}
-
-	/// <inheritdoc cref="IBinaryInteger{TSelf}.PopCount(TSelf)"/>
-	public static Snowflake PopCount
-	(
-		Snowflake value
-	)
-		=> Int64.PopCount(value);
-
-	/// <inheritdoc cref="IBinaryInteger{TSelf}.TrailingZeroCount(TSelf)"/>
-	public static Snowflake TrailingZeroCount
-	(
-		Snowflake value
-	)
-		=> Int64.TrailingZeroCount(value.Value);
 
 	/// <inheritdoc cref="INumberBase{TSelf}.TryParse(ReadOnlySpan{Char}, NumberStyles, IFormatProvider?, out TSelf)"/>
 	public static Boolean TryParse
