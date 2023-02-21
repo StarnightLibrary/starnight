@@ -1,4 +1,6 @@
-namespace Starnight.Internal.Entities.Channels;
+namespace Starnight.Entities;
+
+using Starnight.Internal.Entities.Channels;
 
 /// <summary>
 /// Represents flag added to a <see cref="DiscordChannel"/>.

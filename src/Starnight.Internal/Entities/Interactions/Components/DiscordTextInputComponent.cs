@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Interactions.Components;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a text input component, used in modals.
 /// </summary>

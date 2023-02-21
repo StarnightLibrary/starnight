@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds.RoleConnections;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different ways role connection data can be handled.

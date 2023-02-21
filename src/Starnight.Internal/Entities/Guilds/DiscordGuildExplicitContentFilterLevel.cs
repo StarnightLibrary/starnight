@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different severity levels of the explicit content filter.

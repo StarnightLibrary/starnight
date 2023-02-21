@@ -3,7 +3,7 @@ namespace Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guilds.Invites;
+using Starnight.Entities;
 using Starnight.Internal.Entities.Teams;
 using Starnight.Internal.Entities.Users;
 

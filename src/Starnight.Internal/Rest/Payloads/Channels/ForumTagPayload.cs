@@ -3,7 +3,7 @@ namespace Starnight.Internal.Rest.Payloads.Channels;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities;
+using Starnight.Entities;
 
 /// <summary>
 /// Represents a new tag object.

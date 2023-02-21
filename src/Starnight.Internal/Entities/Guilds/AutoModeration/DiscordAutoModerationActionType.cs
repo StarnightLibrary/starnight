@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds.AutoModeration;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different actions the auto moderation can take if a rule violation is detected.

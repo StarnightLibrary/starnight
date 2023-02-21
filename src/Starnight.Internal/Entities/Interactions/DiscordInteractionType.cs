@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Interactions;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different interaction types.

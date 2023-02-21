@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Channels;
+using Starnight.Entities;
 
 /// <summary>
 /// Represents a select menu component.

@@ -1,4 +1,6 @@
-namespace Starnight.Internal.Entities.Guilds.Audit;
+namespace Starnight.Entities;
+
+using Starnight.Internal.Entities.Guilds.Audit;
 
 /// <summary>
 /// Enumerates the different types of <see cref="DiscordAuditLogEntryOptionalData"/> objects.

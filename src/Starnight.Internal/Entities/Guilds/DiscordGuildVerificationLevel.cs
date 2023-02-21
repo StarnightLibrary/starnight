@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different possible verification levels for a guild.

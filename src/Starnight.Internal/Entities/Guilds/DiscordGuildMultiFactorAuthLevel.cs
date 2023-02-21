@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different levels of guild moderation Multi-Factor Auth.

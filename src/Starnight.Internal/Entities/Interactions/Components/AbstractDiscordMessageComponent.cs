@@ -2,6 +2,8 @@ namespace Starnight.Internal.Entities.Interactions.Components;
 
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a discord message component.
 /// </summary>

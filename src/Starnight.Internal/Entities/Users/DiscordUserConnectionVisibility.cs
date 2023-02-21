@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Users;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Holds the visibility status of Discord User connections.

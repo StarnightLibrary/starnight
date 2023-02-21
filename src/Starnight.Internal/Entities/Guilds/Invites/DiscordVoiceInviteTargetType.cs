@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds.Invites;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different targets for a voice channel invite.

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Holds additional data to determine whether a rule should be triggered.
 /// </summary>

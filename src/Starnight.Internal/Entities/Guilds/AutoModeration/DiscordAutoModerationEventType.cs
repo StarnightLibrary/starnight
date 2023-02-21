@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds.AutoModeration;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Indicates in what context a rule should be checked

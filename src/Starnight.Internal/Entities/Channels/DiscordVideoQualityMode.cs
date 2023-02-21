@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Channels;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Different video quality modes for live-streams in voice channels.

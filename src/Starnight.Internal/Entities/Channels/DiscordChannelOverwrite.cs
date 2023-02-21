@@ -2,6 +2,8 @@ namespace Starnight.Internal.Entities.Channels;
 
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a discord channel permission overwrite.
 /// </summary>

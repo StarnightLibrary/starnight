@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Channels.Threads;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a forum channel tag.
 /// </summary>

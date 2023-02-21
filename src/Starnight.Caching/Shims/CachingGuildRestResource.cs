@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Caching.Services;
+using Starnight.Entities;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
 using Starnight.Internal.Entities.Guilds.Invites;

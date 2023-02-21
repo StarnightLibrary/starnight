@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Rest.Payloads.ApplicationCommands;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Enumerates the different valid callback types.

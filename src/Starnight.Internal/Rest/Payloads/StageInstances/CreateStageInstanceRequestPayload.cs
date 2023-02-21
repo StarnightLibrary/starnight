@@ -3,7 +3,7 @@ namespace Starnight.Internal.Rest.Payloads.StageInstances;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Voice;
+using Starnight.Entities;
 
 /// <summary>
 /// Represents a payload to POST /stage-instances.

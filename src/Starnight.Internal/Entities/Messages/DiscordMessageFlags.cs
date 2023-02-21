@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Messages;
+namespace Starnight.Entities;
 
 using System;
 

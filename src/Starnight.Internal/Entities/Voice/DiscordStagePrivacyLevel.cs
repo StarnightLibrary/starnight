@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Voice;
+namespace Starnight.Entities;
 /// <summary>
 /// Represents the different stage privacy levels.
 /// </summary>

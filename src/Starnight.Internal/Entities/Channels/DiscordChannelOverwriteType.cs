@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Channels;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the two different channel overwrite types.

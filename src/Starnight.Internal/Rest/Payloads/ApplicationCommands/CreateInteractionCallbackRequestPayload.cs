@@ -3,6 +3,7 @@ namespace Starnight.Internal.Rest.Payloads.ApplicationCommands;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
 using Starnight.Internal.Entities.Interactions;
 
 /// <summary>

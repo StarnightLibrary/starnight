@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Interactions;
+namespace Starnight.Entities;
 
 using NetEscapades.EnumGenerators;
 

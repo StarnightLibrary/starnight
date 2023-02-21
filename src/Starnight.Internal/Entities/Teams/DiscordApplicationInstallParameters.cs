@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents the parameters required for installing an application.
 /// </summary>

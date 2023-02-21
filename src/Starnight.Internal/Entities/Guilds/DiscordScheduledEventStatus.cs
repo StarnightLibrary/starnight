@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the status of a scheduled event.

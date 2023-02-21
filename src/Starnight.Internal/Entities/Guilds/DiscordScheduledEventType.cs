@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different types of scheduled events.

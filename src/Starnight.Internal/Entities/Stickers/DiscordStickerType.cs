@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Stickers;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different types a sticker can take.

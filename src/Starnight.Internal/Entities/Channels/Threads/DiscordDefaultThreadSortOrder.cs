@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Channels.Threads;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different ways forum posts can be sorted in.

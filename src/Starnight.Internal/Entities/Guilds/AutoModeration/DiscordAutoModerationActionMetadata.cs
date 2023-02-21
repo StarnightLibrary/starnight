@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Guilds.AutoModeration;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Stores additional metadata needed for this action.
 /// </summary>

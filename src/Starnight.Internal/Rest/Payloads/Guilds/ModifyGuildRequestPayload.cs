@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Guilds;
+using Starnight.Entities;
 
 /// <summary>
 /// Represents the REST payload for PATCH guilds/:guild_id.

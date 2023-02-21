@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a prompt in a <see cref="DiscordGuildOnboarding"/>.
 /// </summary>

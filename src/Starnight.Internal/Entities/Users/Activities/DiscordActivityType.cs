@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Users.Activities;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different activity types.

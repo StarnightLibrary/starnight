@@ -2,8 +2,7 @@ namespace Starnight.Internal.Rest.Payloads.Channels;
 
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities;
-using Starnight.Internal.Entities.Channels;
+using Starnight.Entities;
 
 /// <summary>
 /// Represents a payload to PUT /channels/:channel_id/permissions/:overwrite_id.

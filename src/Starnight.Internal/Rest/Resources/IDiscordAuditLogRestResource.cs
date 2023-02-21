@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Starnight.Entities;
 using Starnight.Internal.Entities.Guilds.Audit;
 
 /// <summary>

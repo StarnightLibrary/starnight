@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Voice;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a stage channel instance.
 /// </summary>

@@ -3,6 +3,7 @@ namespace Starnight.Internal.Gateway.Payloads.Inbound.Dispatch;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
 using Starnight.Internal.Entities.Guilds.AutoModeration;
 
 /// <summary>

@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Messages;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different discord message activity types.

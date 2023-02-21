@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Channels;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Describes the different variants of Discord channels

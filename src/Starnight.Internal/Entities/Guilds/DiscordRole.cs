@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Guilds;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a discord role.
 /// </summary>

@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds.Audit;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Enumerates the different kinds of audit log entries.

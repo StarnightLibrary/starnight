@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Guilds.Audit;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Holds additional data for <see cref="DiscordAuditLogEntry"/>.
 /// </summary>

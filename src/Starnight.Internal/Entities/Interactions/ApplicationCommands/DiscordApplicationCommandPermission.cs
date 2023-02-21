@@ -3,6 +3,8 @@ namespace Starnight.Internal.Entities.Interactions.ApplicationCommands;
 using System;
 using System.Text.Json.Serialization;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a singular application command permission overwrite.
 /// </summary>

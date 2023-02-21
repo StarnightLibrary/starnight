@@ -4,7 +4,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities;
+using Starnight.Entities;
 
 public class DiscordPermissionJsonConverter : JsonConverter<DiscordPermissions>
 {

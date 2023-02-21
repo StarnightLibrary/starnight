@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Starnight.Entities;
 using Starnight.Caching.Providers.Abstractions;
 using Starnight.Internal.Entities.Channels;
 using Starnight.Internal.Entities.Guilds;
@@ -1082,7 +1083,8 @@ public sealed class DiscordGuildRestResource
 		IRestRequest request = new RestRequest
 		{
 			Url = $"{Guilds}/{guildId}/{MFA}",
-			Payload = $$"""
+			Payload =
+			$$"""
 			{ "level" : {{(Int32)level}} }
 			""",
 			Method = HttpMethod.Post,

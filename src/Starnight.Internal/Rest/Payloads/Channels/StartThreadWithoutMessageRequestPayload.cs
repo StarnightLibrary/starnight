@@ -3,7 +3,7 @@ namespace Starnight.Internal.Rest.Payloads.Channels;
 using System;
 using System.Text.Json.Serialization;
 
-using Starnight.Internal.Entities.Channels;
+using Starnight.Entities;
 
 /// <summary>
 /// Represents a payload to POST /channels/:channel_id/threads

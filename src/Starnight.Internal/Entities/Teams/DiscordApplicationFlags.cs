@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Teams;
+namespace Starnight.Entities;
 
 using System;
 

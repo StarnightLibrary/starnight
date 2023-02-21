@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Guilds.AutoModeration;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the various types of contents which can trigger rules.

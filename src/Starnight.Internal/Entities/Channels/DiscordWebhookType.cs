@@ -1,4 +1,4 @@
-namespace Starnight.Internal.Entities.Channels;
+namespace Starnight.Entities;
 
 /// <summary>
 /// Represents the different types for webhooks.
