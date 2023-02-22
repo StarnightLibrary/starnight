@@ -24,7 +24,7 @@ public interface ICollectionTransformerService
 		TWrapper
 	>
 	(
-		IReadOnlyList<TInternal> input
+		IEnumerable<TInternal> input
 	)
 		where TWrapper : IStarnightEntity<TWrapper, TInternal>
 		where TInternal : class;
@@ -40,7 +40,7 @@ public interface ICollectionTransformerService
 		TWrapper
 	>
 	(
-		IImmutableList<TInternal> input
+		IEnumerable<TInternal> input
 	)
 		where TWrapper : IStarnightEntity<TWrapper, TInternal>
 		where TInternal : class;
@@ -80,7 +80,7 @@ public interface ICollectionTransformerService
 		TWrapperValue
 	>
 	(
-		IImmutableDictionary<TInternalKey, TInternalValue> input
+		IDictionary<TInternalKey, TInternalValue> input
 	)
 		where TWrapperValue : IStarnightEntity<TWrapperValue, TInternalValue>
 		where TInternalValue : class;
