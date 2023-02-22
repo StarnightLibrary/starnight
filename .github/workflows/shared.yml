@@ -1,4 +1,4 @@
-name: Build cache providers
+name: Build Shared
 
 on:
   push:
