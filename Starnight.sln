@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D7589FB1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Generators.GenerateInternalEvents", "tools\generators\Starnight.Generators.GenerateInternalEvents\Starnight.Generators.GenerateInternalEvents.csproj", "{A310574C-8845-4F60-8841-0A99EE347B51}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starnight.Shared", "src\Starnight.Shared\Starnight.Shared.csproj", "{0CE755F4-8C3C-4F44-B5E9-B2139350E335}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{A310574C-8845-4F60-8841-0A99EE347B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A310574C-8845-4F60-8841-0A99EE347B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A310574C-8845-4F60-8841-0A99EE347B51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CE755F4-8C3C-4F44-B5E9-B2139350E335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CE755F4-8C3C-4F44-B5E9-B2139350E335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CE755F4-8C3C-4F44-B5E9-B2139350E335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CE755F4-8C3C-4F44-B5E9-B2139350E335}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

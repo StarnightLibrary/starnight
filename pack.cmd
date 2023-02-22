@@ -2,6 +2,10 @@
 
 for %%x in (%*) do (
 
+	if "%%x"=="shared" (
+		dotnet pack -o build -c Release src/Starnight.Shared --include-source --include-symbols -p:TreatWarningsAsErrors=false
+	)
+
 	if "%%x"=="caching-providers" (
 		dotnet pack -o build -c Release src/Starnight.Caching.Providers --include-source --include-symbols -p:TreatWarningsAsErrors=false
 	)

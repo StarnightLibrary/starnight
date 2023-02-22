@@ -1,0 +1,36 @@
+name: Build cache providers
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/Starnight.Shared/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(toJSON(github.events.commits.*.message), '[ci skip]')"
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Restore
+      run: "dotnet restore src/Starnight.Shared"
+
+    - name: pack packages
+      run: "mkdir build && dotnet pack src/Starnight.Shared --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Starnight
+        path: ./build/
+
+    - name: Publish package
+      run: "dotnet nuget push ./build/* --api-key ${{ secrets.NUGET_API_KEY }} --source nuget.org --no-service-endpoint --skip-duplicate"

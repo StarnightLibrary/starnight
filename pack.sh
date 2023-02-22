@@ -4,6 +4,10 @@ for var in "$@"
 do
 	case $var in
 
+		shared)
+			dotnet pack -o build -c Release src/Starnight.Shared --include-source --include-symbols -p:TreatWarningsAsErrors=false
+			;;
+
 		caching-providers)
 			dotnet pack -o build -c Release src/Starnight.Caching.Providers --include-source --include-symbols -p:TreatWarningsAsErrors=false
 			;;
