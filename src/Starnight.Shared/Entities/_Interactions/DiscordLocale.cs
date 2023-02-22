@@ -7,7 +7,7 @@ using NetEscapades.EnumGenerators;
 /// </summary>
 /// <remarks>
 /// Since hyphens are not allowed in enum identifiers, they are replaced by underscores. If their string representation is required,
-/// use <c>(item).<see cref="DiscordLocaleExtensions.ToStringFast(DiscordLocale)"/>.Replace("_", "-");</c>.
+/// use <c>(item).ToStringFast().Replace("_", "-");</c>.
 /// <see cref="DiscordLocaleExtensions.ToStringFast(DiscordLocale)"/> is an extension method generated on top of <see cref="DiscordLocale"/>,
 /// by virtue of source generation.
 /// </remarks>

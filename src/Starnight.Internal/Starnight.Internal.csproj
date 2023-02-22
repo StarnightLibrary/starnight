@@ -25,11 +25,13 @@
 
     <PackageReference Include="Polly.Contrib.WaitAndRetry" />
 
-    <PackageReference Include="NetEscapades.EnumGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
-
     <ProjectReference Include="../../gen/Starnight.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 
-    <ProjectReference Include="../Starnight.Caching.Providers/Starnight.Caching.Providers.csproj" PackageVersion="(0.3.0-dev.0,0.3.0]" />
+    <ProjectReference Include="../Starnight.Caching.Providers/Starnight.Caching.Providers.csproj"
+					  PackageVersion="(0.3.0-dev.0,0.3.0]" />
+
+    <ProjectReference Include="..\Starnight.Shared\Starnight.Shared.csproj"
+					  PackageVersion="(0.1.0-dev.0,0.1.0]" />
   </ItemGroup>
 
   <ItemGroup>

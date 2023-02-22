@@ -1,9 +1,7 @@
 namespace Starnight.Entities;
 
-using Starnight.Internal.Entities.Channels;
-
 /// <summary>
-/// Represents flag added to a <see cref="DiscordChannel"/>.
+/// Represents flags added to a channel object.
 /// </summary>
 public enum DiscordChannelFlags
 {

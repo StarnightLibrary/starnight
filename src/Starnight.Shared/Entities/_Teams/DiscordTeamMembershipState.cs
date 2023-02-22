@@ -1,9 +1,7 @@
 namespace Starnight.Entities;
 
-using Starnight.Internal.Entities.Teams;
-
 /// <summary>
-/// Represents the different membership states for each <see cref="DiscordTeamMember"/>.
+/// Represents the different membership states for each team member.
 /// </summary>
 public enum DiscordTeamMembershipState
 {

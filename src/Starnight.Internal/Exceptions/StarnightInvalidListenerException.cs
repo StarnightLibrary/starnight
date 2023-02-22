@@ -1,8 +1,10 @@
-namespace Starnight.Exceptions;
+namespace Starnight.Internal.Exceptions;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+
+using Starnight.Exceptions;
 
 /// <summary>
 /// An exception thrown if Starnight encountered an outbound event too large to send to Discord.

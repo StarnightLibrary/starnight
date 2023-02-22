@@ -19,6 +19,10 @@
     <ProjectReference Include="../Starnight.Caching/Starnight.Caching.csproj"
                       PackageVersion="(0.4.0-dev.0,0.4.0]"
                       PrivateAssets="All" />
+
+    <!-- do not enable private assets for this package, it is required for types to be accessible correctly -->
+    <ProjectReference Include="..\Starnight.Shared\Starnight.Shared.csproj"
+                      PackageVersion="(0.1.0-dev.0,0.1.0]" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,5 @@
 namespace Starnight.Entities;
 
-using Starnight.Internal.Entities.Interactions.ApplicationCommands;
-
 /// <summary>
 /// Enumerates the different types an application command option can take.
 /// </summary>
@@ -19,8 +17,7 @@ public enum DiscordApplicationCommandOptionType
 	User,
 
 	/// <summary>
-	/// Includes <b>all</b> channel types, even categories. May be restricted using
-	/// <see cref="DiscordApplicationCommandOption.ChannelTypes"/>.
+	/// Includes <b>all</b> channel types, even categories, by default. May be restricted to specific channel types.
 	/// </summary>
 	Channel,
 	Role,

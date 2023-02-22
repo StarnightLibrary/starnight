@@ -3,6 +3,8 @@
   <PropertyGroup>
 	<Description>Shared type library for Starnight assemblies</Description>
 	<VersionPrefix>0.1.0</VersionPrefix>
+	<RootNamespace>Starnight</RootNamespace>
+	<ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +13,7 @@
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.SourceLink.Github" PrivateAssets="All" />
+	<PackageReference Include="NetEscapades.EnumGenerators" />
   </ItemGroup>
 
 </Project>

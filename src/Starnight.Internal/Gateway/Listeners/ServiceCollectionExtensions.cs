@@ -4,7 +4,7 @@ using System;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Starnight.Exceptions;
+using Starnight.Internal.Exceptions;
 
 /// <summary>
 /// Contains an extension to the service collection, enabling adding listeners.
