@@ -36,5 +36,7 @@ public partial class StarnightClient
 		this.Services = this.ServiceCollection!.BuildServiceProvider();
 
 		this.RestClient = this.Services.GetRequiredService<RestClient>();
+
+		this.CollectionTransformer = null!;
 	}
 }

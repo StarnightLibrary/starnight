@@ -2,7 +2,6 @@ namespace Starnight.Infrastructure.TransformationServices;
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Threading.Tasks;
 
 using Starnight.Entities;
 
@@ -18,7 +17,7 @@ public interface ICollectionTransformerService
 	/// </summary>
 	/// <typeparam name="TInternal">The internal entity being transformed.</typeparam>
 	/// <typeparam name="TWrapper">The wrapper entity being transformed.</typeparam>
-	public ValueTask<IReadOnlyList<TWrapper>> TransformReadOnlyListAsync
+	public IReadOnlyList<TWrapper> TransformReadOnlyList
 	<
 		TInternal,
 		TWrapper
@@ -34,7 +33,7 @@ public interface ICollectionTransformerService
 	/// </summary>
 	/// <typeparam name="TInternal">The internal entity being transformed to.</typeparam>
 	/// <typeparam name="TWrapper">The wrapper entity being transformed to.</typeparam>
-	public ValueTask<IImmutableList<TWrapper>> TransformImmutableListAsync
+	public IImmutableList<TWrapper> TransformImmutableList
 	<
 		TInternal,
 		TWrapper
@@ -52,7 +51,7 @@ public interface ICollectionTransformerService
 	/// <typeparam name="TInternalValue">The internal dictionary's value type.</typeparam>
 	/// <typeparam name="TWrapperKey">The wrapper dictionary's key type.</typeparam>
 	/// <typeparam name="TWrapperValue">The wrapper dictionary's value type.</typeparam>
-	public ValueTask<IDictionary<TWrapperKey, TWrapperValue>> TransformDictionaryAsync
+	public IDictionary<TWrapperKey, TWrapperValue> TransformDictionary
 	<
 		TInternalKey,
 		TInternalValue,
@@ -72,7 +71,7 @@ public interface ICollectionTransformerService
 	/// <typeparam name="TInternalValue">The internal dictionary's value type.</typeparam>
 	/// <typeparam name="TWrapperKey">The wrapper dictionary's key type.</typeparam>
 	/// <typeparam name="TWrapperValue">The wrapper dictionary's value type.</typeparam>
-	public ValueTask<IImmutableDictionary<TWrapperKey, TWrapperValue>> TransformImmutableDictionaryAsync
+	public IImmutableDictionary<TWrapperKey, TWrapperValue> TransformImmutableDictionary
 	<
 		TInternalKey,
 		TInternalValue,
