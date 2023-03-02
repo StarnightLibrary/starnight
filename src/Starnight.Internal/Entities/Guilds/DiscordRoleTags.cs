@@ -29,7 +29,7 @@ public sealed record DiscordRoleTags
 	/// <see cref="Optional{T}.Value"/> will always be <see langword="null"/> indicating this field is true.
 	/// </remarks>
 	[JsonPropertyName("premium_subscriber")]
-	public Optional<Boolean?> PremiumRole { get; init; }
+	public Optional<Object?> PremiumRole { get; init; }
 
 	/// <summary>
 	/// The ID of this role#s subscription SKU and listing.
@@ -46,7 +46,7 @@ public sealed record DiscordRoleTags
 	/// <see cref="Optional{T}.Value"/> will always be <see langword="null"/> indicating this field is true.
 	/// </remarks>
 	[JsonPropertyName("available_for_purchase")]
-	public Optional<Boolean?> AvailableForPurchase { get; init; }
+	public Optional<Object?> AvailableForPurchase { get; init; }
 
 	/// <summary>
 	/// Whether this role is a guild's linked role.
@@ -57,5 +57,5 @@ public sealed record DiscordRoleTags
 	/// <see cref="Optional{T}.Value"/> will always be <see langword="null"/> indicating this field is true.
 	/// </remarks>
 	[JsonPropertyName("guild_connections")]
-	public Optional<Boolean?> GuildConnections { get; init; }
+	public Optional<Object?> GuildConnections { get; init; }
 }
