@@ -28,6 +28,7 @@ partial class {{metadata.TypeName}}
 {
 	private {{metadata.InternalType.GetFullyQualifiedName()}} internalObject;
 
+
 """);
 
 		// emit properties, applying transformations and renames
@@ -52,6 +53,7 @@ $$"""
 	/// <inheritdoc cref="{{metadata.InternalType.GetFullyQualifiedName()}}.{{property.Name}}" />
 	public {{type}} {{emittedPropertyName}} { get; internal set; }
 
+
 """);
 		}
 
@@ -69,6 +71,7 @@ $$"""
 	public {{metadata.InternalType.GetFullyQualifiedName()}} ToInternalEntity()
 		=> this.internalObject;
 
+
 """);
 
 		// emit from internal entity initial conversion
@@ -84,6 +87,7 @@ $$"""
 	)
 	{
 
+
 """);
 
 		foreach(IPropertySymbol property in metadata.InternalType.GetPublicProperties())
@@ -98,6 +102,7 @@ $$"""
 				_ = builder.Append(
 $$"""
 		this.{{propertyName}} = entity.{{property.Name}} ?? null!;
+
 
 """);
 			}
@@ -119,6 +124,7 @@ $$"""
 			? entity.{{property.Name}}.Value
 			: null;
 
+
 """);	
 			}
 
@@ -129,6 +135,7 @@ $$"""
 $$"""
 		this.{{propertyName}} = entity.{{property.Name}} ?? null!;
 
+
 """);
 			}
 
@@ -138,6 +145,7 @@ $$"""
 				_ = builder.Append(
 $$"""
 		this.{{propertyName}} = entity.{{property.Name}}.HasValue;
+
 
 """);
 			}
@@ -152,6 +160,7 @@ $$"""
 			client,
 			entity.{{property.Name}}
 		);
+
 
 """);
 			}
@@ -176,6 +185,7 @@ $$"""
 			)
 			: null;
 
+
 """);
 			}
 
@@ -199,6 +209,7 @@ $$"""
 		{
 			this.{{propertyName}} = null;
 		}
+
 
 """);
 			}
@@ -250,6 +261,7 @@ $$"""
 			this.{{propertyName}} = null;
 		}
 
+
 """);
 			}
 
@@ -273,6 +285,7 @@ $$"""
 		{
 			this.{{propertyName}} = null;
 		}
+
 
 """);
 			}
@@ -316,6 +329,7 @@ $$"""
 			this.{{propertyName}} = null;
 		}
 
+
 """);
 			}
 		}
@@ -323,6 +337,7 @@ $$"""
 		_ = builder.Append(
 $$"""
 	}
+
 
 """);
 
@@ -347,6 +362,7 @@ $$"""
 
 		return obj;
 	}
+
 
 """);
 		}
