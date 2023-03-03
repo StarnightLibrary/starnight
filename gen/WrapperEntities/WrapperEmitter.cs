@@ -55,6 +55,22 @@ $$"""
 """);
 		}
 
+		// emit to internal entity conversions (unconditionally)
+		_ = builder.Append(
+$$"""
+	/// <inheritdoc/>
+	public static explicit operator {{metadata.InternalType.GetFullyQualifiedName()}}
+	(
+		global::{{metadata.ContainingNamespace}}.{{metadata.TypeName}} entity
+	)
+		=> entity.internalObject;
+
+	/// <inheritdoc/>
+	public {{metadata.InternalType.GetFullyQualifiedName()}} ToInternalEntity()
+		=> this.internalObject;
+
+""");
+
 		return builder.ToString();
 
 		// --- local helper functions --- //
