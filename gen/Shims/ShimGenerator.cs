@@ -120,7 +120,6 @@ public class ShimGenerator : IIncrementalGenerator
 			}
 			catch (Exception e)
 			{
-
 				ctx.ReportDiagnostic
 				(
 					Diagnostic.Create
