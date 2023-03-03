@@ -26,7 +26,8 @@ namespace {{metadata.ContainingNamespace}};
 
 partial class {{metadata.TypeName}}
 {
-	
+	private {{metadata.InternalType.GetFullyQualifiedName()}} internalObject;
+
 """);
 
 		// emit properties, applying transformations and renames
@@ -41,6 +42,17 @@ partial class {{metadata.TypeName}}
 				(property.Type as INamedTypeSymbol)!,
 				property.Name
 			);
+
+			String emittedPropertyName = metadata.Renames.TryGetValue(property.Name, out String a)
+				? a
+				: property.Name;
+
+			_ = builder.Append(
+$$"""
+	/// <inheritdoc cref="{{metadata.InternalType.GetFullyQualifiedName()}}.{{property.Name}}" />
+	public {{type}} {{emittedPropertyName}} { get; internal set; }
+
+""");
 		}
 
 		return builder.ToString();
