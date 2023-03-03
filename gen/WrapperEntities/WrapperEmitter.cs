@@ -320,6 +320,42 @@ $$"""
 			}
 		}
 
+		_ = builder.Append(
+$$"""
+	}
+
+""");
+
+		if(metadata.GenerateInterfaceImplementation)
+		{
+			_ = builder.Append(
+$$"""
+	/// <inheritdoc/>
+	public static {{metadata.InternalType}} FromInternalEntity
+	(
+		global::Starnight.StarnightClient client,
+		global::{{metadata.ContainingNamespace}}.{{metadata.TypeName}} entity
+	)
+	{
+		global::{{metadata.ContainingNamespace}}.{{metadata.TypeName}} obj = new();
+
+		obj.initializeFromInternalEntity
+		(
+			client,
+			entity
+		);
+
+		return obj;
+	}
+
+""");
+		}
+
+		_ = builder.Append(
+"""
+}
+""");
+
 		return builder.ToString();
 
 		// --- local helper functions --- //
