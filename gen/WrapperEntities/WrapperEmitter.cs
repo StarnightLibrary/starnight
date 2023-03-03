@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 
 using Microsoft.CodeAnalysis;
+using System.Linq;
 
 internal static class WrapperEmitter
 {
@@ -396,7 +397,11 @@ $$"""
 					propertyName
 				);
 
-				_ = builder.Append("?");
+				// don't emit double nullables
+				if(builder.ToString().Last() != '?')
+				{
+					_ = builder.Append("?");
+				}
 
 				addTransformationFlag
 				(
@@ -564,12 +569,9 @@ $$"""
 			}
 
 			// conservation II: everything else
-			if(symbol.IsValueType)
-			{
-				_ = symbol.NullableAnnotation == NullableAnnotation.Annotated
-					? builder.Append($"{symbol.GetFullyQualifiedName()}?")
-					: builder.Append(symbol.GetFullyQualifiedName());
-			}
+			_ = symbol.NullableAnnotation == NullableAnnotation.Annotated
+				? builder.Append($"{symbol.GetFullyQualifiedName()}?")
+				: builder.Append(symbol.GetFullyQualifiedName());
 		}
 
 		void addTransformationFlag
