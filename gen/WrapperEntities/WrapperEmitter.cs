@@ -71,6 +71,255 @@ $$"""
 
 """);
 
+		// emit from internal entity initial conversion
+		_ = builder.Append(
+$$"""
+	/// <summary>
+	/// Initializes all directly-translated properties from an internal object.
+	/// <summary/>
+	private void initializeFromInternalEntity
+	(
+		global::Starnight.StarnightClient client,
+		{{metadata.InternalType.GetFullyQualifiedName()}} entity
+	)
+	{
+
+""");
+
+		foreach(IPropertySymbol property in metadata.InternalType.GetPublicProperties())
+		{
+			String propertyName = metadata.Renames.TryGetValue(property.Name, out String a)
+				? a
+				: property.Name;
+
+			// no transformations applied
+			if(!appliedTransformations.TryGetValue(property.Name, out WrapperTransformationTypes transformations))
+			{
+				_ = builder.Append(
+$$"""
+		this.{{propertyName}} = entity.{{property.Name}} ?? null!;
+
+""");
+			}
+
+			// only optional transformation applied or optional + snowflake transformations applied
+			if
+			(
+				transformations == WrapperTransformationTypes.OptionalFolding
+				|| transformations ==
+				(
+					WrapperTransformationTypes.SnowflakeConversion
+					| WrapperTransformationTypes.OptionalFolding
+				)
+			)
+			{
+				_ = builder.Append(
+$$"""
+		this.{{propertyName}} = entity.{{property.Name}}.HasValue
+			? entity.{{property.Name}}.Value
+			: null;
+
+""");	
+			}
+
+			// pure snowflake transformation
+			if(transformations == WrapperTransformationTypes.SnowflakeConversion)
+			{
+				_ = builder.Append(
+$$"""
+		this.{{propertyName}} = entity.{{property.Name}} ?? null!;
+
+""");
+			}
+
+			// discords weird booleans
+			if(transformations == WrapperTransformationTypes.NullBoolean)
+			{
+				_ = builder.Append(
+$$"""
+		this.{{propertyName}} = entity.{{property.Name}}.HasValue;
+
+""");
+			}
+
+			// pure entity transformation
+			if(transformations == WrapperTransformationTypes.EntityTransformation)
+			{
+				_ = builder.Append(
+$$"""
+		this.{{propertyName}} = global::Starnight.Entities.{{metadata.InternalType.Name.Replace("Discord", "Starnight")}}.FromInternalEntity
+		(
+			client,
+			entity.{{property.Name}}
+		);
+
+""");
+			}
+
+			// optional + entity transformation
+			if
+			(
+				transformations ==
+				(
+					WrapperTransformationTypes.EntityTransformation
+					| WrapperTransformationTypes.OptionalFolding
+				)
+			)
+			{
+				_ = builder.Append(
+$$"""
+		this.{{propertyName}} = entity.{{property.Name}}.IsDefined
+			? global::Starnight.Entities.{{metadata.InternalType.Name.Replace("Discord", "Starnight")}}.FromInternalEntity
+			(
+				client,
+				entity.{{property.Name}}.Value
+			)
+			: null;
+
+""");
+			}
+
+			// immutable list
+			if(transformations == WrapperTransformationTypes.ImmutableList)
+			{
+				_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}} is not null)
+		{
+			this.{{propertyName}} = client.CollectionTransformer.TransformImmutableList
+			<
+				{{metadata.InternalType.Name}},
+				{{metadata.TypeName}}
+			>
+			(
+				entity.{{property.Name}}
+			);
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+""");
+			}
+
+			// immutable dictionary
+			if
+			(
+				transformations == WrapperTransformationTypes.ImmutableDictionary
+				|| transformations ==
+				(
+					WrapperTransformationTypes.ImmutableDictionary
+					| WrapperTransformationTypes.DictionaryKeyTransformation
+				)
+			)
+			{
+				// calculate the output dictionary type first
+				StringBuilder output = new();
+
+				buildTypeString
+				(
+					output,
+					((property.Type as INamedTypeSymbol)!.TypeArguments[1] as INamedTypeSymbol)!,
+					// String.Empty because we don't actually care to register any flags at this point
+					// in the process
+					String.Empty
+				);
+
+				_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}} is not null)
+		{
+			this.{{propertyName}} = client.CollectionTransformer.TransformImmutableDictionary
+			<
+				{{(property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()}},
+				{{(property.Type as INamedTypeSymbol)!.TypeArguments[1].GetFullyQualifiedName()}},
+				{{(
+					transformations.HasFlag(WrapperTransformationTypes.DictionaryKeyTransformation)
+						? "global::Starnight.Snowflake"
+						: (property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()
+				)}},
+				{{output}}
+			>
+			(
+				entity.{{property.Name}}
+			);
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+""");
+			}
+
+			// optional immutable list
+			if(transformations == (WrapperTransformationTypes.OptionalFolding | WrapperTransformationTypes.ImmutableList))
+			{
+				_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}}.IsDefined)
+		{
+			this.{{propertyName}} = client.CollectionTransformer.TransformImmutableList
+			<
+				{{metadata.InternalType.Name}},
+				{{metadata.TypeName}}
+			>
+			(
+				entity.{{property.Name}}.Value
+			);
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+""");
+			}
+
+			// optional immutable dictionary
+			if(transformations == (WrapperTransformationTypes.OptionalFolding | WrapperTransformationTypes.ImmutableDictionary))
+			{
+				// calculate the output dictionary type first
+				StringBuilder output = new();
+
+				buildTypeString
+				(
+					output,
+					((property.Type as INamedTypeSymbol)!.TypeArguments[1] as INamedTypeSymbol)!,
+					// String.Empty because we don't actually care to register any flags at this point
+					// in the process
+					String.Empty
+				);
+
+				_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}}.IsDefined)
+		{
+			this.{{propertyName}} = client.CollectionTransformer.TransformImmutableDictionary
+			<
+				{{(property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()}},
+				{{(property.Type as INamedTypeSymbol)!.TypeArguments[1].GetFullyQualifiedName()}},
+				{{(
+					transformations.HasFlag(WrapperTransformationTypes.DictionaryKeyTransformation)
+						? "global::Starnight.Snowflake"
+						: (property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()
+				)}},
+				{{output}}
+			>
+			(
+				entity.{{property.Name}}.Value
+			);
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+""");
+			}
+		}
+
 		return builder.ToString();
 
 		// --- local helper functions --- //
