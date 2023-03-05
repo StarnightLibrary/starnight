@@ -62,7 +62,8 @@ public interface ICollectionTransformerService
 		IDictionary<TInternalKey, TInternalValue> input
 	)
 		where TWrapperValue : IStarnightEntity<TWrapperValue, TInternalValue>
-		where TInternalValue : class;
+		where TInternalValue : class
+		where TWrapperKey : notnull;
 
 	/// <summary>
 	/// Transforms an immutable dictionary of internal entities into a dictionary of wrapper entities.
@@ -82,5 +83,6 @@ public interface ICollectionTransformerService
 		IDictionary<TInternalKey, TInternalValue> input
 	)
 		where TWrapperValue : IStarnightEntity<TWrapperValue, TInternalValue>
-		where TInternalValue : class;
+		where TInternalValue : class
+		where TWrapperKey : notnull;
 }
