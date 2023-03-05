@@ -17,13 +17,17 @@ internal static class WrapperEmitter
 		Dictionary<String, WrapperTransformationTypes> appliedTransformations = new();
 		StringBuilder builder = new();
 
+		// we might need System.Linq for some extension methods later on
 		_ = builder.Append(
 $$"""
 // auto-generated code
 
 #nullable enable
+#pragma warning disable IDE0005
 
 namespace {{metadata.ContainingNamespace}};
+
+using System.Linq;
 
 partial class {{metadata.TypeName}}
 {
@@ -191,9 +195,18 @@ $$"""
 			}
 
 			// immutable list
-			if(transformations == WrapperTransformationTypes.ImmutableList)
+			if
+			(
+				transformations.HasFlag(WrapperTransformationTypes.ImmutableList)
+				&& !transformations.HasFlag(WrapperTransformationTypes.OptionalFolding)
+			)
 			{
-				_ = builder.Append(
+#pragma warning disable IDE0045 // this is insufferable anyway
+				INamedTypeSymbol contained = (INamedTypeSymbol)(property.Type as INamedTypeSymbol)!.TypeArguments[0];
+
+				if(contained.IsRecord && contained.Name.StartsWith("Discord"))
+				{
+					_ = builder.Append(
 $$"""
 		if(entity.{{property.Name}} is not null)
 		{
@@ -213,17 +226,33 @@ $$"""
 
 
 """);
+				}
+				else
+				{
+					_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}} is not null)
+		{
+			this.{{propertyName}} = entity.{{property.Name}}
+				.Cast<{{contained.GetFullyQualifiedName()}}>()
+				.ToImmutableList();
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+
+""");
+				}
+#pragma warning restore IDE0045
 			}
 
 			// immutable dictionary
 			if
 			(
-				transformations == WrapperTransformationTypes.ImmutableDictionary
-				|| transformations ==
-				(
-					WrapperTransformationTypes.ImmutableDictionary
-					| WrapperTransformationTypes.DictionaryKeyTransformation
-				)
+				transformations.HasFlag(WrapperTransformationTypes.ImmutableDictionary)
+				&& !transformations.HasFlag(WrapperTransformationTypes.OptionalFolding)
 			)
 			{
 				// calculate the output dictionary type first
@@ -238,7 +267,12 @@ $$"""
 					String.Empty
 				);
 
-				_ = builder.Append(
+#pragma warning disable IDE0045 // this is insufferable anyway
+				INamedTypeSymbol contained = (INamedTypeSymbol)(property.Type as INamedTypeSymbol)!.TypeArguments[1];
+
+				if(contained.IsRecord && contained.Name.StartsWith("Discord"))
+				{
+					_ = builder.Append(
 $$"""
 		if(entity.{{property.Name}} is not null)
 		{
@@ -264,12 +298,67 @@ $$"""
 
 
 """);
+				}
+				else
+				{
+					_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}} is not null)
+		{
+			Dictionary
+			<
+				{{(
+					transformations.HasFlag(WrapperTransformationTypes.DictionaryKeyTransformation)
+						? "global::Starnight.Snowflake"
+						: (property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()
+				)}},
+				{{output}}
+			> result = new();
+
+#pragma warning disable CS8605, CS8600, CS8604
+			foreach
+			(
+				KeyValuePair
+				<
+					{{(property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()}},
+					{{(property.Type as INamedTypeSymbol)!.TypeArguments[1].GetFullyQualifiedName()}}
+				> pair in entity.{{property.Name}}
+			)
+			{
+				result.Add
+				(
+					pair.Key,
+					pair.Value
+				);
+			}
+#pragma warning restore CS8605, CS8600, CS8604
+
+			return result.ToImmutableDictionary();
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+
+""");
+				}
+#pragma warning restore IDE0045
 			}
 
 			// optional immutable list
-			if(transformations == (WrapperTransformationTypes.OptionalFolding | WrapperTransformationTypes.ImmutableList))
+			if
+			(
+				transformations.HasFlag(WrapperTransformationTypes.OptionalFolding)
+				&& transformations.HasFlag(WrapperTransformationTypes.ImmutableList)
+			)
 			{
-				_ = builder.Append(
+#pragma warning disable IDE0045 // this is insufferable anyway
+				INamedTypeSymbol contained = (INamedTypeSymbol)(property.Type as INamedTypeSymbol)!.TypeArguments[0];
+
+				if(contained.IsRecord && contained.Name.StartsWith("Discord"))
+				{
+					_ = builder.Append(
 $$"""
 		if(entity.{{property.Name}}.IsDefined)
 		{
@@ -289,10 +378,34 @@ $$"""
 
 
 """);
+				}
+				else
+				{
+					_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}}.IsDefined)
+		{
+			this.{{propertyName}} = entity.{{property.Name}}.Value
+				.Cast<{{contained.GetFullyQualifiedName()}}>()
+				.ToImmutableList();
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+
+""");
+				}
+#pragma warning restore IDE0045
 			}
 
 			// optional immutable dictionary
-			if(transformations == (WrapperTransformationTypes.OptionalFolding | WrapperTransformationTypes.ImmutableDictionary))
+			if
+			(
+				transformations.HasFlag(WrapperTransformationTypes.OptionalFolding)
+				&& transformations.HasFlag(WrapperTransformationTypes.ImmutableDictionary)
+			)
 			{
 				// calculate the output dictionary type first
 				StringBuilder output = new();
@@ -306,7 +419,12 @@ $$"""
 					String.Empty
 				);
 
-				_ = builder.Append(
+#pragma warning disable IDE0045 // this is insufferable anyway
+				INamedTypeSymbol contained = (INamedTypeSymbol)(property.Type as INamedTypeSymbol)!.TypeArguments[1];
+
+				if(contained.IsRecord && contained.Name.StartsWith("Discord"))
+				{
+					_ = builder.Append(
 $$"""
 		if(entity.{{property.Name}}.IsDefined)
 		{
@@ -332,6 +450,52 @@ $$"""
 
 
 """);
+				}
+				else
+				{
+					_ = builder.Append(
+$$"""
+		if(entity.{{property.Name}}.IsDefined)
+		{
+			Dictionary
+			<
+				{{(
+					transformations.HasFlag(WrapperTransformationTypes.DictionaryKeyTransformation)
+						? "global::Starnight.Snowflake"
+						: (property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()
+				)}},
+				{{output}}
+			> result = new();
+
+#pragma warning disable CS8605, CS8600, CS8604
+			foreach
+			(
+				KeyValuePair
+				<
+					{{(property.Type as INamedTypeSymbol)!.TypeArguments[0].GetFullyQualifiedName()}},
+					{{(property.Type as INamedTypeSymbol)!.TypeArguments[1].GetFullyQualifiedName()}}
+				> pair in entity.{{property.Name}}.Value
+			)
+			{
+				result.Add
+				(
+					pair.Key,
+					pair.Value
+				);
+			}
+#pragma warning restore CS8605, CS8600, CS8604
+
+			return result.ToImmutableDictionary();
+		}
+		else
+		{
+			this.{{propertyName}} = null;
+		}
+
+
+""");
+				}
+#pragma warning restore IDE0045
 			}
 		}
 
