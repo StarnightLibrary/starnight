@@ -72,8 +72,8 @@ public static class ServiceCollectionExtensions
 			TInterface previousInstance = (TInterface)previousFactory!
 			(
 				provider
+			);
 
-				);
 			TDecorator decorator = (TDecorator)ActivatorUtilities.CreateFactory
 			(
 				typeof(TDecorator),
