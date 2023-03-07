@@ -1,5 +1,7 @@
 namespace Starnight;
 
+using System;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using Starnight.Internal.Rest;
@@ -11,7 +13,7 @@ public partial class StarnightClient
 {
 	public IServiceCollection ServiceCollection { get; internal set; }
 
-	public ServiceProvider Services { get; internal set; }
+	public IServiceProvider Services { get; internal set; }
 
 	public RestClient RestClient { get; internal set; }
 
@@ -19,7 +21,7 @@ public partial class StarnightClient
 	{
 		this.ServiceCollection = options.Services ?? new ServiceCollection();
 
-		if(options.UseCustomLogger)
+		if(options.UseDefaultLogger)
 		{
 			// todo: proper logging
 			_ = this.ServiceCollection.AddLogging();
@@ -28,9 +30,9 @@ public partial class StarnightClient
 		_ = this.ServiceCollection.AddMemoryCache()
 			.AddStarnightRestClient(new()
 			{
-				MedianFirstRequestRetryDelay = options.MedianFirstRequestRetryDelay,
-				RetryCount = options.RetryCount,
-				RatelimitedRetryCount = options.RatelimitedRetryCount
+				MedianFirstRequestRetryDelay = options.AverageFirstRequestRetryDelay ?? TimeSpan.FromSeconds(2),
+				RetryCount = options.RetryCount ?? 100,
+				RatelimitedRetryCount = options.RatelimitedRetryCount ?? 100
 			});
 
 		this.Services = this.ServiceCollection!.BuildServiceProvider();
