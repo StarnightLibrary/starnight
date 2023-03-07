@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway.Services;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,6 +21,8 @@ public class OutboundGatewayService : IOutboundGatewayService
 
 	private readonly RateLimitPolicy policy;
 
+	private readonly PriorityQueue<IDiscordGatewayEvent, Int32> payloadQueue;
+
 	public OutboundGatewayService
 	(
 		TransportService transportService
@@ -28,32 +31,44 @@ public class OutboundGatewayService : IOutboundGatewayService
 		this.transportService = transportService;
 
 		this.policy = Policy.RateLimit(120, TimeSpan.FromMinutes(1));
+
+		this.payloadQueue = new();
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask IdentifyAsync(IdentifyPayload payload)
+	public ValueTask IdentifyAsync
+	(
+		IdentifyPayload payload,
+		CancellationToken ct
+	)
 	{
 		DiscordIdentifyEvent @event = new()
 		{
 			Data = payload
 		};
 
-		await this.SendEventAsync(@event);
+		_ = Task.Factory.StartNew(async () => await this.sendAsync(ct));
+
+		this.payloadQueue.Enqueue(@event, 0);
+
+		return ValueTask.CompletedTask;
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask ResumeAsync(ResumePayload payload)
+	public ValueTask ResumeAsync(ResumePayload payload)
 	{
 		DiscordResumeEvent @event = new()
 		{
 			Data = payload
 		};
 
-		await this.SendEventAsync(@event);
+		this.payloadQueue.Enqueue(@event, 0);
+
+		return ValueTask.CompletedTask;
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask SendHeartbeatAsync(Int32 lastSequence)
+	public ValueTask SendHeartbeatAsync(Int32 lastSequence)
 	{
 		DiscordOutboundHeartbeatEvent @event = new()
 		{
@@ -61,19 +76,43 @@ public class OutboundGatewayService : IOutboundGatewayService
 			Opcode = DiscordGatewayOpcode.Heartbeat
 		};
 
-		await this.SendEventAsync(@event);
+		this.payloadQueue.Enqueue(@event, 0);
+
+		return ValueTask.CompletedTask;
 	}
 
 	/// <inheritdoc/>
-	public async ValueTask SendEventAsync(IDiscordGatewayEvent @event)
+	public ValueTask SendEventAsync(IDiscordGatewayEvent @event)
 	{
-		await this.policy.Execute
-		(
-			async () => await this.transportService.WriteAsync
+		this.payloadQueue.Enqueue(@event, 1);
+
+		return ValueTask.CompletedTask;		
+	}
+
+	private async ValueTask sendAsync
+	(
+		CancellationToken ct
+	)
+	{
+		PeriodicTimer timer = new(TimeSpan.FromSeconds(0.5));
+
+		while(await timer.WaitForNextTickAsync(ct))
+		{
+			if(this.payloadQueue.Count == 0)
+			{
+				continue;
+			}
+
+			IDiscordGatewayEvent @event = this.payloadQueue.Dequeue();
+
+			await this.policy.Execute
 			(
-				@event,
-				CancellationToken.None
-			)
-		);
+				async () => await this.transportService.WriteAsync
+				(
+					@event,
+					CancellationToken.None
+				)
+			);
+		}
 	}
 }

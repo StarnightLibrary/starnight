@@ -1,6 +1,7 @@
 namespace Starnight.Internal.Gateway.Services;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Starnight.Internal.Gateway.Events;
@@ -22,12 +23,14 @@ public interface IOutboundGatewayService
 	);
 
 	/// <summary>
-	/// Identifies with the gateway.
+	/// Identifies with the gateway and starts the gateway send loop.
 	/// </summary>
 	/// <param name="payload">The inner payload used to identify.</param>
+	/// <param name="ct">The token for the gateway send loop.</param>
 	public ValueTask IdentifyAsync
 	(
-		IdentifyPayload payload
+		IdentifyPayload payload,
+		CancellationToken ct
 	);
 
 	/// <summary>

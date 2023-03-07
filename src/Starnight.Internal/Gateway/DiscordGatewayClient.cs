@@ -320,7 +320,8 @@ public class DiscordGatewayClient : IHostedService
 
 		await this.outboundGatewayService.IdentifyAsync
 		(
-			identify
+			identify,
+			this.gatewayTokenSource.Token
 		);
 
 		this.logger.LogInformation
