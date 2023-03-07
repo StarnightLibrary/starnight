@@ -1,5 +1,6 @@
 <Project>
   <ItemGroup>
+    <PackageVersion Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4-beta1.22403.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0-2.final" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />

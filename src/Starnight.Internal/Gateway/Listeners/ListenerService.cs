@@ -161,7 +161,10 @@ public class ListenerService
 				{
 					try
 					{
-						IListener<TEvent> listener = Unsafe.As<IListener<TEvent>>(scope.ServiceProvider.GetRequiredService(xm));
+						IListener<TEvent> listener = Unsafe.As<IListener<TEvent>>
+						(
+							scope.ServiceProvider.GetRequiredService(xm)
+						);
 
 						await listener.ListenAsync(@event);
 					}
