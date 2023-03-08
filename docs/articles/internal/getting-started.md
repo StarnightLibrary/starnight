@@ -89,3 +89,11 @@ services.Configure<TokenContainer>
 - Finally, you need to register an underlying cache for your chosen provider, as well as a logger, into your service collection.
 
 With all of that, you're good to go!
+
+## 3. Using the library
+
+Starnight exposes both main components of the Discord API to you. You will receive events sent from the gateway through
+[listeners](./listeners.md) and you are able to make requests to the REST API through the [rest client](./rest.md).
+Furthermore, Starnight allows you to send outbound gateway events - or gateway commands - through
+@Starnight.Internal.Gateway.DiscordGatewayClient.SendOutboundEventAsync(Starnight.Internal.Gateway.Events.IDiscordGatewayEvent).
+With this, you can access the entirety of Discords API and build your own bots - your creativity and Discord are your only limits.
