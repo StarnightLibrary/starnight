@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="./img/starnight.png" alt="Starnight Logo"/>
+    <img src="./img/banner.png" alt="Starnight Banner"/>
     <br>
     Starnight Library
     <br> <br>
