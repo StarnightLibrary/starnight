@@ -238,7 +238,7 @@ internal static class PropertyMetadataExtractor
 				typename,
 				intermediary,
 				ref transformations,
-				symbol,
+				(symbol.TypeArguments[0] as INamedTypeSymbol)!,
 				collectionsDisabled
 			);
 
@@ -259,7 +259,7 @@ internal static class PropertyMetadataExtractor
 			typename,
 			intermediary,
 			ref transformations,
-			symbol,
+			(symbol.TypeArguments[0] as INamedTypeSymbol)!,
 			collectionsDisabled
 		);
 
