@@ -11,4 +11,8 @@ internal class WrapperPropertyMetadata
 	public String TypeDeclaration { get; set; } = null!;
 
 	public String? IntermediaryTypeDeclaration { get; set; } = null;
+
+	public String InternalType { get; set; } = null!;
+
+	public DictionaryTransformationMetadata? DictionaryMetadata { get; set; } = null!;
 }

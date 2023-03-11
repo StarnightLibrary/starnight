@@ -38,16 +38,59 @@ internal static class PropertyMetadataExtractor
 
 			transformations.Reset();
 
+			WrapperPropertyMetadata metadata = new()
+			{
+				AppliedTransformations = transformations,
+				TypeDeclaration = typename.ToString(),
+				IntermediaryTypeDeclaration = intermediary.ToString(),
+				NewName = newName,
+				InternalType = property.Type.GetFullyQualifiedName()
+			};
+
+			if
+			(
+				(
+					transformations[0] == WrapperTransformationType.ImmutableDictionary
+					|| transformations[1] == WrapperTransformationType.ImmutableDictionary
+				)
+				&&
+				(
+					transformations[1] == WrapperTransformationType.Records
+					|| transformations[2] == WrapperTransformationType.Records
+					|| transformations[3] == WrapperTransformationType.Records
+				)
+			)
+			{
+				ITypeSymbol firstType = (property.Type as INamedTypeSymbol)!.TypeArguments[0];
+				ITypeSymbol secondType = (property.Type as INamedTypeSymbol)!.TypeArguments[1];
+
+				DictionaryTransformationMetadata dictionaryMetadata = new()
+				{
+					InternalKey = firstType.GetFullyQualifiedName(),
+					InternalValue = secondType.GetFullyQualifiedName(),
+					WrapperKey = firstType.Name == "Int64"
+						? "global::Starnight.Snowflake"
+						: secondType.GetFullyQualifiedName(),
+					WrapperValue = secondType.Name == "Int64"
+						? "global::Starnight.Snowflake"
+						: secondType.IsRecord
+						&& secondType.Name.StartsWith("Discord")
+							? secondType.GetFullyQualifiedName().Replace
+							(
+								"Discord",
+								"Starnight"
+							)
+							: secondType.GetFullyQualifiedName()
+				};
+
+				metadata.DictionaryMetadata = dictionaryMetadata;
+			}
+
+
 			dict.Add
 			(
 				property.Name,
-				new()
-				{
-					AppliedTransformations = transformations,
-					TypeDeclaration = typename.ToString(),
-					IntermediaryTypeDeclaration = intermediary.ToString(),
-					NewName = newName
-				}
+				metadata
 			);
 		}
 
@@ -189,7 +232,6 @@ internal static class PropertyMetadataExtractor
 			transformations.Current = WrapperTransformationType.ConservationEnumerable;
 
 			_ = typename.Append("global::System.Collections.Generic.IReadOnlyList<");
-			_ = intermediary.Append("global::System.Collections.Generic.List<");
 
 			extractRoot
 			(
@@ -201,7 +243,6 @@ internal static class PropertyMetadataExtractor
 			);
 
 			_ = typename.Append(">");
-			_ = intermediary.Append(">");
 
 			return;
 		}

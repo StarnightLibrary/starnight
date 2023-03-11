@@ -4,6 +4,7 @@ using System;
 
 internal enum WrapperTransformationType : Byte
 {
+	None,
 	OptionalFolding,
 	ImmutableList,
 	ImmutableDictionary,

@@ -35,4 +35,10 @@ internal record struct WrapperTransformations : IEnumerator<WrapperTransformatio
 		return this.index <= 7;
 	}
 	public void Reset() => this.index = 0;
+
+	public WrapperTransformationType Next
+		=> this[this.index + 1];
+
+	public WrapperTransformationType DictionaryNext
+		=> this[this.index + 2];
 }
