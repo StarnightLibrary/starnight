@@ -75,7 +75,8 @@ internal static class PropertyMetadataExtractor
 						? "global::Starnight.Snowflake"
 						: secondType.IsRecord
 						&& secondType.Name.StartsWith("Discord")
-							? secondType.GetFullyQualifiedName().Replace
+							? "global::Starnight.Entities." +
+							secondType.Name.Replace
 							(
 								"Discord",
 								"Starnight"
@@ -392,8 +393,24 @@ internal static class PropertyMetadataExtractor
 		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.Records;
 
-		_ = typename.Append(symbol.GetFullyQualifiedName().Replace("Discord", "Starnight"));
-		_ = intermediary.Append(symbol.GetFullyQualifiedName().Replace("Discord", "Starnight"));
+		_ = typename.Append
+		(
+			"global::Starnight.Entities." +
+			symbol.Name.Replace
+			(
+				"Discord",
+				"Starnight"
+			)
+		);
+		_ = intermediary.Append
+		(
+			"global::Starnight.Entities." +
+			symbol.Name.Replace
+			(
+				"Discord",
+				"Starnight"
+			)
+		);
 	}
 
 	private static void conserveNullableValueType
