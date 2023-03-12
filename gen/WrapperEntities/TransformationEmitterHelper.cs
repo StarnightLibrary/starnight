@@ -165,7 +165,7 @@ $$"""
 			this.{{metadata.NewName}} = entity.{{internalName}}
 				.Cast<{{metadata.IntermediaryTypeDeclaration}}>()
 				.ToImmutableList();
-		
+
 """);
 		}
 
