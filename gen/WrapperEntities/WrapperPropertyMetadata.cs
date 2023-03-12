@@ -6,7 +6,7 @@ internal class WrapperPropertyMetadata
 {
 	public String NewName { get; set; } = null!;
 
-	public WrapperTransformations AppliedTransformations { get; set; }
+	public WrapperTransformations AppliedTransformations { get; set; } = null!;
 
 	public String TypeDeclaration { get; set; } = null!;
 

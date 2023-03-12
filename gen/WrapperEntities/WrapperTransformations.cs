@@ -1,10 +1,8 @@
 namespace Starnight.SourceGenerators.WrapperEntities;
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
-internal record struct WrapperTransformations : IEnumerator<WrapperTransformationType>
+internal record WrapperTransformations
 {
 	private readonly WrapperTransformationType[] transformations = new WrapperTransformationType[8];
 	private Int32 index = 0;
@@ -25,15 +23,8 @@ internal record struct WrapperTransformations : IEnumerator<WrapperTransformatio
 		set => this[this.index] = value;
 	}
 
-	Object IEnumerator.Current => this.Current;
+	public void MoveNext() => this.index++;
 
-	public void Dispose() { }
-	public Boolean MoveNext()
-	{
-		this.index++;
-
-		return this.index <= 7;
-	}
 	public void Reset() => this.index = 0;
 
 	public WrapperTransformationType Next

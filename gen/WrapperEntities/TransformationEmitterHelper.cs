@@ -283,7 +283,7 @@ $$"""
 				
 """);
 
-		_ = metadata.AppliedTransformations.MoveNext();
+		metadata.AppliedTransformations.MoveNext();
 
 		switch(metadata.AppliedTransformations.Current)
 		{
