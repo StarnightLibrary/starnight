@@ -413,8 +413,17 @@ internal static class PropertyMetadataExtractor
 		transformations.Current = WrapperTransformationType.ConservationNullableValueType;
 		transformations.MoveNext();
 
-		_ = typename.Append(symbol.GetFullyQualifiedName() + "?");
-		_ = intermediary.Append(symbol.GetFullyQualifiedName() + "?");
+		extractRoot
+		(
+			typename,
+			intermediary,
+			transformations,
+			symbol,
+			false
+		);
+
+		_ = typename.Append("?");
+		_ = intermediary.Append("?");
 	}
 
 	private static void conserveGeneral
