@@ -18,7 +18,7 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: "Build Nuget Packages"
-        run: "tools/pack-workflow.sh"
+        run: "bash tools/pack-workflow.sh"
 
       - name: Publish main package
         run: "dotnet nuget push /home/runner/work/starnight/starnight/build/* --api-key ${{ secrets.NUGET_API_KEY }} --source NuGet --no-service-endpoint --skip-duplicate"
