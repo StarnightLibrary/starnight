@@ -44,7 +44,7 @@ internal static class PropertyMetadataExtractor
 				TypeDeclaration = typename.ToString(),
 				IntermediaryTypeDeclaration = intermediary.ToString(),
 				NewName = newName,
-				InternalType = property.Type.GetFullyQualifiedName()
+				InternalType = (property.Type as INamedTypeSymbol)!
 			};
 
 			if

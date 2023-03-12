@@ -14,6 +14,18 @@ internal static class TypeSymbolExtensions
 	public static String GetFullyQualifiedName(this INamedTypeSymbol symbol)
 		=> $"global::{symbol.ContainingNamespace.GetFullNamespace()}.{symbol.Name}";
 
+	public static String GetFurthestWrappedTypeParameter(this INamedTypeSymbol symbol)
+	{
+		INamedTypeSymbol type = symbol;
+
+		while(type.IsGenericType)
+		{
+			type = (type.TypeArguments[0] as INamedTypeSymbol)!;
+		}
+
+		return type.GetFullyQualifiedName();
+	}
+
 	public static IEnumerable<IPropertySymbol> GetPublicProperties
 	(
 		this ITypeSymbol type

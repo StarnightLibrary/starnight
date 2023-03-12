@@ -149,7 +149,7 @@ $$"""
 $$"""
 			this.{{metadata.NewName}} = client.CollectionTransformer.TransformImmutableList
 			<
-				{{metadata.InternalType}},
+				{{metadata.InternalType.GetFurthestWrappedTypeParameter()}},
 				{{metadata.IntermediaryTypeDeclaration}}
 			>
 			(
@@ -306,7 +306,7 @@ $$"""
 $$"""
 			this.{{metadata.NewName}} = client.CollectionTransformer.TransformImmutableList
 			<
-				{{metadata.InternalType}},
+				{{metadata.InternalType.GetFurthestWrappedTypeParameter()}},
 				{{metadata.IntermediaryTypeDeclaration}}
 			>
 			(
