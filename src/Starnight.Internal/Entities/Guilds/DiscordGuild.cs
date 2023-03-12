@@ -61,7 +61,7 @@ public sealed record DiscordGuild : DiscordSnowflakeObject
 	/// Total permissions for the current user in this guild.
 	/// </summary>
 	[JsonPropertyName("permissions")]
-	public Optional<Int64> Permissions { get; init; }
+	public Optional<DiscordPermissions> Permissions { get; init; }
 
 	/// <summary>
 	/// Snowflake identifier of this guilds AFK voice channel.
