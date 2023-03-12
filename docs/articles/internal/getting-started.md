@@ -1,6 +1,7 @@
 ---
 uid: articles-internal-getting-started
 title: Getting Started
+name: Getting Started
 ---
 
 # Getting Started

@@ -1,6 +1,7 @@
 ---
 uid: articles-internal-main
 title: Starnight.Internal
+name: Starnight.Internal
 ---
 
 # Starnight.Internal

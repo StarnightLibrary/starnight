@@ -1,0 +1,11 @@
+- order: 0
+  href: internal/index.md
+  name: Starnight.Internal
+  items:
+  - order: 0
+    href: internal/getting-started.md
+    name: Getting Started
+  - order: 0
+    href: internal/listeners.md
+    name: Listeners
+
