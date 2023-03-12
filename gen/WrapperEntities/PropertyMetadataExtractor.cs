@@ -252,7 +252,6 @@ internal static class PropertyMetadataExtractor
 
 		// we use list as a backing type for intermediary conversions and call .ToImmutableList later
 		_ = typename.Append("global::System.Collections.Immutable.IImmutableList<");
-		_ = intermediary.Append("global::System.Collections.Generic.List<");
 
 		extractRoot
 		(
@@ -264,7 +263,6 @@ internal static class PropertyMetadataExtractor
 		);
 
 		_ = typename.Append(">");
-		_ = intermediary.Append(">");
 	}
 
 	private static void extractDictionary
@@ -282,7 +280,6 @@ internal static class PropertyMetadataExtractor
 			transformations.MoveNext();
 
 			_ = typename.Append("global::System.Collections.Generic.IDictionary<");
-			_ = intermediary.Append("global::System.Collections.Generic.Dictionary<");
 
 			if(symbol.TypeArguments[0].Name == "Int64")
 			{
@@ -290,12 +287,10 @@ internal static class PropertyMetadataExtractor
 				transformations.MoveNext();
 
 				_ = typename.Append("global::Starnight.Snowflake, ");
-				_ = intermediary.Append("global::Starnight.Snowflake, ");
 			}
 			else
 			{
 				_ = typename.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ",");
-				_ = intermediary.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ",");
 			}
 
 			extractRoot
@@ -308,7 +303,6 @@ internal static class PropertyMetadataExtractor
 			);
 
 			_ = typename.Append(">");
-			_ = typename.Append(">");
 
 			return;
 		}
@@ -317,7 +311,6 @@ internal static class PropertyMetadataExtractor
 		transformations.MoveNext();
 
 		_ = typename.Append("global::System.Collections.Generic.IImmutableDictionary<");
-		_ = intermediary.Append("global::System.Collections.Generic.Dictionary<");
 
 		if(symbol.TypeArguments[0].Name == "Int64")
 		{
@@ -325,12 +318,10 @@ internal static class PropertyMetadataExtractor
 			transformations.MoveNext();
 
 			_ = typename.Append("global::Starnight.Snowflake, ");
-			_ = intermediary.Append("global::Starnight.Snowflake, ");
 		}
 		else
 		{
 			_ = typename.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ", ");
-			_ = intermediary.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ", ");
 		}
 
 		extractRoot
@@ -342,7 +333,6 @@ internal static class PropertyMetadataExtractor
 			collectionsDisabled
 		);
 
-		_ = typename.Append(">");
 		_ = typename.Append(">");
 
 		return;

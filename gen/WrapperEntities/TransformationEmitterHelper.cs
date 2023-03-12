@@ -138,8 +138,8 @@ $$"""
 	{
 		_ = output.Append(
 $$"""
-			if(entity.{{internalName}} is not null)
-			{
+		if(entity.{{internalName}} is not null)
+		{
 
 """);
 		
@@ -147,14 +147,14 @@ $$"""
 		{
 			_ = output.Append(
 $$"""
-				this.{{metadata.NewName}} = client.CollectionTransformer.TransformImmutableList
-				<
-					{{metadata.InternalType}},
-					{{metadata.TypeDeclaration}}
-				>
-				(
-					entity.{{internalName}}
-				);
+			this.{{metadata.NewName}} = client.CollectionTransformer.TransformImmutableList
+			<
+				{{metadata.InternalType}},
+				{{metadata.IntermediaryTypeDeclaration}}
+			>
+			(
+				entity.{{internalName}}
+			);
 
 """);
 		}
@@ -162,14 +162,19 @@ $$"""
 		{
 			_ = output.Append(
 $$"""
-				this.{{metadata.NewName}} = entity.{{internalName}}
-					.Cast<{{metadata.IntermediaryTypeDeclaration}}>()
-					.ToImmutableList();
-
+			this.{{metadata.NewName}} = entity.{{internalName}}
+				.Cast<{{metadata.IntermediaryTypeDeclaration}}>()
+				.ToImmutableList();
+		
 """);
 		}
 
-		_ = output.Append("}\n\n");
+		_ = output.Append(
+"""
+		}
+
+
+""");
 	}
 
 	private static void emitImmutableDictionary
@@ -181,8 +186,8 @@ $$"""
 	{
 		_ = output.Append(
 $$"""
-			if(entity.{{internalName}} is not null)
-			{
+		if(entity.{{internalName}} is not null)
+		{
 
 """);
 
@@ -194,39 +199,45 @@ $$"""
 		{
 			_ = output.Append(
 $$"""
-				this.{{metadata.NewName}} = client.CollectionTransformer.TransformImmutableDictionary
-				<
-					{{metadata.DictionaryMetadata!.Value.InternalKey}},
-					{{metadata.DictionaryMetadata!.Value.InternalValue}},
-					{{metadata.DictionaryMetadata!.Value.WrapperKey}},
-					{{metadata.DictionaryMetadata!.Value.WrapperValue}}
-				>
-				(
-					entity.{{internalName}}
-				);
+			this.{{metadata.NewName}} = client.CollectionTransformer.TransformImmutableDictionary
+			<
+				{{metadata.DictionaryMetadata!.Value.InternalKey}},
+				{{metadata.DictionaryMetadata!.Value.InternalValue}},
+				{{metadata.DictionaryMetadata!.Value.WrapperKey}},
+				{{metadata.DictionaryMetadata!.Value.WrapperValue}}
+			>
+			(
+				entity.{{internalName}}
+			);
+
 """);
 		}
 		else
 		{
 			_ = output.Append(
 $$"""
-				this.{{metadata.NewName}} = global::System.Runtime.CompilerServices.Unsafe.As
+			this.{{metadata.NewName}} = global::System.Runtime.CompilerServices.Unsafe.As
+			<
+				global::System.Collections.Generic.Dictionary
 				<
-					global::System.Collections.Generic.Dictionary
-					<
-						{{metadata.DictionaryMetadata!.Value.WrapperKey}},
-						{{metadata.DictionaryMetadata!.Value.WrapperValue}}
-					>
+					{{metadata.DictionaryMetadata!.Value.WrapperKey}},
+					{{metadata.DictionaryMetadata!.Value.WrapperValue}}
 				>
-				(
-					entity.{{internalName}}
-				)
-				.ToImmutableDictionary();
+			>
+			(
+				entity.{{internalName}}
+			)
+			.ToImmutableDictionary();
 
 """);
 		}
 
-		_ = output.Append("}\n\n");
+		_ = output.Append(
+"""
+		}
+
+
+""");
 	}
 
 	private static void emitTransformation
@@ -296,7 +307,7 @@ $$"""
 			this.{{metadata.NewName}} = client.CollectionTransformer.TransformImmutableList
 			<
 				{{metadata.InternalType}},
-				{{metadata.TypeDeclaration}}
+				{{metadata.IntermediaryTypeDeclaration}}
 			>
 			(
 				entity.{{internalName}}.Value
