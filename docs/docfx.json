@@ -9,6 +9,7 @@
             "src/**/bin/**/**/Starnight.Caching.dll",
             "src/**/bin/**/**/Starnight.Caching.Providers.dll",
             "src/**/bin/**/**/Starnight.Shared.dll",
+            "src/**/bin/**/**/Starnight.Internal.dll",
             "gen/bin/**/**/Starnight.SourceGenerators.dll"
           ]
         }
