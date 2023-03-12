@@ -17,7 +17,7 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: "Build PR"
-        run: "tools/pack-workflow.sh --pr ${{ github.run_number }}'"
+        run: "tools/pack-workflow.sh --pr ${{ github.run_number }}"
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
