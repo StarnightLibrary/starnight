@@ -2,7 +2,6 @@ namespace Starnight.Internal.Gateway.Listeners;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -21,13 +20,7 @@ using Starnight.Internal.Gateway.Events;
 using DispatchDelegate = System.Func
 <
 	Starnight.Internal.Gateway.Events.IGatewayEvent,
-	System.Collections.Generic.IEnumerable
-	<
-		System.Collections.Generic.IEnumerable
-		<
-			System.Type
-		>
-	>,
+	System.Type[][],
 	Microsoft.Extensions.DependencyInjection.IServiceScope,
 	System.Threading.Tasks.ValueTask
 >;
@@ -101,7 +94,7 @@ public class ListenerService
 
 		IServiceScope scope = this.serviceProvider.CreateScope();
 
-		IEnumerable<Type>[] listeners = new IEnumerable<Type>[]
+		Type[][] listeners = new Type[][]
 		{
 			this.listenerCollection.GetListeners(eventType, ListenerPhase.PreEvent),
 			this.listenerCollection.GetListeners(eventType, ListenerPhase.Early),
@@ -117,7 +110,7 @@ public class ListenerService
 			Type delegateType = typeof(Func<,,,>).MakeGenericType
 			(
 				eventType,
-				typeof(IEnumerable<IEnumerable<Type>>),
+				typeof(Type[][]),
 				typeof(IServiceScope),
 				typeof(ValueTask)
 			);
@@ -150,16 +143,16 @@ public class ListenerService
 	private ValueTask invokeListenersAsync<TEvent>
 	(
 		TEvent @event,
-		IEnumerable<IEnumerable<Type>> listeners,
+		Type[][] listeners,
 		IServiceScope scope
 	)
 		where TEvent : class, IGatewayEvent
 	{
-		foreach(IEnumerable<Type> phase in listeners)
+		foreach(Type[] phase in listeners)
 		{
 			ParallelHelper.ForEach<Type, ListenerDispatcher<TEvent>>
 			(
-				phase.ToArray(),
+				phase,
 				new ListenerDispatcher<TEvent>
 				(
 					scope,
