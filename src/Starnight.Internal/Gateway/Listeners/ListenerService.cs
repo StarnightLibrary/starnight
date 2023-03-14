@@ -2,11 +2,14 @@ namespace Starnight.Internal.Gateway.Listeners;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+
+using CommunityToolkit.HighPerformance.Helpers;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -144,36 +147,28 @@ public class ListenerService
 		await dispatchDelegate(@event, listeners, scope);
 	}
 
-	private async ValueTask invokeListenersAsync<TEvent>
+	private ValueTask invokeListenersAsync<TEvent>
 	(
 		TEvent @event,
 		IEnumerable<IEnumerable<Type>> listeners,
 		IServiceScope scope
 	)
-		where TEvent : IGatewayEvent
+		where TEvent : class, IGatewayEvent
 	{
 		foreach(IEnumerable<Type> phase in listeners)
 		{
-			await Parallel.ForEachAsync
+			ParallelHelper.ForEach<Type, ListenerDispatcher<TEvent>>
 			(
-				phase,
-				async (xm, _) =>
-				{
-					try
-					{
-						IListener<TEvent> listener = Unsafe.As<IListener<TEvent>>
-						(
-							scope.ServiceProvider.GetRequiredService(xm)
-						);
-
-						await listener.ListenAsync(@event);
-					}
-					catch(Exception e)
-					{
-						this.logger.LogError(e, "An error occured during event dispatch.");
-					}
-				}
+				phase.ToArray(),
+				new ListenerDispatcher<TEvent>
+				(
+					scope,
+					this.logger,
+					@event
+				)
 			);
 		}
+
+		return ValueTask.CompletedTask;
 	}
 }
