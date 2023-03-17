@@ -26,7 +26,8 @@ using System;
  * On the other, Starnight synthesizes some combination fields that represent not one but multiple flags.
  * See the documentation on each of them for guidance and details. These currently are:<br/>
  * 
- * - TODO: add the thingies<br/><br/>
+ * - <c>AllUnprivileged</c><br/>
+ * - <c>All</c><br/><br/>
  * 
  * Furthermore, some events may be sent to you regardless of intents. These are all events not mentioned
  * here, as well as <c>GuildMemberUpdated</c> for the current (bot) user.
