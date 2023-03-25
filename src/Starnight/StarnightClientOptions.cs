@@ -17,9 +17,9 @@ public class StarnightClientOptions : IOptions<StarnightClientOptions>
 	public IServiceCollection? Services { get; set; }
 
 	/// <summary>
-	/// Specifies whether Starnight should register its own logger. Default: false
+	/// Specifies whether Starnight should register its own logger. Defaults to true.
 	/// </summary>
-	public Boolean UseDefaultLogger { get; set; } = false;
+	public Boolean UseDefaultLogger { get; set; } = true;
 
 	/// <summary>
 	/// Rest: Median delay before a rest request is retried the first time.
