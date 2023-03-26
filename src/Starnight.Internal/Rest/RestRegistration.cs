@@ -31,7 +31,8 @@ public static class RestRegistration
 	public static IServiceCollection AddStarnightRestClient
 	(
 		this IServiceCollection collection,
-		RestClientOptions options
+		RestClientOptions options,
+		Boolean registerResources = true
 	)
 	{
 		PollyRateLimitPolicy ratelimiter = new();
@@ -114,7 +115,10 @@ public static class RestRegistration
 				)
 			);
 
-		_ = collection.AddStarnightRestResources();
+		if(registerResources)
+		{
+			_ = collection.AddStarnightRestResources();
+		}
 
 		_ = collection.Configure<MemoryCacheProviderOptions>
 		(
