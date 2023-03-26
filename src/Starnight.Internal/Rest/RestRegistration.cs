@@ -114,21 +114,7 @@ public static class RestRegistration
 				)
 			);
 
-		_ = collection
-			.AddSingleton<IDiscordChannelRestResource, DiscordChannelRestResource>()
-			.AddSingleton<IDiscordGuildRestResource, DiscordGuildRestResource>()
-			.AddSingleton<IDiscordApplicationCommandsRestResource, DiscordApplicationCommandsRestResource>()
-			.AddSingleton<IDiscordAuditLogRestResource, DiscordAuditLogRestResource>()
-			.AddSingleton<IDiscordEmojiRestResource, DiscordEmojiRestResource>()
-			.AddSingleton<IDiscordScheduledEventRestResource, DiscordScheduledEventRestResource>()
-			.AddSingleton<IDiscordGuildTemplateRestResource, DiscordGuildTemplateRestResource>()
-			.AddSingleton<IDiscordInviteRestResource, DiscordInviteRestResource>()
-			.AddSingleton<IDiscordStageInstanceRestResource, DiscordStageInstanceRestResource>()
-			.AddSingleton<IDiscordStickerRestResource, DiscordStickerRestResource>()
-			.AddSingleton<IDiscordUserRestResource, DiscordUserRestResource>()
-			.AddSingleton<IDiscordAutoModerationRestResource, DiscordAutoModerationRestResource>()
-			.AddSingleton<IDiscordVoiceRestResource, DiscordVoiceRestResource>()
-			.AddSingleton<IDiscordWebhookRestResource, DiscordWebhookRestResource>();
+		_ = collection.AddStarnightRestResources();
 
 		_ = collection.Configure<MemoryCacheProviderOptions>
 		(
@@ -145,6 +131,34 @@ public static class RestRegistration
 				);
 			}
 		);
+
+		return collection;
+	}
+
+	/// <summary>
+	/// Registers Starnight's rest resources into a given service collection.
+	/// </summary>
+	/// <returns>The service collection for chaining.</returns>
+	public static IServiceCollection AddStarnightRestResources
+	(
+		this IServiceCollection collection
+	)
+	{
+		_ = collection
+			.AddSingleton<IDiscordChannelRestResource, DiscordChannelRestResource>()
+			.AddSingleton<IDiscordGuildRestResource, DiscordGuildRestResource>()
+			.AddSingleton<IDiscordApplicationCommandsRestResource, DiscordApplicationCommandsRestResource>()
+			.AddSingleton<IDiscordAuditLogRestResource, DiscordAuditLogRestResource>()
+			.AddSingleton<IDiscordEmojiRestResource, DiscordEmojiRestResource>()
+			.AddSingleton<IDiscordScheduledEventRestResource, DiscordScheduledEventRestResource>()
+			.AddSingleton<IDiscordGuildTemplateRestResource, DiscordGuildTemplateRestResource>()
+			.AddSingleton<IDiscordInviteRestResource, DiscordInviteRestResource>()
+			.AddSingleton<IDiscordStageInstanceRestResource, DiscordStageInstanceRestResource>()
+			.AddSingleton<IDiscordStickerRestResource, DiscordStickerRestResource>()
+			.AddSingleton<IDiscordUserRestResource, DiscordUserRestResource>()
+			.AddSingleton<IDiscordAutoModerationRestResource, DiscordAutoModerationRestResource>()
+			.AddSingleton<IDiscordVoiceRestResource, DiscordVoiceRestResource>()
+			.AddSingleton<IDiscordWebhookRestResource, DiscordWebhookRestResource>();
 
 		return collection;
 	}
