@@ -312,5 +312,10 @@ public enum StarnightIntents
 	All = AllUnprivileged
 		| GuildMembers
 		| GuildPresences
-		| MessageContent
+		| MessageContent,
+
+	/** <summary>
+	 * Represents no events. If this is selected you will only receive events not covered by intents.
+	 * </summary> */
+	None = 0
 }
