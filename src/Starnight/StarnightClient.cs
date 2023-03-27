@@ -2,43 +2,36 @@ namespace Starnight;
 
 using System;
 
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-using Starnight.Internal.Rest;
+using Starnight.Caching.Services;
+using Starnight.Internal.Gateway;
+using Starnight.Internal.Rest.Resources;
 
 /// <summary>
 /// The central, main client for any and all interactions with Discord.
 /// </summary>
 public partial class StarnightClient
 {
-	public IServiceCollection ServiceCollection { get; internal set; }
-
 	public IServiceProvider Services { get; internal set; }
 
-	public RestClient RestClient { get; internal set; }
+	internal ILogger<StarnightClient> Logger { get; }
+	internal DiscordGatewayClient GatewayClient { get; }
+	internal IDiscordApplicationCommandsRestResource ApplicationCommandsRestResource { get; }
+	internal IDiscordAuditLogRestResource AuditLogRestResource { get; }
+	internal IDiscordAutoModerationRestResource AutoModerationRestResource { get; }
+	internal IDiscordChannelRestResource ChannelRestResource { get; }
+	internal IDiscordEmojiRestResource EmojiRestResource { get; }
+	internal IDiscordGuildRestResource GuildRestResource { get; }
+	internal IDiscordGuildTemplateRestResource GuildTemplateRestResource { get; }
+	internal IDiscordInviteRestResource InviteRestResource { get; }
+	internal IDiscordRoleConnectionRestResource RoleConnectionRestResource { get; }
+	internal IDiscordScheduledEventRestResource ScheduledEventRestResource { get; }
+	internal IDiscordStageInstanceRestResource StageInstanceRestResource { get; }
+	internal IDiscordStickerRestResource StickerRestResource { get; }
+	internal IDiscordUserRestResource UserRestResource { get; }
+	internal IDiscordVoiceRestResource VoiceRestResource { get; }
+	internal IDiscordWebhookRestResource WebhookRestResource { get; }
 
-	public StarnightClient(StarnightClientOptions options)
-	{
-		this.ServiceCollection = options.Services ?? new ServiceCollection();
-
-		if(options.UseDefaultLogger)
-		{
-			// todo: proper logging
-			_ = this.ServiceCollection.AddLogging();
-		}
-
-		_ = this.ServiceCollection.AddMemoryCache()
-			.AddStarnightRestClient(new()
-			{
-				MedianFirstRequestRetryDelay = options.AverageFirstRequestRetryDelay ?? TimeSpan.FromSeconds(2),
-				RetryCount = options.RetryCount ?? 100,
-				RatelimitedRetryCount = options.RatelimitedRetryCount ?? 100
-			});
-
-		this.Services = this.ServiceCollection!.BuildServiceProvider();
-
-		this.RestClient = this.Services.GetRequiredService<RestClient>();
-
-		this.CollectionTransformer = null!;
-	}
+	internal IStarnightCacheService CacheService { get; }
 }

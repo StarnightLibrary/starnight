@@ -3,6 +3,7 @@ namespace Starnight;
 using System;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 /// <summary>
@@ -20,6 +21,11 @@ public class StarnightClientOptions : IOptions<StarnightClientOptions>
 	/// Specifies whether Starnight should register its own logger. Defaults to true.
 	/// </summary>
 	public Boolean UseDefaultLogger { get; set; } = true;
+
+	/// <summary>
+	/// The minimum log level, starting from which Starnight should log events.
+	/// </summary>
+	public LogLevel MinimumLogLevel { get; set; } = LogLevel.Debug;
 
 	/// <summary>
 	/// Rest: Median delay before a rest request is retried the first time.

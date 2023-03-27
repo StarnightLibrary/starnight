@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Starnight.Caching.Extensions;
 using Starnight.Caching.Providers;
 using Starnight.Infrastructure.Logging;
+using Starnight.Infrastructure.TransformationServices;
 using Starnight.Internal;
 using Starnight.Internal.Gateway;
 using Starnight.Internal.Rest;
@@ -41,6 +42,8 @@ public sealed class StarnightClientBuilder
 		_ = this.services.AddStarnightRestResources()
 			.AddStarnightCaching()
 			.AddStarnightGateway();
+
+		_ = this.services.AddSingleton<ICollectionTransformerService, CollectionTransformerService>();
 	}
 
 	/// <summary>
