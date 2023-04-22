@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+using CommunityToolkit.HighPerformance.Helpers;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -18,13 +20,7 @@ using Starnight.Internal.Gateway.Events;
 using DispatchDelegate = System.Func
 <
 	Starnight.Internal.Gateway.Events.IGatewayEvent,
-	System.Collections.Generic.IEnumerable
-	<
-		System.Collections.Generic.IEnumerable
-		<
-			System.Type
-		>
-	>,
+	System.Type[][],
 	Microsoft.Extensions.DependencyInjection.IServiceScope,
 	System.Threading.Tasks.ValueTask
 >;
@@ -98,7 +94,7 @@ public class ListenerService
 
 		IServiceScope scope = this.serviceProvider.CreateScope();
 
-		IEnumerable<Type>[] listeners = new IEnumerable<Type>[]
+		Type[][] listeners = new Type[][]
 		{
 			this.listenerCollection.GetListeners(eventType, ListenerPhase.PreEvent),
 			this.listenerCollection.GetListeners(eventType, ListenerPhase.Early),
@@ -114,7 +110,7 @@ public class ListenerService
 			Type delegateType = typeof(Func<,,,>).MakeGenericType
 			(
 				eventType,
-				typeof(IEnumerable<IEnumerable<Type>>),
+				typeof(Type[][]),
 				typeof(IServiceScope),
 				typeof(ValueTask)
 			);
@@ -144,36 +140,28 @@ public class ListenerService
 		await dispatchDelegate(@event, listeners, scope);
 	}
 
-	private async ValueTask invokeListenersAsync<TEvent>
+	private ValueTask invokeListenersAsync<TEvent>
 	(
 		TEvent @event,
-		IEnumerable<IEnumerable<Type>> listeners,
+		Type[][] listeners,
 		IServiceScope scope
 	)
-		where TEvent : IGatewayEvent
+		where TEvent : class, IGatewayEvent
 	{
-		foreach(IEnumerable<Type> phase in listeners)
+		foreach(Type[] phase in listeners)
 		{
-			await Parallel.ForEachAsync
+			ParallelHelper.ForEach<Type, ListenerDispatcher<TEvent>>
 			(
 				phase,
-				async (xm, _) =>
-				{
-					try
-					{
-						IListener<TEvent> listener = Unsafe.As<IListener<TEvent>>
-						(
-							scope.ServiceProvider.GetRequiredService(xm)
-						);
-
-						await listener.ListenAsync(@event);
-					}
-					catch(Exception e)
-					{
-						this.logger.LogError(e, "An error occured during event dispatch.");
-					}
-				}
+				new ListenerDispatcher<TEvent>
+				(
+					scope,
+					this.logger,
+					@event
+				)
 			);
 		}
+
+		return ValueTask.CompletedTask;
 	}
 }

@@ -93,7 +93,7 @@ public class ListenerCollection : IOptions<ListenerCollection>
 	/// <param name="eventType">The type of the event to obtain listeners for.</param>
 	/// <param name="phase">The phase to obtain listeners for.</param>
 	/// <exception cref="InvalidOperationException">Thrown if the phase wasn't a valid enum member.</exception>
-	public IEnumerable<Type> GetListeners
+	public Type[] GetListeners
 	(
 		Type eventType,
 		ListenerPhase phase
@@ -115,18 +115,18 @@ public class ListenerCollection : IOptions<ListenerCollection>
 
 		if(directListenerTypes is null && genericListenerTypes is null)
 		{
-			return new List<Type>();
+			return Array.Empty<Type>();
 		}
 		else if(directListenerTypes is null)
 		{
 			// flow analysis doesn't catch that we have guaranteed that genericListenerTypes isn't null
-			return genericListenerTypes!;
+			return genericListenerTypes!.ToArray();
 		}
 		else
 		{
 			return genericListenerTypes is null
-				? (IEnumerable<Type>)directListenerTypes
-				: directListenerTypes.Concat(genericListenerTypes);
+				? directListenerTypes.ToArray()
+				: directListenerTypes.Concat(genericListenerTypes).ToArray();
 		}
 	}
 }

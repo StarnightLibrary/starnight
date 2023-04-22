@@ -129,6 +129,16 @@ $$"""
 }
 """);
 
+#if DEBUG
+		_ = builder.Append(
+$$"""
+
+#if false // log output
+{{DebugLogger.Output}}
+#endif
+""");
+#endif
+
 		return builder.ToString();
 	}
 }

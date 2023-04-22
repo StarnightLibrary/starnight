@@ -24,7 +24,8 @@ public static class StarnightInternalConstants
 	{
 		NumberHandling = JsonNumberHandling.AllowReadingFromString,
 		WriteIndented = false,
-		TypeInfoResolver = OptionalTypeInfoResolver.Default
+		TypeInfoResolver = OptionalTypeInfoResolver.Default,
+		PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
 	};
 
 	static StarnightInternalConstants()

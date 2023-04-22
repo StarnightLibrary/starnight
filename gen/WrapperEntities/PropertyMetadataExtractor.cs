@@ -27,7 +27,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				(property.Type as INamedTypeSymbol)!,
 				disabledTransformations.Contains(property.Name)
 			);
@@ -44,7 +44,7 @@ internal static class PropertyMetadataExtractor
 				TypeDeclaration = typename.ToString(),
 				IntermediaryTypeDeclaration = intermediary.ToString(),
 				NewName = newName,
-				InternalType = property.Type.GetFullyQualifiedName()
+				InternalType = (property.Type as INamedTypeSymbol)!
 			};
 
 			if
@@ -102,7 +102,7 @@ internal static class PropertyMetadataExtractor
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol,
 		Boolean collectionsDisabled
 	)
@@ -113,7 +113,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				symbol,
 				collectionsDisabled
 			);
@@ -124,7 +124,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				symbol,
 				collectionsDisabled
 			);
@@ -135,7 +135,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				symbol,
 				collectionsDisabled
 			);
@@ -146,7 +146,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				symbol
 			);
 		}
@@ -155,7 +155,7 @@ internal static class PropertyMetadataExtractor
 			extractNullableBoolean
 			(
 				typename,
-				ref transformations
+				transformations
 			);
 		}
 		else if(symbol.IsRecord && symbol.Name.Contains("Discord"))
@@ -164,7 +164,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				symbol
 			);
 		}
@@ -174,7 +174,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				(symbol.TypeArguments[0] as INamedTypeSymbol)!
 			);
 		}
@@ -184,7 +184,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				symbol
 			);
 		}
@@ -194,20 +194,19 @@ internal static class PropertyMetadataExtractor
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol,
 		Boolean collectionsDisabled
 	)
 	{
-
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.OptionalFolding;
+		transformations.MoveNext();
 
 		extractRoot
 		(
 			typename,
 			intermediary,
-			ref transformations,
+			transformations,
 			(symbol.TypeArguments[0] as INamedTypeSymbol)!,
 			collectionsDisabled
 		);
@@ -222,15 +221,15 @@ internal static class PropertyMetadataExtractor
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol,
 		Boolean collectionsDisabled
 	)
 	{
 		if(collectionsDisabled)
 		{
-			_ = transformations.MoveNext();
 			transformations.Current = WrapperTransformationType.ConservationEnumerable;
+			transformations.MoveNext();
 
 			_ = typename.Append("global::System.Collections.Generic.IReadOnlyList<");
 
@@ -238,7 +237,7 @@ internal static class PropertyMetadataExtractor
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				(symbol.TypeArguments[0] as INamedTypeSymbol)!,
 				collectionsDisabled
 			);
@@ -248,102 +247,92 @@ internal static class PropertyMetadataExtractor
 			return;
 		}
 
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.ImmutableList;
+		transformations.MoveNext();
 
 		// we use list as a backing type for intermediary conversions and call .ToImmutableList later
 		_ = typename.Append("global::System.Collections.Immutable.IImmutableList<");
-		_ = intermediary.Append("global::System.Collections.Generic.List<");
 
 		extractRoot
 		(
 			typename,
 			intermediary,
-			ref transformations,
+			transformations,
 			(symbol.TypeArguments[0] as INamedTypeSymbol)!,
 			collectionsDisabled
 		);
 
 		_ = typename.Append(">");
-		_ = intermediary.Append(">");
 	}
 
 	private static void extractDictionary
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol,
 		Boolean collectionsDisabled
 	)
 	{
 		if(collectionsDisabled)
 		{
-			_ = transformations.MoveNext();
 			transformations.Current = WrapperTransformationType.ConservationDictionary;
+			transformations.MoveNext();
 
 			_ = typename.Append("global::System.Collections.Generic.IDictionary<");
-			_ = intermediary.Append("global::System.Collections.Generic.Dictionary<");
 
 			if(symbol.TypeArguments[0].Name == "Int64")
 			{
-				_ = transformations.MoveNext();
 				transformations.Current = WrapperTransformationType.DictionaryKey;
+				transformations.MoveNext();
 
 				_ = typename.Append("global::Starnight.Snowflake, ");
-				_ = intermediary.Append("global::Starnight.Snowflake, ");
 			}
 			else
 			{
 				_ = typename.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ",");
-				_ = intermediary.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ",");
 			}
 
 			extractRoot
 			(
 				typename,
 				intermediary,
-				ref transformations,
+				transformations,
 				(symbol.TypeArguments[1] as INamedTypeSymbol)!,
 				collectionsDisabled
 			);
 
 			_ = typename.Append(">");
-			_ = typename.Append(">");
 
 			return;
 		}
 
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.ImmutableDictionary;
+		transformations.MoveNext();
 
 		_ = typename.Append("global::System.Collections.Generic.IImmutableDictionary<");
-		_ = intermediary.Append("global::System.Collections.Generic.Dictionary<");
 
 		if(symbol.TypeArguments[0].Name == "Int64")
 		{
-			_ = transformations.MoveNext();
 			transformations.Current = WrapperTransformationType.DictionaryKey;
+			transformations.MoveNext();
 
 			_ = typename.Append("global::Starnight.Snowflake, ");
-			_ = intermediary.Append("global::Starnight.Snowflake, ");
 		}
 		else
 		{
 			_ = typename.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ", ");
-			_ = intermediary.Append(symbol.TypeArguments[0].GetFullyQualifiedName() + ", ");
 		}
 
 		extractRoot
 		(
 			typename,
 			intermediary,
-			ref transformations,
+			transformations,
 			(symbol.TypeArguments[1] as INamedTypeSymbol)!,
 			collectionsDisabled
 		);
 
-		_ = typename.Append(">");
 		_ = typename.Append(">");
 
 		return;
@@ -353,17 +342,17 @@ internal static class PropertyMetadataExtractor
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol
 	)
 	{
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.Snowflake;
+		transformations.MoveNext();
 
 		_ = typename.Append("global::Starnight.Snowflake");
 		_ = intermediary.Append("global::Starnight.Snowflake");
 
-	    if(symbol.NullableAnnotation == NullableAnnotation.Annotated)
+		if(symbol.NullableAnnotation == NullableAnnotation.Annotated)
 		{
 			_ = typename.Append("?");
 			_ = intermediary.Append("?");
@@ -373,11 +362,11 @@ internal static class PropertyMetadataExtractor
 	private static void extractNullableBoolean
 	(
 		StringBuilder typename,
-		ref WrapperTransformations transformations
+		WrapperTransformations transformations
 	)
 	{
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.NullableBoolean;
+		transformations.MoveNext();
 
 		_ = typename.Append("global::System.Boolean");
 	}
@@ -386,12 +375,12 @@ internal static class PropertyMetadataExtractor
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol
 	)
 	{
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.Records;
+		transformations.MoveNext();
 
 		_ = typename.Append
 		(
@@ -417,27 +406,36 @@ internal static class PropertyMetadataExtractor
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol
 	)
 	{
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.ConservationNullableValueType;
+		transformations.MoveNext();
 
-		_ = typename.Append(symbol.GetFullyQualifiedName() + "?");
-		_ = intermediary.Append(symbol.GetFullyQualifiedName() + "?");
+		extractRoot
+		(
+			typename,
+			intermediary,
+			transformations,
+			symbol,
+			false
+		);
+
+		_ = typename.Append("?");
+		_ = intermediary.Append("?");
 	}
 
 	private static void conserveGeneral
 	(
 		StringBuilder typename,
 		StringBuilder intermediary,
-		ref WrapperTransformations transformations,
+		WrapperTransformations transformations,
 		INamedTypeSymbol symbol
 	)
 	{
-		_ = transformations.MoveNext();
 		transformations.Current = WrapperTransformationType.ConservationGeneral;
+		transformations.MoveNext();
 
 		String type = symbol.NullableAnnotation == NullableAnnotation.Annotated
 			? symbol.GetFullyQualifiedName() + "?"
