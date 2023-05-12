@@ -3,8 +3,22 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" />
+    <PackageReference Include="Spectre.Console.Cli" />
+  </ItemGroup>
+
+  <!-- only build local development code if we're not in a CI environment -->
+
+  <PropertyGroup Condition="'$(CIRegressionTest)' == ''">
+    <DefineConstants>$(DefineConstants);LOCAL_BUILD</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(CIRegressionTest)' == ''">
+    <ProjectReference Include="..\suite\Starnight.Benchmarks.csproj" />
+  </ItemGroup>
 
 </Project>

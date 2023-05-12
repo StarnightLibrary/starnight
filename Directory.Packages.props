@@ -16,7 +16,8 @@
     <PackageVersion Include="Microsoft.SourceLink.Github" Version="1.1.1" />
     <PackageVersion Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
     <PackageVersion Include="NetEscapades.EnumGenerators" Version="1.0.0-beta06" />
-    <PackageVersion Include="Spectre.Console" Version="0.46.1-preview.0.7" />
+    <PackageVersion Include="Spectre.Console" Version="0.46.1-preview.0.20" />
+    <PackageVersion Include="Spectre.Console.Cli" Version="0.46.1-preview.0.20" />
     <PackageVersion Include="System.Text.Json" Version="8.0.0-preview.2.23128.3" />
   </ItemGroup>
 </Project>
