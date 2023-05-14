@@ -17,8 +17,4 @@
     <DefineConstants>$(DefineConstants);LOCAL_BUILD</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(CIRegressionTest)' == ''">
-    <ProjectReference Include="..\suite\Starnight.Benchmarks.csproj" />
-  </ItemGroup>
-
 </Project>
