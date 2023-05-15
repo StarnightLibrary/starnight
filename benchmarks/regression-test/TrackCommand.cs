@@ -1,5 +1,3 @@
-#if LOCAL_BUILD
-
 namespace Starnight.Benchmarks.RegressionTests;
 
 using System;
@@ -29,5 +27,3 @@ public sealed class TrackCommand : Command<TrackCommand.Settings>
 		return 0;
 	}
 }
-
-#endif

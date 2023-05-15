@@ -11,10 +11,4 @@
     <PackageReference Include="Spectre.Console.Cli" />
   </ItemGroup>
 
-  <!-- only build local development code if we're not in a CI environment -->
-
-  <PropertyGroup Condition="'$(CIRegressionTest)' == ''">
-    <DefineConstants>$(DefineConstants);LOCAL_BUILD</DefineConstants>
-  </PropertyGroup>
-
 </Project>
