@@ -9,7 +9,6 @@ using BenchmarkDotNet.Attributes;
 using Starnight.Internal;
 using Starnight.Internal.Entities.Messages.Embeds;
 
-[ShortRunJob]
 public class JsonConverterBenchmarks
 {
 	private readonly JsonSerializerOptions options = StarnightInternalConstants.DefaultSerializerOptions;

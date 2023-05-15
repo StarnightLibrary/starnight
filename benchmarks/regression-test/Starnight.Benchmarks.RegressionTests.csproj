@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Spectre.Console" />
     <PackageReference Include="Spectre.Console.Cli" />
+
+    <ProjectReference Include="..\suite\Starnight.Benchmarks.csproj" />
   </ItemGroup>
 
 </Project>

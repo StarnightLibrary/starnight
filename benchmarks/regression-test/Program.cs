@@ -6,7 +6,7 @@ using Spectre.Console.Cli;
 
 internal class Program
 {
-	private static void Main(String[] args)
+	private static Int32 Main(String[] args)
 	{
 		CommandApp app = new();
 
@@ -14,7 +14,7 @@ internal class Program
 		(
 			config =>
 			{
-				config.AddCommand<CICommand>("ci")
+				_ = config.AddCommand<CICommand>("ci")
 				.IsHidden()
 				.WithDescription
 				(
@@ -22,8 +22,7 @@ internal class Program
 					"from the latest commit to the repository."
 				);
 
-#if LOCAL_BUILD
-				config.AddCommand<TrackCommand>("track")
+				_ = config.AddCommand<TrackCommand>("track")
 				.WithDescription
 				(
 					"If the working tree is clean, runs the benchmark suite and saves it as the baseline " +
@@ -38,10 +37,9 @@ internal class Program
 						"[-d|--diffs]"
 					}
 				);
-#endif
 			}
 		);
 
-		app.Run(args);
+		return app.Run(args);
 	}
 }

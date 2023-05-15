@@ -11,9 +11,9 @@ using Starnight.Benchmarks.ResultTransformation;
 using Starnight.Benchmarks.ResultTransformation.Models;
 using Starnight.Benchmarks.ResultTransformation.Representation;
 
-internal class Program
+public class Program
 {
-	private static void Main(String[] args)
+	public static void Main(String[] args)
 	{
 		Console.WriteLine("Silently running Starnight benchmarks...");
 
