@@ -2,6 +2,9 @@ namespace Starnight.Internal.Tests;
 
 using System;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using Starnight.Internal.Converters;
 
 using Xunit;
 
@@ -10,8 +13,11 @@ public class JsonSerializerTests
     private const String testStringAllPresent =
         "{\"non_optional_property\":4,\"optional_property\":3,\"optional_array\":null}";
 
-    private const String testStringNonePresent =
-        "{\"non_optional_property\":4}";
+    private const String testStringNonePresent = "{\"non_optional_property\":4}";
+
+    private const String testNullBooleanPresent = "{\"null_property\":null,\"real_property\":true}";
+
+    private const String testNullBooleanMissing = "{\"real_property\":true}";
 
     private readonly OptionalContainingModel testModelAllPresent = new()
     {
@@ -75,6 +81,30 @@ public class JsonSerializerTests
 
         Assert.Equal(this.testModelNonePresent, deserialized);
     }
+
+    [Fact]
+    public void DeserializeNullBooleanPresent()
+    {
+        NullBooleanModel deserialized = JsonSerializer.Deserialize<NullBooleanModel>
+        (
+            testNullBooleanPresent,
+            StarnightInternalConstants.DefaultSerializerOptions
+        )!;
+
+        Assert.True(deserialized.NullProperty);
+    }
+
+    [Fact]
+    public void DeserializeNullBooleanMissing()
+    {
+        NullBooleanModel deserialized = JsonSerializer.Deserialize<NullBooleanModel>
+        (
+            testNullBooleanMissing,
+            StarnightInternalConstants.DefaultSerializerOptions
+        )!;
+
+        Assert.False(deserialized.NullProperty);
+    }
 }
 
 internal sealed record class OptionalContainingModel
@@ -84,4 +114,12 @@ internal sealed record class OptionalContainingModel
     public Optional<Int32> OptionalProperty { get; init; }
 
     public Optional<Int32[]?> OptionalArray { get; init; }
+}
+
+internal sealed record class NullBooleanModel
+{
+    [JsonConverter(typeof(NullBooleanJsonConverter))]
+    public Boolean NullProperty { get; init; }
+
+    public Boolean RealProperty { get; init; }
 }
