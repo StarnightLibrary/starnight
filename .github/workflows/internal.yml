@@ -26,6 +26,9 @@ jobs:
     - name: pack packages
       run: "mkdir build && dotnet pack src/Starnight.Internal --no-dependencies -p:SymbolPackageFormat=snupkg -p:IncludeSymbols=true -p:IncludeSource=true -o build -p:VersionSuffix='dev.${{ github.run_number }}' -p:BuildNumber=${{ github.run_number }}"
 
+    - name: test
+      run: "dotnet test test/Starnight.Internal.Tests"
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3
       with:
