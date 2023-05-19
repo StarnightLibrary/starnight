@@ -27,8 +27,15 @@ internal class OptionalTypeInfoResolver
 						property.PropertyType.GetGenericTypeDefinition() == typeof(Optional<>))
 					{
 						property.ShouldSerialize = (OptionalDelegate?)typeof(OptionalTypeInfoResolver)
-							.GetMethod(nameof(shouldIgnoreOptional), BindingFlags.NonPublic | BindingFlags.Static)!
-							.MakeGenericMethod(property.PropertyType.GetGenericArguments().First()!)!
+							.GetMethod
+							(
+								nameof(shouldIgnoreOptional),
+								BindingFlags.NonPublic | BindingFlags.Static
+							)!
+							.MakeGenericMethod
+							(
+								property.PropertyType.GetGenericArguments().First()!
+							)!
 							.CreateDelegate(typeof(OptionalDelegate));
 					}
 				}

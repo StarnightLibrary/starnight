@@ -11,11 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../src/Starnight.Internal/Starnight.Internal.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="../img/starnight.png" Pack="true" PackagePath="/" />
+    <ProjectReference Include="../../src/Starnight.Internal/Starnight.Internal.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Starnight.Test;
+namespace Starnight.TestBot;
 
 using System;
 using System.Threading.Tasks;
