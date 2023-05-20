@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(ButtonComponent), 2)]
 [JsonDerivedType(typeof(TextSelectComponent), 3)]
+[JsonDerivedType(typeof(TextInputComponent), 4)]
 public abstract record AbstractInteractiveComponent : AbstractComponent
 {
 }

@@ -11,6 +11,7 @@ using Starnight.Entities;
 [JsonDerivedType(typeof(ActionRowComponent), 1)]
 [JsonDerivedType(typeof(ButtonComponent), 2)]
 [JsonDerivedType(typeof(TextSelectComponent), 3)]
+[JsonDerivedType(typeof(TextInputComponent), 4)]
 public abstract record AbstractComponent
 {
 	/// <summary>

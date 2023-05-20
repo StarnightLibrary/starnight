@@ -3,11 +3,15 @@ namespace Starnight.Internal.Models.MessageComponents;
 using System;
 using System.Collections.Generic;
 
+using Starnight.Entities;
+
 /// <summary>
 /// Represents a text select menu, with the selectable options provided by the developer.
 /// </summary>
 public sealed record TextSelectComponent : AbstractInteractiveComponent
 {
+	public TextSelectComponent() => this.Type = DiscordMessageComponentType.TextSelect;
+
 	/// <summary>
 	/// The identifier of this select menu, passed to the developer on INTERACTION_CREATE.
 	/// </summary>
