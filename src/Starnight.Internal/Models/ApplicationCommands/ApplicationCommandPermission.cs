@@ -5,11 +5,11 @@ using System;
 using Starnight.Entities;
 
 /// <summary>
-/// Represents permissions for a <seealso cref="ApplicationCommandModel"/>. These are set based
-/// on the <seealso cref="ApplicationCommandModel.DefaultMemberPermissions"/> by default, but
+/// Represents permissions for a <seealso cref="ApplicationCommand"/>. These are set based
+/// on the <seealso cref="ApplicationCommand.DefaultMemberPermissions"/> by default, but
 /// can be edited in the Discord client.
 /// </summary>
-public sealed record ApplicationCommandPermissionModel
+public sealed record ApplicationCommandPermission
 {
 	/// <summary>
 	/// The snowflake identifier of the role, user or channel this permission applies to.

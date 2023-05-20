@@ -9,7 +9,7 @@ using Starnight.Entities;
 /// Represents an application command; that is, either a slash command or an user/message
 /// context menu command.
 /// </summary>
-public sealed record ApplicationCommandModel
+public sealed record ApplicationCommand
 {
 	/// <summary>
 	/// The snowflake identifier of this command.
@@ -57,7 +57,7 @@ public sealed record ApplicationCommandModel
 	/// must be listed before optional options. This is only available if <seealso cref="Type"/>
 	/// is <seealso cref="DiscordApplicationCommandType.ChatInput"/>
 	/// </summary>
-	public Optional<IReadOnlyList<ApplicationCommandOptionModel>> Options { get; init; }
+	public Optional<IReadOnlyList<ApplicationCommandOption>> Options { get; init; }
 
 	/// <summary>
 	/// The default set of permissions required to execute this command.

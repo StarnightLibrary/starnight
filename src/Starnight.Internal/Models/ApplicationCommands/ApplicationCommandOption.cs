@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using Starnight.Entities;
 
 /// <summary>
-/// Represents a single option, subcommand or subcommand group for an <see cref="ApplicationCommandModel"/>.
+/// Represents a single option, subcommand or subcommand group for an <see cref="ApplicationCommand"/>.
 /// </summary>
-public sealed record ApplicationCommandOptionModel
+public sealed record ApplicationCommandOption
 {
 	/// <summary>
 	/// The type of this option.
@@ -46,14 +46,14 @@ public sealed record ApplicationCommandOptionModel
 	/// <seealso cref="DiscordApplicationCommandOptionType.Integer"/> or
 	/// <seealso cref="DiscordApplicationCommandOptionType.Decimal"/>.
 	/// </summary>
-	public Optional<IReadOnlyList<ApplicationCommandOptionChoiceModel>> Choices { get; init; }
+	public Optional<IReadOnlyList<ApplicationCommandOptionChoice>> Choices { get; init; }
 
 	/// <summary>
 	/// If this option is of <seealso cref="DiscordApplicationCommandOptionType.SubCommand"/> or
 	/// <seealso cref="DiscordApplicationCommandOptionType.SubCommandGroup"/>, these nested options
 	/// will be the parameters to the subcommand (group).
 	/// </summary>
-	public Optional<IReadOnlyList<ApplicationCommandOptionModel>> Options { get; init; }
+	public Optional<IReadOnlyList<ApplicationCommandOption>> Options { get; init; }
 
 	/// <summary>
 	/// If this option is of <seealso cref="DiscordApplicationCommandOptionType.Channel"/>, it will

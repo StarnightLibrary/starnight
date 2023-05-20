@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Represents a potential chocie for a <seealso cref="ApplicationCommandOptionModel"/>.
+/// Represents a potential chocie for a <seealso cref="ApplicationCommandOption"/>.
 /// If any choices are specified for an option, they are the only valid values to choose.
 /// </summary>
-public sealed record ApplicationCommandOptionChoiceModel
+public sealed record ApplicationCommandOptionChoice
 {
 	/// <summary>
 	/// The name of this choice, 1-32 characters.
