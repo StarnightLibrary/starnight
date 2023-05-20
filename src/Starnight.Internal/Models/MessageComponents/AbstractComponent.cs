@@ -8,10 +8,11 @@ using Starnight.Entities;
 /// Represents any form of message component.
 /// </summary>
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+[JsonDerivedType(typeof(ActionRowComponent), 1)]
 public abstract record AbstractComponent
 {
 	/// <summary>
 	/// Contains the type of this component.
 	/// </summary>
-	public required DiscordMessageComponentType Type { get; init; }
+	public DiscordMessageComponentType Type { get; init; }
 }
