@@ -9,6 +9,7 @@ using Starnight.Entities;
 /// </summary>
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(ActionRowComponent), 1)]
+[JsonDerivedType(typeof(ButtonComponent), 2)]
 public abstract record AbstractComponent
 {
 	/// <summary>

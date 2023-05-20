@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 /// components save <seealso cref="ActionRowComponent"/>.
 /// </summary>
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+[JsonDerivedType(typeof(ButtonComponent), 2)]
 public abstract record AbstractInteractiveComponent : AbstractComponent
 {
 }
