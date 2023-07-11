@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 /// <see langword="null"/> is a valid presence.
 /// </summary>
 /// <typeparam name="T">Any parameter type.</typeparam>
-public struct Optional<T> : IOptional
+public record struct Optional<T>
 {
 	/// <summary>
 	/// Gets an empty <see cref="Optional{T}"/>, with no provided value and indicating that no value will be provided.
@@ -23,7 +23,12 @@ public struct Optional<T> : IOptional
 	/// </summary>
 	public T Value
 	{
-		get => this.HasValue ? this.value : throw new InvalidOperationException("This Optional instance has no value.");
+		readonly get
+		{
+			return this.HasValue
+				? this.value
+				: throw new InvalidOperationException("This Optional instance has no value.");
+		}
 		set
 		{
 			this.value = value;
@@ -39,14 +44,14 @@ public struct Optional<T> : IOptional
 	/// <summary>
 	/// Specifies whether this instance represents a value that is not null.
 	/// </summary>
-	public Boolean IsDefined => this.HasValue && this.value is not null;
+	public readonly Boolean IsDefined => this.HasValue && this.value is not null;
 
 	/// <summary>
 	/// Resolves the value from an optional value, if available
 	/// </summary>
 	/// <param name="value">The resolved value. This should only be utilized if the method returned true.</param>
 	/// <returns>Whether this instance represents a non-null value.</returns>
-	public Boolean Resolve
+	public readonly Boolean Resolve
 	(
 		[NotNullWhen(true)]
 		out T? value
@@ -82,18 +87,9 @@ public struct Optional<T> : IOptional
 	public static Boolean operator !=(Optional<T> optional, T value)
 		=> !(optional == value);
 
-	public static Boolean operator ==(Optional<T> right, Optional<T> left)
-		=> right.HasValue == left.HasValue && EqualityComparer<T>.Default.Equals(right.Value, left.Value);
-
-	public static Boolean operator !=(Optional<T> right, Optional<T> left)
-		=> !(right == left);
-
-	public override Boolean Equals(Object? obj)
-		=> obj is Optional<T> optional && optional.HasValue == this.HasValue && EqualityComparer<T>.Default.Equals(this.Value, optional.Value);
-
-	public override Int32 GetHashCode()
+	public readonly override Int32 GetHashCode()
 		=> this.Value?.GetHashCode() ?? 0;
 
-	public override String ToString()
+	public readonly override String ToString()
 		=> this.HasValue ? this.Value?.ToString() ?? "null" : "Optional/no value";
 }

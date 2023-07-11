@@ -13,6 +13,10 @@ internal class OptionalParameterJsonConverterFactory : JsonConverterFactory
 	{
 		Type wrappedType = typeToConvert.GetGenericArguments()[0];
 
-		return (JsonConverter)Activator.CreateInstance(typeof(OptionalParameterJsonConverter<>).MakeGenericType(wrappedType))!;
+		return (JsonConverter)Activator.CreateInstance
+		(
+			typeof(OptionalParameterJsonConverter<>)
+			.MakeGenericType(wrappedType)
+		)!;
 	}
 }
